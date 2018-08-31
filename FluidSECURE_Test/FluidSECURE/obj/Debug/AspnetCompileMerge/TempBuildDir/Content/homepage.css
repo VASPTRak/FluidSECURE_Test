@@ -1,0 +1,284 @@
+﻿
+body {
+  font-family:  'Open Sans', sans-serif;
+  font-size: 19px !important;
+  font-weight: 300;
+  line-height: 1.428571429;
+  color: #333333;
+  background-color: #fff;
+  margin: 0;
+}
+
+#home-page .jumbotron,
+#cloudos-page .jumbotron {
+    margin-bottom: 0;
+    padding-bottom: 88px;
+    color: White;
+}
+
+#home-page .container-fluid,
+#cloudos-page .container-fluid {
+    padding: 0;
+}
+
+
+/****** START HOME PAGE **********************************************************/
+
+#home-page .jumbotron {
+    background: url("images/Home-Bg.jpg") no-repeat center center;
+    background-size: cover;
+    padding-bottom: 0;
+}
+
+    #home-page .jumbotron .col-sm-8 {
+        padding: 10px;
+    }
+
+        #home-page .jumbotron .col-sm-8 p {
+            color: white;
+            text-align: left;
+            font-size: 16px;
+        }
+
+        #home-page .jumbotron .col-sm-8 span {
+            font-size: 1.4em;
+        }
+
+    #home-page .jumbotron .col-sm-5 {
+        text-align: left;
+        margin-top: 100px;
+    }
+
+        #home-page .jumbotron .col-sm-5 a {
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+    #home-page .jumbotron .col-sm-7 {
+        margin-bottom: -30px;
+    }
+
+@media (max-width: 767px) {
+    #home-page .jumbotron .col-sm-5 {
+        margin-top: 0;
+        color: Black;
+        text-align: center;
+    }
+
+    #home-page .jumbotron .col-sm-7 {
+    }
+}
+
+@media (max-width: 500px) {
+    #home-page .jumbotron .col-sm-5 {
+        color: White;
+    }
+}
+
+#home-page .container,
+#home-page .container-fluid {
+    text-align: center;
+}
+
+#home-page #store {
+    padding-top: 60px;
+    padding-bottom: 60px;
+}
+
+#home-page #getitouter {
+    background-color: #f1f2f2;
+    margin-bottom: 60px;
+}
+
+#home-page #getit {
+    background: url("/images/home/homepg_img2.jpg") no-repeat top right;
+    padding-top: 60px;
+    padding-bottom: 60px;
+}
+
+#home-page #getitagain {
+    background: url("/images/home/homepg_img2_v2.jpg") no-repeat top right;
+    padding-top: 60px;
+    padding-bottom: 60px;
+}
+
+#home-page .jumbotron .btn-primary {
+    background-color: #15abff;
+    border-color: #15abff;
+    padding: 10px 50px;
+}
+
+    #home-page .jumbotron .btn-primary:hover {
+        background-color: #1692d8;
+        border-color: #1692d8;
+    }
+
+#home-page .titleband {
+    background-color: #00a9ff;
+    color: White;
+}
+
+
+@media (max-width: 767px) {
+    #home-page .container-fluid, #cloudos-page .container-fluid {
+        text-align: center;
+    }
+}
+
+@media (min-width: 640px) and (max-width: 767px) {
+    #cloudos-page .container img.responsive, #cloudos-page .container img.responsive.smaller {
+        width: 60%;
+    }
+
+    #home-page .container img.responsive, #cloudos-page .container img.responsive {
+        display: block;
+        margin: 20px auto;
+    }
+
+        #cloudos-page .container img.responsive.wd-logo {
+            margin: 20px auto 20px 0;
+            width: 60%;
+        }
+}
+
+
+.jumbotron {
+    padding: 30px;
+    margin-bottom: 30px;
+    color: inherit;
+    background-color: #eeeeee;
+}
+
+    .jumbotron h1, .jumbotron .h1 {
+        color: inherit;
+    }
+
+    .jumbotron p {
+        margin-bottom: 15px;
+        font-size: 21px;
+        font-weight: 200;
+    }
+
+    .jumbotron > hr {
+        border-top-color: #d5d5d5;
+    }
+
+.container .jumbotron {
+    border-radius: 25px;
+}
+
+.jumbotron .container {
+    max-width: 100%;
+}
+
+@media screen and (min-width: 768px) {
+    .jumbotron {
+        padding-top: 48px;
+        padding-bottom: 48px;
+    }
+
+    .container .jumbotron {
+        padding-left: 60px;
+        padding-right: 60px;
+    }
+
+    .jumbotron h1, .jumbotron .h1 {
+        font-size: 53px;
+    }
+}
+
+
+.container {
+    margin-right: auto;
+    margin-left: auto;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+    .container:before, .container:after {
+        content: " ";
+        display: table;
+    }
+
+    .container:after {
+        clear: both;
+    }
+
+@media (min-width: 768px) {
+    .container {
+        width: 750px;
+    }
+}
+
+@media (min-width: 992px) {
+    .container {
+        width: 970px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .container {
+        width: 1170px;
+    }
+}
+
+.container-fluid {
+    margin-right: auto;
+    margin-left: auto;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+    .container-fluid:before, .container-fluid:after {
+        content: " ";
+        display: table;
+    }
+
+    .container-fluid:after {
+        clear: both;
+    }
+
+.row {
+    margin-left: -15px;
+    margin-right: -15px;
+}
+
+img.responsive.smaller {width: 80%;}
+.btn {padding: 2px 20px;}
+.navbar .container-fluid {padding: 0 20px;}
+.navbar > .container .navbar-brand, .navbar > .container-fluid .navbar-brand {margin: 0;}
+.nowrap {white-space: nowrap;}
+p.smaller {font-size: 1.2em !important;}
+
+.img-responsive {
+  display: block;
+  width: 100% \9;
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto;
+}
+.txtadjust {
+    padding-top: 5%;
+    padding-bottom: 5%;
+}
+
+.btn-primary {
+    color: white;
+    background-color: #15abff;
+    border-color: #15abff;
+    border-radius: 4px;
+    -webkit-box-shadow: 0px 4px 4px 0px rgba(0,0,0,0.16);
+    -moz-box-shadow: 0px 4px 4px 0px rgba(0,0,0,0.16);
+    box-shadow: 0px 4px 4px 0px rgba(0,0,0,0.16);
+}
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open > .btn-primary.dropdown-toggle {
+    color: White;
+    -webkit-box-shadow: 0px 8px 8px 0px rgba(0,0,0,0.2);
+    -moz-box-shadow: 0px 8px 8px 0px rgba(0,0,0,0.2);
+    box-shadow: 0px 8px 8px 0px rgba(0,0,0,0.2);
+}
+.btn-primary:active, .btn-primary.active, .open > .btn-primary.dropdown-toggle {background-image: none;}
+.btn-primary.disabled, .btn-primary.disabled:hover, .btn-primary.disabled:focus, .btn-primary.disabled:active, .btn-primary.disabled.active, .btn-primary[disabled], .btn-primary[disabled]:hover, .btn-primary[disabled]:focus, .btn-primary[disabled]:active, .btn-primary[disabled].active, fieldset[disabled] .btn-primary, fieldset[disabled] .btn-primary:hover, fieldset[disabled] .btn-primary:focus, fieldset[disabled] .btn-primary:active, fieldset[disabled] .btn-primary.active {
+  background-color: #007bf3;
+  border-color: #006ed9;
+}

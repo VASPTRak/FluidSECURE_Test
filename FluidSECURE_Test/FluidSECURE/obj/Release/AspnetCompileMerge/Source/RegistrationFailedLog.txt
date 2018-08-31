@@ -1,0 +1,96 @@
+ERROR 2017-07-03 12:48:28,002 70796ms ollingLogFileAppender3 RegisterUsers      - Billing_company not found against user_id:3
+ERROR 2017-07-03 12:48:52,790 95583ms ollingLogFileAppender3 RegisterUsers      - billing_email not found against user_id:3
+ERROR 2017-07-03 12:48:58,076 100869ms ollingLogFileAppender3 RegisterUsers      - Billing_company not found against user_id:12
+ERROR 2017-07-03 12:49:00,570 103363ms ollingLogFileAppender3 RegisterUsers      - Billing_company not found against user_id:13
+ERROR 2017-07-03 12:49:07,270 110064ms ollingLogFileAppender3 RegisterUsers      - billing_company is in already registered in FluidSecure cloud. CompanyName:fluidsecure
+ERROR 2017-07-03 12:49:12,588 115381ms ollingLogFileAppender3 RegisterUsers      - billing_email is in already registered in FluidSecure cloud. email:fluidsecuretest3@gmail.com
+ERROR 2017-07-03 12:49:16,449 119242ms ollingLogFileAppender3 RegisterUsers      - billing_company is in already registered in FluidSecure cloud. CompanyName:Paul and Co
+ERROR 2017-07-03 12:49:18,685 121478ms ollingLogFileAppender3 RegisterUsers      - billing_email is in already registered in FluidSecure cloud. email:fluidsecuretest5@gmail.com
+ERROR 2017-07-03 12:49:19,803 122597ms ollingLogFileAppender3 RegisterUsers      - Billing_company not found against user_id:17
+ERROR 2017-07-03 12:49:24,922 127716ms ollingLogFileAppender3 RegisterUsers      - billing_company is in already registered in FluidSecure cloud. CompanyName:TRAK Engineering
+ERROR 2017-07-03 12:49:28,110 130903ms ollingLogFileAppender3 RegisterUsers      - billing_email is in already registered in FluidSecure cloud. email:jackdc33@gmail.com
+ERROR 2017-07-04 14:20:08,892 39160ms ollingLogFileAppender3 RegisterUsers      - Billing_company not found against user_id:3
+ERROR 2017-07-04 14:20:09,024 39292ms ollingLogFileAppender3 RegisterUsers      - billing_email not found against user_id:3
+ERROR 2017-07-04 14:20:09,025 39293ms ollingLogFileAppender3 RegisterUsers      - Billing_company not found against user_id:12
+ERROR 2017-07-04 14:20:09,025 39293ms ollingLogFileAppender3 RegisterUsers      - Billing_company not found against user_id:13
+ERROR 2017-07-04 14:20:09,108 39376ms ollingLogFileAppender3 RegisterUsers      - billing_company is in already registered in FluidSecure cloud. CompanyName:fluidsecure,user_id:14
+ERROR 2017-07-04 14:20:09,194 39462ms ollingLogFileAppender3 RegisterUsers      - billing_email is in already registered in FluidSecure cloud. email:fluidsecuretest3@gmail.com,user_id:14
+ERROR 2017-07-04 14:20:09,195 39463ms ollingLogFileAppender3 RegisterUsers      - billing_company is in already registered in FluidSecure cloud. CompanyName:Paul and Co,user_id:16
+ERROR 2017-07-04 14:20:09,196 39464ms ollingLogFileAppender3 RegisterUsers      - billing_email is in already registered in FluidSecure cloud. email:fluidsecuretest5@gmail.com,user_id:16
+ERROR 2017-07-04 14:20:09,196 39464ms ollingLogFileAppender3 RegisterUsers      - Billing_company not found against user_id:17
+ERROR 2017-07-04 14:20:09,197 39465ms ollingLogFileAppender3 RegisterUsers      - billing_company is in already registered in FluidSecure cloud. CompanyName:TRAK Engineering,user_id:18
+ERROR 2017-07-04 14:20:09,199 39467ms ollingLogFileAppender3 RegisterUsers      - billing_email is in already registered in FluidSecure cloud. email:jackdc33@gmail.com,user_id:18
+ERROR 2017-07-04 14:23:38,924   430ms ollingLogFileAppender3 RegisterUsers      - Billing_company not found against user_id:3
+ERROR 2017-07-04 14:23:38,945   451ms ollingLogFileAppender3 RegisterUsers      - billing_email not found against user_id:3
+ERROR 2017-07-04 14:23:38,945   451ms ollingLogFileAppender3 RegisterUsers      - Billing_company not found against user_id:12
+ERROR 2017-07-04 14:23:38,946   452ms ollingLogFileAppender3 RegisterUsers      - Billing_company not found against user_id:13
+ERROR 2017-07-04 14:23:38,948   454ms ollingLogFileAppender3 RegisterUsers      - billing_company is in already registered in FluidSecure cloud. CompanyName:fluidsecure,user_id:14
+ERROR 2017-07-04 14:23:38,951   457ms ollingLogFileAppender3 RegisterUsers      - billing_email is in already registered in FluidSecure cloud. email:fluidsecuretest3@gmail.com,user_id:14
+ERROR 2017-07-04 14:23:38,952   458ms ollingLogFileAppender3 RegisterUsers      - billing_company is in already registered in FluidSecure cloud. CompanyName:Paul and Co,user_id:16
+ERROR 2017-07-04 14:23:38,953   459ms ollingLogFileAppender3 RegisterUsers      - billing_email is in already registered in FluidSecure cloud. email:fluidsecuretest5@gmail.com,user_id:16
+ERROR 2017-07-04 14:23:38,953   459ms ollingLogFileAppender3 RegisterUsers      - Billing_company not found against user_id:17
+ERROR 2017-07-04 14:23:38,954   460ms ollingLogFileAppender3 RegisterUsers      - billing_company is in already registered in FluidSecure cloud. CompanyName:TRAK Engineering,user_id:18
+ERROR 2017-07-04 14:23:38,955   461ms ollingLogFileAppender3 RegisterUsers      - billing_email is in already registered in FluidSecure cloud. email:jackdc33@gmail.com,user_id:18
+ERROR 2017-07-04 14:23:52,006 13512ms ollingLogFileAppender3 ndRegistrationLogs - Error Occured while sending registration Logs to admin. Error is Server does not support secure connections.. Details are email:vaspsolutions.test@gmail.com
+ERROR 2017-07-04 14:27:30,889  9644ms ollingLogFileAppender3 GetAndStoreData    - Subscribers not found.
+INFO  2017-07-05 10:25:00,137 36446ms ollingLogFileAppender3 ProcessRequest     - In Service
+INFO  2017-07-05 11:30:43,571    54ms ollingLogFileAppender3 ProcessRequest     - In FluidSecure Service
+INFO  2017-07-25 09:54:25,485 20412ms ollingLogFileAppender3 ProcessRequest     - In FluidSecure Service
+INFO  2017-07-25 09:56:19,440  2567ms ollingLogFileAppender3 ProcessRequest     - In FluidSecure Service
+INFO  2017-07-25 09:58:44,813  3704ms ollingLogFileAppender3 ProcessRequest     - In FluidSecure Service
+INFO  2017-07-25 09:59:32,311  2826ms ollingLogFileAppender3 ProcessRequest     - In FluidSecure Service
+INFO  2017-07-25 10:02:04,607   100ms ollingLogFileAppender3 ProcessRequest     - In FluidSecure Service
+INFO  2017-07-25 10:03:22,201   514ms ollingLogFileAppender3 ProcessRequest     - In FluidSecure Service
+INFO  2017-07-25 10:07:59,327   319ms ollingLogFileAppender3 ProcessRequest     - In FluidSecure Service
+INFO  2017-07-25 10:10:04,966  1783ms ollingLogFileAppender3 ProcessRequest     - In FluidSecure Service
+ERROR 2017-07-25 10:10:51,757 48573ms ollingLogFileAppender3 RegisterUsers      - billing_company not found against user_id:30
+ERROR 2017-07-25 10:10:51,890 48706ms ollingLogFileAppender3 RegisterUsers      - billing_email not found against user_id:30
+ERROR 2017-07-25 10:10:51,890 48706ms ollingLogFileAppender3 RegisterUsers      - billing_company not found against user_id:32
+ERROR 2017-07-25 10:10:51,891 48707ms ollingLogFileAppender3 RegisterUsers      - billing_email not found against user_id:32
+ERROR 2017-07-25 10:10:51,891 48707ms ollingLogFileAppender3 RegisterUsers      - billing_company not found against user_id:33
+ERROR 2017-07-25 10:10:51,891 48707ms ollingLogFileAppender3 RegisterUsers      - billing_email not found against user_id:33
+ERROR 2017-07-25 10:11:27,193 84009ms ollingLogFileAppender3 RegisterUsers      - billing_company not found against user_id:30
+ERROR 2017-07-25 10:11:28,735 85551ms ollingLogFileAppender3 RegisterUsers      - billing_email not found against user_id:30
+ERROR 2017-07-25 10:11:41,004 97820ms ollingLogFileAppender3 RegisterUsers      - billing_company not found against user_id:32
+ERROR 2017-07-25 10:11:41,005 97821ms ollingLogFileAppender3 RegisterUsers      - billing_email not found against user_id:32
+ERROR 2017-07-25 10:11:41,005 97821ms ollingLogFileAppender3 RegisterUsers      - billing_company not found against user_id:33
+ERROR 2017-07-25 10:11:41,005 97821ms ollingLogFileAppender3 RegisterUsers      - billing_email not found against user_id:33
+ERROR 2017-07-25 10:11:45,229 102045ms ollingLogFileAppender3 ndRegistrationLogs - Error Occurred while sending registration Logs to admin. Error is Server does not support secure connections.. Details are email:vaspsolutions.test@gmail.com
+ERROR 2017-07-25 10:11:45,786 102602ms ollingLogFileAppender3 ndRegistrationLogs - Error Occurred while sending registration Logs to admin. Error is Server does not support secure connections.. Details are email:vaspsolutions.test@gmail.com
+INFO  2017-07-26 10:29:26,773   274ms ollingLogFileAppender3 ProcessRequest     - In FluidSecure Service
+ERROR 2017-07-26 10:29:29,635  3136ms ollingLogFileAppender3 RegisterUsers      - billing_company not found against user_id:30
+ERROR 2017-07-26 10:29:29,636  3137ms ollingLogFileAppender3 RegisterUsers      - billing_email not found against user_id:30
+ERROR 2017-07-26 10:29:29,636  3137ms ollingLogFileAppender3 RegisterUsers      - billing_company not found against user_id:32
+ERROR 2017-07-26 10:29:29,637  3138ms ollingLogFileAppender3 RegisterUsers      - billing_email not found against user_id:32
+ERROR 2017-07-26 10:29:29,637  3138ms ollingLogFileAppender3 RegisterUsers      - billing_company not found against user_id:33
+ERROR 2017-07-26 10:29:29,637  3138ms ollingLogFileAppender3 RegisterUsers      - billing_email not found against user_id:33
+ERROR 2017-07-26 10:29:29,637  3138ms ollingLogFileAppender3 RegisterUsers      - billing_company not found against user_id:34
+ERROR 2017-07-26 10:29:29,637  3138ms ollingLogFileAppender3 RegisterUsers      - billing_email not found against user_id:34
+ERROR 2017-07-26 10:30:55,463 88964ms ollingLogFileAppender3 ndRegistrationLogs - Error Occurred while sending registration Logs to admin. Error is Server does not support secure connections.. Details are email:vaspsolutions.test@gmail.com
+INFO  2017-07-26 18:00:40,574  1398ms ollingLogFileAppender3 ProcessRequest     - In FluidSecure Service
+ERROR 2017-07-26 18:01:29,831 50654ms ollingLogFileAppender3 RegisterUsers      - billing_company  not found for the new User(Name:, Adress:, userid:30)
+ERROR 2017-07-26 18:01:35,476 56300ms ollingLogFileAppender3 RegisterUsers      - billing_email not found for the new User(Name:, Adress:, userid:30)
+ERROR 2017-07-26 18:01:41,308 62132ms ollingLogFileAppender3 RegisterUsers      - billing_company  not found for the new User(Name:, Adress:, userid:32)
+ERROR 2017-07-26 18:01:41,308 62132ms ollingLogFileAppender3 RegisterUsers      - billing_email not found for the new User(Name:, Adress:, userid:32)
+ERROR 2017-07-26 18:01:41,309 62133ms ollingLogFileAppender3 RegisterUsers      - billing_company  not found for the new User(Name:, Adress:, userid:33)
+ERROR 2017-07-26 18:01:41,309 62133ms ollingLogFileAppender3 RegisterUsers      - billing_email not found for the new User(Name:, Adress:, userid:33)
+ERROR 2017-07-26 18:01:41,309 62133ms ollingLogFileAppender3 RegisterUsers      - billing_company  not found for the new User(Name:, Adress:, userid:34)
+ERROR 2017-07-26 18:01:41,310 62134ms ollingLogFileAppender3 RegisterUsers      - billing_email not found for the new User(Name:, Adress:, userid:34)
+INFO  2017-07-26 18:03:18,393  2525ms ollingLogFileAppender3 ProcessRequest     - In FluidSecure Service
+ERROR 2017-07-26 18:03:28,474 12606ms ollingLogFileAppender3 GetAndStoreData    - Subscribers not found.
+INFO  2017-07-26 18:04:19,668 63800ms ollingLogFileAppender3 ProcessRequest     - In FluidSecure Service
+ERROR 2017-07-26 18:07:14,639 238771ms ollingLogFileAppender3 RegisterUsers      - billing_company  not found for the new User(Name:, Adress:, userid:3)
+ERROR 2017-07-26 18:07:15,546 239678ms ollingLogFileAppender3 RegisterUsers      - billing_email not found for the new User(Name:, Adress:, userid:3)
+ERROR 2017-07-26 18:07:18,047 242178ms ollingLogFileAppender3 RegisterUsers      - billing_company  not found for the new User(Name:Test two, Adress:345 arlington, userid:12)
+ERROR 2017-07-26 18:07:21,231 245363ms ollingLogFileAppender3 RegisterUsers      - billing_company  not found for the new User(Name:David Goodman, Adress:345 Arlington Crescent, userid:13)
+ERROR 2017-07-26 18:07:28,556 252688ms ollingLogFileAppender3 RegisterUsers      - billing_company is in already registered in FluidSecure cloud for the new User(CompanyName:fluidsecure,Name:test 3, Adress:10 rockefeller plaza, userid:14)
+ERROR 2017-07-26 18:07:35,486 259617ms ollingLogFileAppender3 RegisterUsers      - billing_email is in already registered in FluidSecure cloud for the new User(email:fluidsecuretest3@gmail.com,CompanyName:fluidsecure,Name:test 3, Adress:10 rockefeller plaza, userid:14)
+ERROR 2017-07-26 18:07:35,487 259618ms ollingLogFileAppender3 RegisterUsers      - billing_company is in already registered in FluidSecure cloud for the new User(CompanyName:Paul and Co,Name:Andrew Goodman, Adress:313 westcroft, userid:16)
+ERROR 2017-07-26 18:07:35,489 259620ms ollingLogFileAppender3 RegisterUsers      - billing_email is in already registered in FluidSecure cloud for the new User(email:fluidsecuretest5@gmail.com,CompanyName:Paul and Co,Name:Andrew Goodman, Adress:313 westcroft, userid:16)
+ERROR 2017-07-26 18:07:35,489 259620ms ollingLogFileAppender3 RegisterUsers      - billing_company  not found for the new User(Name:Test Account, Adress:Test, userid:17)
+ERROR 2017-07-26 18:07:35,490 259621ms ollingLogFileAppender3 RegisterUsers      - billing_company is in already registered in FluidSecure cloud for the new User(CompanyName:TRAK Engineering,Name:Jack Corbett, Adress:2901 Crescent Dr, userid:18)
+ERROR 2017-07-26 18:07:35,492 259623ms ollingLogFileAppender3 RegisterUsers      - billing_email is in already registered in FluidSecure cloud for the new User(email:jackdc33@gmail.com,CompanyName:TRAK Engineering,Name:Jack Corbett, Adress:2901 Crescent Dr, userid:18)
+INFO  2017-07-27 14:35:23,197   108ms ollingLogFileAppender3 ProcessRequest     - In FluidSecure Service
+ERROR 2017-07-27 14:35:25,792  2703ms ollingLogFileAppender3 GetAndStoreData    - Subscribers not found.
+INFO  2017-07-27 14:35:45,900 22810ms ollingLogFileAppender3 ProcessRequest     - In FluidSecure Service
+ERROR 2017-07-27 14:35:48,017 24927ms ollingLogFileAppender3 GetAndStoreData    - Subscribers not found.

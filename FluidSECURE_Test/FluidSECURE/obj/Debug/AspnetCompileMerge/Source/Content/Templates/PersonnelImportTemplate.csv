@@ -1,0 +1,3 @@
+* Fields are Required,,,,,,,,,,,
+Personnel ID*,Department Number*,Department Name,Last Name*,First Name*,Mi,Phone Number*,Email*,export code,Active Flag*,Fluid Limit Per Day,Fluid Limit Per Transaction
+(max 20 digit numeric),(max 10 alphanumeric characters ),(max 20 alphanumeric characters ),,,,Only ()- space and + symbols allowed,,(max 25 alphanumeric characters ),(must be Y or N),(max 4 digit numeric),(max 4 digit numeric)

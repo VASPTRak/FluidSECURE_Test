@@ -1,0 +1,48 @@
+Hi Eric,
+
+Ok we will move O&M module icon to the right of Edit Project .
+
+We have  checked in latest changes to TFS which are necessary for adding SharpSpringID(bigint) to the AspNetUsers table.
+Database script for this checkin can be found on path “DBScripts\Update Scripts\calQflo_20180503.sql”
+
+For adding columns to AspNetUses table following procedure is needed to be followed(which I have already taken care of and updated the changes to TFS):
+1.	Add property for the column which is needed to be added to IdentityModels.cs – ApplicationUser class.
+2.	Then from Package Manage Console run command “Enable-Migrations”
+3.	Then run command Add-Migration – after this command you have to give name for the current migration transaction.
+4.	Then run command “Update-Database” 
+5.	Finally update the entity for the AspNetUsers table.
+
+Related to adding adding O&M module:
+Is this Operations & Maintenance manual is common for all sizing’s? If not, is there any naming convention for the O&M names like we have for the CAD drawing files?
+Please let us know more about this, if you provide us some sample O&M files then it will help us understand it better.
+Also let us know that in which folder should we keep these O&M files.
+
+We are working on the remaining points we will get back to you once completed.
+
+Regards.
+
+
+Hi Eric,
+
+We have checked in latest code to TFS, there is no need of database script for this check-in.
+
+We have added sharp spring tracking script for all pages. 
+We did not find any way to add user’s email address in tracking request, we may need to get help for this from sharp spring.
+
+We have added below script block for tracking:
+       var ss = ss || [];
+       _ss.push(['_setDomain', 'https://koi-3QNCSQ06VG.marketingautomation.services/net']);
+       _ss.push(['_setAccount', 'KOI-3YZTY05W9U']);
+       _ss.push(['_trackPageView']);
+       (function () {
+              var ss = document.createElement('script');
+              ss.type = 'text/javascript'; ss.async = true;
+              ss.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'koi-3QNCSQ06VG.marketingautomation.services/client/ss.js?ver=1.1.1';
+              var scr = document.getElementsByTagName('script')[0];
+              scr.parentNode.insertBefore(ss, scr);
+       })();
+
+After we add tracking script on the pages with password involved below warning is getting logged in browser  console:
+This page includes a password or credit card input in a non-secure context. A warning has been added to the URL bar. For more information, see https://goo.gl/zmWq3m.
+
+Regards.

@@ -1,0 +1,16 @@
+﻿<!DOCTYPE html>
+<html>
+<head>    
+</head>
+<body>
+    Hi <b>UserEmail</b>,<br /><br />
+
+    You are authorized to fuel now.
+	
+	<br /><br />
+
+    Thanks & Regards,<br />
+    FluidSecure
+
+</body>
+</html>

@@ -1,0 +1,8 @@
+Date,Screen,Action(Added/Modified/Deleted),User Name,Before,After,IP Address,Request Status,Failure Message
+2018/08/07 01:14:23 PM,,Application Start,,,,,success,
+2018/08/07 01:14:41 PM,login,logged in,rahul_shinde(rahul_shinde12@vaspsolutions.com),,,::1,success,
+2018/08/07 01:14:47 PM,Page Request,Page Request,,,userAgent = Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML  like Gecko) Chrome/68.0.3440.84 Safari/537.36 ; Referrer = http://localhost:61129/Account/Login.aspx ; Method = GET,::1,sucsess,
+2018/08/07 01:19:14 PM,,Application Start,,,,,success,
+2018/08/07 01:19:30 PM,login,logged in,rahul_shinde(rahul_shinde12@vaspsolutions.com),,,::1,success,
+2018/08/07 01:19:36 PM,Page Request,Page Request,,,userAgent = Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML  like Gecko) Chrome/68.0.3440.84 Safari/537.36 ; Referrer = http://localhost:61129/Account/Login.aspx ; Method = GET,::1,sucsess,
+2018/08/07 01:19:50 PM,Page Request,Page Request,,,userAgent = Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML  like Gecko) Chrome/68.0.3440.84 Safari/537.36 ; Referrer = http://localhost:61129/Account/Login.aspx ; Method = GET,::1,sucsess,

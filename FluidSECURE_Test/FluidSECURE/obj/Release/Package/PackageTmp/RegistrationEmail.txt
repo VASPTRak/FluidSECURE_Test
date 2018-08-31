@@ -1,0 +1,20 @@
+﻿<!DOCTYPE html>
+<html>
+<head>    
+</head>
+<body>
+    Hi <b>UserEmail</b>,<br /><br />
+
+    Thank you for subscribing with us. Please use the following details to access the site.<br /><br />
+
+	FluidSecure Cloud Link : cloudLink<br />
+	Email : UserEmail <br />
+    Password : UserPassword<br />
+
+    <br />
+
+    Thanks & Regards,<br />
+    FluidSecure
+
+</body>
+</html>

@@ -1,0 +1,44 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 8px;
+        }
+
+        tr {
+        }
+
+        th, td {
+            width: 25%;
+            border: #000 1px solid;
+            color: #000;
+        }
+
+        p {
+            font-size: 18px;
+        }
+    </style>
+	
+</head>
+<body>
+    Hi <b>CustomerEmail</b>,<br /><br />
+	
+   Link name : <b>LinkName</b> <br />
+   Company name : <b>CompanyName</b> <br />
+   System has detected numberzero consecutive zero transactions from this link and hence it has been marked as defective.
+
+    <br />
+	<br />
+
+    Thanks & Regards,<br />
+    FluidSecure
+
+</body>
+</html>

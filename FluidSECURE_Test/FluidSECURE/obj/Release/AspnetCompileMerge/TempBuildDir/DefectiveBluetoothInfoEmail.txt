@@ -1,0 +1,45 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 8px;
+        }
+
+        tr {
+        }
+
+        th, td {
+            width: 25%;
+            border: #000 1px solid;
+            color: #000;
+        }
+
+        p {
+            font-size: 18px;
+        }
+    </style>
+	
+</head>
+<body>
+    Hi <b>CustomerEmail</b>,<br /><br />
+	
+   Hub Name : <b>HubName</b> <br />
+   Company name : <b>CompanyName</b> <br />
+   Site name : <b>SiteName</b> <br /><br />
+
+   System could not connect to HF Bluetooth reader of HubName  of CompanyName. Need manual attention to fix the problem.
+    <br />
+	<br />
+
+    Thanks & Regards,<br />
+    FluidSecure
+
+</body>
+</html>

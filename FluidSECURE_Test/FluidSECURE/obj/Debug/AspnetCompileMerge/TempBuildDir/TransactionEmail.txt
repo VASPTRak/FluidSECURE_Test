@@ -1,0 +1,69 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 8px;
+        }
+
+        tr {
+        }
+
+        th, td {
+            width: 25%;
+            border: #000 1px solid;
+            color: #000;
+        }
+
+        p {
+            font-size: 18px;
+        }
+    </style>
+	
+</head>
+<body>
+    Hi <b>CustomerEmail</b>,<br />
+
+    Thank you for fueling. Please check following details of fueling transaction.<br />
+
+    <h1 style="text-align:center">Transaction Details</h1>
+    <table>
+         <tr>
+            <th>Date</th>
+            <th>Time</th>
+			 <th>Person Name</th>
+            <th>Vehicle Number</th>
+            <th>Vehicle Name</th>
+            <th>Hose Name</th>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Transaction #</th>
+            OtherLabel
+        </tr>
+        <tr>
+            <td>DateValue</td>
+            <td>TimeValue</td>
+			<td>PersonName</td>
+            <td>VehicleValue</td>
+            <td>VehicleNameText</td>
+            <td>HoseNameValue</td>
+            <td>ProductValue</td>
+            <td>QuantityValue</td>
+            <td>TransactionNumber</td>
+            OtherValue
+        </tr>
+    </table>
+
+    <br />
+
+    Thanks & Regards,<br />
+    FluidSecure
+
+</body>
+</html>

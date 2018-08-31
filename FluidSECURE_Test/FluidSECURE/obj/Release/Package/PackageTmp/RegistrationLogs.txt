@@ -1,0 +1,18 @@
+﻿<!DOCTYPE html>
+<html>
+<head>    
+</head>
+<body>
+    Hi <b>Admin</b>,<br><br>
+
+   Fluid Secure's new member subscription service.<br><br>
+   Log details:<br>
+   userDetails
+	
+    <br><br>
+
+    Thanks & Regards,<br>
+    FluidSecure
+
+</body>
+</html>

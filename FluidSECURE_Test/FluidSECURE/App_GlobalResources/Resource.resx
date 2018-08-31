@@ -1,0 +1,378 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Active" xml:space="preserve">
+    <value>Active</value>
+  </data>
+  <data name="AddNewPersonnel" xml:space="preserve">
+    <value>Add new Personnel</value>
+  </data>
+  <data name="CheckActiveValue" xml:space="preserve">
+    <value>Do you also want to activate all devices associated with this account?</value>
+  </data>
+  <data name="CheckInActiveValue" xml:space="preserve">
+    <value>Do you also want to deactivate all devices associated with this account?</value>
+  </data>
+  <data name="Company" xml:space="preserve">
+    <value>Company</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="DepartmentName" xml:space="preserve">
+    <value>Department Name</value>
+  </data>
+  <data name="DepartmentNumber" xml:space="preserve">
+    <value>Department Number</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="ErrorMsg1" xml:space="preserve">
+    <value>Error occurred while getting search column, please try again later.</value>
+  </data>
+  <data name="ErrorMsg2" xml:space="preserve">
+    <value>Error occurred while getting department, please try again later.</value>
+  </data>
+  <data name="ErrorMsg3" xml:space="preserve">
+    <value>Error occurred while getting customer, please try again later.</value>
+  </data>
+  <data name="ErrorMsg4" xml:space="preserve">
+    <value>Error occurred while getting access levels, please try again later.</value>
+  </data>
+  <data name="ErrorMsg5" xml:space="preserve">
+    <value>Error occurred while getting data, please try again later.</value>
+  </data>
+  <data name="FluidSecure" xml:space="preserve">
+    <value>FluidSecure</value>
+  </data>
+  <data name="HandlerMsg1" xml:space="preserve">
+    <value>Invalid HUB name. Please re-enter the HUB name or contact administrator.</value>
+  </data>
+  <data name="HandlerMsg10" xml:space="preserve">
+    <value>Invalid company name. Please re-enter the company name or contact administrator.</value>
+  </data>
+  <data name="HandlerMsg11" xml:space="preserve">
+    <value>Unauthorized Wi-Fi selected. Please choose authorized FluidSecure Wi-Fi to proceed.</value>
+  </data>
+  <data name="HandlerMsg12" xml:space="preserve">
+    <value>Your Location is not near an authorized Fuel Site. Please contact your Administrator for more information.</value>
+  </data>
+  <data name="HandlerMsg13" xml:space="preserve">
+    <value>Site not assigned. Please contact your Administrator for more information.</value>
+  </data>
+  <data name="HandlerMsg14" xml:space="preserve">
+    <value>IMEI not exists</value>
+  </data>
+  <data name="HandlerMsg15" xml:space="preserve">
+    <value>Some error has occurred, please try again after some time.</value>
+  </data>
+  <data name="HandlerMsg16" xml:space="preserve">
+    <value>Inactive vehicle, please contact administrator.</value>
+  </data>
+  <data name="HandlerMsg17" xml:space="preserve">
+    <value>Department number is not valid, please try again</value>
+  </data>
+  <data name="HandlerMsg18" xml:space="preserve">
+    <value>Person PIN is invalid, please try again</value>
+  </data>
+  <data name="HandlerMsg19" xml:space="preserve">
+    <value>No data found for company,please try again</value>
+  </data>
+  <data name="HandlerMsg2" xml:space="preserve">
+    <value>Not registered, Other Phone numbers are registered to same HUB.</value>
+  </data>
+  <data name="HandlerMsg20" xml:space="preserve">
+    <value>Your administrator has Not granted you the permission to fuel this vehicle. Please contact your administrator.</value>
+  </data>
+  <data name="HandlerMsg21" xml:space="preserve">
+    <value>Your administrator has Not granted you the permission to fuel at this time of day. Please contact your administrator.</value>
+  </data>
+  <data name="HandlerMsg22" xml:space="preserve">
+    <value>Your administrator has Not granted Hose the permission to fuel at this time of day. Please contact your administrator.</value>
+  </data>
+  <data name="HandlerMsg23" xml:space="preserve">
+    <value>Your administrator has not given you the permission to fuel on this day. Please contact your administrator.</value>
+  </data>
+  <data name="HandlerMsg24" xml:space="preserve">
+    <value>This Vehicle is not permitted to fuel for this Hose, please contact administrator.</value>
+  </data>
+  <data name="HandlerMsg25" xml:space="preserve">
+    <value>This Vehicle is not permitted to fuel, please contact administrator.</value>
+  </data>
+  <data name="HandlerMsg26" xml:space="preserve">
+    <value>Your administrator has not granted you the permission to fuel at this location. Please contact administrator.</value>
+  </data>
+  <data name="HandlerMsg28" xml:space="preserve">
+    <value>Your registration request not approved. Please contact administrator.</value>
+  </data>
+  <data name="HandlerMsg29" xml:space="preserve">
+    <value>Mobile is not registered in the system, Please contact administrator.</value>
+  </data>
+  <data name="HandlerMsg3" xml:space="preserve">
+    <value>Registration successful</value>
+  </data>
+  <data name="HandlerMsg30" xml:space="preserve">
+    <value>Vehicle fuel limit for the day exceeded.</value>
+  </data>
+  <data name="HandlerMsg31" xml:space="preserve">
+    <value>Personal fuel limit for the day exceeded.</value>
+  </data>
+  <data name="HandlerMsg32" xml:space="preserve">
+    <value>Hose does not exists.</value>
+  </data>
+  <data name="HandlerMsg33" xml:space="preserve">
+    <value>Mobile is not registered in the system. Please contact administrator.</value>
+  </data>
+  <data name="HandlerMsg34" xml:space="preserve">
+    <value>Invalid Pin. Please try again.</value>
+  </data>
+  <data name="HandlerMsg35" xml:space="preserve">
+    <value>You have presented the wrong Fob/Card, please use another Fob/Card or Please contact administrator.</value>
+  </data>
+  <data name="HandlerMsg36" xml:space="preserve">
+    <value>New Fob/Card detected, please enter vehicle number.</value>
+  </data>
+  <data name="HandlerMsg37" xml:space="preserve">
+    <value>Vehicle number is already registered with another Fob/Card Number, please enter other vehicle number or Please contact administrator.</value>
+  </data>
+  <data name="HandlerMsg38" xml:space="preserve">
+    <value>Person is already registered with same Fob/Card Number, please enter other Fob/Card number or Please contact administrator.</value>
+  </data>
+  <data name="HandlerMsg4" xml:space="preserve">
+    <value>Not registered, Error occurred while registering HUB.</value>
+  </data>
+  <data name="HandlerMsg40" xml:space="preserve">
+    <value>New Fob/Card detected, please enter person PIN.</value>
+  </data>
+  <data name="HandlerMsg41" xml:space="preserve">
+    <value>Person PIN not found. Please contact administrator.</value>
+  </data>
+  <data name="HandlerMsg42" xml:space="preserve">
+    <value>Pin Number is already registered with another Fob/Card Number, please enter other Pin Number or Please contact administrator.</value>
+  </data>
+  <data name="HandlerMsg43" xml:space="preserve">
+    <value>Fob/Card number is already registered with vehicle, please enter other Fob/Card Number or Please contact administrator.</value>
+  </data>
+  <data name="HandlerMsg44" xml:space="preserve">
+    <value>IMEI_UDID not found. Please contact administrator.</value>
+  </data>
+  <data name="HandlerMsg45" xml:space="preserve">
+    <value>Vehicle not found, please contact administrator.</value>
+  </data>
+  <data name="HandlerMsg46" xml:space="preserve">
+    <value>New Fob/Card detected, please enter pin</value>
+  </data>
+  <data name="HandlerMsg47" xml:space="preserve">
+    <value>Pin is already registered with another Fob/Card Number, please enter other vehicle number or Please contact administrator.</value>
+  </data>
+  <data name="HandlerMsg49" xml:space="preserve">
+    <value>Fob/Card Number is assigned to Person.</value>
+  </data>
+  <data name="HandlerMsg5" xml:space="preserve">
+    <value>IMEI already exists.</value>
+  </data>
+  <data name="HandlerMsg51" xml:space="preserve">
+    <value>Some error occurred while processing the request. Please contact administrator.</value>
+  </data>
+  <data name="HandlerMsg52" xml:space="preserve">
+    <value>Authentication failed, Invalid IMEI.</value>
+  </data>
+  <data name="HandlerMsg53" xml:space="preserve">
+    <value>Authentication Failed, Please use the correct emailID which was supplied during registration.</value>
+  </data>
+  <data name="HandlerMsg54" xml:space="preserve">
+    <value>Authentication successful</value>
+  </data>
+  <data name="HandlerMsg55" xml:space="preserve">
+    <value>Authentication failed, you are not approved user.</value>
+  </data>
+  <data name="HandlerMsg56" xml:space="preserve">
+    <value>Invalid Username or password, please try again.</value>
+  </data>
+  <data name="HandlerMsg57" xml:space="preserve">
+    <value>Fob/Card Number is assigned to Vehicle.</value>
+  </data>
+  <data name="HandlerMsg58" xml:space="preserve">
+    <value>Company is inactive. Please contact administrator.</value>
+  </data>
+  <data name="HandlerMsg6" xml:space="preserve">
+    <value>Not registered, Other Phone numbers are registered to same email address.</value>
+  </data>
+  <data name="HandlerMsg7" xml:space="preserve">
+    <value>Registration fail</value>
+  </data>
+  <data name="HandlerMsg8" xml:space="preserve">
+    <value>Not registered, 21 phone numbers are already registered to same email address.</value>
+  </data>
+  <data name="HandlerMsg9" xml:space="preserve">
+    <value>Account not exists. Please contact administrator.</value>
+  </data>
+  <data name="IMEINumber" xml:space="preserve">
+    <value>IMEI Number</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="PersonName" xml:space="preserve">
+    <value>Person Name</value>
+  </data>
+  <data name="Personnel" xml:space="preserve">
+    <value>Personnel</value>
+  </data>
+  <data name="PinNumber" xml:space="preserve">
+    <value>Pin Number</value>
+  </data>
+  <data name="RecordSaved" xml:space="preserve">
+    <value>Record saved.</value>
+  </data>
+  <data name="RecordSavingFailed" xml:space="preserve">
+    <value>Record saving failed.</value>
+  </data>
+  <data name="ResetPassword" xml:space="preserve">
+    <value>Reset Password</value>
+  </data>
+  <data name="Roles" xml:space="preserve">
+    <value>Roles</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="SearchDesc" xml:space="preserve">
+    <value>All records shown that match your criteria, click on Edit to see more fields</value>
+  </data>
+  <data name="UserDeleteMsg1" xml:space="preserve">
+    <value>Are you sure you want to delete this User?</value>
+  </data>
+  <data name="UserDeleteMsg2" xml:space="preserve">
+    <value>Records deleted Successfully.</value>
+  </data>
+  <data name="UserDeleteMsg3" xml:space="preserve">
+    <value>PERSONNEL is associated to a fueling Transaction(s), you must Delete Transaction(s) first to Delete this PERSONNEL.</value>
+  </data>
+  <data name="UserDeleteMsg4" xml:space="preserve">
+    <value>Records deletion failed.</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+</root>

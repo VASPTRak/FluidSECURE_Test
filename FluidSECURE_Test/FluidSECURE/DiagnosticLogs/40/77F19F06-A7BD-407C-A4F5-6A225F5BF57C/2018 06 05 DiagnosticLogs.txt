@@ -1,0 +1,9 @@
+test 12345
+INFO  2018-06-05 15:54:13,953 731000ms erForLogDiagnosticLogs SaveDiagnosticLogs - test 12345
+INFO -- 2018-06-05 15:57:10,467 15456ms --- erForLogDiagnosticLogs---- SaveDiagnosticLogs - test 12345
+INFO  2018-06-05 15:58:45,212 15134ms ==> test 12345
+2018-06-05 15:59:56,161 19907ms ==> test 12345
+2018-06-05 16:00:10,771 34516ms ==> test 12345
+2018-06-05 16:00:11,854 35600ms ==> test 12345
+2018-06-05 16:00:12,209 35955ms ==> test 12345
+2018-06-05 16:00:12,573 36319ms ==> test 12345

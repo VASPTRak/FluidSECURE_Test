@@ -1,0 +1,44 @@
+﻿<!DOCTYPE html>
+<html>
+<head>    
+</head>
+<body>
+    Hi <b>Admin</b>,<br /><br />
+
+	 New User, userName has registered to fuel and is awaiting approval, please go to FluidSecureCloudLink to mark as Active to allow fueling. Thank you.
+    <br />
+    <br />
+	In order to activate:
+    <br />
+    <br />
+
+	- go to ITEMS and Personnel and find the new user. 
+    <br />
+	
+	- Click on Edit
+    <br />
+	
+	- Click on Active
+    <br />
+	
+	- Assign a Department
+    <br />
+	
+	- Select <u>Vehicles Allowed to Fuel</u> and select all vehicles or only the vehicles desired
+    <br />
+	
+	- Select <u>Authorized Fueling Times</u> and select the times the user is allowed to fuel
+    <br />
+	
+	- Select <u>Authorized Fueling Sites</u> and select at least one or more sites this user is allowed to fuel at
+    <br />
+	
+	- Click Save
+    <br />
+    <br />
+
+    Thanks & Regards,<br />
+    FluidSecure
+
+</body>
+</html>
