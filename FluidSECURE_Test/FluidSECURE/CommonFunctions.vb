@@ -148,6 +148,8 @@ Public Class UserData
 	Public IsOtherRequire As String
 	Public OtherLabel As String
 	Public TimeOut As String
+	Public AndroidAppLatestVersion As String
+	Public AppUpgradeMsgDisplayAfterDays As String
 	Public PersonId As String
 	Public BluetoothCardReader As String
 	Public BluetoothCardReaderMacAddress As String
@@ -159,7 +161,8 @@ Public Class UserData
 	Public LFBluetoothCardReaderMacAddress As String
     Public VeederRootMacAddress As String
     Public CollectDiagnosticLogs As String
-    Public IsGateHub As String
+	Public IsGateHub As String
+	Public IsVehicleNumberRequire As String
 End Class
 
 Public Class ArrayData

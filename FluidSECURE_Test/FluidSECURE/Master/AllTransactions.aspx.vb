@@ -680,7 +680,6 @@ Public Class AllTransactions
     Protected Sub gvTransactions_RowDataBound(sender As Object, e As GridViewRowEventArgs)
         Try
 
-
             If (e.Row.RowType = DataControlRowType.DataRow) Then
                 Dim TransactionStatus As String = gvTransactions.DataKeys(e.Row.RowIndex).Values("TransactionStatusText").ToString()
 
@@ -692,6 +691,25 @@ Public Class AllTransactions
                         linkEdit.Visible = True
                     End If
                 End If
+
+                Try
+                    Dim btnFSVM As Button = DirectCast(e.Row.FindControl("btnFSVM"), Button)
+                    Dim TransactionId As String = gvTransactions.DataKeys(e.Row.RowIndex).Values("TransactionId").ToString()
+                    Dim OBJMaster = New MasterBAL()
+                    Dim dsVMData As DataSet
+                    dsVMData = OBJMaster.GetVehicleRecurringMSGDetailsByTrnsactionId(TransactionId)
+                    If dsVMData.Tables(1) Is Nothing Then
+                        btnFSVM.Visible = False
+                    Else
+                        If dsVMData.Tables(1).Rows.Count > 0 Then
+                            btnFSVM.Visible = True
+                        Else
+                            btnFSVM.Visible = False
+                        End If
+                    End If
+                Catch ex As Exception
+
+                End Try
 
             End If
 
@@ -752,17 +770,20 @@ Public Class AllTransactions
                     lblSPD.Text = Convert.ToString(dsVMData.Tables(0).Rows(0)("SPD"))
                     lblRPM.Text = Convert.ToString(dsVMData.Tables(0).Rows(0)("RPM"))
                     lblPC.Text = Convert.ToString(dsVMData.Tables(0).Rows(0)("PC"))
+                    lblODOK.Text = Convert.ToString(dsVMData.Tables(0).Rows(0)("ODOK"))
                 Else
                     lblMIL.Text = ""
                     lblSPD.Text = ""
                     lblRPM.Text = ""
                     lblPC.Text = ""
+                    lblODOK.Text = ""
                 End If
             Else
                 lblMIL.Text = ""
                 lblSPD.Text = ""
                 lblRPM.Text = ""
                 lblPC.Text = ""
+                lblODOK.Text = ""
             End If
 
             If dsVMData.Tables(1) IsNot Nothing Then

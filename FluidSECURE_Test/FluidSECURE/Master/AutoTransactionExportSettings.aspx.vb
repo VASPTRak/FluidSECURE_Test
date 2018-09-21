@@ -199,6 +199,12 @@ Public Class AutoTransactionExportSettings
 		Dim AutoTransactionExportSettingId As Integer = 0
 
 		Try
+			If CSCommonHelper.CheckSessionExpired() = False Then
+				'unautorized access error log
+
+				ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "CheckSession();", True)
+				Return
+			End If
 
 			If (Not HDF_AutoTransactionExportSettingId.Value = Nothing And Not HDF_AutoTransactionExportSettingId.Value = "") Then
 

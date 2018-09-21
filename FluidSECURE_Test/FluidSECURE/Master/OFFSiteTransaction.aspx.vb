@@ -40,8 +40,7 @@ Public Class OFFSiteTransaction
 					If (Not Request.QueryString("TransactionId") = Nothing And Not Request.QueryString("TransactionId") = "") Then
 
                         PreviousOdometer.Visible = True
-                        PreviousOdometerHide.Visible = True
-
+                        divPrevHours.Visible = True
                         hdfTransactionId.Value = Request.QueryString("TransactionId")
 						BindTransactionsDetails(Request.QueryString("TransactionId"))
 						btnFirst.Visible = True
@@ -56,7 +55,7 @@ Public Class OFFSiteTransaction
 
 					Else
                         PreviousOdometer.Visible = False
-                        PreviousOdometerHide.Visible = False
+                        divPrevHours.Visible = False
                         btnFirst.Visible = False
 						btnNext.Visible = False
 						btnprevious.Visible = False
@@ -313,8 +312,8 @@ Public Class OFFSiteTransaction
 
 				txtFuelQuantity.Text = dtTransaction.Rows(0)("FuelQuantity")
 				txtPreviousOdometer.Text = dtTransaction.Rows(0)("PreviousOdometer")
-
-				txtTransactionDate.Text = Convert.ToDateTime(dtTransaction.Rows(0)("TransactionDateTime").ToString()).ToString("MM/dd/yyyy")
+                txtPreviousHours.Text = dtTransaction.Rows(0)("PreviousHours").ToString()
+                txtTransactionDate.Text = Convert.ToDateTime(dtTransaction.Rows(0)("TransactionDateTime").ToString()).ToString("MM/dd/yyyy")
 				txtTransactionTime.Text = Convert.ToDateTime(dtTransaction.Rows(0)("TransactionDateTime").ToString()).ToString("hh:mm tt")
 				DDL_Customer.SelectedValue = dtTransaction.Rows(0)("CustomerId")
 				DDL_Customer_SelectedIndexChanged(Nothing, Nothing)
@@ -600,12 +599,14 @@ Public Class OFFSiteTransaction
 			Dim Site As Integer = 0
 			Dim FQunty As Decimal = 0
 			Dim Fuel As Integer = 0
+            Dim PreviousHours As Integer = 0
 
             If txtCurrentOdometer.Text = "" Then CurrentOdometer = 0 Else CurrentOdometer = Convert.ToInt32(txtCurrentOdometer.Text)
             If txtFuelQuantity.Text = "" Then FQunty = 0 Else FQunty = Convert.ToDecimal(txtFuelQuantity.Text)
             If txtPreviousOdometer.Text = "" Then PreviousOdometer = 0 Else PreviousOdometer = Convert.ToInt32(txtPreviousOdometer.Text)
             'If DDL_Site.SelectedValue = "0" Then Site = 0 Else Site = Convert.ToInt32(DDL_Site.SelectedValue)
             If DDL_Fuel.SelectedValue = "0" Then Fuel = 0 Else Fuel = Convert.ToInt32(DDL_Fuel.SelectedValue)
+            If txtPreviousHours.Text = "" Then PreviousHours = 0 Else PreviousHours = Convert.ToInt32(txtPreviousHours.Text)
 
             If (Not hdfTransactionId.Value = Nothing And Not hdfTransactionId.Value = "") Then
 
@@ -693,17 +694,17 @@ Public Class OFFSiteTransaction
 				vehicleNumber = HDF_VehicleNumber.Value
 			End If
 
-			result = OBJMaster.InsertUpdateTransaction(HDF_VehicleId.Value, Site, PersonId, CurrentOdometer, FQunty, Fuel, 0, Nothing,
-													 transactionDatetime, TransactionId, Convert.ToInt32(Session("PersonId")), "W", PreviousOdometer, "", "", "", vehicleNumber, txtDeptNo.Text,
-													 txtPinNumber.Text, txtOther.Text, IIf(txtHours.Text = "", -1, txtHours.Text), IsMissed, False, TransactionStatus, 0, -1,
-														VehicleName, DepartmentName, FuelTypeName, Email, PersonName, CompanyName, chkOFFSite.Checked, Convert.ToInt32(DDL_Customer.SelectedValue))
+            result = OBJMaster.InsertUpdateTransaction(HDF_VehicleId.Value, Site, PersonId, CurrentOdometer, FQunty, Fuel, 0, Nothing,
+                                                     transactionDatetime, TransactionId, Convert.ToInt32(Session("PersonId")), "W", PreviousOdometer, "", "", "", vehicleNumber, txtDeptNo.Text,
+                                                     txtPinNumber.Text, txtOther.Text, IIf(txtHours.Text = "", -1, txtHours.Text), IsMissed, False, TransactionStatus, 0, -1,
+                                                        VehicleName, DepartmentName, FuelTypeName, Email, PersonName, CompanyName, chkOFFSite.Checked, Convert.ToInt32(DDL_Customer.SelectedValue), IIf(txtPreviousHours.Text = "", -1, txtPreviousHours.Text), 0)
 
-			'result = OBJMaster.InsertUpdateTransaction(HDF_VehicleId.Value, DDL_Site.SelectedValue, hdf_PersonId.Value, txtCurrentOdometer.Text, txtFuelQuantity.Text, DDL_Fuel.SelectedValue, 0, Nothing,
-			'                                         transactionDatetime, TransactionId, Convert.ToInt32(Session("PersonId")), "W", txtPreviousOdometer.Text, "", "", "", vehicleNumber, txtDeptNo.Text,
-			'                                         txtPinNumber.Text, txtOther.Text, IIf(txtHours.Text = "", -1, txtHours.Text), IsMissed, False, TransactionStatus, 0, -1,
-			'                                            VehicleName, DepartmentName, FuelTypeName, Email, PersonName, CompanyName)
+            'result = OBJMaster.InsertUpdateTransaction(HDF_VehicleId.Value, DDL_Site.SelectedValue, hdf_PersonId.Value, txtCurrentOdometer.Text, txtFuelQuantity.Text, DDL_Fuel.SelectedValue, 0, Nothing,
+            '                                         transactionDatetime, TransactionId, Convert.ToInt32(Session("PersonId")), "W", txtPreviousOdometer.Text, "", "", "", vehicleNumber, txtDeptNo.Text,
+            '                                         txtPinNumber.Text, txtOther.Text, IIf(txtHours.Text = "", -1, txtHours.Text), IsMissed, False, TransactionStatus, 0, -1,
+            '                                            VehicleName, DepartmentName, FuelTypeName, Email, PersonName, CompanyName)
 
-			If result > 0 Then
+            If result > 0 Then
 
 				If txtCost.Text <> "" Then
 					Dim check As String = txtCost.Text
@@ -800,14 +801,16 @@ Public Class OFFSiteTransaction
                Convert.ToDateTime(dtTransaction.Rows(0)("TransactionDateTime").ToString()).ToString("MM/dd/yyyy") <> txtTransactionDate.Text Or dtTransaction.Rows(0)("PersonID") <> hdf_PersonId.Value Or
                dtTransaction.Rows(0)("VehicleId") <> HDF_VehicleId.Value Or dtTransaction.Rows(0)("VehicleNumber") <> txtGuestVehicleNumber.Text Or
                dtTransaction.Rows(0)("DepartmentNumber") <> txtDeptNo.Text Or IIf(IsDBNull(dtTransaction.Rows(0)("PersonPin")), "", dtTransaction.Rows(0)("PersonPin")) <> txtPinNumber.Text Or
-               dtTransaction.Rows(0)("Other") <> txtOther.Text Or dtTransaction.Rows(0)("TransactionStatus") <> DDL_TransactionStatus.SelectedValue) Then 'dtTransaction.Rows(0)("SiteId") <> DDL_Site.SelectedValue 
+               dtTransaction.Rows(0)("Other") <> txtOther.Text Or dtTransaction.Rows(0)("TransactionStatus") <> DDL_TransactionStatus.SelectedValue) Or
+                IIf(IsDBNull(dtTransaction.Rows(0)("Hours")), "", dtTransaction.Rows(0)("Hours")) <> txtHours.Text Or
+               IIf(IsDBNull(dtTransaction.Rows(0)("PreviousHours")), "", dtTransaction.Rows(0)("PreviousHours")) <> txtPreviousHours.Text Then
                 Return 1
             Else
                 Return 0
 			End If
 
-
-		Catch ex As Exception
+            'dtTransaction.Rows(0)("SiteId") <> DDL_Site.SelectedValue 
+        Catch ex As Exception
 			log.Error("Error occurred in linkEdit_Click Exception is :" + ex.Message)
 			ErrorMessage.Visible = True
 			ErrorMessage.InnerText = "Error occurred while saving data, please try again later."
@@ -1034,6 +1037,7 @@ Public Class OFFSiteTransaction
                                     "Current Odometer = " & txtCurrentOdometer.Text.Replace(",", " ") & " ; " &
                                     "Previous Odometer = " & txtPreviousOdometer.Text.Replace(",", " ") & " ; " &
                                     "Hours = " & txtHours.Text.Replace(",", " ") & " ; " &
+                                     "Previous Hours = " & txtPreviousHours.Text.Replace(",", " ") & " ; " &
                                     "Fuel Type = " & DDL_Fuel.SelectedItem.Text.Replace(",", " ") & " ; " &
                                     "Transaction Status = " & DDL_TransactionStatus.SelectedItem.Text.Replace(",", " ") & " ; "
 

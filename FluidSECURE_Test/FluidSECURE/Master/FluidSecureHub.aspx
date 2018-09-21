@@ -168,7 +168,7 @@
                         <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
                             <label>
                                 Email (Username):</label>
-                                <%--<label class="text-danger font-required">[required]</label>--%>
+                            <%--<label class="text-danger font-required">[required]</label>--%>
                         </div>
                         <div class="form-group col-md-3 col-sm-3 col-xs-12">
                             <asp:TextBox ID="txtEmail" TextMode="Email" runat="server" CssClass="form-control input-sm" MaxLength="256" TabIndex="12" ReadOnly="true"></asp:TextBox>
@@ -186,6 +186,13 @@
                         </div>
                         <div class="form-group col-md-3 col-sm-3 col-xs-12">
                             <asp:TextBox ID="txtSiteName" CssClass="form-control input-sm" TabIndex="2" runat="server" MaxLength="30" Width="250"></asp:TextBox>
+                        </div>
+                        <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
+                            <label>
+                                HUB Address:</label>
+                        </div>
+                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                           <asp:TextBox ID="txtHUB_Address" runat="server" CssClass="form-control input-sm" TextMode="MultiLine" Rows="4" TabIndex="21"></asp:TextBox>
                         </div>
                     </div>
 
@@ -269,12 +276,11 @@
                         </div>
                         <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
                             <label>
-                                Personnel PIN Require:</label>
+                                Gate HUB :</label>
                         </div>
                         <div class="form-group col-md-3 col-sm-3 col-xs-12">
-                            <asp:CheckBox ID="CHK_IsPersonnelPINRequire" runat="server" TabIndex="16" />
+                            <asp:CheckBox ID="chk_GateHub" runat="server" TabIndex="22" />
                         </div>
-
                     </div>
 
                     <div class="row col-md-12 col-sm-12 col-xs-12">
@@ -284,6 +290,41 @@
                         </div>
                         <div class="form-group col-md-3 col-sm-3 col-xs-12">
                             <asp:TextBox ID="txtExportCode" runat="server" CssClass="form-control input-sm" TabIndex="7" MaxLength="25"></asp:TextBox>
+                        </div>
+                        <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
+                            <label>
+                                Personnel PIN Require:</label>
+                        </div>
+                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                            <asp:CheckBox ID="CHK_IsPersonnelPINRequire" runat="server" TabIndex="16" />
+                        </div>
+                    </div>
+                    <div class="row col-md-12 col-sm-12 col-xs-12">
+
+                        <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
+                            <label>HF Bluetooth card reader:</label>
+                            <%--<label class="text-danger font-required">[required]</label>:</label>--%>
+                        </div>
+                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                            <asp:TextBox ID="txtBCardReader" runat="server" CssClass="form-control input-sm" TabIndex="8" MaxLength="50"></asp:TextBox>
+                            <%--<asp:RequiredFieldValidator ID="RFD_BCardReader" runat="server" ControlToValidate="txtBCardReader"
+                                ErrorMessage="Please Enter Phone Number." Display="Dynamic" ForeColor="Red" SetFocusOnError="True" ValidationGroup="PersonelValidation"></asp:RequiredFieldValidator>--%>
+                        </div>
+                        <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
+                            <label>
+                                Vehicle Number Require :</label>
+                        </div>
+                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                            <asp:CheckBox ID="chk_IsVehicleNumberRequire" runat="server" Checked="true" TabIndex="22" />
+                        </div>
+                    </div>
+                    <div class="row col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
+                            <label>HF Bluetooth Card Reader Mac Address:</label>
+                            <%--<label class="text-danger font-required">[required]</label>:</label>--%>
+                        </div>
+                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                            <asp:TextBox ID="txtBluetoothCardReaderMacAddress" runat="server" CssClass="form-control input-sm" TabIndex="9" MaxLength="50"></asp:TextBox>
                         </div>
 
                         <div id="divCompany" runat="server" class="form-group col-md-3 col-sm-3 textright col-xs-12">
@@ -297,17 +338,15 @@
                                 Font-Bold="False" Font-Names="arial" ErrorMessage="Please select company."
                                 ControlToValidate="DDL_Customer" Display="Dynamic" ForeColor="Red" InitialValue="0" SetFocusOnError="True" ValidationGroup="PersonelValidation"></asp:RequiredFieldValidator>
                         </div>
-
-
                     </div>
                     <div class="row col-md-12 col-sm-12 col-xs-12">
 
                         <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
-                            <label>HF Bluetooth card reader:</label>
+                            <label>LF Bluetooth card reader:</label>
                             <%--<label class="text-danger font-required">[required]</label>:</label>--%>
                         </div>
                         <div class="form-group col-md-3 col-sm-3 col-xs-12">
-                            <asp:TextBox ID="txtBCardReader" runat="server" CssClass="form-control input-sm" TabIndex="8" MaxLength="50"></asp:TextBox>
+                            <asp:TextBox ID="txtLFBCardReader" runat="server" CssClass="form-control input-sm" TabIndex="10" MaxLength="50"></asp:TextBox>
                             <%--<asp:RequiredFieldValidator ID="RFD_BCardReader" runat="server" ControlToValidate="txtBCardReader"
                                 ErrorMessage="Please Enter Phone Number." Display="Dynamic" ForeColor="Red" SetFocusOnError="True" ValidationGroup="PersonelValidation"></asp:RequiredFieldValidator>--%>
                         </div>
@@ -325,11 +364,11 @@
                     </div>
                     <div class="row col-md-12 col-sm-12 col-xs-12">
                         <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
-                            <label>HF Bluetooth Card Reader Mac Address:</label>
+                            <label>LF Bluetooth Card Reader Mac Address:</label>
                             <%--<label class="text-danger font-required">[required]</label>:</label>--%>
                         </div>
                         <div class="form-group col-md-3 col-sm-3 col-xs-12">
-                            <asp:TextBox ID="txtBluetoothCardReaderMacAddress" runat="server" CssClass="form-control input-sm" TabIndex="9" MaxLength="50"></asp:TextBox>
+                            <asp:TextBox ID="txtLFBluetoothCardReaderMacAddress" runat="server" CssClass="form-control input-sm" TabIndex="11" MaxLength="50"></asp:TextBox>
                         </div>
                         <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
                             <label>
@@ -340,15 +379,13 @@
                         </div>
                     </div>
                     <div class="row col-md-12 col-sm-12 col-xs-12">
-
                         <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
-                            <label>LF Bluetooth card reader:</label>
-                            <%--<label class="text-danger font-required">[required]</label>:</label>--%>
+                            <label>
+                                Person Has a Fob/Card:</label>
                         </div>
                         <div class="form-group col-md-3 col-sm-3 col-xs-12">
-                            <asp:TextBox ID="txtLFBCardReader" runat="server" CssClass="form-control input-sm" TabIndex="10" MaxLength="50"></asp:TextBox>
-                            <%--<asp:RequiredFieldValidator ID="RFD_BCardReader" runat="server" ControlToValidate="txtBCardReader"
-                                ErrorMessage="Please Enter Phone Number." Display="Dynamic" ForeColor="Red" SetFocusOnError="True" ValidationGroup="PersonelValidation"></asp:RequiredFieldValidator>--%>
+                            <asp:CheckBox ID="CHK_IsPersonHasFob" runat="server" TabIndex="22" />
+                            <asp:Label ID="lblIsPersonHasFob" runat="server" Text="(MUST use the Fob/Card, and not use a Person PIN on HUB application)"></asp:Label>
                         </div>
                         <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
                             <label>
@@ -360,36 +397,12 @@
                     </div>
                     <div class="row col-md-12 col-sm-12 col-xs-12">
                         <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
-                            <label>LF Bluetooth Card Reader Mac Address:</label>
-                            <%--<label class="text-danger font-required">[required]</label>:</label>--%>
-                        </div>
-                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
-                            <asp:TextBox ID="txtLFBluetoothCardReaderMacAddress" runat="server" CssClass="form-control input-sm" TabIndex="11" MaxLength="50"></asp:TextBox>
-                        </div>
-                        <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
                             <label>
                                 Vehicle Has a Fob/Card:</label>
                         </div>
                         <div class="form-group col-md-3 col-sm-3 col-xs-12">
                             <asp:CheckBox ID="CHK_IsVehicleHasFob" runat="server" TabIndex="22" />
                             <asp:Label ID="lblIsVehicleHasFob" runat="server" Text="(MUST use the Fob/Card, and not use a vehicle number on HUB application)"></asp:Label>
-                        </div>
-                    </div>
-                    <div class="row col-md-12 col-sm-12 col-xs-12">
-                        <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
-                            <label>
-                                Gate HUB :</label>
-                        </div>
-                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
-                            <asp:CheckBox ID="chk_GateHub" runat="server" TabIndex="22" />
-                        </div>
-                        <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
-                            <label>
-                                Person Has a Fob/Card:</label>
-                        </div>
-                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
-                            <asp:CheckBox ID="CHK_IsPersonHasFob" runat="server" TabIndex="22" />
-                            <asp:Label ID="lblIsPersonHasFob" runat="server" Text="(MUST use the Fob/Card, and not use a Person PIN on HUB application)"></asp:Label>
                         </div>
                     </div>
                     <div class="row col-md-12 col-sm-12 text-center col-xs-12">
@@ -442,30 +455,30 @@
         function loadFunction() {
             $('[data-toggle="tooltip"]').tooltip();
 			<%--$("#<%=txtPhoneNumber.ClientID%>").mask("999-999-9999");--%>
-		}
+        }
 
         function CancelCompanyChange() {
             var previousCompanyID = $("#<%=HDF_CompanyId.ClientID%>").val();
-		    $('#<%= DDL_Customer.ClientID %>').val(previousCompanyID);
-		}
+            $('#<%= DDL_Customer.ClientID %>').val(previousCompanyID);
+        }
 
-		function ClosePopUpForCompany() {
-		    $("#btnCloseChangeCompany").click();
-		    $('body').removeClass("modal-open");
-		    __doPostBack('<%= DDL_Customer.ClientID %>', '');
+        function ClosePopUpForCompany() {
+            $("#btnCloseChangeCompany").click();
+            $('body').removeClass("modal-open");
+            __doPostBack('<%= DDL_Customer.ClientID %>', '');
         }
 
         function ConfirmChange() {
             if (($('#<%= HDF_PersonnelId.ClientID %>').val()) != "") {
-		        $('#ChangeCompany').modal({
-		            show: true,
-		            backdrop: 'static',
-		            keyboard: false
-		        });
-		    }
-		    else {
-		        __doPostBack('<%= DDL_Customer.ClientID %>', '');
-			}
+                $('#ChangeCompany').modal({
+                    show: true,
+                    backdrop: 'static',
+                    keyboard: false
+                });
+            }
+            else {
+                __doPostBack('<%= DDL_Customer.ClientID %>', '');
+            }
         }
 
         $(function () {
@@ -486,7 +499,7 @@
             $("#btnCloseSite").click();
             $('body').removeClass("modal-open");
             $('#<%= chkSoftUpdate.ClientID%>').focus();
-			enableDisableButtons(false)
+            enableDisableButtons(false)
         }
 
         function ClosePopUpFuelingTimes() {
@@ -498,35 +511,35 @@
 
         function enableDisableButtons(enableDisable) {
             if (document.getElementById('<%= btnFirst.ClientID%>') != null) {
-		        document.getElementById('<%= btnFirst.ClientID%>').disabled = enableDisable;
-			    document.getElementById('<%= btnLast.ClientID%>').disabled = enableDisable;
-			    document.getElementById('<%= btnNext.ClientID%>').disabled = enableDisable;
-			    document.getElementById('<%= btnprevious.ClientID%>').disabled = enableDisable;
-			}
+                document.getElementById('<%= btnFirst.ClientID%>').disabled = enableDisable;
+                document.getElementById('<%= btnLast.ClientID%>').disabled = enableDisable;
+                document.getElementById('<%= btnNext.ClientID%>').disabled = enableDisable;
+                document.getElementById('<%= btnprevious.ClientID%>').disabled = enableDisable;
+            }
 
             document.getElementById('<%= btnSave.ClientID%>').disabled = enableDisable;
-		    document.getElementById('<%= btnCancel.ClientID%>').disabled = enableDisable;
-		}
+            document.getElementById('<%= btnCancel.ClientID%>').disabled = enableDisable;
+        }
 
 
-		function IsValidPhoneNumber() {
-		    //debugger;
-		    var phoneNumber = document.getElementById('<%=txtPhoneNumber.ClientID%>').value;
-		    //it accepts 850-294-2562(us phone number- req date 09-Dec-2016)
-		    //if (phoneNumber.match(/^(?:(?:\+?1\s*(?:[.-]\s*)?)?(?:\(\s*([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9])\s*\)|([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9]))\s*(?:[.-]\s*)?)?([2-9]1[02-9]|[2-9][02-9]1|[2-9][02-9]{2})\s*(?:[.-]\s*)?([0-9]{4})(?:\s*(?:#|x\.?|ext\.?|extension)\s*(\d+))?$/)) {//phone number accept all number with only (-)+space symbols.
-		    if (phoneNumber.match(/^[- +()]*[0-9][- +()0-9]*$/)) {
-		        document.getElementById('<%=lblErrorMsg.ClientID%>').style.display = "none";
-			    //return true;
-			    if (Page_ClientValidate("PersonelValidation"))
-			        return true;
-			    else
-			        return false;
-			}
-			else {
-			    document.getElementById('<%=lblErrorMsg.ClientID%>').style.display = "";
-			    Page_ClientValidate("PersonelValidation")
-			    return false;
-			}
+        function IsValidPhoneNumber() {
+            //debugger;
+            var phoneNumber = document.getElementById('<%=txtPhoneNumber.ClientID%>').value;
+            //it accepts 850-294-2562(us phone number- req date 09-Dec-2016)
+            //if (phoneNumber.match(/^(?:(?:\+?1\s*(?:[.-]\s*)?)?(?:\(\s*([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9])\s*\)|([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9]))\s*(?:[.-]\s*)?)?([2-9]1[02-9]|[2-9][02-9]1|[2-9][02-9]{2})\s*(?:[.-]\s*)?([0-9]{4})(?:\s*(?:#|x\.?|ext\.?|extension)\s*(\d+))?$/)) {//phone number accept all number with only (-)+space symbols.
+            if (phoneNumber.match(/^[- +()]*[0-9][- +()0-9]*$/)) {
+                document.getElementById('<%=lblErrorMsg.ClientID%>').style.display = "none";
+		        //return true;
+		        if (Page_ClientValidate("PersonelValidation"))
+		            return true;
+		        else
+		            return false;
+		    }
+		    else {
+		        document.getElementById('<%=lblErrorMsg.ClientID%>').style.display = "";
+		        Page_ClientValidate("PersonelValidation")
+		        return false;
+		    }
 
         }
 
@@ -588,14 +601,14 @@
             var IsChecked = spanChk.checked;
             var Chk = spanChk;
             Parent = document.getElementById('<%= gv_Vehicles.ClientID %>');
-			var items = Parent.getElementsByTagName('input');
-			for (i = 0; i < items.length; i++) {
-			    if (items[i].id != Chk && items[i].type == "checkbox") {
-			        if (items[i].checked != IsChecked) {
-			            items[i].click();
-			        }
-			    }
-			}
+            var items = Parent.getElementsByTagName('input');
+            for (i = 0; i < items.length; i++) {
+                if (items[i].id != Chk && items[i].type == "checkbox") {
+                    if (items[i].checked != IsChecked) {
+                        items[i].click();
+                    }
+                }
+            }
         }
 
         function SelectboxVehicle(spanChk) {
@@ -603,10 +616,10 @@
             var IsChecked = spanChk.checked;
             if (IsChecked == false) {
                 Parent = document.getElementById('<%= gv_Vehicles.ClientID%>');
-			    var checkBoxSelector = "#<%=gv_Vehicles.ClientID%> input[id*='chkAll']";
+                var checkBoxSelector = "#<%=gv_Vehicles.ClientID%> input[id*='chkAll']";
 
-			    $(checkBoxSelector).attr('checked', false);
-			}
+                $(checkBoxSelector).attr('checked', false);
+            }
         }
 
         function SelectAllCheckboxesSpecificForSite(spanChk) {
@@ -614,14 +627,14 @@
             var IsChecked = spanChk.checked;
             var Chk = spanChk;
             Parent = document.getElementById('<%= gv_Sites.ClientID %>');
-			var items = Parent.getElementsByTagName('input');
-			for (i = 0; i < items.length; i++) {
-			    if (items[i].id != Chk && items[i].type == "checkbox") {
-			        if (items[i].checked != IsChecked) {
-			            items[i].click();
-			        }
-			    }
-			}
+            var items = Parent.getElementsByTagName('input');
+            for (i = 0; i < items.length; i++) {
+                if (items[i].id != Chk && items[i].type == "checkbox") {
+                    if (items[i].checked != IsChecked) {
+                        items[i].click();
+                    }
+                }
+            }
         }
 
         function SelectboxSite(spanChk) {
@@ -629,10 +642,10 @@
             var IsChecked = spanChk.checked;
             if (IsChecked == false) {
                 Parent = document.getElementById('<%= gv_Sites.ClientID%>');
-			    var checkBoxSelector = "#<%=gv_Sites.ClientID%> input[id*='chkAll']";
+                var checkBoxSelector = "#<%=gv_Sites.ClientID%> input[id*='chkAll']";
 
-			    $(checkBoxSelector).attr('checked', false);
-			}
+                $(checkBoxSelector).attr('checked', false);
+            }
         }
 
         <%--  function SelectAllCheckboxesSpecificFoFuelingTimes(spanChk) {
@@ -709,20 +722,20 @@
             input = document.getElementById("siteInput");
             filter = input.value.toLowerCase();
             table = document.getElementById('<%= gv_Sites.ClientID %>');
-			if (table != null) {
-			    tr = table.getElementsByTagName("tr");
-			    for (i = 0; i < tr.length; i++) {
-			        td = tr[i].getElementsByTagName("td")[1];
-			        if (td) {
-			            if (td.innerText.toLowerCase().indexOf(filter) > -1) {
-			                tr[i].style.display = "";
-			            } else {
-			                tr[i].style.display = "none";
-			            }
-			        }
-			    }
+            if (table != null) {
+                tr = table.getElementsByTagName("tr");
+                for (i = 0; i < tr.length; i++) {
+                    td = tr[i].getElementsByTagName("td")[1];
+                    if (td) {
+                        if (td.innerText.toLowerCase().indexOf(filter) > -1) {
+                            tr[i].style.display = "";
+                        } else {
+                            tr[i].style.display = "none";
+                        }
+                    }
+                }
 
-			}
+            }
         }
         function SearchVehicles() {
 
@@ -730,34 +743,34 @@
             input = document.getElementById("VehicleInput");
             filter = input.value.toLowerCase();
             table = document.getElementById('<%= gv_Vehicles.ClientID %>');
-			if (table != null) {
-			    tr = table.getElementsByTagName("tr");
-			    for (i = 0; i < tr.length; i++) {
-			        td = tr[i].getElementsByTagName("td")[1];
-			        if (td) {
-			            if (td.innerText.toLowerCase().indexOf(filter) > -1) {
-			                tr[i].style.display = "";
-			            } else {
-			                td = tr[i].getElementsByTagName("td")[2];
-			                if (td) {
-			                    if (td.innerText.toLowerCase().indexOf(filter) > -1) {
-			                        tr[i].style.display = "";
-			                    } else {
-			                        td = tr[i].getElementsByTagName("td")[3];
-			                        if (td) {
-			                            if (td.innerText.toLowerCase().indexOf(filter) > -1) {
-			                                tr[i].style.display = "";
-			                            } else {
-			                                tr[i].style.display = "none";
-			                            }
-			                        }
-			                    }
-			                }
-			            }
-			        }
-			    }
+            if (table != null) {
+                tr = table.getElementsByTagName("tr");
+                for (i = 0; i < tr.length; i++) {
+                    td = tr[i].getElementsByTagName("td")[1];
+                    if (td) {
+                        if (td.innerText.toLowerCase().indexOf(filter) > -1) {
+                            tr[i].style.display = "";
+                        } else {
+                            td = tr[i].getElementsByTagName("td")[2];
+                            if (td) {
+                                if (td.innerText.toLowerCase().indexOf(filter) > -1) {
+                                    tr[i].style.display = "";
+                                } else {
+                                    td = tr[i].getElementsByTagName("td")[3];
+                                    if (td) {
+                                        if (td.innerText.toLowerCase().indexOf(filter) > -1) {
+                                            tr[i].style.display = "";
+                                        } else {
+                                            tr[i].style.display = "none";
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
 
-			}
+            }
         }
     </script>
 

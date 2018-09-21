@@ -92,8 +92,9 @@
 		If Session("FromLoginPage") <> "Y" Then 'New field for Adding Reset password date
 
 			OtherMenu.Visible = False
-			CompanyHostingReport.Visible = False
-			CustomerWiseTransactionDetails.Visible = False
+            CompanyHostingReport.Visible = False
+            ShipmentReport.Visible = False
+            CustomerWiseTransactionDetails.Visible = False
             ResetTermsPrivacyPolicys.Visible = False
             Export_WINCC.Visible = False
             If Session("RoleName") = "User" Then
@@ -128,6 +129,7 @@
 				FluidSecureMenu.Visible = False
                 UploadedFirmware.Visible = False
                 UploadedFSVMFirmware.Visible = False
+                UploadedFSNPFirmware.Visible = False
                 FluidSecureHubMenu.Visible = False
 				DayLightSavingId.Visible = False
 				Export_WINCC.Visible = False
@@ -144,9 +146,11 @@
 				ShipmentMenu.Visible = True
                 UploadedFirmware.Visible = True
                 UploadedFSVMFirmware.Visible = True
+                UploadedFSNPFirmware.Visible = True
                 OtherMenu.Visible = True
-				CompanyHostingReport.Visible = True
-				CustomerWiseTransactionDetails.Visible = True
+                CompanyHostingReport.Visible = True
+                ShipmentReport.Visible = True
+                CustomerWiseTransactionDetails.Visible = True
 				ResetTermsPrivacyPolicys.Visible = True
 				DayLightSavingId.Visible = True
                 TransactionExportSetting.Visible = True
@@ -156,12 +160,14 @@
 					ShipmentMenu.Visible = True
                     UploadedFirmware.Visible = False
                     UploadedFSVMFirmware.Visible = False
+                    UploadedFSNPFirmware.Visible = False
                     OtherMenu.Visible = True
 				Else
 					ShipmentMenu.Visible = False
 				End If
                 UploadedFirmware.Visible = False
                 UploadedFSVMFirmware.Visible = False
+                UploadedFSNPFirmware.Visible = False
                 DayLightSavingId.Visible = False
                 If (Session("RoleName") = "CustomerAdmin") Then
 					TransactionExportSetting.Visible = True

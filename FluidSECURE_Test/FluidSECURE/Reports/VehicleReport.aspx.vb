@@ -84,7 +84,12 @@ Public Class VehicleReport
         Try
             Dim dtVehicle As DataTable = New DataTable()
             OBJMaster = New MasterBAL()
-            dtVehicle = OBJMaster.GetVehicleByCondition(" and  c.CustomerId  = " & CustomerId, Session("PersonId").ToString(), Session("RoleId").ToString())
+            If (DDL_Dept.SelectedValue.ToString() <> "0") Then
+                dtVehicle = OBJMaster.GetVehicleByCondition(" and  c.CustomerId  = " & CustomerId & " and V.DepartmentId = " & DDL_Dept.SelectedValue.ToString() & " ", Session("PersonId").ToString(), Session("RoleId").ToString())
+            Else
+                dtVehicle = OBJMaster.GetVehicleByCondition(" and  c.CustomerId  = " & CustomerId, Session("PersonId").ToString(), Session("RoleId").ToString())
+            End If
+
 
 
             DDL_Vehicle.DataSource = dtVehicle
@@ -109,19 +114,20 @@ Public Class VehicleReport
 
         Catch ex As Exception
 
-            log.Error("Error occurred in BindAllPersonnels Exception is :" + ex.Message)
+            log.Error("Error occurred in BindAllVehicles Exception is :" + ex.Message)
             ErrorMessage.Visible = True
-            ErrorMessage.InnerText = "Error occurred while getting Personnels, please try again later."
+            ErrorMessage.InnerText = "Error occurred while getting vehicles, please try again later."
 
         End Try
     End Sub
 
     Protected Sub DDL_Customer_SelectedIndexChanged(sender As Object, e As EventArgs) Handles DDL_Customer.SelectedIndexChanged
-		Try
-			BindAllVehicles(Convert.ToInt32(DDL_Customer.SelectedValue))
+        Try
+            BindDepartment(Convert.ToInt32(DDL_Customer.SelectedValue))
+            BindAllVehicles(Convert.ToInt32(DDL_Customer.SelectedValue))
 
-		Catch ex As Exception
-			log.Error("Error occurred in DDL_Customer_SelectedIndexChanged Exception is :" + ex.Message)
+        Catch ex As Exception
+            log.Error("Error occurred in DDL_Customer_SelectedIndexChanged Exception is :" + ex.Message)
 			ErrorMessage.Visible = True
 			ErrorMessage.InnerText = "Error occurred while getting data, please try again later."
 		End Try
@@ -148,6 +154,10 @@ Public Class VehicleReport
 
             If (DDL_VehicleType.SelectedValue <> "0") Then
                 strConditions = IIf(strConditions = "", " and V.Type = '" + DDL_VehicleType.SelectedValue + "' ", strConditions + " and V.Type = '" + DDL_VehicleType.SelectedValue + "' ")
+            End If
+
+            If (DDL_Dept.SelectedValue.ToString() <> "0") Then
+                strConditions = IIf(strConditions = "", " and V.DepartmentId = " + DDL_Dept.SelectedValue + " ", strConditions + " and V.DepartmentId = " + DDL_Dept.SelectedValue + " ")
             End If
 
             strConditions += " order by V.VehicleName"
@@ -205,6 +215,7 @@ Public Class VehicleReport
         Try
 
             Dim data As String = "Company = " & DDL_Customer.SelectedItem.Text.Replace(",", " ") & " ; " &
+                                 "Department = " & DDL_Dept.SelectedItem.Text.Replace(",", " ") & " ; " &
                                  "Vehicle Number = " & DDL_Vehicle.SelectedItem.Text.Replace(",", " ") & " ; " &
                                  "Vehicle Type = " & DDL_VehicleType.SelectedItem.Text.Replace(",", " ") & " ; "
 
@@ -215,5 +226,42 @@ Public Class VehicleReport
         End Try
 
     End Function
+
+    Protected Sub DDL_Dept_SelectedIndexChanged(sender As Object, e As EventArgs)
+        Try
+            BindAllVehicles(Convert.ToInt32(DDL_Customer.SelectedValue))
+        Catch ex As Exception
+            log.Error("Error occurred in DDL_Dept_SelectedIndexChanged Exception is :" + ex.Message)
+            ErrorMessage.Visible = True
+            ErrorMessage.InnerText = "Error occurred while getting data, please try again later."
+        End Try
+    End Sub
+
+    Private Sub BindDepartment(CustomerId As Integer)
+        Try
+
+            OBJMaster = New MasterBAL()
+            Dim dtDept As DataTable = New DataTable()
+            If CustomerId <> 0 Then
+                dtDept = OBJMaster.GetDepartmentsByCustomerId(CustomerId)
+                DDL_Dept.DataSource = dtDept
+            Else
+                DDL_Dept.DataSource = dtDept
+            End If
+
+            DDL_Dept.DataTextField = "NAME"
+            DDL_Dept.DataValueField = "DeptId"
+
+            DDL_Dept.DataBind()
+            DDL_Dept.Items.Insert(0, New ListItem("Select All Department", "0"))
+
+        Catch ex As Exception
+
+            log.Error("Error occurred in BindDepartment Exception is :" + ex.Message)
+            ErrorMessage.Visible = True
+            ErrorMessage.InnerText = "Error occurred while getting departments, please try again later."
+
+        End Try
+    End Sub
 
 End Class

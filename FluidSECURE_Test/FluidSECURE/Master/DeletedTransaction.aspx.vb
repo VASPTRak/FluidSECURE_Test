@@ -39,8 +39,8 @@ Public Class DeletedTransaction
 					If (Not Request.QueryString("TransactionId") = Nothing And Not Request.QueryString("TransactionId") = "") Then
 
 						PreviousOdometer.Visible = True
-
-						hdfTransactionId.Value = Request.QueryString("TransactionId")
+                        divPrevHours.Visible = True
+                        hdfTransactionId.Value = Request.QueryString("TransactionId")
 						BindTransactionsDetails(Request.QueryString("TransactionId"))
 						btnFirst.Visible = True
 						btnNext.Visible = True
@@ -311,8 +311,8 @@ Public Class DeletedTransaction
 
 				txtFuelQuantity.Text = dtTransaction.Rows(0)("FuelQuantity")
 				txtPreviousOdometer.Text = dtTransaction.Rows(0)("PreviousOdometer")
-
-				txtTransactionDate.Text = Convert.ToDateTime(dtTransaction.Rows(0)("TransactionDateTime").ToString()).ToString("MM/dd/yyyy")
+                txtPreviousHours.Text = dtTransaction.Rows(0)("PreviousHours").ToString()
+                txtTransactionDate.Text = Convert.ToDateTime(dtTransaction.Rows(0)("TransactionDateTime").ToString()).ToString("MM/dd/yyyy")
 				txtTransactionTime.Text = Convert.ToDateTime(dtTransaction.Rows(0)("TransactionDateTime").ToString()).ToString("hh:mm tt")
 				DDL_Customer.SelectedValue = dtTransaction.Rows(0)("CustomerId")
 				DDL_Customer_SelectedIndexChanged(Nothing, Nothing)
@@ -474,8 +474,9 @@ Public Class DeletedTransaction
 			End If
 
 			Dim CurrentOdometer As Integer = 0
-			Dim PreviousOdometer As Integer = 0
-			Dim Site As Integer = 0
+            Dim PreviousOdometer As Integer = 0
+            Dim PreviousHours As Integer = 0
+            Dim Site As Integer = 0
 			Dim FQunty As Decimal = 0
 			Dim Fuel As Integer = 0
 
@@ -484,8 +485,8 @@ Public Class DeletedTransaction
 			If txtFuelQuantity.Text = "" Then FQunty = 0 Else FQunty = Convert.ToDecimal(txtFuelQuantity.Text)
 			If DDL_Fuel.SelectedValue = "0" Then Fuel = 0 Else Fuel = Convert.ToInt32(DDL_Fuel.SelectedValue)
 			If txtPreviousOdometer.Text = "" Then PreviousOdometer = 0 Else PreviousOdometer = Convert.ToInt32(txtPreviousOdometer.Text)
-
-			If (Not hdfTransactionId.Value = Nothing And Not hdfTransactionId.Value = "") Then
+            If txtPreviousHours.Text = "" Then PreviousHours = 0 Else PreviousHours = Convert.ToInt32(txtPreviousHours.Text)
+            If (Not hdfTransactionId.Value = Nothing And Not hdfTransactionId.Value = "") Then
 
 				TransactionId = hdfTransactionId.Value
 				Dim resultReturn As Integer = CheckBeforeSave(TransactionId)
@@ -572,17 +573,17 @@ Public Class DeletedTransaction
 				vehicleNumber = HDF_VehicleNumber.Value
 			End If
 
-			result = OBJMaster.UpdateAndUnDeleteTransaction(HDF_VehicleId.Value, Site, PersonId, CurrentOdometer, FQunty, Fuel, 0, Nothing,
-													 transactionDatetime, TransactionId, Convert.ToInt32(Session("PersonId")), "W", PreviousOdometer, vehicleNumber, txtDeptNo.Text,
-													 txtPinNumber.Text, txtOther.Text, IIf(txtHours.Text = "", -1, txtHours.Text), IsMissed, False, TransactionStatus, 0, -1,
-														VehicleName, DepartmentName, FuelTypeName, Email, PersonName, CompanyName, chkOFFSite.Checked, Convert.ToInt32(DDL_Customer.SelectedValue), IsManuallyEdit)
+            result = OBJMaster.UpdateAndUnDeleteTransaction(HDF_VehicleId.Value, Site, PersonId, CurrentOdometer, FQunty, Fuel, 0, Nothing,
+                                                     transactionDatetime, TransactionId, Convert.ToInt32(Session("PersonId")), "W", PreviousOdometer, vehicleNumber, txtDeptNo.Text,
+                                                     txtPinNumber.Text, txtOther.Text, IIf(txtHours.Text = "", -1, txtHours.Text), IIf(txtPreviousHours.Text = "", -1, txtPreviousHours.Text), IsMissed, False, TransactionStatus, 0, -1,
+                                                        VehicleName, DepartmentName, FuelTypeName, Email, PersonName, CompanyName, False, Convert.ToInt32(DDL_Customer.SelectedValue), IsManuallyEdit)
 
-			'result = OBJMaster.InsertUpdateTransaction(HDF_VehicleId.Value, DDL_Site.SelectedValue, hdf_PersonId.Value, txtCurrentOdometer.Text, txtFuelQuantity.Text, DDL_Fuel.SelectedValue, 0, Nothing,
-			'                                         transactionDatetime, TransactionId, Convert.ToInt32(Session("PersonId")), "W", txtPreviousOdometer.Text, "", "", "", vehicleNumber, txtDeptNo.Text,
-			'                                         txtPinNumber.Text, txtOther.Text, IIf(txtHours.Text = "", -1, txtHours.Text), IsMissed, False, TransactionStatus, 0, -1,
-			'                                            VehicleName, DepartmentName, FuelTypeName, Email, PersonName, CompanyName)
+            'result = OBJMaster.InsertUpdateTransaction(HDF_VehicleId.Value, DDL_Site.SelectedValue, hdf_PersonId.Value, txtCurrentOdometer.Text, txtFuelQuantity.Text, DDL_Fuel.SelectedValue, 0, Nothing,
+            '                                         transactionDatetime, TransactionId, Convert.ToInt32(Session("PersonId")), "W", txtPreviousOdometer.Text, "", "", "", vehicleNumber, txtDeptNo.Text,
+            '                                         txtPinNumber.Text, txtOther.Text, IIf(txtHours.Text = "", -1, txtHours.Text), IsMissed, False, TransactionStatus, 0, -1,
+            '                                            VehicleName, DepartmentName, FuelTypeName, Email, PersonName, CompanyName)
 
-			If result > 0 Then
+            If result > 0 Then
 
 				If (TransactionId > 0) Then
 					message.Visible = True
@@ -667,17 +668,19 @@ Public Class DeletedTransaction
 			OBJMaster = New MasterBAL()
 			dtTransaction = OBJMaster.GetTransactionById(TransactionId, True)
 
-			If (dtTransaction.Rows(0)("CurrentOdometer") <> txtCurrentOdometer.Text Or dtTransaction.Rows(0)("FuelQuantity") <> txtFuelQuantity.Text Or
-				dtTransaction.Rows(0)("PreviousOdometer") <> txtPreviousOdometer.Text Or dtTransaction.Rows(0)("FuelTypeId") <> DDL_Fuel.SelectedValue Or
-			   Convert.ToDateTime(dtTransaction.Rows(0)("TransactionDateTime").ToString()).ToString("hh:mm tt") <> txtTransactionTime.Text Or
-			   Convert.ToDateTime(dtTransaction.Rows(0)("TransactionDateTime").ToString()).ToString("MM/dd/yyyy") <> txtTransactionDate.Text Or
-			   dtTransaction.Rows(0)("SiteId") <> DDL_Site.SelectedValue Or dtTransaction.Rows(0)("PersonID") <> hdf_PersonId.Value Or
-			   dtTransaction.Rows(0)("VehicleId") <> HDF_VehicleId.Value Or dtTransaction.Rows(0)("VehicleNumber") <> HDF_VehicleNumber.Value Or
-			   dtTransaction.Rows(0)("DepartmentNumber") <> txtDeptNo.Text Or IIf(IsDBNull(dtTransaction.Rows(0)("PersonPin")), "", dtTransaction.Rows(0)("PersonPin")) <> txtPinNumber.Text Or
-			   dtTransaction.Rows(0)("Other") <> txtOther.Text Or dtTransaction.Rows(0)("TransactionStatus") <> DDL_TransactionStatus.SelectedValue) Then
-				Return 1
-			Else
-				Return 0
+            If (dtTransaction.Rows(0)("CurrentOdometer") <> txtCurrentOdometer.Text Or dtTransaction.Rows(0)("FuelQuantity") <> txtFuelQuantity.Text Or
+                dtTransaction.Rows(0)("PreviousOdometer") <> txtPreviousOdometer.Text Or dtTransaction.Rows(0)("FuelTypeId") <> DDL_Fuel.SelectedValue Or
+               Convert.ToDateTime(dtTransaction.Rows(0)("TransactionDateTime").ToString()).ToString("hh:mm tt") <> txtTransactionTime.Text Or
+               Convert.ToDateTime(dtTransaction.Rows(0)("TransactionDateTime").ToString()).ToString("MM/dd/yyyy") <> txtTransactionDate.Text Or
+               dtTransaction.Rows(0)("SiteId") <> DDL_Site.SelectedValue Or dtTransaction.Rows(0)("PersonID") <> hdf_PersonId.Value Or
+               dtTransaction.Rows(0)("VehicleId") <> HDF_VehicleId.Value Or dtTransaction.Rows(0)("VehicleNumber") <> HDF_VehicleNumber.Value Or
+               dtTransaction.Rows(0)("DepartmentNumber") <> txtDeptNo.Text Or IIf(IsDBNull(dtTransaction.Rows(0)("PersonPin")), "", dtTransaction.Rows(0)("PersonPin")) <> txtPinNumber.Text Or
+               dtTransaction.Rows(0)("Other") <> txtOther.Text Or dtTransaction.Rows(0)("TransactionStatus") <> DDL_TransactionStatus.SelectedValue) Or
+                IIf(IsDBNull(dtTransaction.Rows(0)("Hours")), "", dtTransaction.Rows(0)("Hours")) <> txtHours.Text Or
+               IIf(IsDBNull(dtTransaction.Rows(0)("PreviousHours")), "", dtTransaction.Rows(0)("PreviousHours")) <> txtPreviousHours.Text Then
+                Return 1
+            Else
+                Return 0
 			End If
 
 		Catch ex As Exception
@@ -891,28 +894,29 @@ Public Class DeletedTransaction
 	Private Function CreateData(TransactionId As Integer) As String
 		Try
 
-			Dim data As String = "TransactionId = " & TransactionId & " ; " &
-									"Vehicle Number = " & HDF_VehicleNumber.Value.Replace(",", " ") & " ; " &
-									"Vehicle Name = " & lblVehicleName.Text.Replace(",", " ") & " ; " &
-									"Department = " & DDL_Dept.SelectedItem.Text.Replace(",", " ") & " ; " &
-									"Department Number = " & txtDeptNo.Text.Replace(",", " ") & " ; " &
-									"Guest Vehicle Number = " & txtGuestVehicleNumber.Text.Replace(",", " ") & " ; " &
-									"FluidSecure Link = " & DDL_Site.Text.Replace(",", " ") & " ; " &
-									"Fuel Quantity = " & txtFuelQuantity.Text.Replace(",", " ") & " ; " &
-									"Other = " & txtOther.Text.Replace(",", " ") & " ; " &
-									"Company = " & DDL_Customer.SelectedItem.Text & " ; " &
-									"Cost = " & lblCost.InnerText.Trim().Replace(",", " ") & " ; " &
-									"Transaction Date = " & txtTransactionDate.Text.Replace(",", " ") & " ; " &
-									"Transaction Time = " & txtTransactionTime.Text.Replace(",", " ") & " ; " &
-									"Person = " & hdf_PersonName.Value & " ; " &
-									"Person PIN = " & txtPinNumber.Text.Replace(",", " ") & " ; " &
-									"Current Odometer = " & txtCurrentOdometer.Text.Replace(",", " ") & " ; " &
-									"Previous Odometer = " & txtPreviousOdometer.Text.Replace(",", " ") & " ; " &
-									"Hours = " & txtHours.Text.Replace(",", " ") & " ; " &
-									"Fuel Type = " & DDL_Fuel.SelectedItem.Text.Replace(",", " ") & " ; " &
-									"Transaction Status = " & DDL_TransactionStatus.SelectedItem.Text.Replace(",", " ") & " ; "
+            Dim data As String = "TransactionId = " & TransactionId & " ; " &
+                                    "Vehicle Number = " & HDF_VehicleNumber.Value.Replace(",", " ") & " ; " &
+                                    "Vehicle Name = " & lblVehicleName.Text.Replace(",", " ") & " ; " &
+                                    "Department = " & DDL_Dept.SelectedItem.Text.Replace(",", " ") & " ; " &
+                                    "Department Number = " & txtDeptNo.Text.Replace(",", " ") & " ; " &
+                                    "Guest Vehicle Number = " & txtGuestVehicleNumber.Text.Replace(",", " ") & " ; " &
+                                    "FluidSecure Link = " & DDL_Site.Text.Replace(",", " ") & " ; " &
+                                    "Fuel Quantity = " & txtFuelQuantity.Text.Replace(",", " ") & " ; " &
+                                    "Other = " & txtOther.Text.Replace(",", " ") & " ; " &
+                                    "Company = " & DDL_Customer.SelectedItem.Text & " ; " &
+                                    "Cost = " & lblCost.InnerText.Trim().Replace(",", " ") & " ; " &
+                                    "Transaction Date = " & txtTransactionDate.Text.Replace(",", " ") & " ; " &
+                                    "Transaction Time = " & txtTransactionTime.Text.Replace(",", " ") & " ; " &
+                                    "Person = " & hdf_PersonName.Value & " ; " &
+                                    "Person PIN = " & txtPinNumber.Text.Replace(",", " ") & " ; " &
+                                    "Current Odometer = " & txtCurrentOdometer.Text.Replace(",", " ") & " ; " &
+                                    "Previous Odometer = " & txtPreviousOdometer.Text.Replace(",", " ") & " ; " &
+                                     "Previous Hours = " & txtPreviousHours.Text.Replace(",", " ") & " ; " &
+                                    "Hours = " & txtHours.Text.Replace(",", " ") & " ; " &
+                                    "Fuel Type = " & DDL_Fuel.SelectedItem.Text.Replace(",", " ") & " ; " &
+                                    "Transaction Status = " & DDL_TransactionStatus.SelectedItem.Text.Replace(",", " ") & " ; "
 
-			Return data
+            Return data
 		Catch ex As Exception
 			log.Error(String.Format("Error Occurred while CreateData. Error is {0}.", ex.Message))
 			Return ""

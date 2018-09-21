@@ -336,6 +336,13 @@
                                         <asp:Label ID="lblPC" runat="server" Style="font-weight: bold; font-size: 15px"></asp:Label>
                                     </div>
                                 </div>
+                                <div class="col-md-12 col-sm-12  col-xs-12">
+                                    <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                                        <label>
+                                            ODOK:</label>
+                                        <asp:Label ID="lblODOK" runat="server" Style="font-weight: bold; font-size: 15px"></asp:Label>
+                                    </div>
+                                </div>
                                 <div class="col-md-12 col-sm-12  col-xs-12" style="overflow-x: auto">
                                     <asp:GridView ID="grdVehicleRecurringMSG" CssClass="table table-bordered table-hover" runat="server" PageSize="20" AllowPaging="true"
                                         AutoGenerateColumns="False" AllowSorting="true" EmptyDataText="0 records found for selected Transaction">

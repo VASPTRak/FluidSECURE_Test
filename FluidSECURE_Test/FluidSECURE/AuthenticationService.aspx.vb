@@ -15,53 +15,53 @@ Public Class AuthonticationService
 			'Dim a As MasterBAL = New MasterBAL()
 			'Dim b As WebServiceBAL = New WebServiceBAL()
 			'b.GetSSIDbySiteId("23")
-			XmlConfigurator.Configure()
+			'XmlConfigurator.Configure()
 
-            'Dim dtTankChart As DataTable = New DataTable()
-            'dtTankChart = OBJMaster.GetTankChartsByCondition("", Session("PersonId").ToString(), Session("RoleId").ToString())
-            'For Each dr As DataRow In dtTankChart.Rows
-            '	SaveCoefficient(dr("TankChartId"))
-            'Next
+			'Dim dtTankChart As DataTable = New DataTable()
+			'dtTankChart = OBJMaster.GetTankChartsByCondition("", Session("PersonId").ToString(), Session("RoleId").ToString())
+			'For Each dr As DataRow In dtTankChart.Rows
+			'	SaveCoefficient(dr("TankChartId"))
+			'Next
 
-            'Dim lsb_hex As String = Hex(0)
-            'Dim msb_hex As String = Hex(0)
-            'Dim Combine_hex As String = msb_hex & lsb_hex
-            'Dim tempProbeReading = Convert.ToInt64(Combine_hex, 16) 'CInt("&H" & Combine_hex)
-            'Dim calculatedProbeReading As Decimal = 0
-            'If ("" = "159") Then
-            '    calculatedProbeReading = tempProbeReading * 0.0393700787 'convert mm to inch
-            'Else
-            '    calculatedProbeReading = tempProbeReading / 128
-            'End If
+			'Dim lsb_hex As String = Hex(0)
+			'Dim msb_hex As String = Hex(0)
+			'Dim Combine_hex As String = msb_hex & lsb_hex
+			'Dim tempProbeReading = Convert.ToInt64(Combine_hex, 16) 'CInt("&H" & Combine_hex)
+			'Dim calculatedProbeReading As Decimal = 0
+			'If ("" = "159") Then
+			'    calculatedProbeReading = tempProbeReading * 0.0393700787 'convert mm to inch
+			'Else
+			'    calculatedProbeReading = tempProbeReading / 128
+			'End If
 
-            'Dim a As Decimal = Math.Round(calculatedProbeReading, 1)
+			'Dim a As Decimal = Math.Round(calculatedProbeReading, 1)
 
 
-            'a.AssignedFOBNumberToPerson("1", "65 35 F0 1C 90 00")
-            'Dim a As ExternalBAL = New ExternalBAL()
-            'Dim dt As DataTable = New DataTable()
-            'dt = a.GetTransactionById()
-            'GetSites()
-            '    Dim ht As HandlerTrak = New HandlerTrak()
-            '    ht.GetLocationAddress(18.5147055, 73.7806059)
+			'a.AssignedFOBNumberToPerson("1", "65 35 F0 1C 90 00")
+			'Dim a As ExternalBAL = New ExternalBAL()
+			'Dim dt As DataTable = New DataTable()
+			'dt = a.GetTransactionById()
+			'GetSites()
+			'    Dim ht As HandlerTrak = New HandlerTrak()
+			'    ht.GetLocationAddress(18.5147055, 73.7806059)
 
-            '    Dim WifiSSId As String = "Bolong's TEST Unit"
+			'    Dim WifiSSId As String = "Bolong's TEST Unit"
 
-            '    'Dim OBJMasterBAL As MasterBAL = New MasterBAL()
-            '    'Dim dtHose = OBJMasterBAL.GetHoseByCondition(" And h.WifiSSId ='" & WifiSSId.Replace("'", "''") & "' and s.SiteID =" & 7 & "", 25, "11df27ed-8d70-46a9-a925-7150326ffe75")
-            '    Dim OBJMasterBAL = New MasterBAL()
-            '    Dim dtFirmwares As DataTable = New DataTable()
-            '    dtFirmwares = OBJMasterBAL.GetLaunchedFirmwareDetails()
-            '    Dim FirmwareVersion As String = ""
-            '    Dim FilePath As String = ""
+			'    'Dim OBJMasterBAL As MasterBAL = New MasterBAL()
+			'    'Dim dtHose = OBJMasterBAL.GetHoseByCondition(" And h.WifiSSId ='" & WifiSSId.Replace("'", "''") & "' and s.SiteID =" & 7 & "", 25, "11df27ed-8d70-46a9-a925-7150326ffe75")
+			'    Dim OBJMasterBAL = New MasterBAL()
+			'    Dim dtFirmwares As DataTable = New DataTable()
+			'    dtFirmwares = OBJMasterBAL.GetLaunchedFirmwareDetails()
+			'    Dim FirmwareVersion As String = ""
+			'    Dim FilePath As String = ""
 
-            '    If (Not dtFirmwares Is Nothing) Then
-            '        If (Not dtFirmwares.Rows.Count > 0) Then
-            '            FirmwareVersion = dtFirmwares.Rows(0)("Version")
-            '            FilePath = dtFirmwares.Rows(0)("FirmwareFilePath")
-            '        End If
-            '    End If
-        End If
+			'    If (Not dtFirmwares Is Nothing) Then
+			'        If (Not dtFirmwares.Rows.Count > 0) Then
+			'            FirmwareVersion = dtFirmwares.Rows(0)("Version")
+			'            FilePath = dtFirmwares.Rows(0)("FirmwareFilePath")
+			'        End If
+			'    End If
+		End If
 
 	End Sub
 
@@ -127,6 +127,10 @@ Public Class AuthonticationService
 			Dim SecretKey As [String] = userPass + ":" + "SaveDiagnosticLogs"
 			Dim AuthBas64String As [String] = CSCommonHelper.Base64Encode(SecretKey)
 			Return AuthBas64String
+		ElseIf flag = 6 Then
+			Dim SecretKey As [String] = userPass + ":" + "SaveManualVehicleOdometer"
+			Dim AuthBas64String As [String] = CSCommonHelper.Base64Encode(SecretKey)
+			Return AuthBas64String
 		Else
 			Dim SecretKey As [String] = userPass + ":" + "TransactionComplete"
 			Dim AuthBas64String As [String] = CSCommonHelper.Base64Encode(SecretKey)
@@ -165,13 +169,13 @@ Public Class AuthonticationService
 
 	Public Sub testForAuthorizationSequence()
 		lblResponce.Text = ""
-		Dim httpRequest As HttpWebRequest = DirectCast(WebRequest.Create("http://localhost:61127/HandlerTrak.ashx"), HttpWebRequest)
+		Dim httpRequest As HttpWebRequest = DirectCast(WebRequest.Create("http://localhost:61129/HandlerTrak.ashx"), HttpWebRequest)
 		'Dim httpRequest As HttpWebRequest = DirectCast(WebRequest.Create("http://104.237.195.193:1020/HandlerTrak.ashx"), HttpWebRequest)
 		'Dim httpRequest As HttpWebRequest = DirectCast(WebRequest.Create("http://103.8.126.241:88/HandlerTrak.ashx"), HttpWebRequest)
 		'Dim httpRequest As HttpWebRequest = DirectCast(WebRequest.Create("http://192.168.90.60:1020/HandlerTrak.ashx"), HttpWebRequest)
 		httpRequest.Method = "POST"
 		httpRequest.ContentType = "application/x-www-form-urlencoded"
-		httpRequest.Headers.Add("Authorization", "Basic " + loginAuthTokenGeneratorForAuthorizationAndTransaction(5))
+		httpRequest.Headers.Add("Authorization", "Basic " + loginAuthTokenGeneratorForAuthorizationAndTransaction(6))
 		Dim encoding As New ASCIIEncoding()
 
 		'Dim datatopost As String = "WIFI VASP"
@@ -181,11 +185,12 @@ Public Class AuthonticationService
 		'Dim datatopost As String = "Fuel Secure Test#:#18.514486#:#73.7793633"
 		'Dim datatopost As String = "Fuel Secure Test#:#18.514486#:#73.7793633"
 
-		Dim authorizationSequenceModel As New CollectDiagnosticLogsDetails()
+		Dim authorizationSequenceModel As New SaveVehicleManualOdometerMaster()
 		'authorizationSequenceModel.AppDateTime = "2018-05-15 18:51:55"
 		'authorizationSequenceModel.Height = "1.4"
-		authorizationSequenceModel.IMEI_UDID = "77F19F06-A7BD-407C-A4F5-6A225F5BF57C"
-		authorizationSequenceModel.Collectedlogs = "test 12345"
+		authorizationSequenceModel.VehicleId = "207"
+		authorizationSequenceModel.Odometer = "300"
+
 		'authorizationSequenceModel.TCVolume = "1.2"
 		'authorizationSequenceModel.TankNumber = "2"
 		'authorizationSequenceModel.TankStatus = "FILL"

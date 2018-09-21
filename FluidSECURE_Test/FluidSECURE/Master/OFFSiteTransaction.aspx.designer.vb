@@ -203,13 +203,40 @@ Partial Public Class OFFSiteTransaction
     Protected WithEvents lblcurrODO As Global.System.Web.UI.HtmlControls.HtmlGenericControl
     
     '''<summary>
-    '''PreviousOdometerHide control.
+    '''DDL_Fuel control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents PreviousOdometerHide As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+    Protected WithEvents DDL_Fuel As Global.System.Web.UI.WebControls.DropDownList
+    
+    '''<summary>
+    '''lblFuel control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblFuel As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+    
+    '''<summary>
+    '''hdfTransactionId control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents hdfTransactionId As Global.System.Web.UI.WebControls.HiddenField
+    
+    '''<summary>
+    '''HDF_TotalTransactions control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents HDF_TotalTransactions As Global.System.Web.UI.WebControls.HiddenField
     
     '''<summary>
     '''PreviousOdometer control.
@@ -284,40 +311,31 @@ Partial Public Class OFFSiteTransaction
     Protected WithEvents txtOther As Global.System.Web.UI.WebControls.TextBox
     
     '''<summary>
-    '''DDL_Fuel control.
+    '''divPrevHours control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents DDL_Fuel As Global.System.Web.UI.WebControls.DropDownList
+    Protected WithEvents divPrevHours As Global.System.Web.UI.HtmlControls.HtmlGenericControl
     
     '''<summary>
-    '''lblFuel control.
+    '''txtPreviousHours control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents lblFuel As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+    Protected WithEvents txtPreviousHours As Global.System.Web.UI.WebControls.TextBox
     
     '''<summary>
-    '''hdfTransactionId control.
+    '''CVPreviousHours control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents hdfTransactionId As Global.System.Web.UI.WebControls.HiddenField
-    
-    '''<summary>
-    '''HDF_TotalTransactions control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents HDF_TotalTransactions As Global.System.Web.UI.WebControls.HiddenField
+    Protected WithEvents CVPreviousHours As Global.System.Web.UI.WebControls.CompareValidator
     
     '''<summary>
     '''DDL_TransactionStatus control.

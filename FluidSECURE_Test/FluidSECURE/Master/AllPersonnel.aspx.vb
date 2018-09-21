@@ -233,46 +233,46 @@ Public Class AllPersonnel
 
             OBJMaster = New MasterBAL()
             Dim dtAccessLevels As DataTable = New DataTable()
-            Dim dtAccessLevelsCopy As DataTable = New DataTable()
-            dtAccessLevels = OBJMaster.GetPersonAccessLevels()
-            dtAccessLevelsCopy = dtAccessLevels.Clone
-            dtAccessLevelsCopy.Clear()
-            'Dim roleManager = New RoleManager(Of IdentityRole)(New RoleStore(Of IdentityRole)(New ApplicationDbContext()))
+			'Dim dtAccessLevelsCopy As DataTable = New DataTable()
+			dtAccessLevels = OBJMaster.GetPersonAccessLevels(Session("RoleName"))
+			'dtAccessLevelsCopy = dtAccessLevels.Clone
+			'         dtAccessLevelsCopy.Clear()
+			'Dim roleManager = New RoleManager(Of IdentityRole)(New RoleStore(Of IdentityRole)(New ApplicationDbContext()))
 
-            'Dim roles = roleManager.Roles.ToList()
+			'Dim roles = roleManager.Roles.ToList()
 
-            For index = 0 To dtAccessLevels.Rows.Count - 1
+			'For index = 0 To dtAccessLevels.Rows.Count - 1
 
-                If Session("RoleName") <> "SuperAdmin" And Session("RoleName") <> "Support" Then
-                    Dim role = Nothing
-                    If dtAccessLevels(index)("Name") <> "SuperAdmin" Or dtAccessLevels(index)("Name") <> "Support" Then
-                        role = dtAccessLevels(index)("Name")
-                    End If
-                    If Not role Is Nothing Then
-                        dtAccessLevelsCopy.Rows.Add(dtAccessLevels(index).ItemArray)
-                    End If
-                Else
-                    Dim role = Nothing
-                    If dtAccessLevels(index)("Name") <> "SuperAdmin" Then
-                        role = dtAccessLevels(index)("Name")
-                    End If
-                    If Not role Is Nothing Then
-                        dtAccessLevelsCopy.Rows.Add(dtAccessLevels(index).ItemArray)
-                    End If
-                End If
-                If Session("RoleName") = "User" Then
-                    Dim custRole = Nothing
-                    If dtAccessLevels(index)("Name") <> "CustomerAdmin" Then
-                        custRole = dtAccessLevels(index)("Name")
-                    End If
-                    If Not custRole Is Nothing Then
-                        dtAccessLevelsCopy.Rows.Add(dtAccessLevels(index).ItemArray)
-                    End If
-                End If
-            Next
+			'    If Session("RoleName") <> "SuperAdmin" And Session("RoleName") <> "Support" Then
+			'        Dim role = Nothing
+			'        If dtAccessLevels(index)("Name") <> "SuperAdmin" Or dtAccessLevels(index)("Name") <> "Support" Then
+			'            role = dtAccessLevels(index)("Name")
+			'        End If
+			'        If Not role Is Nothing Then
+			'            dtAccessLevelsCopy.Rows.Add(dtAccessLevels(index).ItemArray)
+			'        End If
+			'    Else
+			'        Dim role = Nothing
+			'        If dtAccessLevels(index)("Name") <> "SuperAdmin" Then
+			'            role = dtAccessLevels(index)("Name")
+			'        End If
+			'        If Not role Is Nothing Then
+			'            dtAccessLevelsCopy.Rows.Add(dtAccessLevels(index).ItemArray)
+			'        End If
+			'    End If
+			'    If Session("RoleName") = "User" Then
+			'        Dim custRole = Nothing
+			'        If dtAccessLevels(index)("Name") <> "CustomerAdmin" Then
+			'            custRole = dtAccessLevels(index)("Name")
+			'        End If
+			'        If Not custRole Is Nothing Then
+			'            dtAccessLevelsCopy.Rows.Add(dtAccessLevels(index).ItemArray)
+			'        End If
+			'    End If
+			'Next
 
-            DDL_RoleId.DataSource = dtAccessLevelsCopy
-            DDL_RoleId.DataValueField = "Id"
+			DDL_RoleId.DataSource = dtAccessLevels
+			DDL_RoleId.DataValueField = "Id"
             DDL_RoleId.DataTextField = "DisplayName"
             DDL_RoleId.DataBind()
             DDL_RoleId.Items.Insert(0, New ListItem("Select Access level", "0"))

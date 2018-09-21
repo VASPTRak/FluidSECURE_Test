@@ -242,6 +242,29 @@
                         <div class="form-group col-md-3 col-sm-3 col-xs-12">
                             <asp:TextBox ID="txtAccId" runat="server" CssClass="form-control input-sm" MaxLength="20" Width="165" TabIndex="5"></asp:TextBox>
                         </div>
+                        <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
+                            <label>
+                                Current Hours:</label>
+                        </div>
+                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                            <asp:TextBox ID="txtCurrentHrs" runat="server" CssClass="form-control input-sm" MaxLength="7" Width="70" TabIndex="18" onkeypress="return onlyNumbers(event);"></asp:TextBox>
+                            <asp:CompareValidator ID="CVCurrentHrs" runat="server" Display="Dynamic" ErrorMessage="Please enter current hours in integer format." 
+                                ForeColor="Red" Operator="DataTypeCheck" SetFocusOnError="True" Type="Integer" ValidationGroup="VehicleValidation" ControlToValidate="txtCurrentHrs"></asp:CompareValidator>
+                        </div>
+                    </div>
+                    <div class="row col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group col-md-6 col-sm-6 textright col-xs-12">
+                            &nbsp;                           
+                        </div>
+                        <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
+                            <label>
+                                Previous Hours:</label>
+                        </div>
+                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                            <asp:TextBox ID="txtPreviousHours" runat="server" CssClass="form-control input-sm" MaxLength="7" Width="70" TabIndex="18" onkeypress="return onlyNumbers(event);" ReadOnly="True" data-toggle="tooltip" title="not editable from this screen!"></asp:TextBox>
+                            <asp:CompareValidator ID="CVPreviousHours" runat="server" Display="Dynamic" ErrorMessage="Please enter Previous hours in integer format." 
+                                ForeColor="Red" Operator="DataTypeCheck" SetFocusOnError="True" Type="Integer" ValidationGroup="VehicleValidation" ControlToValidate="txtPreviousHours"></asp:CompareValidator>
+                        </div>
                     </div>
                     <br />
                     <br />
@@ -277,7 +300,7 @@
                             <asp:TextBox ID="txtModel" runat="server" CssClass="form-control input-sm" MaxLength="15" Width="130" TabIndex="7"></asp:TextBox>
                         </div>
                         <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
-                            <label>Check Odometer Reasonability:</label>
+                            <label>Check Odometer/Hours Reasonability:</label>
                         </div>
                         <div class="form-group col-md-3 col-sm-3 col-xs-12">
                             <div class="form-group col-md-1 col-sm-1 col-xs-12" style="padding: 0">
@@ -307,7 +330,7 @@
                                     Total Miles allowed between Fueling:</label>
                             </div>
                             <div class="form-group col-md-3 col-sm-3 col-xs-12">
-                                <asp:TextBox ID="txtOdoLimit" runat="server" CssClass="form-control input-sm" MaxLength="6" Width="70" TabIndex="20" onkeypress="return onlyNumbers(event);" data-toggle="tooltip" title='"Total Miles allowed between Fueling" represents the maximum amount of miles the vehicle is allowed to travel between fueling. Example: if a vehicle current miles is 1000 and the total miles between fueling is set to 300, the only mileage that will be accepted is between 1000 – 1300. NOTE: If choosing this option, the check odometer reasonability must be checked.'></asp:TextBox>
+                                <asp:TextBox ID="txtOdoLimit" runat="server" CssClass="form-control input-sm" MaxLength="6" Width="70" TabIndex="20" onkeypress="return onlyNumbers(event);" data-toggle="tooltip" title='"Total Miles allowed between Fueling" represents the maximum amount of miles the vehicle is allowed to travel between fueling. Example: if a vehicle current miles is 1000 and the total miles between fueling is set to 300, the only mileage that will be accepted is between 1000 – 1300. NOTE: If choosing this option, the check odometer/hours reasonability must be checked.'></asp:TextBox>
                             </div>
                         </div>
                     </div>
@@ -319,10 +342,29 @@
                         <div class="form-group col-md-3 col-sm-3 col-xs-12">
                             <asp:TextBox ID="txtYear" runat="server" CssClass="form-control input-sm" MaxLength="4" Width="50" TabIndex="9" onkeypress="return onlyNumbers(event);"></asp:TextBox>
                         </div>
+                        <div id="HideTotalHours" runat="server">
+                            <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
+                                <label>
+                                    Total Hours allowed between Fueling:</label>
+                            </div>
+                            <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                                <asp:TextBox ID="txtHoursLimit" runat="server" CssClass="form-control input-sm" MaxLength="6" Width="70" TabIndex="20" 
+                                    onkeypress="return onlyNumbers(event);" data-toggle="tooltip" title='"Total Hours allowed between Fueling" represents the maximum hours the vehicle is allowed to run between fueling. Example: if a vehicle current hours is 10 and the total hours between fueling is set to 50, the only hours that will be accepted is between 10 – 60. NOTE: If choosing this option, the check odometer/hours reasonability must be checked.'></asp:TextBox>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
+                            <label>
+                                License Plate Number:</label>
+                        </div>
+                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                            <asp:TextBox ID="txtLicensePlateNumber" runat="server" CssClass="form-control input-sm" MaxLength="8" Width="80" TabIndex="10"></asp:TextBox>
+                        </div>
 
                         <div id="hideShowOdometerReasonabilityeither" runat="server">
                             <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
-                                <label>Odometer Reasonability either:</label>
+                                <label>Odometer/Hours Reasonability either:</label>
                             </div>
                             <div class="form-group col-md-3 col-sm-3 col-xs-12">
                                 <asp:RadioButtonList ID="RBL_OdometerReasonabilityConditions" runat="server" RepeatDirection="Vertical" CssClass="UnitType" TabIndex="21">
@@ -335,10 +377,10 @@
                     <div class="row col-md-12 col-sm-12 col-xs-12">
                         <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
                             <label>
-                                License Plate Number:</label>
+                                License State:</label>
                         </div>
                         <div class="form-group col-md-3 col-sm-3 col-xs-12">
-                            <asp:TextBox ID="txtLicensePlateNumber" runat="server" CssClass="form-control input-sm" MaxLength="8" Width="80" TabIndex="10"></asp:TextBox>
+                            <asp:TextBox ID="txtLicenseState" runat="server" CssClass="form-control input-sm" MaxLength="2" Width="40" TabIndex="11"></asp:TextBox>
                         </div>
 
                         <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
@@ -353,10 +395,10 @@
                     <div class="row col-md-12 col-sm-12 col-xs-12">
                         <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
                             <label>
-                                License State:</label>
+                                Type of Vehicle:</label>
                         </div>
                         <div class="form-group col-md-3 col-sm-3 col-xs-12">
-                            <asp:TextBox ID="txtLicenseState" runat="server" CssClass="form-control input-sm" MaxLength="2" Width="40" TabIndex="11"></asp:TextBox>
+                            <asp:TextBox ID="txtType" runat="server" CssClass="form-control input-sm" MaxLength="20" Width="165" TabIndex="12"></asp:TextBox>
                         </div>
                         <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
                             <label>
@@ -370,10 +412,10 @@
                     <div class="row col-md-12 col-sm-12 col-xs-12">
                         <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
                             <label>
-                                Type of Vehicle:</label>
+                                Fob/Card Number:</label>
                         </div>
                         <div class="form-group col-md-3 col-sm-3 col-xs-12">
-                            <asp:TextBox ID="txtType" runat="server" CssClass="form-control input-sm" MaxLength="20" Width="165" TabIndex="12"></asp:TextBox>
+                            <asp:TextBox ID="TXT_FoBNUM" runat="server" CssClass="form-control input-sm" TabIndex="12"></asp:TextBox>
                         </div>
                         <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
                             <label>
@@ -382,15 +424,6 @@
                         <div class="form-group col-md-3 col-sm-3 col-xs-12">
                             <asp:TextBox ID="TXT_ExpectedMPGPerK" runat="server" CssClass="form-control input-sm" Width="100" TabIndex="24"></asp:TextBox>
                             <asp:CompareValidator ID="CV_ExpectedMPGPerK" runat="server" Display="Dynamic" ErrorMessage="Please enter Expected MPG or Liters/100KM in decimal format." ForeColor="Red" Operator="DataTypeCheck" SetFocusOnError="True" Type="Double" ValidationGroup="VehicleValidation" ControlToValidate="TXT_ExpectedMPGPerK"></asp:CompareValidator>
-                        </div>
-                    </div>
-                    <div class="row col-md-12 col-sm-12 col-xs-12">
-                        <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
-                            <label>
-                                Fob/Card Number:</label>
-                        </div>
-                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
-                            <asp:TextBox ID="TXT_FoBNUM" runat="server" CssClass="form-control input-sm" TabIndex="12"></asp:TextBox>
                         </div>
                     </div>
                     <br />
@@ -403,10 +436,7 @@
                         </div>
                         <div class="form-group col-md-3 col-sm-3 col-xs-12">
                             <input type="button" id="BTN_FuelType" onclick="OpenFuelTypeBox();" tabindex="21" value="Click to add products" />
-                        </div>
-                        <div class="form-group col-md-6 col-sm-6 textright col-xs-12">
-                            &nbsp;
-                        </div>
+                        </div>                     
                         <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
                             <label>Export Code:</label>
                         </div>
@@ -454,6 +484,13 @@
 						</div>
 						<div class="form-group col-md-3 col-sm-3 col-xs-12">
 							<asp:TextBox ID="txtFSTagMacAddress" runat="server" CssClass="form-control input-sm" MaxLength="50" TabIndex="13"></asp:TextBox>
+						</div>
+                        <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
+							<label>
+								Current Firmware Version:</label>
+						</div>
+						<div class="form-group col-md-3 col-sm-3 col-xs-12">
+							<asp:TextBox ID="txt_FirmwareVer" runat="server" CssClass="form-control input-sm" MaxLength="50" TabIndex="28"></asp:TextBox>
 						</div>
                     </div>
                     <div class="row col-md-12 col-sm-12 text-center col-xs-12">

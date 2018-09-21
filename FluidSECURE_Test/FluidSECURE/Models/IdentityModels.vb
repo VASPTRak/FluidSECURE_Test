@@ -478,7 +478,28 @@ Public Class ApplicationUser
         End Set
     End Property
 
-    Private m_IsGateHub As Boolean?
+	Private m_IsGateHub As Boolean?
+
+	Public Property IsVehicleNumberRequire() As Boolean?
+		Get
+			Return m_IsVehicleNumberRequire
+		End Get
+		Set(value As Boolean?)
+			m_IsVehicleNumberRequire = value
+		End Set
+	End Property
+
+    Private m_IsVehicleNumberRequire As Boolean?
+    Public Property HubAddress() As String
+        Get
+            Return m_HubAddress
+        End Get
+        Set(value As String)
+            m_HubAddress = value
+        End Set
+    End Property
+
+    Private m_HubAddress As String
     'End Add new properties
 
     Public Function GenerateUserIdentity(manager As ApplicationUserManager) As ClaimsIdentity

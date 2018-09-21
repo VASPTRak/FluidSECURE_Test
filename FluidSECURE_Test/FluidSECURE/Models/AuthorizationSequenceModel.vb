@@ -148,6 +148,16 @@
             _HubId = value
         End Set
     End Property
+
+    Private _IsVehicleNumberRequire As String
+    Public Property IsVehicleNumberRequire() As String
+        Get
+            Return _IsVehicleNumberRequire
+        End Get
+        Set(ByVal value As String)
+            _IsVehicleNumberRequire = value
+        End Set
+    End Property
 End Class
 
 Public Class ResponceData
@@ -482,7 +492,16 @@ Public Class ResponceData
             m_IsGateHub = value
         End Set
     End Property
-    Private m_IsGateHub As String
+	Private m_IsGateHub As String
+	Public Property IsVehicleNumberRequire() As String
+		Get
+			Return m_IsVehicleNumberRequire
+		End Get
+		Set(value As String)
+			m_IsVehicleNumberRequire = value
+		End Set
+	End Property
+	Private m_IsVehicleNumberRequire As String
 End Class
 
 Public Class RootObject
@@ -860,6 +879,8 @@ Public Class CheckRequireOdoResponse
     Public VehicleNumber As String
     Public IsNewFob As String
     Public PersonPin As String
+    Public PreviousHours As String
+    Public HoursLimit As String
 End Class
 
 
@@ -1288,12 +1309,18 @@ Public Class FAVehicleAuthorizationMaster
 	Public TransactionFrom As String
 	Public CurrentLat As String
 	Public CurrentLng As String
+    Public FSTagMacAddress As String
+    Public CurrentFSVMFirmwareVersion As String
 End Class
 
 Public Class FAVehicleAuthorizationMasterResponse
 
 	Public ResponceMessage As String
-	Public ResponceText As String
+    Public ResponceText As String
+    Public IsFSVMUpgradable As String
+    Public VehicleId As String
+    Public FSVMFirmwareVersion As String
+    Public FilePath As String
 End Class
 
 Public Class CheckAndValidateFSNPDetail
@@ -1334,7 +1361,13 @@ Public Class CheckAndValidateFSNPDetailResponse
 	Public DeptPercentage As Decimal
 	Public SurchargeType As String
 	Public ProductPrice As Decimal
-	Public parameter As String
+    Public parameter As String
+    Public VehicleNumber As String
+    Public RequireManualOdo As String
+    Public PreviousOdo As String
+    Public OdoLimit As String
+    Public OdometerReasonabilityConditions As String
+    Public CheckOdometerReasonable As String
 End Class
 
 Public Class SaveVehicleManualOdometerMaster

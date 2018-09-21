@@ -239,6 +239,15 @@ Partial Public Class AllTransactions
     Protected WithEvents lblPC As Global.System.Web.UI.WebControls.Label
     
     '''<summary>
+    '''lblODOK control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblODOK As Global.System.Web.UI.WebControls.Label
+    
+    '''<summary>
     '''grdVehicleRecurringMSG control.
     '''</summary>
     '''<remarks>

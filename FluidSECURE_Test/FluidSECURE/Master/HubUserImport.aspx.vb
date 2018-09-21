@@ -436,9 +436,11 @@ Public Class HubUserImport
        .IsPersonHasFob = False,
        .IsTermConditionAgreed = False,
        .DateTimeTermConditionAccepted = Nothing,
-      .IsGateHub = False
+      .IsGateHub = False,
+      .IsVehicleNumberRequire = False,
+      .HubAddress = ""
        }
-			If (dr("FluidLimitpertransaction") = "") Then
+            If (dr("FluidLimitpertransaction") = "") Then
 				user.FuelLimitPerTxn = Nothing
 			Else
 				user.FuelLimitPerTxn = Convert.ToInt32(dr("FluidLimitpertransaction"))

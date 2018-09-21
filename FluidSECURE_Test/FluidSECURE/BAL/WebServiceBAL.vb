@@ -361,4 +361,38 @@ Public Class WebServiceBAL
         End Try
     End Function
 
+	Public Function UpdateFSTagMacAddressToVehicle(ByVal FSTagMacAddress As String, personId As Integer, VehicleId As Integer) As Integer
+		Dim dal = New GeneralizedDAL()
+		Dim result As Integer
+		Try
+			Dim parcollection(2) As SqlParameter
+
+			Dim ParpersonId = New SqlParameter("@UserId", SqlDbType.Int)
+			ParpersonId.Direction = ParameterDirection.Input
+			ParpersonId.Value = personId
+			parcollection(0) = ParpersonId
+
+
+			Dim ParFSTagMacAddress = New SqlParameter("@FSTagMacAddress", SqlDbType.NVarChar, 50)
+			ParFSTagMacAddress.Direction = ParameterDirection.Input
+			ParFSTagMacAddress.Value = FSTagMacAddress
+			parcollection(1) = ParFSTagMacAddress
+
+
+			Dim ParVehicleId = New SqlParameter("@VehicleId", SqlDbType.Int)
+			ParVehicleId.Direction = ParameterDirection.Input
+			ParVehicleId.Value = VehicleId
+			parcollection(2) = ParVehicleId
+
+			result = dal.ExecuteStoredProcedureGetInteger("usp_tt_Vehicle_UpdateFSTagMacAddress", parcollection)
+
+			Return result
+
+		Catch ex As Exception
+			log.Error("Error occurred in UpdateFSTagMacAddressToVehicle Exception is :" + ex.Message)
+			Return Nothing
+		Finally
+		End Try
+	End Function
+
 End Class

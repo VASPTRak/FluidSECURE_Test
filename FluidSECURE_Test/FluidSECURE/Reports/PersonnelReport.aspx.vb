@@ -82,10 +82,15 @@ Public Class PersonnelReport
 	Private Sub BindAllPersonnels(CustomerId As Integer)
 		Try
 			Dim dtPersonnel As DataTable = New DataTable()
-			OBJMaster = New MasterBAL()
-			dtPersonnel = OBJMaster.GetPersonnelByNameAndNumberAndEmail(" and ISNULL(IsFluidSecureHub,0)=0 and cust.CustomerId = " & CustomerId, Convert.ToInt32(Session("PersonId").ToString()), Session("RoleId").ToString())
+            OBJMaster = New MasterBAL()
 
-			DDL_Personnel.DataSource = dtPersonnel
+            If (DDL_Dept.SelectedValue.ToString() <> "0") Then
+                dtPersonnel = OBJMaster.GetPersonnelByNameAndNumberAndEmail(" and ISNULL(IsFluidSecureHub,0)=0 and cust.CustomerId = " & CustomerId & " and ANU.DepartmentId = " & DDL_Dept.SelectedValue.ToString() & " ", Convert.ToInt32(Session("PersonId").ToString()), Session("RoleId").ToString())
+            Else
+                dtPersonnel = OBJMaster.GetPersonnelByNameAndNumberAndEmail(" and ISNULL(IsFluidSecureHub,0)=0 and cust.CustomerId = " & CustomerId, Convert.ToInt32(Session("PersonId").ToString()), Session("RoleId").ToString())
+            End If
+
+            DDL_Personnel.DataSource = dtPersonnel
 			DDL_Personnel.DataValueField = "PersonId"
 			DDL_Personnel.DataTextField = "Person"
 			DDL_Personnel.DataBind()
@@ -103,10 +108,11 @@ Public Class PersonnelReport
 	End Sub
 
 	Protected Sub DDL_Customer_SelectedIndexChanged(sender As Object, e As EventArgs) Handles DDL_Customer.SelectedIndexChanged
-		Try
-			BindAllPersonnels(Convert.ToInt32(DDL_Customer.SelectedValue))
-		Catch ex As Exception
-			log.Error("Error occurred in DDL_Customer_SelectedIndexChanged Exception is :" + ex.Message)
+        Try
+            BindDepartment(Convert.ToInt32(DDL_Customer.SelectedValue))
+            BindAllPersonnels(Convert.ToInt32(DDL_Customer.SelectedValue))
+        Catch ex As Exception
+            log.Error("Error occurred in DDL_Customer_SelectedIndexChanged Exception is :" + ex.Message)
 			ErrorMessage.Visible = True
 			ErrorMessage.InnerText = "Error occurred while getting data, please try again later."
 		End Try
@@ -130,6 +136,10 @@ Public Class PersonnelReport
                 strConditions = IIf(strConditions = "", " where ANU.IsApproved=1 ", strConditions + " and ANU.IsApproved=1 ")
             ElseIf (DDL_Personnel.SelectedValue <> "-1") Then
                 strConditions = IIf(strConditions = "", " where ANU.PersonId = " + DDL_Personnel.SelectedValue, strConditions + " and ANU.PersonId = " + DDL_Personnel.SelectedValue)
+            End If
+
+            If (DDL_Dept.SelectedValue.ToString() <> "0") Then
+                strConditions = IIf(strConditions = "", " and ANU.DepartmentId = " + DDL_Dept.SelectedValue + " ", strConditions + " and ANU.DepartmentId = " + DDL_Dept.SelectedValue + " ")
             End If
 
             strConditions += "  and ISNULL(ANU.IsFluidSecureHub,0)=0 and ISNULL(ANU.IsDeleted,0)=0 order by ANU.PersonName"
@@ -186,9 +196,10 @@ Public Class PersonnelReport
 	Private Function CreateData() As String
 		Try
 
-			Dim data As String = "Company = " & DDL_Customer.SelectedItem.Text.Replace(",", " ") & " ; " &
-									"Person = " & DDL_Personnel.SelectedItem.Text.Replace(",", " ") & " ; "
-			Return data
+            Dim data As String = "Company = " & DDL_Customer.SelectedItem.Text.Replace(",", " ") & " ; " &
+                                 "Department = " & DDL_Dept.SelectedItem.Text.Replace(",", " ") & " ; " &
+                                 "Person = " & DDL_Personnel.SelectedItem.Text.Replace(",", " ") & " ; "
+            Return data
 		Catch ex As Exception
 			log.Error(String.Format("Error Occurred while CreateData. Error is {0}.", ex.Message))
 			Return ""
@@ -196,4 +207,40 @@ Public Class PersonnelReport
 
 	End Function
 
+    Protected Sub DDL_Dept_SelectedIndexChanged(sender As Object, e As EventArgs)
+        Try
+            BindAllPersonnels(Convert.ToInt32(DDL_Customer.SelectedValue))
+        Catch ex As Exception
+            log.Error("Error occurred in DDL_Dept_SelectedIndexChanged Exception is :" + ex.Message)
+            ErrorMessage.Visible = True
+            ErrorMessage.InnerText = "Error occurred while getting data, please try again later."
+        End Try
+    End Sub
+
+    Private Sub BindDepartment(CustomerId As Integer)
+        Try
+
+            OBJMaster = New MasterBAL()
+            Dim dtDept As DataTable = New DataTable()
+            If CustomerId <> 0 Then
+                dtDept = OBJMaster.GetDepartmentsByCustomerId(CustomerId)
+                DDL_Dept.DataSource = dtDept
+            Else
+                DDL_Dept.DataSource = dtDept
+            End If
+
+            DDL_Dept.DataTextField = "NAME"
+            DDL_Dept.DataValueField = "DeptId"
+
+            DDL_Dept.DataBind()
+            DDL_Dept.Items.Insert(0, New ListItem("Select All Department", "0"))
+
+        Catch ex As Exception
+
+            log.Error("Error occurred in BindDepartment Exception is :" + ex.Message)
+            ErrorMessage.Visible = True
+            ErrorMessage.InnerText = "Error occurred while getting departments, please try again later."
+
+        End Try
+    End Sub
 End Class

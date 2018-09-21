@@ -10,49 +10,49 @@ Public Class TransactionReportsByDateTime
     Dim OBJMaster As MasterBAL
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
-		Try
-			XmlConfigurator.Configure()
+        Try
+            XmlConfigurator.Configure()
 
-        ErrorMessage.Visible = False
-        message.Visible = False
+            ErrorMessage.Visible = False
+            message.Visible = False
 
-			If CSCommonHelper.CheckSessionExpired() = False Then
-				'unautorized access error log
-				Response.Redirect("/Account/Login")
-			ElseIf Session("RoleName") = "User" Then
-				'Access denied 
-				Response.Redirect("/home")
-			Else
-				If Not IsPostBack Then
-                BindTransactionStatus()
-                txtTransactionDateFrom.Text = DateTime.Now.AddDays(-1).ToString("MM/dd/yyyy")
-                txtTransactionDateTo.Text = DateTime.Now.ToString("MM/dd/yyyy")
-                txtTransactionTimeFrom.Text = "12:00 AM" 'DateTime.Now.ToString("hh:mm tt")
-                txtTransactionTimeTo.Text = "11:59 PM" ' DateTime.Now.ToString("hh:mm tt")
-
-                BindCustomer(Convert.ToInt32(Session("PersonId").ToString()), Session("RoleId").ToString())
-                DDL_Customer_SelectedIndexChanged(Nothing, Nothing)
-
+            If CSCommonHelper.CheckSessionExpired() = False Then
+                'unautorized access error log
+                Response.Redirect("/Account/Login")
+            ElseIf Session("RoleName") = "User" Then
+                'Access denied 
+                Response.Redirect("/home")
             Else
+                If Not IsPostBack Then
+                    BindTransactionStatus()
+                    txtTransactionDateFrom.Text = DateTime.Now.AddDays(-1).ToString("MM/dd/yyyy")
+                    txtTransactionDateTo.Text = DateTime.Now.ToString("MM/dd/yyyy")
+                    txtTransactionTimeFrom.Text = "12:00 AM" 'DateTime.Now.ToString("hh:mm tt")
+                    txtTransactionTimeTo.Text = "11:59 PM" ' DateTime.Now.ToString("hh:mm tt")
 
-                txtTransactionDateFrom.Text = Request.Form(txtTransactionDateFrom.UniqueID)
-                txtTransactionDateTo.Text = Request.Form(txtTransactionDateTo.UniqueID)
-                txtTransactionTimeFrom.Text = Request.Form(txtTransactionTimeFrom.UniqueID)
-                txtTransactionTimeTo.Text = Request.Form(txtTransactionTimeTo.UniqueID)
+                    BindCustomer(Convert.ToInt32(Session("PersonId").ToString()), Session("RoleId").ToString())
+                    DDL_Customer_SelectedIndexChanged(Nothing, Nothing)
+
+                Else
+
+                    txtTransactionDateFrom.Text = Request.Form(txtTransactionDateFrom.UniqueID)
+                    txtTransactionDateTo.Text = Request.Form(txtTransactionDateTo.UniqueID)
+                    txtTransactionTimeFrom.Text = Request.Form(txtTransactionTimeFrom.UniqueID)
+                    txtTransactionTimeTo.Text = Request.Form(txtTransactionTimeTo.UniqueID)
+
+                End If
+
+                txtTransactionDateFrom.Focus()
 
             End If
 
-            txtTransactionDateFrom.Focus()
 
-        End If
-
-
-		Catch ex As Exception
-			log.Error("Error occurred in Page_Load Exception is :" + ex.Message)
-			ErrorMessage.Visible = True
-			ErrorMessage.InnerText = IIf(ErrorMessage.InnerText <> "", "", "Error occurred while loading details, please try again later.")
-		End Try
-	End Sub
+        Catch ex As Exception
+            log.Error("Error occurred in Page_Load Exception is :" + ex.Message)
+            ErrorMessage.Visible = True
+            ErrorMessage.InnerText = IIf(ErrorMessage.InnerText <> "", "", "Error occurred while loading details, please try again later.")
+        End Try
+    End Sub
 
     Private Sub BindCustomer(PersonId As Integer, RoleId As String)
         Try
@@ -321,22 +321,22 @@ Public Class TransactionReportsByDateTime
     End Sub
 
     Protected Sub DDL_Customer_SelectedIndexChanged(sender As Object, e As EventArgs) Handles DDL_Customer.SelectedIndexChanged
-		Try
-			BindDepartment(Convert.ToInt32(DDL_Customer.SelectedValue))
-			BindSites(Convert.ToInt32(DDL_Customer.SelectedValue))
-			BindAllPersonnels(0)
-			BindAllHubs()
-			BindAllVehicles(0)
+        Try
+            BindDepartment(Convert.ToInt32(DDL_Customer.SelectedValue))
+            BindSites(Convert.ToInt32(DDL_Customer.SelectedValue))
+            BindAllPersonnels(0)
+            BindAllHubs()
+            BindAllVehicles(0)
 
-			BindFuelTypes(Convert.ToInt32(DDL_Customer.SelectedValue))
-		Catch ex As Exception
-			log.Error("Error occurred in DDL_Customer_SelectedIndexChanged Exception is :" + ex.Message)
-			ErrorMessage.Visible = True
-			ErrorMessage.InnerText = "Error occurred while getting data, please try again later."
-		Finally
-			ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "LoadDateTimeControl();loadMultiList();$('[id*=lstSites]').multiselect('selectAll', false).multiselect('updateButtonText');", True)
-		End Try
-	End Sub
+            BindFuelTypes(Convert.ToInt32(DDL_Customer.SelectedValue))
+        Catch ex As Exception
+            log.Error("Error occurred in DDL_Customer_SelectedIndexChanged Exception is :" + ex.Message)
+            ErrorMessage.Visible = True
+            ErrorMessage.InnerText = "Error occurred while getting data, please try again later."
+        Finally
+            ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "LoadDateTimeControl();loadMultiList();$('[id*=lstSites]').multiselect('selectAll', false).multiselect('updateButtonText');", True)
+        End Try
+    End Sub
 
     Protected Sub btnGenarateReport_Click(sender As Object, e As EventArgs)
 
@@ -493,27 +493,27 @@ Public Class TransactionReportsByDateTime
 
     End Sub
 
-	Protected Sub DDL_Dept_SelectedIndexChanged(sender As Object, e As EventArgs)
-		Try
-			BindAllPersonnels(Convert.ToInt32(DDL_Dept.SelectedValue))
-			BindAllVehicles(Convert.ToInt32(DDL_Dept.SelectedValue))
-			For Each rows As GridViewRow In grd_Dept.Rows
-				If (DDL_Dept.SelectedValue = grd_Dept.DataKeys(rows.RowIndex).Values("DeptId").ToString()) Then
-					TryCast(rows.FindControl("RDB_Department"), RadioButton).Checked = True
-				Else
-					TryCast(rows.FindControl("RDB_Department"), RadioButton).Checked = False
-				End If
-			Next
-		Catch ex As Exception
-			log.Error("Error occurred in DDL_Dept_SelectedIndexChanged Exception is :" + ex.Message)
-			ErrorMessage.Visible = True
-			ErrorMessage.InnerText = "Error occurred while getting data, please try again later."
-		Finally
-			ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "LoadDateTimeControl();loadMultiList();", True)
-		End Try
-	End Sub
+    Protected Sub DDL_Dept_SelectedIndexChanged(sender As Object, e As EventArgs)
+        Try
+            BindAllPersonnels(Convert.ToInt32(DDL_Dept.SelectedValue))
+            BindAllVehicles(Convert.ToInt32(DDL_Dept.SelectedValue))
+            For Each rows As GridViewRow In grd_Dept.Rows
+                If (DDL_Dept.SelectedValue = grd_Dept.DataKeys(rows.RowIndex).Values("DeptId").ToString()) Then
+                    TryCast(rows.FindControl("RDB_Department"), RadioButton).Checked = True
+                Else
+                    TryCast(rows.FindControl("RDB_Department"), RadioButton).Checked = False
+                End If
+            Next
+        Catch ex As Exception
+            log.Error("Error occurred in DDL_Dept_SelectedIndexChanged Exception is :" + ex.Message)
+            ErrorMessage.Visible = True
+            ErrorMessage.InnerText = "Error occurred while getting data, please try again later."
+        Finally
+            ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "LoadDateTimeControl();loadMultiList();", True)
+        End Try
+    End Sub
 
-	Private Function CreateData() As String
+    Private Function CreateData() As String
         Try
             Dim FluidSecureLink As String = ""
 
@@ -546,185 +546,185 @@ Public Class TransactionReportsByDateTime
     End Function
 
     Protected Sub btnOk_Click(sender As Object, e As EventArgs)
-		Try
-			Dim isChecked As Boolean = False
-			For Each item As GridViewRow In gv_Vehicles.Rows
+        Try
+            Dim isChecked As Boolean = False
+            For Each item As GridViewRow In gv_Vehicles.Rows
 
-				Dim RDB_Vehicle As RadioButton = TryCast(item.FindControl("RDB_Vehicle"), RadioButton)
-				If (RDB_Vehicle.Checked = True) Then
-					isChecked = True
-					HDF_VehicleId.Value = gv_Vehicles.DataKeys(item.RowIndex).Values("VehicleId").ToString()
-					HDF_VehicleNumber.Value = gv_Vehicles.DataKeys(item.RowIndex).Values("VehicleNumber").ToString()
-					DDL_Vehicle.SelectedValue = gv_Vehicles.DataKeys(item.RowIndex).Values("VehicleId").ToString()
-					Exit For
-				End If
-			Next
+                Dim RDB_Vehicle As RadioButton = TryCast(item.FindControl("RDB_Vehicle"), RadioButton)
+                If (RDB_Vehicle.Checked = True) Then
+                    isChecked = True
+                    HDF_VehicleId.Value = gv_Vehicles.DataKeys(item.RowIndex).Values("VehicleId").ToString()
+                    HDF_VehicleNumber.Value = gv_Vehicles.DataKeys(item.RowIndex).Values("VehicleNumber").ToString()
+                    DDL_Vehicle.SelectedValue = gv_Vehicles.DataKeys(item.RowIndex).Values("VehicleId").ToString()
+                    Exit For
+                End If
+            Next
 
-			If (isChecked = False) Then
-				'lblVehicleName.Text = ""
-				DDL_Vehicle.SelectedValue = 0
-			End If
+            If (isChecked = False) Then
+                'lblVehicleName.Text = ""
+                DDL_Vehicle.SelectedValue = 0
+            End If
 
-		Catch ex As Exception
-			log.Error("Error occurred in btnOk_Click Exception is :" + ex.Message)
-			ErrorMessage.Visible = True
-			ErrorMessage.InnerText = "Error occurred while getting data, please try again later."
-		Finally
-			ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "LoadDateTimeControl();loadMultiList();hideWait();", True)
-		End Try
-	End Sub
+        Catch ex As Exception
+            log.Error("Error occurred in btnOk_Click Exception is :" + ex.Message)
+            ErrorMessage.Visible = True
+            ErrorMessage.InnerText = "Error occurred while getting data, please try again later."
+        Finally
+            ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "LoadDateTimeControl();loadMultiList();hideWait();", True)
+        End Try
+    End Sub
 
     Protected Sub DDL_Vehicle_SelectedIndexChanged(sender As Object, e As EventArgs)
-		Try
-			For Each rows As GridViewRow In gv_Vehicles.Rows
-				If (DDL_Vehicle.SelectedValue = gv_Vehicles.DataKeys(rows.RowIndex).Values("VehicleId").ToString()) Then
-					TryCast(rows.FindControl("RDB_Vehicle"), RadioButton).Checked = True
-				Else
-					TryCast(rows.FindControl("RDB_Vehicle"), RadioButton).Checked = False
-				End If
-			Next
-		Catch ex As Exception
-			log.Error("Error occurred in DDL_Vehicle_SelectedIndexChanged Exception is :" + ex.Message)
-			ErrorMessage.Visible = True
-			ErrorMessage.InnerText = "Error occurred while getting data, please try again later."
-		Finally
-			ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "LoadDateTimeControl();loadMultiList();", True)
-		End Try
-	End Sub
+        Try
+            For Each rows As GridViewRow In gv_Vehicles.Rows
+                If (DDL_Vehicle.SelectedValue = gv_Vehicles.DataKeys(rows.RowIndex).Values("VehicleId").ToString()) Then
+                    TryCast(rows.FindControl("RDB_Vehicle"), RadioButton).Checked = True
+                Else
+                    TryCast(rows.FindControl("RDB_Vehicle"), RadioButton).Checked = False
+                End If
+            Next
+        Catch ex As Exception
+            log.Error("Error occurred in DDL_Vehicle_SelectedIndexChanged Exception is :" + ex.Message)
+            ErrorMessage.Visible = True
+            ErrorMessage.InnerText = "Error occurred while getting data, please try again later."
+        Finally
+            ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "LoadDateTimeControl();loadMultiList();", True)
+        End Try
+    End Sub
 
     Protected Sub btndeptOK_Click(sender As Object, e As EventArgs)
-		Try
-			Dim isChecked As Boolean = False
-			For Each item As GridViewRow In grd_Dept.Rows
+        Try
+            Dim isChecked As Boolean = False
+            For Each item As GridViewRow In grd_Dept.Rows
 
-				Dim RDB_Department As RadioButton = TryCast(item.FindControl("RDB_Department"), RadioButton)
-				If (RDB_Department.Checked = True) Then
-					isChecked = True
-					HDF_DeptId.Value = grd_Dept.DataKeys(item.RowIndex).Values("DeptId").ToString()
-					HDF_DeptNumber.Value = grd_Dept.DataKeys(item.RowIndex).Values("Number").ToString()
-					DDL_Dept.SelectedValue = grd_Dept.DataKeys(item.RowIndex).Values("DeptId").ToString()
-					Exit For
-				End If
-			Next
+                Dim RDB_Department As RadioButton = TryCast(item.FindControl("RDB_Department"), RadioButton)
+                If (RDB_Department.Checked = True) Then
+                    isChecked = True
+                    HDF_DeptId.Value = grd_Dept.DataKeys(item.RowIndex).Values("DeptId").ToString()
+                    HDF_DeptNumber.Value = grd_Dept.DataKeys(item.RowIndex).Values("Number").ToString()
+                    DDL_Dept.SelectedValue = grd_Dept.DataKeys(item.RowIndex).Values("DeptId").ToString()
+                    Exit For
+                End If
+            Next
 
-			If (isChecked = False) Then
-				DDL_Dept.SelectedValue = 0
-			End If
-			DDL_Dept_SelectedIndexChanged(Nothing, Nothing)
-		Catch ex As Exception
-			log.Error("Error occurred in btndeptOK_Click Exception is :" + ex.Message)
-			ErrorMessage.Visible = True
-			ErrorMessage.InnerText = "Error occurred while getting data, please try again later."
-		Finally
-			ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "LoadDateTimeControl();loadMultiList();hideWait();", True)
-		End Try
-	End Sub
+            If (isChecked = False) Then
+                DDL_Dept.SelectedValue = 0
+            End If
+            DDL_Dept_SelectedIndexChanged(Nothing, Nothing)
+        Catch ex As Exception
+            log.Error("Error occurred in btndeptOK_Click Exception is :" + ex.Message)
+            ErrorMessage.Visible = True
+            ErrorMessage.InnerText = "Error occurred while getting data, please try again later."
+        Finally
+            ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "LoadDateTimeControl();loadMultiList();hideWait();", True)
+        End Try
+    End Sub
 
     Protected Sub DDL_Personnel_SelectedIndexChanged(sender As Object, e As EventArgs)
-		Try
-			For Each rows As GridViewRow In grd_Per.Rows
-				If (DDL_Personnel.SelectedValue = grd_Per.DataKeys(rows.RowIndex).Values("PersonId").ToString()) Then
-					TryCast(rows.FindControl("RDB_Personnel"), RadioButton).Checked = True
-				Else
-					TryCast(rows.FindControl("RDB_Personnel"), RadioButton).Checked = False
-				End If
-			Next
-		Catch ex As Exception
-			log.Error("Error occurred in DDL_Personnel_SelectedIndexChanged Exception is :" + ex.Message)
-			ErrorMessage.Visible = True
-			ErrorMessage.InnerText = "Error occurred while getting data, please try again later."
-		Finally
-			ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "LoadDateTimeControl();loadMultiList();", True)
-		End Try
-	End Sub
+        Try
+            For Each rows As GridViewRow In grd_Per.Rows
+                If (DDL_Personnel.SelectedValue = grd_Per.DataKeys(rows.RowIndex).Values("PersonId").ToString()) Then
+                    TryCast(rows.FindControl("RDB_Personnel"), RadioButton).Checked = True
+                Else
+                    TryCast(rows.FindControl("RDB_Personnel"), RadioButton).Checked = False
+                End If
+            Next
+        Catch ex As Exception
+            log.Error("Error occurred in DDL_Personnel_SelectedIndexChanged Exception is :" + ex.Message)
+            ErrorMessage.Visible = True
+            ErrorMessage.InnerText = "Error occurred while getting data, please try again later."
+        Finally
+            ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "LoadDateTimeControl();loadMultiList();", True)
+        End Try
+    End Sub
 
     Protected Sub btnPerOK_Click(sender As Object, e As EventArgs)
-		Try
-			Dim isChecked As Boolean = False
-			For Each item As GridViewRow In grd_Per.Rows
+        Try
+            Dim isChecked As Boolean = False
+            For Each item As GridViewRow In grd_Per.Rows
 
-				Dim RDB_Personnel As RadioButton = TryCast(item.FindControl("RDB_Personnel"), RadioButton)
-				If (RDB_Personnel.Checked = True) Then
-					isChecked = True
-					HDF_PersonId.Value = grd_Per.DataKeys(item.RowIndex).Values("PersonId").ToString()
-					HDF_Person.Value = grd_Per.DataKeys(item.RowIndex).Values("Person").ToString()
-					DDL_Personnel.SelectedValue = grd_Per.DataKeys(item.RowIndex).Values("PersonId").ToString()
-					Exit For
-				End If
-			Next
+                Dim RDB_Personnel As RadioButton = TryCast(item.FindControl("RDB_Personnel"), RadioButton)
+                If (RDB_Personnel.Checked = True) Then
+                    isChecked = True
+                    HDF_PersonId.Value = grd_Per.DataKeys(item.RowIndex).Values("PersonId").ToString()
+                    HDF_Person.Value = grd_Per.DataKeys(item.RowIndex).Values("Person").ToString()
+                    DDL_Personnel.SelectedValue = grd_Per.DataKeys(item.RowIndex).Values("PersonId").ToString()
+                    Exit For
+                End If
+            Next
 
-			If (isChecked = False) Then
-				DDL_Personnel.SelectedValue = 0
-			End If
-			' DDL_Personnel_SelectedIndexChanged(Nothing, Nothing)
-		Catch ex As Exception
-			log.Error("Error occurred in btnPerOK_Click Exception is :" + ex.Message)
-			ErrorMessage.Visible = True
-			ErrorMessage.InnerText = "Error occurred while getting data, please try again later."
-		Finally
-			ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "LoadDateTimeControl();loadMultiList();hideWait();", True)
-		End Try
-	End Sub
+            If (isChecked = False) Then
+                DDL_Personnel.SelectedValue = 0
+            End If
+            ' DDL_Personnel_SelectedIndexChanged(Nothing, Nothing)
+        Catch ex As Exception
+            log.Error("Error occurred in btnPerOK_Click Exception is :" + ex.Message)
+            ErrorMessage.Visible = True
+            ErrorMessage.InnerText = "Error occurred while getting data, please try again later."
+        Finally
+            ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "LoadDateTimeControl();loadMultiList();hideWait();", True)
+        End Try
+    End Sub
 
     Protected Sub DDL_HubName_SelectedIndexChanged(sender As Object, e As EventArgs)
-		Try
-			For Each rows As GridViewRow In grd_Site.Rows
-				If (DDL_HubName.SelectedValue = grd_Site.DataKeys(rows.RowIndex).Values("PersonId").ToString()) Then
-					TryCast(rows.FindControl("RDB_Site"), RadioButton).Checked = True
-				Else
-					TryCast(rows.FindControl("RDB_Site"), RadioButton).Checked = False
-				End If
-			Next
-		Catch ex As Exception
-			log.Error("Error occurred in DDL_HubName_SelectedIndexChanged Exception is :" + ex.Message)
-			ErrorMessage.Visible = True
-			ErrorMessage.InnerText = "Error occurred while getting data, please try again later."
-		Finally
-			ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "LoadDateTimeControl();loadMultiList();", True)
-		End Try
-	End Sub
+        Try
+            For Each rows As GridViewRow In grd_Site.Rows
+                If (DDL_HubName.SelectedValue = grd_Site.DataKeys(rows.RowIndex).Values("PersonId").ToString()) Then
+                    TryCast(rows.FindControl("RDB_Site"), RadioButton).Checked = True
+                Else
+                    TryCast(rows.FindControl("RDB_Site"), RadioButton).Checked = False
+                End If
+            Next
+        Catch ex As Exception
+            log.Error("Error occurred in DDL_HubName_SelectedIndexChanged Exception is :" + ex.Message)
+            ErrorMessage.Visible = True
+            ErrorMessage.InnerText = "Error occurred while getting data, please try again later."
+        Finally
+            ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "LoadDateTimeControl();loadMultiList();", True)
+        End Try
+    End Sub
 
     Protected Sub btnSiteOK_Click(sender As Object, e As EventArgs)
-		Try
-			Dim isChecked As Boolean = False
-			For Each item As GridViewRow In grd_Site.Rows
+        Try
+            Dim isChecked As Boolean = False
+            For Each item As GridViewRow In grd_Site.Rows
 
-				Dim RDB_Site As RadioButton = TryCast(item.FindControl("RDB_Site"), RadioButton)
-				If (RDB_Site.Checked = True) Then
-					isChecked = True
-					HDF_PersonId_Site.Value = grd_Site.DataKeys(item.RowIndex).Values("PersonId").ToString()
-					HDF_HubSiteName.Value = grd_Site.DataKeys(item.RowIndex).Values("HubSiteName").ToString()
-					DDL_HubName.SelectedValue = grd_Site.DataKeys(item.RowIndex).Values("PersonId").ToString()
-					Exit For
-				End If
-			Next
+                Dim RDB_Site As RadioButton = TryCast(item.FindControl("RDB_Site"), RadioButton)
+                If (RDB_Site.Checked = True) Then
+                    isChecked = True
+                    HDF_PersonId_Site.Value = grd_Site.DataKeys(item.RowIndex).Values("PersonId").ToString()
+                    HDF_HubSiteName.Value = grd_Site.DataKeys(item.RowIndex).Values("HubSiteName").ToString()
+                    DDL_HubName.SelectedValue = grd_Site.DataKeys(item.RowIndex).Values("PersonId").ToString()
+                    Exit For
+                End If
+            Next
 
-			If (isChecked = False) Then
-				DDL_HubName.SelectedValue = 0
-			End If
-			'DDL_HubName_SelectedIndexChanged(Nothing, Nothing)
-		Catch ex As Exception
-			log.Error("Error occurred in btnSiteOK_Click Exception is :" + ex.Message)
-			ErrorMessage.Visible = True
-			ErrorMessage.InnerText = "Error occurred while getting data, please try again later."
-		Finally
-			ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "LoadDateTimeControl();loadMultiList();hideWait();", True)
-		End Try
-	End Sub
+            If (isChecked = False) Then
+                DDL_HubName.SelectedValue = 0
+            End If
+            'DDL_HubName_SelectedIndexChanged(Nothing, Nothing)
+        Catch ex As Exception
+            log.Error("Error occurred in btnSiteOK_Click Exception is :" + ex.Message)
+            ErrorMessage.Visible = True
+            ErrorMessage.InnerText = "Error occurred while getting data, please try again later."
+        Finally
+            ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "LoadDateTimeControl();loadMultiList();hideWait();", True)
+        End Try
+    End Sub
 
-	Private Sub BindTransactionStatus()
-		Try
-			DDL_TransactionStatus.Items.Insert(0, New ListItem(ConfigurationManager.AppSettings("CompletedText").ToString(), "2"))
-			DDL_TransactionStatus.Items.Insert(1, New ListItem(ConfigurationManager.AppSettings("NotStartedText").ToString(), "0"))
-			DDL_TransactionStatus.Items.Insert(2, New ListItem(ConfigurationManager.AppSettings("MissedText").ToString(), "1"))
-		Catch ex As Exception
-			log.Error("Error occurred in BindTransactionStatus Exception is :" + ex.Message)
-			ErrorMessage.Visible = True
-		ErrorMessage.InnerText = "Error occurred while getting data, please try again later."
-		End Try
-	End Sub
+    Private Sub BindTransactionStatus()
+        Try
+            DDL_TransactionStatus.Items.Insert(0, New ListItem(ConfigurationManager.AppSettings("CompletedText").ToString(), "2"))
+            DDL_TransactionStatus.Items.Insert(1, New ListItem(ConfigurationManager.AppSettings("NotStartedText").ToString(), "0"))
+            DDL_TransactionStatus.Items.Insert(2, New ListItem(ConfigurationManager.AppSettings("MissedText").ToString(), "1"))
+        Catch ex As Exception
+            log.Error("Error occurred in BindTransactionStatus Exception is :" + ex.Message)
+            ErrorMessage.Visible = True
+            ErrorMessage.InnerText = "Error occurred while getting data, please try again later."
+        End Try
+    End Sub
 
-	Protected Sub grd_Per_DataBound(sender As Object, e As EventArgs)
+    Protected Sub grd_Per_DataBound(sender As Object, e As EventArgs)
         Try
             If (Session("RoleName").ToString() <> "SuperAdmin" And Session("RoleName").ToString() <> "CustomerAdmin") Then
                 grd_Per.Columns(2).Visible = False
@@ -736,14 +736,14 @@ Public Class TransactionReportsByDateTime
     End Sub
 
     Protected Sub chk_IsDeletedLinkAllow_CheckedChanged(sender As Object, e As EventArgs)
-		Try
-			BindSites(Convert.ToInt32(DDL_Customer.SelectedValue.ToString()))
-		Catch ex As Exception
-			log.Error("Error occurred in chk_IsDeletedLinkAllow_CheckedChanged Exception is :" + ex.Message)
-			ErrorMessage.Visible = True
-			ErrorMessage.InnerText = "Error occurred while getting data, please try again later."
-		Finally
-			ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "loadMultiList();$('[id*=lstSites]').multiselect({includeSelectAllOption: true,allSelectedText: 'All FluidSecure Link',}).multiselect('selectAll', false).multiselect('updateButtonText');", True)
-		End Try
-	End Sub
+        Try
+            BindSites(Convert.ToInt32(DDL_Customer.SelectedValue.ToString()))
+        Catch ex As Exception
+            log.Error("Error occurred in chk_IsDeletedLinkAllow_CheckedChanged Exception is :" + ex.Message)
+            ErrorMessage.Visible = True
+            ErrorMessage.InnerText = "Error occurred while getting data, please try again later."
+        Finally
+            ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "loadMultiList();$('[id*=lstSites]').multiselect({includeSelectAllOption: true,allSelectedText: 'All FluidSecure Link',}).multiselect('selectAll', false).multiselect('updateButtonText');", True)
+        End Try
+    End Sub
 End Class

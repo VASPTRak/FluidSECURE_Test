@@ -281,6 +281,7 @@
     <Content Include="Master\AllDeletedTransactions.aspx" />
     <Content Include="Master\AllDeliveryVeederTankMonitorDetails.aspx" />
     <Content Include="Master\AllFluidSecureHub.aspx" />
+    <Content Include="Master\AllFSNPFirmwareUpgrades.aspx" />
     <Content Include="Master\AllFSVMFirmwareUpgrades.aspx" />
     <Content Include="Master\AllInventoryVeederTankMonitorDetails.aspx" />
     <Content Include="Master\AllOFFSiteTransactions.aspx" />
@@ -297,6 +298,7 @@
     <Content Include="Master\DeptImport.aspx" />
     <Content Include="Master\ExportToWINCC.aspx" />
     <Content Include="Master\FluidSecureHub.aspx" />
+    <Content Include="Master\FSNPFirmwareUpgrades.aspx" />
     <Content Include="Master\FSVMFirmwareUpgrades.aspx" />
     <Content Include="Master\HubUserImport.aspx" />
     <Content Include="Master\IMEIPersonMapping.aspx" />
@@ -333,6 +335,8 @@
     <Content Include="Reports\FluidsecureLinkTotalizerDataEnteredReport.aspx" />
     <Content Include="Reports\PriceHistorybyProduct.aspx" />
     <Content Include="Reports\PriceHistorybyProductReport.aspx" />
+    <Content Include="Reports\ShipmentDetailReport.aspx" />
+    <Content Include="Reports\ShipmentRPT.aspx" />
     <Content Include="Reports\TankBalance.aspx" />
     <Content Include="Reports\TankBalanceReport.aspx" />
     <Content Include="Reports\TankInventoryDataEntered.aspx" />
@@ -745,6 +749,13 @@
       <DependentUpon>AllFluidSecureHub.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="Master\AllFSNPFirmwareUpgrades.aspx.designer.vb">
+      <DependentUpon>AllFSNPFirmwareUpgrades.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Master\AllFSNPFirmwareUpgrades.aspx.vb">
+      <DependentUpon>AllFSNPFirmwareUpgrades.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
     <Compile Include="Master\AllFSVMFirmwareUpgrades.aspx.designer.vb">
       <DependentUpon>AllFSVMFirmwareUpgrades.aspx</DependentUpon>
     </Compile>
@@ -912,6 +923,13 @@
     <Compile Include="Master\FluidSecureHub.aspx.vb">
       <DependentUpon>FluidSecureHub.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Master\FSNPFirmwareUpgrades.aspx.designer.vb">
+      <DependentUpon>FSNPFirmwareUpgrades.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Master\FSNPFirmwareUpgrades.aspx.vb">
+      <DependentUpon>FSNPFirmwareUpgrades.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
     </Compile>
     <Compile Include="Master\FSVMFirmwareUpgrades.aspx.designer.vb">
       <DependentUpon>FSVMFirmwareUpgrades.aspx</DependentUpon>
@@ -1081,9 +1099,7 @@
       <DependentUpon>ViewCollectedDiagnosticLogs.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
-    <Compile Include="Models\AuthorizationSequenceModel.vb">
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
+    <Compile Include="Models\AuthorizationSequenceModel.vb" />
     <Compile Include="Models\IdentityModels.vb" />
     <Compile Include="Models\PasswordService.vb" />
     <Compile Include="Models\RoleActions.vb" />
@@ -1285,6 +1301,20 @@
     <Compile Include="Reports\PriceHistorybyProductReport.aspx.vb">
       <DependentUpon>PriceHistorybyProductReport.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="Reports\ShipmentDetailReport.aspx.designer.vb">
+      <DependentUpon>ShipmentDetailReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\ShipmentDetailReport.aspx.vb">
+      <DependentUpon>ShipmentDetailReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\ShipmentRPT.aspx.designer.vb">
+      <DependentUpon>ShipmentRPT.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\ShipmentRPT.aspx.vb">
+      <DependentUpon>ShipmentRPT.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Reports\TankBalance.aspx.designer.vb">
       <DependentUpon>TankBalance.aspx</DependentUpon>
@@ -1518,6 +1548,7 @@
     <Content Include="Reports\FluidSecureHub.rdlc" />
     <EmbeddedResource Include="Reports\CustomerWiseTransactionDetailsrpt.rdlc" />
     <EmbeddedResource Include="Reports\PriceHistorybyProduct.rdlc" />
+    <EmbeddedResource Include="Reports\ShipmentsReport.rdlc" />
     <EmbeddedResource Include="Reports\TankBalancerpt.rdlc" />
     <EmbeddedResource Include="Reports\TransactionReportByLocation.rdlc" />
     <EmbeddedResource Include="Reports\TransactionReportBySite.rdlc" />
@@ -1547,6 +1578,7 @@
     <Folder Include="actvity_logs\" />
     <Folder Include="App_Data\" />
     <Folder Include="Firmwares\" />
+    <Folder Include="FSNPFirmwares\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

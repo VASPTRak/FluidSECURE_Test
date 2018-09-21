@@ -56,7 +56,7 @@ Public Class HandlerTrak
             log.Debug("Start01")
             Dim headers = context.Request.Headers
 
-            Dim encoding As Encoding = encoding.UTF8
+            Dim encoding As Encoding = Encoding.UTF8
             Dim credentials As String = encoding.GetString(Convert.FromBase64String(headers.GetValues("Authorization").ToList()(0).ToString().Replace("Basic ", "").Trim()))
             log.Debug("credentials : " & credentials)
             Dim parts As String() = credentials.Split(":")
@@ -755,7 +755,7 @@ Public Class HandlerTrak
                 Dim checkValid As Boolean = CheckValidRequest(Email, Imei)
                 If (checkValid = True) Then
                     context.Request.InputStream.Position = 0
-                    IsUpgradeCurrentVersionWithUgradableVersionFSVM(context)
+                    'IsUpgradeCurrentVersionWithUgradableVersionFSVM(context)
                 Else
                     log.Error("Not a valid Email and IMEI.  Email: " & Email & " , IMEI : " & Imei)
                     ErrorInAuthontication(context, "fail", "Not a valid Email and IMEI. Please contact  administrator.")
@@ -764,7 +764,7 @@ Public Class HandlerTrak
                 Dim checkValid As Boolean = CheckValidRequest(Email, Imei)
                 If (checkValid = True) Then
                     context.Request.InputStream.Position = 0
-                    GetLaunchedFSVMFirmwareDetails(context)
+                    'GetLaunchedFSVMFirmwareDetails(context)
                 Else
                     log.Error("Not a valid Email and IMEI.  Email: " & Email & " , IMEI : " & Imei)
                     ErrorInAuthontication(context, "fail", "Not a valid Email and IMEI. Please contact  administrator.")
@@ -996,7 +996,16 @@ Public Class HandlerTrak
                 objUserData.LFBluetoothCardReaderMacAddress = row("LFBluetoothCardReaderMacAddress").ToString().ToUpper()
                 objUserData.VeederRootMacAddress = row("VeederRootMacAddress").ToString()
                 objUserData.CollectDiagnosticLogs = row("CollectDiagnosticLogs").ToString()
+                log.Debug("IsGateHub : " & row("IsGateHub").ToString())
                 objUserData.IsGateHub = row("IsGateHub").ToString()
+                log.Debug("IsFluidSecureHub - " & row("IsFluidSecureHub").ToString())
+                If row("IsFluidSecureHub").ToString() <> "False" Then
+                    objUserData.IsVehicleNumberRequire = row("IsVehicleNumberRequire").ToString()
+                Else
+                    objUserData.IsVehicleNumberRequire = ds.Tables(1).Rows(0)(0).ToString()
+                End If
+
+
                 'Dim seri As New JavaScriptSerializer()
                 'Dim jStr As String = seri.Serialize(objUserData)
                 'result = jStr
@@ -1075,7 +1084,9 @@ Public Class HandlerTrak
        .IsPersonHasFob = False,
        .IsTermConditionAgreed = False,
        .DateTimeTermConditionAccepted = Nothing,
-    .IsGateHub = False
+    .IsGateHub = False,
+    .IsVehicleNumberRequire = False,
+    .HubAddress = ""
  }
             Dim result As IdentityResult = manager.Create(user, "FluidSecure*123")
 
@@ -1158,7 +1169,9 @@ Public Class HandlerTrak
        .IsPersonHasFob = False,
        .IsTermConditionAgreed = False,
             .DateTimeTermConditionAccepted = Nothing,
-    .IsGateHub = False
+    .IsGateHub = False,
+    .IsVehicleNumberRequire = False,
+    .HubAddress = ""
  }
 
             Dim result As IdentityResult = manager.Create(user, "Fuel@123")
@@ -1223,6 +1236,8 @@ Public Class HandlerTrak
         rootOject.objUserData.IsVehicleHasFob = Data.IsVehicleHasFob
         rootOject.objUserData.IsPersonHasFob = Data.IsPersonHasFob
         rootOject.objUserData.TimeOut = ConfigurationManager.AppSettings("WaitingTime").ToString()
+        rootOject.objUserData.AndroidAppLatestVersion = ConfigurationManager.AppSettings("AndroidAppLatestVersion").ToString()
+        rootOject.objUserData.AppUpgradeMsgDisplayAfterDays = ConfigurationManager.AppSettings("AppUpgradeMsgDisplayAfterDays").ToString()
         rootOject.objUserData.PersonId = Data.PersonId
         rootOject.objUserData.LFBluetoothCardReader = Data.LFBluetoothCardReader
         rootOject.objUserData.LFBluetoothCardReaderMacAddress = Data.LFBluetoothCardReaderMacAddress
@@ -1231,6 +1246,7 @@ Public Class HandlerTrak
         rootOject.objUserData.IsAccessForFOBApp = Data.IsAccessForFOBApp
         rootOject.objUserData.CollectDiagnosticLogs = Data.CollectDiagnosticLogs
         rootOject.objUserData.IsGateHub = Data.IsGateHub
+        rootOject.objUserData.IsVehicleNumberRequire = Data.IsVehicleNumberRequire
 
         rootOject.SSIDDataObj = New List(Of SSIDData)()
 
@@ -1583,9 +1599,24 @@ Public Class HandlerTrak
             Dim RequestFrom = DirectCast(serJsonDetails, AuthorizationSequenceModel).RequestFrom
             Dim RequestFromAPP = DirectCast(serJsonDetails, AuthorizationSequenceModel).RequestFromAPP
             Dim FOBNumber = DirectCast(serJsonDetails, AuthorizationSequenceModel).FOBNumber
-            PersonnelPIN = PersonnelPIN.Trim()
+            Dim IsVehicleNumberRequire = DirectCast(serJsonDetails, AuthorizationSequenceModel).IsVehicleNumberRequire
 
-            VehicleNumber = VehicleNumber.Trim()
+            If (Not PersonnelPIN Is Nothing) Then
+                PersonnelPIN = PersonnelPIN.Trim()
+            Else
+                PersonnelPIN = ""
+            End If
+
+            If (Not VehicleNumber Is Nothing) Then
+                VehicleNumber = VehicleNumber.Trim()
+            Else
+                VehicleNumber = ""
+            End If
+
+            log.Debug("IsVehicleNumberRequire- " & IsVehicleNumberRequire)
+            If (IsVehicleNumberRequire Is Nothing) Then
+                IsVehicleNumberRequire = "True"
+            End If
 
             Dim dsIMEI = New DataSet()
             dsIMEI = OBJServiceBAL.IsIMEIExists(IMEI_UDID)
@@ -1659,7 +1690,9 @@ Public Class HandlerTrak
                             If Not dtPersonSiteMapping Is Nothing Then  'Unauthorized fuel location- Person Site mapping does not exists
                                 If dtPersonSiteMapping.Rows.Count <> 0 Then 'Person Site mapping does not contain data
                                     Dim dtVehicle = New DataTable()
-                                    If (VehicleNumber.Trim() <> "") Then
+                                    If (VehicleNumber.Trim() = "" And IsVehicleNumberRequire = "False") Then
+                                        dtVehicle = OBJMasterBAL.GetVehicleByCondition(" and V.CustomerId=" & customerId & "  And LTRIM(RTRIM(V.VehicleNumber)) ='default'", personId, RoleId)
+                                    ElseIf (VehicleNumber.Trim() <> "") Then
                                         dtVehicle = OBJMasterBAL.GetVehicleByCondition(" and V.CustomerId=" & customerId & "  And LTRIM(RTRIM(V.VehicleNumber)) ='" & IIf(VehicleNumber.Trim().ToLower().Contains("guest"), "guest", VehicleNumber.Trim()) & "'", personId, RoleId)
                                     ElseIf (FOBNumber <> "") Then
                                         dtVehicle = OBJMasterBAL.GetVehicleByCondition(" and V.CustomerId=" & customerId & "  And REPLACE(V.FobNumber,' ','') ='" & FOBNumber.ToString().Replace(" ", "") & "'", personId, RoleId)
@@ -1679,8 +1712,8 @@ Public Class HandlerTrak
                                             End If
 
                                             dtVehicelSiteMapping = OBJMasterBAL.GetVehicleSiteMapping(vehicleId, SiteId)
-                                            If Not dtVehicelSiteMapping Is Nothing Then     'Vehicle Site Mapping not exist
-                                                If dtVehicelSiteMapping.Rows.Count <> 0 Then 'Vehicle Site Mapping not exist
+                                            If Not dtVehicelSiteMapping Is Nothing Or IsVehicleNumberRequire = "False" Then     'Vehicle Site Mapping not exist
+                                                If dtVehicelSiteMapping.Rows.Count <> 0 Or IsVehicleNumberRequire = "False" Then 'Vehicle Site Mapping not exist
                                                     'Authorized fuel date?
                                                     Dim dtSiteDays = New DataTable()
                                                     dtSiteDays = OBJMasterBAL.GetSiteDays(Integer.Parse(SiteId))
@@ -1711,12 +1744,12 @@ Public Class HandlerTrak
                                                                                             'PersonalVehicle mapping
                                                                                             Dim dtPersonVehicleMapping = New DataTable()
                                                                                             dtPersonVehicleMapping = OBJMasterBAL.GetPersonVehicleMapping(personId)
-                                                                                            If Not dtPersonVehicleMapping Is Nothing Then 'Person vehicle mapping does not exists
-                                                                                                If dtPersonVehicleMapping.Rows.Count <> 0 Then 'Person vehicle mapping does not exists
+                                                                                            If Not dtPersonVehicleMapping Is Nothing Or IsVehicleNumberRequire = "False" Then 'Person vehicle mapping does not exists
+                                                                                                If dtPersonVehicleMapping.Rows.Count <> 0 Or IsVehicleNumberRequire = "False" Then 'Person vehicle mapping does not exists
                                                                                                     Dim vehicleArray = dtPersonVehicleMapping.AsEnumerable().[Select](Function(r) r.Field(Of Integer)("VehicleId")).ToArray()
                                                                                                     steps = "AuthorizationSequence 10"
                                                                                                     Dim isVehicleIdInVehicleArray = vehicleArray.Contains(vehicleId)
-                                                                                                    If isVehicleIdInVehicleArray Then ' veihcle id send by user not assigned to person -PersonVehicle mapping not match
+                                                                                                    If isVehicleIdInVehicleArray Or IsVehicleNumberRequire = "False" Then ' veihcle id send by user not assigned to person -PersonVehicle mapping not match
                                                                                                         'IsOdometerRequire on screen mobile application
                                                                                                         Dim dtCustomer = New DataTable()
                                                                                                         dtCustomer = OBJMasterBAL.GetCustomerId(customerId)
@@ -1986,8 +2019,18 @@ Public Class HandlerTrak
         Dim Other = DirectCast(serJsonDetails, AuthorizationSequenceModel).Other
         Dim Hours = DirectCast(serJsonDetails, AuthorizationSequenceModel).Hours
 
-        PersonnelPIN = PersonnelPIN.Trim()
-        VehicleNumber = VehicleNumber.Trim()
+        If (Not PersonnelPIN Is Nothing) Then
+            PersonnelPIN = PersonnelPIN.Trim()
+        Else
+            PersonnelPIN = ""
+        End If
+
+        If (Not VehicleNumber Is Nothing) Then
+            VehicleNumber = VehicleNumber.Trim()
+        Else
+            VehicleNumber = ""
+        End If
+
 
         Dim CurrentLocationAddress As String = ""
 
@@ -2198,7 +2241,7 @@ Public Class HandlerTrak
                                         TransactionId = OBJMasterBAL.InsertUpdateTransaction(VehicleId, SiteId, PersonId, OdoMeter, 0, fuelTypeOfHose, phoneNumber, WifiSSId.ToString().Trim(), transactionDate,
                                                                 0, 0, TransactionFrom, 0, Convert.ToDouble(CurrentLat).ToString("0.00000"), Convert.ToDouble(CurrentLng).ToString("0.00000"), CurrentLocationAddress,
                                                               IIf(VehicleNumber.Trim().ToLower().Contains("guest"), VehicleNumber.Trim(), dtVehicle.Rows(0)("VehicleNumber").ToString().Trim()), DepartmentNumber, PersonnelPIN.Trim(), Other, IIf(Hours = "", -1, Hours), True, False, 0, HubId, 0,
-                                                                dtVehicle.Rows(0)("VehicleName").ToString(), DepartmentName, FuelTypeName, Email, PersonName, CompanyName, 0, Convert.ToInt32(dsTransactionValuesData.Tables(3).Rows(0)("CustomerId"))) '
+                                                                dtVehicle.Rows(0)("VehicleName").ToString(), DepartmentName, FuelTypeName, Email, PersonName, CompanyName, 0, Convert.ToInt32(dsTransactionValuesData.Tables(3).Rows(0)("CustomerId")), 0, 0) '
 
 
                                         Dim dtSingleTransacton As DataTable = New DataTable()
@@ -2344,6 +2387,7 @@ Public Class HandlerTrak
         rootOject.ResponceData.VeederRootMacAddress = ""
         rootOject.ResponceData.CollectDiagnosticLogs = "False"
         rootOject.ResponceData.IsGateHub = "False"
+        rootOject.ResponceData.IsVehicleNumberRequire = "False"
 
         Dim json As String
         json = javaScriptSerializer.Serialize(rootOject)
@@ -2374,6 +2418,8 @@ Public Class HandlerTrak
         rootOject.objUserData.IsVehicleHasFob = data.IsVehicleHasFob
         rootOject.objUserData.IsPersonHasFob = data.IsPersonHasFob
         rootOject.objUserData.TimeOut = ConfigurationManager.AppSettings("WaitingTime").ToString()
+        rootOject.objUserData.AndroidAppLatestVersion = ConfigurationManager.AppSettings("AndroidAppLatestVersion").ToString()
+        rootOject.objUserData.AppUpgradeMsgDisplayAfterDays = ConfigurationManager.AppSettings("AppUpgradeMsgDisplayAfterDays").ToString()
         rootOject.objUserData.PersonId = data.PersonId
         rootOject.objUserData.BluetoothCardReaderMacAddress = data.BluetoothCardReaderMacAddress.ToUpper()
         rootOject.objUserData.BluetoothCardReader = data.BluetoothCardReader
@@ -2383,6 +2429,7 @@ Public Class HandlerTrak
         rootOject.objUserData.IsAccessForFOBApp = data.IsAccessForFOBApp
         rootOject.objUserData.CollectDiagnosticLogs = data.CollectDiagnosticLogs
         rootOject.objUserData.IsGateHub = data.IsGateHub
+        rootOject.objUserData.IsVehicleNumberRequire = data.IsVehicleNumberRequire
 
         Dim json As String
         json = javaScriptSerializer.Serialize(rootOject)
@@ -2579,7 +2626,7 @@ Public Class HandlerTrak
                         Dim Beforedata = CreateData(TransactionId, CreateDataFor)
 
                         TransactionId = OBJMasterBAL.InsertUpdateTransaction(dtSingleTransacton.Rows(0)("VehicleId"), 0, 0, dtSingleTransacton.Rows(0)("CurrentOdometer"), FuelQuantity, 0, "", "", DateTime.Now, TransactionId, dtSingleTransacton.Rows(0)("PersonId"),
-                                                                            "", dtSingleTransacton.Rows(0)("PreviousOdometer"), "", "", "", "", "", "", "", 0, False, True, 0, 0, Pulses, "", "", "", "", "", "", 0, 0) '
+                                                                            "", dtSingleTransacton.Rows(0)("PreviousOdometer"), "", "", "", "", "", "", "", 0, False, True, 0, 0, Pulses, "", "", "", "", "", "", 0, 0, 0, 0) '
 
                         If TransactionId <> 0 Then 'success
                             Try
@@ -2660,7 +2707,7 @@ Public Class HandlerTrak
                         End If
 
                     Else
-                        transactionCompleteResponceObj.ResponceMessage = "fail"
+                        transactionCompleteResponceObj.ResponceMessage = "success"
                         transactionCompleteResponceObj.ResponceText = "Error occurred during transaction!"
                         Dim TransactionFailedLog As ILog = LogManager.GetLogger("RollingLogFileAppender2")
 
@@ -2831,7 +2878,7 @@ Public Class HandlerTrak
                 Dim Beforedata = CreateData(TransactionId, CreateDataFor)
                 log.Error("UpdateTenTransactions Step 8 ")
                 TransactionId = OBJMasterBAL.InsertUpdateTransaction(dtSingleTransacton.Rows(0)("VehicleId"), 0, 0, dtSingleTransacton.Rows(0)("CurrentOdometer"), FuelQuantity, 0, "", "", DateTime.Now, TransactionId, dtSingleTransacton.Rows(0)("PersonId"),
-                                                                        "", dtSingleTransacton.Rows(0)("PreviousOdometer"), "", "", "", "", "", "", "", 0, False, True, 0, 0, Pulses, "", "", "", "", "", "", 0, 0) '
+                                                                        "", dtSingleTransacton.Rows(0)("PreviousOdometer"), "", "", "", "", "", "", "", 0, False, True, 0, 0, Pulses, "", "", "", "", "", "", 0, 0, 0, 0) '
                 log.Error("UpdateTenTransactions Step 9 ")
                 If TransactionId <> 0 Then 'success
 
@@ -3016,12 +3063,15 @@ Public Class HandlerTrak
         rootOject.objUserData.IsPersonHasFob = userObj.IsPersonHasFob
         rootOject.objUserData.OtherLabel = userObj.OtherLabel
         rootOject.objUserData.TimeOut = ConfigurationManager.AppSettings("WaitingTime").ToString()
+        rootOject.objUserData.AndroidAppLatestVersion = ConfigurationManager.AppSettings("AndroidAppLatestVersion").ToString()
+        rootOject.objUserData.AppUpgradeMsgDisplayAfterDays = ConfigurationManager.AppSettings("AppUpgradeMsgDisplayAfterDays").ToString()
         rootOject.objUserData.PersonId = userObj.PersonId
         rootOject.objUserData.LFBluetoothCardReader = userObj.LFBluetoothCardReader
         rootOject.objUserData.LFBluetoothCardReaderMacAddress = userObj.LFBluetoothCardReaderMacAddress
         rootOject.objUserData.VeederRootMacAddress = userObj.VeederRootMacAddress
         rootOject.objUserData.CollectDiagnosticLogs = userObj.CollectDiagnosticLogs
         rootOject.objUserData.IsGateHub = userObj.IsGateHub
+        rootOject.objUserData.IsVehicleNumberRequire = userObj.IsVehicleNumberRequire
 
         rootOject.SSIDDataObj = New List(Of SSIDData)()
 
@@ -3250,8 +3300,23 @@ Public Class HandlerTrak
             Dim PersonnelPIN = DirectCast(serJsonDetails, AuthorizationSequenceModel).PersonnelPIN
             Dim RequestFromAPP = DirectCast(serJsonDetails, AuthorizationSequenceModel).RequestFromAPP
             Dim FOBNumber = DirectCast(serJsonDetails, AuthorizationSequenceModel).FOBNumber
-            VehicleNumber = VehicleNumber.Trim()
-            PersonnelPIN = PersonnelPIN.Trim()
+            Dim IsVehicleNumberRequire = DirectCast(serJsonDetails, AuthorizationSequenceModel).IsVehicleNumberRequire
+
+            If (Not PersonnelPIN Is Nothing) Then
+                PersonnelPIN = PersonnelPIN.Trim()
+            Else
+                PersonnelPIN = ""
+            End If
+
+            If (Not VehicleNumber Is Nothing) Then
+                VehicleNumber = VehicleNumber.Trim()
+            Else
+                VehicleNumber = ""
+            End If
+            log.Debug("IsVehicleNumberRequire- " & IsVehicleNumberRequire)
+            If (IsVehicleNumberRequire Is Nothing) Then
+                IsVehicleNumberRequire = "True"
+            End If
 
             Dim dsIMEI = New DataSet()
             dsIMEI = OBJServiceBAL.IsIMEIExists(IMEI_UDID)
@@ -3305,7 +3370,10 @@ Public Class HandlerTrak
                                 log.Debug("CheckVehicleRequireOdometerEntryAndRequireHourEntry: dtPersonSiteMapping")
                                 If dtPersonSiteMapping.Rows.Count <> 0 Then 'Person Site mapping does not contain data
                                     Dim dtVehicle = New DataTable()
-                                    If (VehicleNumber.Trim() <> "") Then
+
+                                    If (VehicleNumber.Trim() = "" And IsVehicleNumberRequire = "False") Then
+                                        dtVehicle = OBJMasterBAL.GetVehicleByCondition(" and V.CustomerId=" & customerId & "  And LTRIM(RTRIM(V.VehicleNumber)) ='default'", personId, RoleId)
+                                    ElseIf (VehicleNumber.Trim() <> "") Then
                                         dtVehicle = OBJMasterBAL.GetVehicleByCondition(" and V.CustomerId=" & customerId & "  And LTRIM(RTRIM(V.VehicleNumber)) ='" & IIf(VehicleNumber.Trim().ToLower().Contains("guest"), "guest", VehicleNumber.Trim()) & "'", personId, RoleId)
                                     Else
                                         dtVehicle = OBJMasterBAL.GetVehicleByCondition(" and V.CustomerId=" & customerId & "  And REPLACE(V.FobNumber,' ','') ='" & FOBNumber.ToString().Replace(" ", "") & "'", personId, RoleId)
@@ -3377,8 +3445,8 @@ Public Class HandlerTrak
                                             End If
 
                                             dtVehicelSiteMapping = OBJMasterBAL.GetVehicleSiteMapping(vehicleId, SiteId)
-                                            If Not dtVehicelSiteMapping Is Nothing Then     'Vehicle Site Mapping not exist
-                                                If dtVehicelSiteMapping.Rows.Count <> 0 Then 'Vehicle Site Mapping not exist
+                                            If Not dtVehicelSiteMapping Is Nothing Or IsVehicleNumberRequire = "False" Then     'Vehicle Site Mapping not exist
+                                                If dtVehicelSiteMapping.Rows.Count <> 0 Or IsVehicleNumberRequire = "False" Then 'Vehicle Site Mapping not exist
                                                     'Authorized fuel date?
                                                     Dim dtSiteDays = New DataTable()
                                                     dtSiteDays = OBJMasterBAL.GetSiteDays(Integer.Parse(SiteId))
@@ -3409,12 +3477,12 @@ Public Class HandlerTrak
                                                                                             'PersonalVehicle mapping
                                                                                             Dim dtPersonVehicleMapping = New DataTable()
                                                                                             dtPersonVehicleMapping = OBJMasterBAL.GetPersonVehicleMapping(personId)
-                                                                                            If Not dtPersonVehicleMapping Is Nothing Then 'Person vehicle mapping does not exists
-                                                                                                If dtPersonVehicleMapping.Rows.Count <> 0 Then 'Person vehicle mapping does not exists
+                                                                                            If Not dtPersonVehicleMapping Is Nothing Or IsVehicleNumberRequire = "False" Then 'Person vehicle mapping does not exists
+                                                                                                If dtPersonVehicleMapping.Rows.Count <> 0 Or IsVehicleNumberRequire = "False" Then 'Person vehicle mapping does not exists
                                                                                                     Dim vehicleArray = dtPersonVehicleMapping.AsEnumerable().[Select](Function(r) r.Field(Of Integer)("VehicleId")).ToArray()
                                                                                                     steps = "CheckVehicleRequireOdometerEntryAndRequireHourEntry 10"
                                                                                                     Dim isVehicleIdInVehicleArray = vehicleArray.Contains(vehicleId)
-                                                                                                    If isVehicleIdInVehicleArray Then ' veihcle id send by user not assigned to person -PersonVehicle mapping not match
+                                                                                                    If isVehicleIdInVehicleArray Or IsVehicleNumberRequire = "False" Then ' veihcle id send by user not assigned to person -PersonVehicle mapping not match
                                                                                                         'IsOdometerRequire on screen mobile application
                                                                                                         Dim dtCustomer = New DataTable()
                                                                                                         dtCustomer = OBJMasterBAL.GetCustomerId(customerId)
@@ -3438,6 +3506,10 @@ Public Class HandlerTrak
                                                                                                 ErrorInRequireOdoVehicle(context, "fail", resourceManager.GetString("HandlerMsg20"), "Pin")
                                                                                                 'ErrorInRequireOdoVehicle(context, "fail", "The user is not authorized for this vehicle, please contact administrator.", "Pin")
                                                                                             End If
+
+
+
+
                                                                                         Else
                                                                                             log.Debug("ProcessRequest: CheckVehicleRequireOdometerEntryAndRequireHourEntry- Unauthorized fuel time for IMEI_UDID=" & IMEI_UDID)
                                                                                             ErrorInRequireOdoVehicle(context, "fail", resourceManager.GetString("HandlerMsg21"), "Pin")
@@ -3550,9 +3622,18 @@ Public Class HandlerTrak
         Dim SiteId = DirectCast(serJsonDetails, AuthorizationSequenceModel).SiteId
         Dim FOBNumber = DirectCast(serJsonDetails, AuthorizationSequenceModel).FOBNumber
         Dim PersonnelPIN = DirectCast(serJsonDetails, AuthorizationSequenceModel).PersonnelPIN
-        PersonnelPIN = PersonnelPIN.Trim()
 
-        VehicleNumber = VehicleNumber.Trim()
+        If (Not PersonnelPIN Is Nothing) Then
+            PersonnelPIN = PersonnelPIN.Trim()
+        Else
+            PersonnelPIN = ""
+        End If
+
+        If (Not VehicleNumber Is Nothing) Then
+            VehicleNumber = VehicleNumber.Trim()
+        Else
+            VehicleNumber = ""
+        End If
 
         OBJMasterBAL = New MasterBAL()
         steps = "CreateResponseForRequireOdoVehicle 1"
@@ -3654,6 +3735,7 @@ Public Class HandlerTrak
                                         checkRequireOdoResponse.IsHoursRequire = dtVehicle.Rows(0)("Hours")
                                         checkRequireOdoResponse.CheckOdometerReasonable = IIf(dtVehicle.Rows(0)("CheckOdometerReasonable") = "Y", "True", "False")
                                         checkRequireOdoResponse.PreviousOdo = IIf(IsDBNull(dtVehicle.Rows(0)("CurrentOdometer")), 0, dtVehicle.Rows(0)("CurrentOdometer"))
+                                        checkRequireOdoResponse.PreviousHours = IIf(IsDBNull(dtVehicle.Rows(0)("CurrentHours")), 0, dtVehicle.Rows(0)("CurrentHours"))
 
                                         If (dtVehicle.Rows(0)("CheckOdometerReasonable") = "Y") Then
 
@@ -3661,10 +3743,16 @@ Public Class HandlerTrak
 
                                             checkRequireOdoResponse.OdoLimit = (Integer.Parse(IIf(IsDBNull(dtVehicle.Rows(0)("CurrentOdometer")), 0, dtVehicle.Rows(0)("CurrentOdometer"))) +
                                                                                 Integer.Parse(IIf(IsDBNull(dtVehicle.Rows(0)("Odolimit")), 0, dtVehicle.Rows(0)("Odolimit"))))
+
+                                            checkRequireOdoResponse.HoursLimit = (Integer.Parse(IIf(IsDBNull(dtVehicle.Rows(0)("CurrentHours")), 0, dtVehicle.Rows(0)("CurrentHours"))) +
+                                                                                Integer.Parse(IIf(IsDBNull(dtVehicle.Rows(0)("HoursLimit")), 0, dtVehicle.Rows(0)("HoursLimit"))))
+
                                         Else
                                             checkRequireOdoResponse.OdometerReasonabilityConditions = 2
                                             checkRequireOdoResponse.OdoLimit = 0
+                                            checkRequireOdoResponse.HoursLimit = 0
                                         End If
+
                                         checkRequireOdoResponse.FOBNumber = dtVehicle.Rows(0)("FOBNumber").ToString().Replace(" ", "")
                                         checkRequireOdoResponse.VehicleNumber = dtVehicle.Rows(0)("VehicleNumber").ToString().Trim()
                                         'check current version with launch version
@@ -3726,6 +3814,9 @@ Public Class HandlerTrak
         checkRequireOdoResponse.FOBNumber = ""
         checkRequireOdoResponse.VehicleNumber = ""
         checkRequireOdoResponse.IsNewFob = IsNewFob
+        checkRequireOdoResponse.PreviousHours = 0
+        checkRequireOdoResponse.HoursLimit = 0
+
         Dim json As String
         json = javaScriptSerializer.Serialize(checkRequireOdoResponse)
         context.Response.Write(json)
@@ -3847,8 +3938,18 @@ Public Class HandlerTrak
             Dim PersonnelPIN = DirectCast(serJsonDetails, TransactionComplete).PersonnelPIN
             Dim Other = DirectCast(serJsonDetails, TransactionComplete).Other
             Dim Hours = DirectCast(serJsonDetails, TransactionComplete).Hours
-            VehicleNumber = VehicleNumber.Trim()
-            PersonnelPIN = PersonnelPIN.Trim()
+
+            If (Not PersonnelPIN Is Nothing) Then
+                PersonnelPIN = PersonnelPIN.Trim()
+            Else
+                PersonnelPIN = ""
+            End If
+
+            If (Not VehicleNumber Is Nothing) Then
+                VehicleNumber = VehicleNumber.Trim()
+            Else
+                VehicleNumber = ""
+            End If
 
             Dim transactionCompleteResponceObj = New TransactionCompleteResponce()
             Dim json As String
@@ -3954,7 +4055,7 @@ Public Class HandlerTrak
             TransactionId = OBJMasterBAL.InsertUpdateTransaction(VehicleId, SiteId, PersonId, CurrentOdometer, FuelQuantity, FuelTypeId, PhoneNumber, WifiSSId.ToString().Trim(), TransactionDate,
                                                               0, 0, TransactionFrom, 0, Convert.ToDouble(CurrentLat).ToString("0.00000"), Convert.ToDouble(CurrentLng).ToString("0.00000"), CurrentLocationAddress,
                                                               VehicleNumber.Trim(), DepartmentNumber, PersonnelPIN.Trim(), Other, IIf(Hours = "", -1, Hours), False, False, 2, 0, 0,
-                                                                 VehicleName, DepartmentName, FuelTypeName, Email, PersonName, CompanyName, 0, Convert.ToInt32(dsTransactionValuesData.Tables(3).Rows(0)("CustomerId"))) '
+                                                                 VehicleName, DepartmentName, FuelTypeName, Email, PersonName, CompanyName, 0, Convert.ToInt32(dsTransactionValuesData.Tables(3).Rows(0)("CustomerId")), 0, 0) '
 
             If TransactionId <> 0 Then 'success
                 Try
@@ -4161,7 +4262,12 @@ Public Class HandlerTrak
                 Dim VehicleNumber = DirectCast(serJsonDetails, TransactionComplete).VehicleNumber
                 Dim TransactionId = DirectCast(serJsonDetails, TransactionComplete).TransactionId
                 Dim Pulses = DirectCast(serJsonDetails, TransactionComplete).Pulses
-                VehicleNumber = VehicleNumber.Trim()
+
+                If (Not VehicleNumber Is Nothing) Then
+                    VehicleNumber = VehicleNumber.Trim()
+                Else
+                    VehicleNumber = ""
+                End If
 
                 Dim transactionCompleteResponceObj = New TransactionCompleteResponce()
                 Dim json As String
@@ -4630,7 +4736,13 @@ Public Class HandlerTrak
                 Dim PersonFOBNumber = DirectCast(serJsonDetails, CheckValidPersonPinOrFOBNUmber).PersonFOBNumber
                 Dim PersonPIN = DirectCast(serJsonDetails, CheckValidPersonPinOrFOBNUmber).PersonPIN
                 Dim IsNewFob As String = "No"
-                PersonPIN = PersonPIN.Trim()
+
+                If (Not PersonPIN Is Nothing) Then
+                    PersonPIN = PersonPIN.Trim()
+                Else
+                    PersonPIN = ""
+                End If
+
 
                 Dim CheckValidPersonPinOrFOBNUmberResponse = New CheckValidPersonPinOrFOBNUmberResponse()
 
@@ -4777,7 +4889,13 @@ Public Class HandlerTrak
             Dim IMEI_UDID = DirectCast(serJsonDetails, AuthorizationSequenceModel).IMEIUDID
             Dim VehicleNumber = DirectCast(serJsonDetails, AuthorizationSequenceModel).VehicleNumber
             Dim FOBNumber = DirectCast(serJsonDetails, AuthorizationSequenceModel).FOBNumber
-            VehicleNumber = VehicleNumber.Trim()
+
+
+            If (Not VehicleNumber Is Nothing) Then
+                VehicleNumber = VehicleNumber.Trim()
+            Else
+                VehicleNumber = ""
+            End If
 
             Dim dsIMEI = New DataSet()
             dsIMEI = OBJServiceBAL.IsIMEIExists(IMEI_UDID)
@@ -5341,6 +5459,8 @@ Public Class HandlerTrak
         Try
 
             Dim data = [String].Empty
+            Dim VehicleId = 0
+            Dim personId As Integer = 0
             Using inputStream = New StreamReader(context.Request.InputStream)
                 data = inputStream.ReadToEnd()
                 requestJson = data
@@ -5357,7 +5477,8 @@ Public Class HandlerTrak
                 Dim TransactionFrom = DirectCast(serJsonDetails, FAVehicleAuthorizationMaster).TransactionFrom
                 Dim CurrentLat = DirectCast(serJsonDetails, FAVehicleAuthorizationMaster).CurrentLat
                 Dim CurrentLng = DirectCast(serJsonDetails, FAVehicleAuthorizationMaster).CurrentLng
-
+                Dim FSTagMacAddress = DirectCast(serJsonDetails, FAVehicleAuthorizationMaster).FSTagMacAddress
+                Dim CurrentFSVMFirmwareVersion = DirectCast(serJsonDetails, FAVehicleAuthorizationMaster).CurrentFSVMFirmwareVersion
                 'Dim VehicleRecurringMSG = context.Request("VehicleRecurringMSG")
                 'Dim TransactionDate = context.Request("TransactionDate")
                 'Dim TransactionFrom = context.Request("TransactionFrom")
@@ -5370,7 +5491,6 @@ Public Class HandlerTrak
                 log.Debug("VehicleRecurringMSG : " & VehicleRecurringMSG)
 
                 Dim customerId As Integer = 0
-                Dim personId As Integer = 0
                 Dim RoleId As String = ""
                 Dim Phonenumber As String = ""
                 Dim PinNumber As String = ""
@@ -5389,7 +5509,7 @@ Public Class HandlerTrak
                         End If
                     End If
                 End If
-                Dim VehicleNumber As String = ""
+                Dim VIN As String = ""
                 Dim Odometer As Integer = 0
                 Dim RPM As String = ""
                 Dim SPD As String = 0
@@ -5428,226 +5548,295 @@ Public Class HandlerTrak
                         VehicleRecurringMSG = VehicleRecurringMSG.Replace("{", "").Replace("}", "")
 
                         Dim strSplitComma As String() = VehicleRecurringMSG.Split(",")
+                        Try
+                            For index = 0 To strSplitComma.Length - 1
+                                Dim strSplitEqual As String() = strSplitComma(index).Split("=")
+                                Select Case strSplitEqual(0).ToLower()
+                                    Case "vin"
+                                        VIN = strSplitEqual(1).Trim()
+                                    Case "rpm"
+                                        RPM = Convert.ToInt32(strSplitEqual(1), 16)
+                                    Case "spd"
+                                        SPD = Convert.ToInt32(strSplitEqual(1), 16)
+                                    Case "odok"
+                                        Odometer = Convert.ToInt32(strSplitEqual(1), 16)
+                                    Case "mil"
+                                        MIL = strSplitEqual(1)
+                                    Case "pc"
+                                        PC = strSplitEqual(1) ' check this in string where in hex or not
+                                    Case Else
+                                        Console.WriteLine("You typed something else")
+                                End Select
+                            Next
+                        Catch ex As Exception
 
-                        For index = 0 To 5
-                            Dim strSplitEqual As String() = strSplitComma(index).Split("=")
-                            Select Case strSplitEqual(0).ToLower()
-                                Case "vin"
-                                    VehicleNumber = strSplitEqual(1).Trim()
-                                Case "rpm"
-                                    RPM = Convert.ToInt32(strSplitEqual(1), 16)
-                                Case "spd"
-                                    SPD = Convert.ToInt32(strSplitEqual(1), 16)
-                                Case "odok"
-                                    Odometer = Convert.ToInt32(strSplitEqual(1), 16)
-                                Case "mil"
-                                    MIL = strSplitEqual(1)
-                                Case "pc"
-                                    PC = strSplitEqual(1)
-                                Case Else
-                                    Console.WriteLine("You typed something else")
-                            End Select
-                        Next
+                        End Try
+
 
                         log.Debug("VehicleRecurringMSG 1.2")
 
 
                         log.Debug("VehicleRecurringMSG 2")
-                        For index = 6 To (Convert.ToInt32(PC) + 5)
-                            Dim strSplitEqual As String() = strSplitComma(index).Split("=")
-                            Select Case Convert.ToInt32(strSplitEqual(0), 16)
-                                Case 1
-                                    PID1 = Convert.ToString(Convert.ToInt32(strSplitEqual(1), 16))
-                                Case 2
-                                    PID2 = Convert.ToString(Convert.ToInt32(strSplitEqual(1), 16))
-                                Case 3
-                                    PID3 = Convert.ToString(Convert.ToInt32(strSplitEqual(1), 16))
-                                Case 4
-                                    PID4 = Convert.ToString(Convert.ToInt32(strSplitEqual(1), 16))
-                                Case 5
-                                    PID5 = Convert.ToString(Convert.ToInt32(strSplitEqual(1), 16))
-                                Case 6
-                                    PID6 = Convert.ToString(Convert.ToInt32(strSplitEqual(1), 16))
-                                Case 7
-                                    PID7 = Convert.ToString(Convert.ToInt32(strSplitEqual(1), 16))
-                                Case 8
-                                    PID8 = Convert.ToString(Convert.ToInt32(strSplitEqual(1), 16))
-                                Case 9
-                                    PID9 = Convert.ToString(Convert.ToInt32(strSplitEqual(1), 16))
-                                Case 10
-                                    PID10 = Convert.ToString(Convert.ToInt32(strSplitEqual(1), 16))
-                                Case 11
-                                    PID11 = Convert.ToString(Convert.ToInt32(strSplitEqual(1), 16))
-                                Case 12
-                                    PID12 = Convert.ToString(Convert.ToInt32(strSplitEqual(1), 16))
-                                Case 13
-                                    PID13 = Convert.ToString(Convert.ToInt32(strSplitEqual(1), 16))
-                                Case 14
-                                    PID14 = Convert.ToString(Convert.ToInt32(strSplitEqual(1), 16))
-                                Case 15
-                                    PID15 = Convert.ToString(Convert.ToInt32(strSplitEqual(1), 16))
-                                Case 16
-                                    PID16 = Convert.ToString(Convert.ToInt32(strSplitEqual(1), 16))
-                                Case 17
-                                    PID17 = Convert.ToString(Convert.ToInt32(strSplitEqual(1), 16))
-                                Case 18
-                                    PID18 = Convert.ToString(Convert.ToInt32(strSplitEqual(1), 16))
-                                Case 19
-                                    PID19 = Convert.ToString(Convert.ToInt32(strSplitEqual(1), 16))
-                                Case 20
-                                    PID20 = Convert.ToString(Convert.ToInt32(strSplitEqual(1), 16))
-                                Case Else
-                                    Console.WriteLine("You typed something else")
-                            End Select
-                        Next
+                        'For index = 6 To (Convert.ToInt32(PC) + 5)
+                        '    Dim strSplitEqual As String() = strSplitComma(index).Split("=")
+                        '    Select Case Convert.ToInt32(strSplitEqual(0), 16)
+                        '        Case 1
+                        '            PID1 = Convert.ToString(Convert.ToInt32(strSplitEqual(1), 16))
+                        '        Case 2
+                        '            PID2 = Convert.ToString(Convert.ToInt32(strSplitEqual(1), 16))
+                        '        Case 3
+                        '            PID3 = Convert.ToString(Convert.ToInt32(strSplitEqual(1), 16))
+                        '        Case 4
+                        '            PID4 = Convert.ToString(Convert.ToInt32(strSplitEqual(1), 16))
+                        '        Case 5
+                        '            PID5 = Convert.ToString(Convert.ToInt32(strSplitEqual(1), 16))
+                        '        Case 6
+                        '            PID6 = Convert.ToString(Convert.ToInt32(strSplitEqual(1), 16))
+                        '        Case 7
+                        '            PID7 = Convert.ToString(Convert.ToInt32(strSplitEqual(1), 16))
+                        '        Case 8
+                        '            PID8 = Convert.ToString(Convert.ToInt32(strSplitEqual(1), 16))
+                        '        Case 9
+                        '            PID9 = Convert.ToString(Convert.ToInt32(strSplitEqual(1), 16))
+                        '        Case 10
+                        '            PID10 = Convert.ToString(Convert.ToInt32(strSplitEqual(1), 16))
+                        '        Case 11
+                        '            PID11 = Convert.ToString(Convert.ToInt32(strSplitEqual(1), 16))
+                        '        Case 12
+                        '            PID12 = Convert.ToString(Convert.ToInt32(strSplitEqual(1), 16))
+                        '        Case 13
+                        '            PID13 = Convert.ToString(Convert.ToInt32(strSplitEqual(1), 16))
+                        '        Case 14
+                        '            PID14 = Convert.ToString(Convert.ToInt32(strSplitEqual(1), 16))
+                        '        Case 15
+                        '            PID15 = Convert.ToString(Convert.ToInt32(strSplitEqual(1), 16))
+                        '        Case 16
+                        '            PID16 = Convert.ToString(Convert.ToInt32(strSplitEqual(1), 16))
+                        '        Case 17
+                        '            PID17 = Convert.ToString(Convert.ToInt32(strSplitEqual(1), 16))
+                        '        Case 18
+                        '            PID18 = Convert.ToString(Convert.ToInt32(strSplitEqual(1), 16))
+                        '        Case 19
+                        '            PID19 = Convert.ToString(Convert.ToInt32(strSplitEqual(1), 16))
+                        '        Case 20
+                        '            PID20 = Convert.ToString(Convert.ToInt32(strSplitEqual(1), 16))
+                        '        Case Else
+                        '            Console.WriteLine("You typed something else")
+                        '    End Select
+                        'Next
                         log.Debug("VehicleRecurringMSG 3_1")
 
-                        Dim VehicleId = 0
+
                         Dim VehicleName = ""
-                        Dim DiffRawOdoAndManualOdo = 0
+                        Dim VehicleNumber = ""
+                        Dim DiffRawOdoAndManualOdo As Integer = 0
                         Dim dsVehicleValuesData As DataTable
-                        dsVehicleValuesData = OBJMasterBAL.GetVehicleByCondition(" and V.CustomerId=" & customerId & "  And LTRIM(RTRIM(V.VehicleNumber)) ='" & IIf(VehicleNumber.Trim().ToLower().Contains("guest"), "guest", VehicleNumber.Trim()) & "'", personId, RoleId)
+                        dsVehicleValuesData = OBJMasterBAL.GetVehicleByCondition(" and V.CustomerId=" & customerId & "  And LTRIM(RTRIM(V.VIN)) ='" & VIN.Trim() & "'", personId, RoleId)
                         If dsVehicleValuesData IsNot Nothing And dsVehicleValuesData.Rows.Count > 0 Then
+
+
+
                             VehicleId = dsVehicleValuesData.Rows(0)("VehicleId")
                             VehicleName = dsVehicleValuesData.Rows(0)("VehicleName")
-                            DiffRawOdoAndManualOdo = dsVehicleValuesData.Rows(0)("DiffRawOdoAndManualOdo")
-                        End If
+                            VehicleNumber = dsVehicleValuesData.Rows(0)("VehicleNumber")
+                            log.Debug("DiffRawOdoAndManualOdo - " & dsVehicleValuesData.Rows(0)("DiffRawOdoAndManualOdo"))
+                            If dsVehicleValuesData.Rows(0)("DiffRawOdoAndManualOdo").ToString() <> "" Then
+                                DiffRawOdoAndManualOdo = Convert.ToInt32(dsVehicleValuesData.Rows(0)("DiffRawOdoAndManualOdo").ToString())
+                            End If
 
-                        Dim dsTransactionValuesData As DataSet
-                        Dim DepartmentName As String = ""
-                        Dim FuelTypeName As String = ""
-                        Dim Email As String = ""
-                        Dim PersonName As String = ""
-                        Dim CompanyName As String = ""
-                        Dim VehicleSum As Decimal = 0
-                        Dim DeptSum As Decimal = 0
-                        Dim VehPercentage As Decimal = 0
-                        Dim DeptPercentage As Decimal = 0
-                        Dim SurchargeType As String = "0"
-                        Dim ProductPrice As Decimal = 0
-                        Dim DepartmentNumber As String = ""
+                            ' Check and update FSTagMacAddress to vehicle
+                            OBJServiceBAL.UpdateFSTagMacAddressToVehicle(FSTagMacAddress, personId, VehicleId)
 
-                        dsTransactionValuesData = OBJMasterBAL.GetTransactionColumnsValueForSave("", 0, personId, VehicleId)
+                            Dim dsTransactionValuesData As DataSet
+                            Dim DepartmentName As String = ""
+                            Dim FuelTypeName As String = ""
+                            Dim Email As String = ""
+                            Dim PersonName As String = ""
+                            Dim CompanyName As String = ""
+                            Dim VehicleSum As Decimal = 0
+                            Dim DeptSum As Decimal = 0
+                            Dim VehPercentage As Decimal = 0
+                            Dim DeptPercentage As Decimal = 0
+                            Dim SurchargeType As String = "0"
+                            Dim ProductPrice As Decimal = 0
+                            Dim DepartmentNumber As String = ""
 
-                        If dsTransactionValuesData IsNot Nothing Then
-                            If dsTransactionValuesData.Tables.Count > 0 Then
-                                If dsTransactionValuesData.Tables(0) IsNot Nothing And dsTransactionValuesData.Tables(0).Rows.Count > 0 Then
-                                    DepartmentName = dsTransactionValuesData.Tables(0).Rows(0)("DeptName").ToString()
-                                    DepartmentNumber = dsTransactionValuesData.Tables(0).Rows(0)("DeptNumber").ToString()
-                                    VehicleSum = Decimal.Parse(dsTransactionValuesData.Tables(0).Rows(0)("VehicleSum").ToString())
-                                    DeptSum = Decimal.Parse(dsTransactionValuesData.Tables(0).Rows(0)("DeptSum").ToString())
-                                    VehPercentage = Decimal.Parse(dsTransactionValuesData.Tables(0).Rows(0)("VehPercentage").ToString())
-                                    DeptPercentage = Decimal.Parse(dsTransactionValuesData.Tables(0).Rows(0)("DeptPercentage").ToString())
-                                    SurchargeType = dsTransactionValuesData.Tables(0).Rows(0)("SurchargeType").ToString()
-                                End If
-                                If dsTransactionValuesData.Tables(1) IsNot Nothing And dsTransactionValuesData.Tables(1).Rows.Count > 0 Then
-                                    FuelTypeName = dsTransactionValuesData.Tables(1).Rows(0)("FuelTypeName").ToString()
-                                    ProductPrice = Decimal.Parse(dsTransactionValuesData.Tables(1).Rows(0)("ProductPrice").ToString())
-                                End If
-                                If dsTransactionValuesData.Tables(2) IsNot Nothing And dsTransactionValuesData.Tables(2).Rows.Count > 0 Then
-                                    Email = dsTransactionValuesData.Tables(2).Rows(0)("Email").ToString()
-                                    PersonName = dsTransactionValuesData.Tables(2).Rows(0)("PersonName").ToString()
-                                End If
-                                If dsTransactionValuesData.Tables(3) IsNot Nothing And dsTransactionValuesData.Tables(3).Rows.Count > 0 Then
-                                    CompanyName = dsTransactionValuesData.Tables(3).Rows(0)("CompanyName").ToString()
+                            dsTransactionValuesData = OBJMasterBAL.GetTransactionColumnsValueForSave("", 0, personId, VehicleId)
+
+                            If dsTransactionValuesData IsNot Nothing Then
+                                If dsTransactionValuesData.Tables.Count > 0 Then
+                                    If dsTransactionValuesData.Tables(0) IsNot Nothing And dsTransactionValuesData.Tables(0).Rows.Count > 0 Then
+                                        DepartmentName = dsTransactionValuesData.Tables(0).Rows(0)("DeptName").ToString()
+                                        DepartmentNumber = dsTransactionValuesData.Tables(0).Rows(0)("DeptNumber").ToString()
+                                        VehicleSum = Decimal.Parse(dsTransactionValuesData.Tables(0).Rows(0)("VehicleSum").ToString())
+                                        DeptSum = Decimal.Parse(dsTransactionValuesData.Tables(0).Rows(0)("DeptSum").ToString())
+                                        VehPercentage = Decimal.Parse(dsTransactionValuesData.Tables(0).Rows(0)("VehPercentage").ToString())
+                                        DeptPercentage = Decimal.Parse(dsTransactionValuesData.Tables(0).Rows(0)("DeptPercentage").ToString())
+                                        SurchargeType = dsTransactionValuesData.Tables(0).Rows(0)("SurchargeType").ToString()
+                                    End If
+                                    If dsTransactionValuesData.Tables(1) IsNot Nothing And dsTransactionValuesData.Tables(1).Rows.Count > 0 Then
+                                        FuelTypeName = dsTransactionValuesData.Tables(1).Rows(0)("FuelTypeName").ToString()
+                                        ProductPrice = Decimal.Parse(dsTransactionValuesData.Tables(1).Rows(0)("ProductPrice").ToString())
+                                    End If
+                                    If dsTransactionValuesData.Tables(2) IsNot Nothing And dsTransactionValuesData.Tables(2).Rows.Count > 0 Then
+                                        Email = dsTransactionValuesData.Tables(2).Rows(0)("Email").ToString()
+                                        PersonName = dsTransactionValuesData.Tables(2).Rows(0)("PersonName").ToString()
+                                    End If
+                                    If dsTransactionValuesData.Tables(3) IsNot Nothing And dsTransactionValuesData.Tables(3).Rows.Count > 0 Then
+                                        CompanyName = dsTransactionValuesData.Tables(3).Rows(0)("CompanyName").ToString()
+                                    End If
                                 End If
                             End If
-                        End If
-                        steps = "VehicleRecurringMSG 3 - 2"
+                            steps = "VehicleRecurringMSG 3 - 2"
 
-                        OBJMasterBAL = New MasterBAL()
-                        Dim dtTransaction As DataTable = New DataTable()
-                        dtTransaction = OBJMasterBAL.GetTransactionsByCondition(" and T.VehicleId=" & VehicleId & " and (((ISNULL(T.TransactionStatus,0) = 1  or ISNULL(T.IsMissed,0)= 1) or ISNULL(T.TransactionStatus,0) = 0) and datediff(minute, T.[CreatedDate] ,getdate()) <= 15)", personId, RoleId, False)
-                        If (Not dtTransaction Is Nothing) Then
+                            'OBJMasterBAL = New MasterBAL()
+                            'Dim dtTransaction As DataTable = New DataTable()
+                            'dtTransaction = OBJMasterBAL.GetTransactionsByCondition(" and T.VehicleId=" & VehicleId & " and (((ISNULL(T.TransactionStatus,0) = 1  or ISNULL(T.IsMissed,0)= 1) or ISNULL(T.TransactionStatus,0) = 0) and datediff(minute, T.[CreatedDate] ,getdate()) <= 15)", personId, RoleId, False)
+                            'If (Not dtTransaction Is Nothing) Then
 
-                            If (dtTransaction.Rows.Count > 0) Then
+                            '    If (dtTransaction.Rows.Count > 0) Then
+                            '        FAVehicleAuthorizationMasterResponseObj.ResponceMessage = "fail"
+                            '        FAVehicleAuthorizationMasterResponseObj.ResponceText = "Transaction already exist."
+                            '        log.Error("Transaction already exist.VIN:" & VIN.Trim() & " TransactionId:" & dtTransaction.Rows(0)("TransactionId"))
+                            '        json = javaScriptSerializer.Serialize(FAVehicleAuthorizationMasterResponseObj)
+                            '        context.Response.Write(json)
+                            '        Return
+                            '    End If
+
+                            'End If
+
+                            Dim TransactionId As Integer = 0
+                            Dim CurrentOdo As Integer = 0
+                            OBJMasterBAL = New MasterBAL()
+                            Dim insertFlag As Boolean = False
+
+                            Try
+                                Dim dtTransactionVehicleInfo As DataTable
+                                dtTransactionVehicleInfo = OBJMasterBAL.GetTransactionsByCondition(" and T.CompanyId = " & customerId & " and (((ISNULL(T.TransactionStatus,0) = 1  or ISNULL(T.IsMissed,0)= 1) or ISNULL(T.TransactionStatus,0) = 0) and datediff(minute, T.[CreatedDate] ,getdate()) <= 15) and LTRIM(RTRIM(T.VehicleNumber)) = '" & VehicleNumber.Trim() & "'", personId, RoleId, 0)
+                                If dtTransactionVehicleInfo IsNot Nothing Then
+                                    If dtTransactionVehicleInfo.Rows.Count = 0 Then
+                                        insertFlag = True
+                                        log.Debug("In Insert")
+                                    Else
+                                        TransactionId = Convert.ToInt32(dtTransactionVehicleInfo.Rows(0)("TransactionId").ToString())
+                                        CurrentOdo = Convert.ToInt32(dtTransactionVehicleInfo.Rows(0)("CurrentOdometer").ToString())
+                                        insertFlag = False
+                                        log.Debug("In Update - TransactionId - " & TransactionId & " CurrentOdo - " & CurrentOdo)
+                                    End If
+                                End If
+                            Catch ex As Exception
+                                log.Debug("Error VIN + steps - " & steps & ". Error is " + ex.Message)
+                            End Try
+
+
+                            ' 1 km = 0.621371 miles
+
+                            Dim KilometerTOMiles = Convert.ToDecimal(ConfigurationManager.AppSettings("KilometerTOMiles").ToString())
+                            If insertFlag Then
+                                TransactionId = OBJMasterBAL.InsertUpdateTransaction(VehicleId, 0, personId, (Odometer * KilometerTOMiles) - DiffRawOdoAndManualOdo, 0, 0, Phonenumber, "", TransactionDate,
+                                                                0, 0, TransactionFrom, 0, CurrentLat, CurrentLng, "",
+                                                              VehicleNumber.Trim(), DepartmentNumber, PinNumber.Trim(), "", -1, True, False, 0, personId, 0,
+                                                                VehicleName, DepartmentName, FuelTypeName, Email, PersonName, CompanyName, 0, customerId, 0, Odometer)
+                                log.Debug("In Insert Transaction ODOK - " & Odometer)
+                            Else
+                                steps = "VehicleRecurringMSG 3 - 2 -1"
+                                log.Debug("In CurrentOdo- " & CurrentOdo)
+                                If CurrentOdo < ((Odometer * KilometerTOMiles) - DiffRawOdoAndManualOdo) And ((Odometer * KilometerTOMiles) - DiffRawOdoAndManualOdo) <> 0 Then
+                                    TransactionId = OBJMasterBAL.InsertUpdateTransaction(VehicleId, 0, personId, (Odometer * KilometerTOMiles) - DiffRawOdoAndManualOdo, 0, 0, Phonenumber, "", TransactionDate,
+                                                                TransactionId, 0, TransactionFrom, 0, CurrentLat, CurrentLng, "",
+                                                              VehicleNumber.Trim(), DepartmentNumber, PinNumber.Trim(), "", -1, True, False, 0, personId, 0,
+                                                                VehicleName, DepartmentName, FuelTypeName, Email, PersonName, CompanyName, 0, customerId, 0, Odometer)
+
+                                    log.Debug("In Update Transaction Calculated Odometer - " & (Odometer * KilometerTOMiles) + DiffRawOdoAndManualOdo)
+                                    log.Debug("In Update Transaction ODOK - " & Odometer)
+                                    log.Debug("In CurrentOdo- " & CurrentOdo)
+                                End If
+
                                 FAVehicleAuthorizationMasterResponseObj.ResponceMessage = "fail"
                                 FAVehicleAuthorizationMasterResponseObj.ResponceText = "Transaction already exist."
-                                log.Error("Transaction already exist.VehicleNumber:" & VehicleNumber.Trim() & " TransactionId:" & dtTransaction.Rows(0)("TransactionId"))
+                                log.Error("Transaction already exist.VIN:" & VIN.Trim() & " TransactionId:" & TransactionId)
                                 json = javaScriptSerializer.Serialize(FAVehicleAuthorizationMasterResponseObj)
                                 context.Response.Write(json)
                                 Return
+
                             End If
 
-                        End If
 
-                        OBJMasterBAL = New MasterBAL()
-                        Dim insertFlag As Boolean = False
-                        Dim dtTransactionVehicleInfo As DataTable
-                        dtTransactionVehicleInfo = OBJMasterBAL.GetTransactionsByCondition(" and T.CompanyId = " & customerId & " and T.TransactionStatus = 2 and LTRIM(RTRIM(T.VehicleNumber)) = '" & VehicleNumber.Trim() & "'", personId, RoleId, 0)
-                        If dtTransactionVehicleInfo IsNot Nothing Then
-                            If dtTransactionVehicleInfo.Rows.Count < 1 Then
-                                insertFlag = True
-                            End If
-                        End If
-
-                        ' 1 km = 0.621371 miles
-                        Dim TransactionId As Integer = 0
-
-                        If insertFlag Then
-                            TransactionId = OBJMasterBAL.InsertUpdateTransaction(VehicleId, 0, personId, 0, 0, 0, Phonenumber, "", TransactionDate,
-                                                                0, 0, TransactionFrom, 0, CurrentLat, CurrentLng, "",
-                                                              VehicleNumber.Trim(), DepartmentNumber, PinNumber.Trim(), "", -1, True, False, 0, personId, 0,
-                                                                VehicleName, DepartmentName, FuelTypeName, Email, PersonName, CompanyName, 0, customerId, Odometer)
-                        Else
-                            steps = "VehicleRecurringMSG 3 - 2 -1"
-                            Dim KilometerTOMiles = Convert.ToDecimal(ConfigurationManager.AppSettings("KilometerTOMiles").ToString())
-                            TransactionId = OBJMasterBAL.InsertUpdateTransaction(VehicleId, 0, personId, (Odometer * KilometerTOMiles) + DiffRawOdoAndManualOdo, 0, 0, Phonenumber, "", TransactionDate,
-                                                                0, 0, TransactionFrom, 0, CurrentLat, CurrentLng, "",
-                                                              VehicleNumber.Trim(), DepartmentNumber, PinNumber.Trim(), "", -1, True, False, 0, personId, 0,
-                                                                VehicleName, DepartmentName, FuelTypeName, Email, PersonName, CompanyName, 0, customerId, Odometer)
-                        End If
-
-
-                        steps = "VehicleRecurringMSG 3 - 3"
-                        Dim CreateDataFor As String = ""
-                        CreateDataFor = VehicleNumber.Trim() & ";" & VehicleName & ";" & DepartmentName & ";" & DepartmentNumber & ";" & VehicleNumber.Trim() & ";" & "" & ";" & "0" & ";" &
-                                        "" & ";" & CompanyName & ";" & "" & ";" & Convert.ToDateTime(TransactionDate).ToString("MM/dd/yyyy") & ";" & Convert.ToDateTime(TransactionDate).ToString("hh:mm:tt") & ";" &
+                                steps = "VehicleRecurringMSG 3 - 3"
+                            Dim CreateDataFor As String = ""
+                            CreateDataFor = VIN.Trim() & ";" & VehicleName & ";" & DepartmentName & ";" & DepartmentNumber & ";" & VIN.Trim() & ";" & "" & ";" & "0" & ";" &
+                                        "" & ";" & CompanyName & ";" & "" & ";" & Convert.ToDateTime(TransactionDate).ToString("MM/dd/yyyy") & ";" & Convert.ToDateTime(TransactionDate).ToString("hh: mm:tt") & ";" &
                                         PersonName & ";" & PinNumber.Trim() & ";" & Odometer & ";" & "" & ";" & -1 & ";" & "" & ";" & "Started" & ";" & "0 Raw Odometer = " & Odometer
 
-                        If (ConfigurationManager.AppSettings("AllowActivityLogin").ToString().ToLower() = "yes") Then
-                            Dim writtenData As String = CreateData(TransactionId, CreateDataFor)
-                            CSCommonHelper.WriteLog("Added", "Transactions", "", writtenData, PersonName & "(" & Email & ")", IPAddress, "success", "")
-                        End If
+                            If (ConfigurationManager.AppSettings("AllowActivityLogin").ToString().ToLower() = "yes") Then
+                                Dim writtenData As String = CreateData(TransactionId, CreateDataFor)
+                                CSCommonHelper.WriteLog("Added", "Transactions", "", writtenData, PersonName & "(" & Email & ")", IPAddress, "success", "")
+                            End If
 
-                        log.Error("TransactionId" & TransactionId)
+                            log.Error("TransactionId: " & TransactionId)
 
-                        steps = "VehicleRecurringMSG  4"
-                        Dim VINAuthorizationID As Integer = 0
-                        VINAuthorizationID = OBJMasterBAL.InsertUpdateFSVM(VINAuthorizationID, TransactionId, customerId, RPM, SPD, MIL, PC, PID1, PID2, PID3, PID4, PID5, PID6, PID7, PID8,
+                            steps = "VehicleRecurringMSG  4"
+                            Dim VINAuthorizationID As Integer = 0
+                            VINAuthorizationID = OBJMasterBAL.InsertUpdateFSVM(VINAuthorizationID, TransactionId, customerId, RPM, SPD, MIL, Odometer, PC, PID1, PID2, PID3, PID4, PID5, PID6, PID7, PID8,
                                                                            PID9, PID10, PID11, PID12, PID13, PID14, PID15, PID16, PID17, PID18, PID19, PID20)
+                            log.Debug("In VINAuthorizationID ODOK - " & Odometer)
 
-                        Try
-                            CreateDataFor = TransactionId & ";" & customerId & ";" & RPM & ";" & SPD & ";" & MIL & ";" & PC & ";" &
+                            Try
+                                CreateDataFor = TransactionId & ";" & customerId & ";" & RPM & ";" & SPD & ";" & MIL & ";" & PC & ";" &
                                        PID1 & ";" & PID2 & ";" & PID3 & ";" & PID4 & ";" & PID5 & ";" & PID6 & ";" & PID7 & ";" & PID8 & ";" & PID9 & ";" & PID10 & ";" &
                                        PID11 & ";" & PID12 & ";" & PID13 & ";" & PID14 & ";" & PID15 & ";" & PID16 & ";" & PID17 & ";" & PID18 & ";" & PID19 & ";" & PID20
 
-                            If (ConfigurationManager.AppSettings("VINAuthorizationID").ToString().ToLower() = "yes") Then
-                                Dim writtenData As String = CreateDataForVINAuthorization(VINAuthorizationID, CreateDataFor)
-                                CSCommonHelper.WriteLog("Added", "VINAuthorization", "", writtenData, PersonName & "(" & Email & ")", IPAddress, "success", "")
+                                If (ConfigurationManager.AppSettings("VINAuthorizationID").ToString().ToLower() = "yes") Then
+                                    Dim writtenData As String = CreateDataForVINAuthorization(VINAuthorizationID, CreateDataFor, Odometer)
+                                    CSCommonHelper.WriteLog("Added", "VINAuthorization", "", writtenData, PersonName & "(" & Email & ")", IPAddress, "success", "")
+                                End If
+                            Catch ex As Exception
+                                log.Debug("Error in CreateDataForVINAuthorization (CreateDataForVINAuthorization) + steps - " & steps & ". Error is " + ex.Message)
+                            End Try
+
+
+                            steps = "VehicleRecurringMSG 5"
+
+                            Dim resultUpgradable As String = ""
+                            resultUpgradable = IsUpgradeCurrentVersionWithUgradableVersionFSVM(dsVehicleValuesData.Rows(0)("VehicleId"), personId, CurrentFSVMFirmwareVersion)
+
+                            If resultUpgradable = "" Then
+                                resultUpgradable = "N"
                             End If
-                        Catch ex As Exception
-                            log.Debug("Error in SaveDeliveryVeederTankMonitorReading (CreateDataForVINAuthorization). Error is " + ex.Message)
-                        End Try
 
+                            log.Debug("resultUpgradable: " & resultUpgradable & " VehicleId: " & dsVehicleValuesData.Rows(0)("VehicleId") & " personId: " & personId)
 
-                        steps = "VehicleRecurringMSG 5"
+                            If resultUpgradable.ToUpper() = "Y" Then
+                                FAVehicleAuthorizationMasterResponseObj = GetLaunchedFSVMFirmwareDetails(FAVehicleAuthorizationMasterResponseObj)
+                            End If
 
-                        FAVehicleAuthorizationMasterResponseObj.ResponceMessage = "success"
-                        FAVehicleAuthorizationMasterResponseObj.ResponceText = Convert.ToString(TransactionId)
+                            FAVehicleAuthorizationMasterResponseObj.IsFSVMUpgradable = resultUpgradable
+                            FAVehicleAuthorizationMasterResponseObj.VehicleId = VehicleId
+                            FAVehicleAuthorizationMasterResponseObj.ResponceMessage = "success"
+                            FAVehicleAuthorizationMasterResponseObj.ResponceText = Convert.ToString(TransactionId)
 
-                        'Dim PID21 As String = ""
-                        'Dim PID22 As String = ""
-                        'Dim PID23 As String = ""
-                        'Dim PID24 As String = ""
-                        'Dim PID25 As String = ""
-                        'Dim PID26 As String = ""
-                        'Dim PID27 As String = ""
-                        'Dim PID28 As String = ""
-                        'Dim PID29 As String = ""
-                        'Dim PID30 As String = ""
+                            'Dim PID21 As String = ""
+                            'Dim PID22 As String = ""
+                            'Dim PID23 As String = ""
+                            'Dim PID24 As String = ""
+                            'Dim PID25 As String = ""
+                            'Dim PID26 As String = ""
+                            'Dim PID27 As String = ""
+                            'Dim PID28 As String = ""
+                            'Dim PID29 As String = ""
+                            'Dim PID30 As String = ""
+                        Else
+                            log.Debug("VehicleRecurringMSG 5.1")
+                            Try
+                                Dim VINAuthorizationID As Integer = 0
+                                VINAuthorizationID = OBJMasterBAL.InsertUpdateFSVM(VINAuthorizationID, 0, customerId, RPM, SPD, MIL, Odometer, PC, PID1, PID2, PID3, PID4, PID5, PID6, PID7, PID8,
+                                                                               PID9, PID10, PID11, PID12, PID13, PID14, PID15, PID16, PID17, PID18, PID19, PID20)
+                            Catch ex As Exception
 
-
+                            End Try
+                            FAVehicleAuthorizationMasterResponseObj.ResponceMessage = "fail"
+                            FAVehicleAuthorizationMasterResponseObj.ResponceText = "VIN not found. Please contact administrator"
+                        End If
                     Catch ex As Exception
                         log.Debug("VehicleRecurringMSG 6")
                         FAVehicleAuthorizationMasterResponseObj.ResponceMessage = "fail"
@@ -5671,7 +5860,7 @@ Public Class HandlerTrak
 
             'Dim TransactionFailedLog As ILog = LogManager.GetLogger("RollingLogFileAppender2")
 
-            log.Error("Exception occurred while prcessing request in VINAuthorization. Exception is :" & ex.Message & " . Details : " & requestJson)
+            log.Error("Exception occurred while prcessing request in VINAuthorization. + steps - " & steps & " Exception is :" & ex.Message & " . Details : " & requestJson)
 
             ErrorInAuthontication(context, "fail", resourceManager.GetString("HandlerMsg15"))
 
@@ -5684,7 +5873,7 @@ Public Class HandlerTrak
             Dim createDataFrom() = CreateDataFor.Split(";")
 
             Dim data As String = "TransactionId = " & TransactionId & " ; " &
-                                    "Vehicle Number = " & createDataFrom(0) & " ; " &
+                                    "VIN = " & createDataFrom(0) & " ; " &
                                     "Vehicle Name = " & createDataFrom(1) & " ; " &
                                     "Department = " & createDataFrom(2) & " ; " &
                                     "Department Number = " & createDataFrom(3) & " ; " &
@@ -5802,15 +5991,20 @@ Public Class HandlerTrak
                             steps = "CheckAndValidateFSNPDetails 5.1"
                             OBJMasterBAL = New MasterBAL()
 
-                            Dim dtTransactionVehicleInfo As DataTable
-                            dtTransactionVehicleInfo = OBJMasterBAL.GetTransactionsByCondition(" and T.TransactionStatus = 2 and T.VehicleId = " & VehicleId, personId, RoleId, 0)
-                            If dtTransactionVehicleInfo IsNot Nothing Then
-                                If dtTransactionVehicleInfo.Rows.Count < 1 Then
-                                    FSNPDetailResponse(javaScriptSerializer, context, "fail", Convert.ToString(VehicleId))
-                                    log.Debug("ProcessRequest: CheckAndValidateFSNPDetails- Completed Transaction not found. Please contact administrator. IMEI_UDID=" & IMEI_UDID & " , VehicleId=" & VehicleId)
-                                    Return
-                                End If
+                            log.Debug("DiffRawOdoAndManualOdo - " & dtVehicle.Rows(0)("DiffRawOdoAndManualOdo").ToString())
+
+                            If dtVehicle.Rows(0)("DiffRawOdoAndManualOdo").ToString().Trim() = "" Then
+                                'Dim dtTransactionVehicleInfo As DataTable
+                                'dtTransactionVehicleInfo = OBJMasterBAL.GetTransactionsByCondition(" and T.TransactionStatus = 2 and T.VehicleId = " & VehicleId, personId, RoleId, 0)
+                                'If dtTransactionVehicleInfo IsNot Nothing Then
+                                'If dtTransactionVehicleInfo.Rows.Count < 1 Then
+                                FSNPDetailResponse(javaScriptSerializer, context, "success", "fail + AskOdo", VehicleId, Convert.ToString(dtVehicle.Rows(0)("VehicleNumber").ToString()), dtVehicle)
+                                log.Debug("ProcessRequest: CheckAndValidateFSNPDetails- Completed Transaction not found. Please contact administrator. IMEI_UDID=" & IMEI_UDID & " , VehicleId=" & VehicleId)
+                                Return
+                                'End If
+                                'End If
                             End If
+
 
                             Dim dtVehicelSiteMapping As DataTable = New DataTable()
                             dtVehicelSiteMapping = OBJMasterBAL.GetVehicleSiteMapping(VehicleId, SiteId)
@@ -6013,9 +6207,27 @@ Public Class HandlerTrak
                                                                                                                 rootOject.DeptPercentage = DeptPercentage ' need to check
                                                                                                                 rootOject.SurchargeType = SurchargeType ' need to check
                                                                                                                 rootOject.ProductPrice = ProductPrice ' need to check
+                                                                                                                rootOject.VehicleNumber = Convert.ToString(dtVehicle.Rows(0)("VehicleNumber").ToString())
+                                                                                                                rootOject.RequireManualOdo = "n"
+
+                                                                                                                rootOject.PreviousOdo = IIf(IsDBNull(dtVehicle.Rows(0)("CurrentOdometer")), 0, dtVehicle.Rows(0)("CurrentOdometer"))
+
+                                                                                                                If (dtVehicle.Rows(0)("CheckOdometerReasonable") = "Y") Then
+
+                                                                                                                    rootOject.OdometerReasonabilityConditions = IIf(Convert.ToString(dtVehicle.Rows(0)("OdometerReasonabilityConditions")) = "", 1, dtVehicle.Rows(0)("OdometerReasonabilityConditions"))
+
+                                                                                                                    rootOject.OdoLimit = (Integer.Parse(IIf(IsDBNull(dtVehicle.Rows(0)("CurrentOdometer")), 0, dtVehicle.Rows(0)("CurrentOdometer"))) +
+                                                                                                                        Integer.Parse(IIf(IsDBNull(dtVehicle.Rows(0)("Odolimit")), 0, dtVehicle.Rows(0)("Odolimit"))))
+                                                                                                                Else
+                                                                                                                    rootOject.OdometerReasonabilityConditions = 2
+                                                                                                                    rootOject.OdoLimit = 0
+                                                                                                                End If
+                                                                                                                rootOject.CheckOdometerReasonable = IIf(dtVehicle.Rows(0)("CheckOdometerReasonable") = "Y", "True", "False")
+
+
 
                                                                                                                 json = javaScriptSerializer.Serialize(rootOject)
-
+                                                                                                                log.Debug("FSNP Check Response: " & json)
                                                                                                                 context.Response.Write(json)
 
                                                                                                                 Return
@@ -6124,11 +6336,33 @@ Public Class HandlerTrak
         End Using
     End Sub
 
-    Private Sub FSNPDetailResponse(javaScriptSerializer As JavaScriptSerializer, context As HttpContext, ResponceMessage As String, ResponceText As String)
+    Private Sub FSNPDetailResponse(javaScriptSerializer As JavaScriptSerializer, context As HttpContext,
+                                   ResponseMessage As String, ResponseText As String, Optional vehicleId As String = "", Optional VehicleNumber As String = "", Optional dtVehicle As DataTable = Nothing)
         Dim rootOject As CheckAndValidateFSNPDetailResponse = New CheckAndValidateFSNPDetailResponse()
         Dim json As String = ""
-        rootOject.ResponceMessage = ResponceMessage
-        rootOject.ResponceText = ResponceText
+        rootOject.ResponceMessage = ResponseMessage
+        rootOject.ResponceText = ResponseText
+        rootOject.VehicleId = vehicleId
+        rootOject.VehicleNumber = VehicleNumber
+        If ResponseText = "fail + AskOdo" Then
+            rootOject.RequireManualOdo = "y"
+            rootOject.PreviousOdo = IIf(IsDBNull(dtVehicle.Rows(0)("CurrentOdometer")), 0, dtVehicle.Rows(0)("CurrentOdometer"))
+
+            If (dtVehicle.Rows(0)("CheckOdometerReasonable") = "Y") Then
+
+                rootOject.OdometerReasonabilityConditions = IIf(Convert.ToString(dtVehicle.Rows(0)("OdometerReasonabilityConditions")) = "", 1, dtVehicle.Rows(0)("OdometerReasonabilityConditions"))
+
+                rootOject.OdoLimit = (Integer.Parse(IIf(IsDBNull(dtVehicle.Rows(0)("CurrentOdometer")), 0, dtVehicle.Rows(0)("CurrentOdometer"))) +
+                    Integer.Parse(IIf(IsDBNull(dtVehicle.Rows(0)("Odolimit")), 0, dtVehicle.Rows(0)("Odolimit"))))
+            Else
+                rootOject.OdometerReasonabilityConditions = 2
+                rootOject.OdoLimit = 0
+            End If
+            rootOject.CheckOdometerReasonable = IIf(dtVehicle.Rows(0)("CheckOdometerReasonable") = "Y", "True", "False")
+        Else
+            rootOject.RequireManualOdo = "n"
+        End If
+
         json = javaScriptSerializer.Serialize(rootOject)
         context.Response.Write(json)
     End Sub
@@ -6147,7 +6381,7 @@ Public Class HandlerTrak
                 log.Info("SaveManualVehicleOdometer : " & data)
 
                 Dim javaScriptSerializer = New JavaScriptSerializer()
-                Dim serJsonDetails = javaScriptSerializer.Deserialize(data, GetType(FAVehicleAuthorizationMaster))
+                Dim serJsonDetails = javaScriptSerializer.Deserialize(data, GetType(SaveVehicleManualOdometerMaster))
 
                 Dim VehicleId = DirectCast(serJsonDetails, SaveVehicleManualOdometerMaster).VehicleId
                 Dim Odometer = DirectCast(serJsonDetails, SaveVehicleManualOdometerMaster).Odometer
@@ -6296,67 +6530,69 @@ Public Class HandlerTrak
         End Using
     End Sub
 
-    Private Function IsUpgradeCurrentVersionWithUgradableVersionFSVM(context As HttpContext)
+    Private Function IsUpgradeCurrentVersionWithUgradableVersionFSVM(VehicleId As String, PersonId As String, CurrentFSVMFirmwareVersion As String)
         Dim requestJson As String = ""
+        Dim resultUpgradable As String = ""
         Try
 
-            Dim data = [String].Empty
-            Using inputStream = New StreamReader(context.Request.InputStream)
-                data = inputStream.ReadToEnd()
-                requestJson = data
+            'Dim data = [String].Empty
+            'Using inputStream = New StreamReader(context.Request.InputStream)
+            'Data = inputStream.ReadToEnd()
+            'requestJson = data
 
-                log.Info("IsUpgradeCurrentVersionWithUgradableVersionFSVM : " & data)
+            'log.Info("IsUpgradeCurrentVersionWithUgradableVersionFSVM : " & data)
 
-                Dim javaScriptSerializer = New JavaScriptSerializer()
+            'Dim javaScriptSerializer = New JavaScriptSerializer()
 
-                Dim serJsonDetails = javaScriptSerializer.Deserialize(data, GetType(IsUpgradeCurrentVersionWithUgradableVersionFSVMMaster))
+            'Dim serJsonDetails = javaScriptSerializer.Deserialize(data, GetType(IsUpgradeCurrentVersionWithUgradableVersionFSVMMaster))
 
-                Dim VehicleId = DirectCast(serJsonDetails, IsUpgradeCurrentVersionWithUgradableVersionFSVMMaster).VehicleId
-                Dim PersonId = DirectCast(serJsonDetails, IsUpgradeCurrentVersionWithUgradableVersionFSVMMaster).PersonId
+            'Dim VehicleId = DirectCast(serJsonDetails, IsUpgradeCurrentVersionWithUgradableVersionFSVMMaster).VehicleId
+            'Dim PersonId = DirectCast(serJsonDetails, IsUpgradeCurrentVersionWithUgradableVersionFSVMMaster).PersonId
 
-                Dim ISUpgradeCurrentVersionWithUgradableVersionFSVMResponseObj = New IsUpgradeCurrentVersionWithUgradableVersionFSVMResponse()
-                Dim json As String
+            'Dim ISUpgradeCurrentVersionWithUgradableVersionFSVMResponseObj = New IsUpgradeCurrentVersionWithUgradableVersionFSVMResponse()
+            'Dim json As String
 
-                log.Debug("VehicleId : " & VehicleId)
-                log.Debug("With PersonId : " & PersonId)
+            log.Debug("VehicleId : " & VehicleId)
+            log.Debug("With PersonId : " & PersonId)
+            log.Debug("CurrentFSVMFirmwareVersion: " & CurrentFSVMFirmwareVersion)
+            OBJMasterBAL = New MasterBAL()
+            If (VehicleId <> "") Then
+                If (PersonId <> "") Then
+                    'check is upgradable or not
+                    OBJMasterBAL = New MasterBAL()
+                    Dim dsUpgrade As DataSet
+                    dsUpgrade = OBJMasterBAL.FSVMcheckLaunchedAndExistedVersionAndUpdate(VehicleId, CurrentFSVMFirmwareVersion.Trim(), PersonId, 0)
 
-                OBJMasterBAL = New MasterBAL()
-                If (VehicleId <> "") Then
-                    If (PersonId <> "") Then
-                        'check is upgradable or not
-                        Dim resultUpgradable As String = ""
-                        OBJMasterBAL = New MasterBAL()
-                        Dim dsUpgrade As DataSet
-                        dsUpgrade = OBJMasterBAL.FSVMcheckLaunchedAndExistedVersionAndUpdate(VehicleId, "", PersonId, 0)
-
-                        If dsUpgrade IsNot Nothing Then
-                            If dsUpgrade.Tables(0) IsNot Nothing Then
-                                If dsUpgrade.Tables(0).Rows.Count > 0 Then
-                                    resultUpgradable = dsUpgrade.Tables(0).Rows(0)("resultUpgradable")
-                                Else
-                                    resultUpgradable = "N"
-                                End If
+                    If dsUpgrade IsNot Nothing Then
+                        If dsUpgrade.Tables(0) IsNot Nothing Then
+                            If dsUpgrade.Tables(0).Rows.Count > 0 Then
+                                resultUpgradable = dsUpgrade.Tables(0).Rows(0)("resultUpgradable")
                             Else
                                 resultUpgradable = "N"
                             End If
                         Else
                             resultUpgradable = "N"
                         End If
-                        ISUpgradeCurrentVersionWithUgradableVersionFSVMResponseObj.ResponceMessage = "success"
-                        ISUpgradeCurrentVersionWithUgradableVersionFSVMResponseObj.ResponceText = resultUpgradable
                     Else
-                        ISUpgradeCurrentVersionWithUgradableVersionFSVMResponseObj.ResponceMessage = "fail"
-                        ISUpgradeCurrentVersionWithUgradableVersionFSVMResponseObj.ResponceText = "Error occurred during Update:PersonId blank !"
+                        resultUpgradable = "N"
                     End If
+                    'ISUpgradeCurrentVersionWithUgradableVersionFSVMResponseObj.ResponceMessage = "success"
+                    'ISUpgradeCurrentVersionWithUgradableVersionFSVMResponseObj.ResponceText = resultUpgradable
                 Else
-                    ISUpgradeCurrentVersionWithUgradableVersionFSVMResponseObj.ResponceMessage = "fail"
-                    ISUpgradeCurrentVersionWithUgradableVersionFSVMResponseObj.ResponceText = "Error occurred during Update:VehicleId blank !"
+                    'ISUpgradeCurrentVersionWithUgradableVersionFSVMResponseObj.ResponceMessage = "fail"
+                    'ISUpgradeCurrentVersionWithUgradableVersionFSVMResponseObj.ResponceText = "Error occurred during Update:PersonId blank !"
+                    resultUpgradable = "N"
                 End If
+            Else
+                'ISUpgradeCurrentVersionWithUgradableVersionFSVMResponseObj.ResponceMessage = "fail"
+                'ISUpgradeCurrentVersionWithUgradableVersionFSVMResponseObj.ResponceText = "Error occurred during Update:VehicleId blank !"
+                resultUpgradable = "N"
+            End If
 
-                json = javaScriptSerializer.Serialize(ISUpgradeCurrentVersionWithUgradableVersionFSVMResponseObj)
-                context.Response.Write(json)
+            'json = JavaScriptSerializer.Serialize(ISUpgradeCurrentVersionWithUgradableVersionFSVMResponseObj)
+            'context.Response.Write(json)
 
-            End Using
+            'End Using
 
         Catch ex As Exception
 
@@ -6364,69 +6600,76 @@ Public Class HandlerTrak
 
             log.Error("Exception occurred while prcessing request in IsUpgradeCurrentVersionWithUgradableVersionFSVM. Exception is :" & ex.Message & " . Details : " & requestJson)
 
-            ErrorInAuthontication(context, "fail", resourceManager.GetString("HandlerMsg15"))
-
+            'ErrorInAuthontication(context, "fail", resourceManager.GetString("HandlerMsg15"))
+            resultUpgradable = "N"
         End Try
-        Return ""
+        Return resultUpgradable
     End Function
 
-    Private Function GetLaunchedFSVMFirmwareDetails(context As HttpContext)
+    Private Function GetLaunchedFSVMFirmwareDetails(FAVehicleAuthorizationMasterResponseObj As FAVehicleAuthorizationMasterResponse)
         Dim requestJson As String = ""
         Dim rootOject = New FSVMUpgradeFileObject()
         Try
-            Dim data = [String].Empty
-            Using inputStream = New StreamReader(context.Request.InputStream)
-                data = inputStream.ReadToEnd()
-                requestJson = data
+            'Dim data = [String].Empty
+            'Using inputStream = New StreamReader(context.Request.InputStream)
+            'data = inputStream.ReadToEnd()
+            'requestJson = Data
 
-                log.Info("GetLaunchedFSVMFirmwareDetails : " & data)
+            'log.Info("GetLaunchedFSVMFirmwareDetails : " & data)
 
-                Dim javaScriptSerializer = New JavaScriptSerializer()
-                Dim serJsonDetails = javaScriptSerializer.Deserialize(data, GetType(IsUpgradeCurrentVersionWithUgradableVersionFSVMMaster))
-                Dim VehicleId = DirectCast(serJsonDetails, IsUpgradeCurrentVersionWithUgradableVersionFSVMMaster).VehicleId
+            'Dim javaScriptSerializer = New JavaScriptSerializer()
+            'Dim serJsonDetails = javaScriptSerializer.Deserialize(data, GetType(IsUpgradeCurrentVersionWithUgradableVersionFSVMMaster))
+            'Dim VehicleId = DirectCast(serJsonDetails, IsUpgradeCurrentVersionWithUgradableVersionFSVMMaster).VehicleId
 
-                Dim dtFSVMFirmwares As DataTable = New DataTable()
-                dtFSVMFirmwares = OBJMasterBAL.GetLaunchedFSVMFirmwareDetails()
-                Dim FSVMFirmwareVersion As String = ""
-                Dim FilePath As String = ""
+            Dim dtFSVMFirmwares As DataTable = New DataTable()
+            dtFSVMFirmwares = OBJMasterBAL.GetLaunchedFSVMFirmwareDetails()
+            Dim FSVMFirmwareVersion As String = ""
+            Dim FilePath As String = ""
 
-                If (Not dtFSVMFirmwares Is Nothing) Then
-                    If (dtFSVMFirmwares.Rows.Count > 0) Then
-                        FSVMFirmwareVersion = dtFSVMFirmwares.Rows(0)("Version")
-                        FilePath = "http://" + HttpContext.Current.Request.Url.Authority & dtFSVMFirmwares.Rows(0)("FSVMFirmwareFilePath")
-                    End If
+            If (Not dtFSVMFirmwares Is Nothing) Then
+                If (dtFSVMFirmwares.Rows.Count > 0) Then
+                    FSVMFirmwareVersion = dtFSVMFirmwares.Rows(0)("Version")
+                    FilePath = "http://" + HttpContext.Current.Request.Url.Authority & dtFSVMFirmwares.Rows(0)("FSVMFirmwareFilePath")
                 End If
+            End If
 
-                Dim json As String
+            'Dim json As String
 
-                If FilePath <> "" Then
-                    rootOject.ResponceData.FilePath = FilePath
-                    rootOject.ResponceData.FSVMFirmwareVersion = FSVMFirmwareVersion
-                    rootOject.ResponceMessage = "success"
-                    rootOject.ResponceText = ""
-                Else
-                    rootOject.ResponceData.FilePath = FilePath
-                    rootOject.ResponceData.FSVMFirmwareVersion = FSVMFirmwareVersion
-                    rootOject.ResponceMessage = "fail"
-                    rootOject.ResponceText = "Error occurred during geting File."
-                End If
+            If FilePath <> "" Then
+                'rootOject.ResponceData.FilePath = FilePath
+                'rootOject.ResponceData.FSVMFirmwareVersion = FSVMFirmwareVersion
+                'rootOject.ResponceMessage = "success"
+                'rootOject.ResponceText = ""
+                FAVehicleAuthorizationMasterResponseObj.FilePath = FilePath
+                FAVehicleAuthorizationMasterResponseObj.FSVMFirmwareVersion = FSVMFirmwareVersion
+            Else
+                'rootOject.ResponceData.FilePath = FilePath
+                'rootOject.ResponceData.FSVMFirmwareVersion = FSVMFirmwareVersion
+                'rootOject.ResponceMessage = "fail"
+                'rootOject.ResponceText = "Error occurred during geting File."
+                FAVehicleAuthorizationMasterResponseObj.FilePath = ""
+                FAVehicleAuthorizationMasterResponseObj.FSVMFirmwareVersion = ""
+            End If
 
 
-                json = javaScriptSerializer.Serialize(rootOject)
-                log.Error("SSIDdsToJson Data : " & json)
+            'json = javaScriptSerializer.Serialize(rootOject)
+            'log.Error("SSIDdsToJson Data : " & json)
 
-                context.Response.Write(json)
-            End Using
+            'context.Response.Write(json)
+            'End Using
         Catch ex As Exception
 
             'Dim TransactionFailedLog As ILog = LogManager.GetLogger("RollingLogFileAppender2")
 
             log.Error("Exception occurred while prcessing request in GetLaunchedFSVMFirmwareDetails. Exception is :" & ex.Message & " . Details : " & requestJson)
 
-            ErrorInAuthontication(context, "fail", resourceManager.GetString("HandlerMsg15"))
+            'ErrorInAuthontication(context, "fail", resourceManager.GetString("HandlerMsg15"))
+
+            FAVehicleAuthorizationMasterResponseObj.FilePath = ""
+            FAVehicleAuthorizationMasterResponseObj.FSVMFirmwareVersion = ""
 
         End Try
-        Return ""
+        Return FAVehicleAuthorizationMasterResponseObj
     End Function
 
 
@@ -6528,7 +6771,7 @@ Public Class HandlerTrak
 
     End Function
 
-    Private Function CreateDataForVINAuthorization(VINAuthorizationID As Integer, CreateDataFor As String) As String
+    Private Function CreateDataForVINAuthorization(VINAuthorizationID As Integer, CreateDataFor As String, Odometer As String) As String
         Try
 
             Dim createDataFrom() = CreateDataFor.Split(";")
@@ -6540,6 +6783,7 @@ Public Class HandlerTrak
                                     "SPD = " & createDataFrom(3) & " ; " &
                                     "MIL = " & createDataFrom(4) & " ; " &
                                     "PC = " & createDataFrom(5) & " ; " &
+                                    "ODOK = " & Odometer & " & " &
                                     "PID1 = " & createDataFrom(6) & " ; " &
                                     "PID2 = " & createDataFrom(7) & " ; " &
                                     "PID3 = " & createDataFrom(8) & " ; " &
@@ -6554,12 +6798,14 @@ Public Class HandlerTrak
                                     "PID12 = " & createDataFrom(17) & " ; " &
                                     "PID13 = " & createDataFrom(18) & " ; " &
                                     "PID14 = " & createDataFrom(19) & " ; " &
-                                    "PID16 = " & createDataFrom(15) & " ; " &
-                                    "PID17 = " & createDataFrom(16) & " ; " &
-                                    "PID18 = " & createDataFrom(17) & " ; " &
-                                    "PID19 = " & createDataFrom(18) & " ; " &
-                                    "PID20 = " & createDataFrom(19) & " ; " &
-                                    "PID20 = " & createDataFrom(20) & " "
+                                    "PID15 = " & createDataFrom(20) & " ; " &
+                                    "PID16 = " & createDataFrom(21) & " ; " &
+                                    "PID17 = " & createDataFrom(22) & " ; " &
+                                    "PID18 = " & createDataFrom(23) & " ; " &
+                                    "PID19 = " & createDataFrom(19) & " ; " &
+                                    "PID20 = " & createDataFrom(24) & " "
+
+
             Return data
 
         Catch ex As Exception
@@ -6572,8 +6818,6 @@ Public Class HandlerTrak
 
 
 #End Region
-
-
 
     Private Sub SendLinkDefectiveEmail(emailTo As String, LinkName As String, numberzero As Integer, CompanyName As String)
         Try
@@ -6637,7 +6881,12 @@ Public Class HandlerTrak
             Dim IMEI_UDID = DirectCast(serJsonDetails, AuthorizationSequenceModel).IMEIUDID
             Dim PersonnelPIN = DirectCast(serJsonDetails, AuthorizationSequenceModel).PersonnelPIN
             Dim FOBNumber = DirectCast(serJsonDetails, AuthorizationSequenceModel).FOBNumber
-            PersonnelPIN = PersonnelPIN.Trim()
+
+            If (Not PersonnelPIN Is Nothing) Then
+                PersonnelPIN = PersonnelPIN.Trim()
+            Else
+                PersonnelPIN = ""
+            End If
 
             Dim dsIMEI = New DataSet()
             dsIMEI = OBJServiceBAL.IsIMEIExists(IMEI_UDID)

@@ -248,6 +248,42 @@ Partial Public Class Vehicle
     Protected WithEvents txtAccId As Global.System.Web.UI.WebControls.TextBox
     
     '''<summary>
+    '''txtCurrentHrs control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtCurrentHrs As Global.System.Web.UI.WebControls.TextBox
+    
+    '''<summary>
+    '''CVCurrentHrs control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents CVCurrentHrs As Global.System.Web.UI.WebControls.CompareValidator
+    
+    '''<summary>
+    '''txtPreviousHours control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtPreviousHours As Global.System.Web.UI.WebControls.TextBox
+    
+    '''<summary>
+    '''CVPreviousHours control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents CVPreviousHours As Global.System.Web.UI.WebControls.CompareValidator
+    
+    '''<summary>
     '''txtMake control.
     '''</summary>
     '''<remarks>
@@ -338,6 +374,33 @@ Partial Public Class Vehicle
     Protected WithEvents txtYear As Global.System.Web.UI.WebControls.TextBox
     
     '''<summary>
+    '''HideTotalHours control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents HideTotalHours As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+    
+    '''<summary>
+    '''txtHoursLimit control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtHoursLimit As Global.System.Web.UI.WebControls.TextBox
+    
+    '''<summary>
+    '''txtLicensePlateNumber control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtLicensePlateNumber As Global.System.Web.UI.WebControls.TextBox
+    
+    '''<summary>
     '''hideShowOdometerReasonabilityeither control.
     '''</summary>
     '''<remarks>
@@ -356,13 +419,13 @@ Partial Public Class Vehicle
     Protected WithEvents RBL_OdometerReasonabilityConditions As Global.System.Web.UI.WebControls.RadioButtonList
     
     '''<summary>
-    '''txtLicensePlateNumber control.
+    '''txtLicenseState control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents txtLicensePlateNumber As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents txtLicenseState As Global.System.Web.UI.WebControls.TextBox
     
     '''<summary>
     '''txtFuelLimitPerTxn control.
@@ -383,13 +446,13 @@ Partial Public Class Vehicle
     Protected WithEvents CV_FuelLimitPerTxn As Global.System.Web.UI.WebControls.CompareValidator
     
     '''<summary>
-    '''txtLicenseState control.
+    '''txtType control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents txtLicenseState As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents txtType As Global.System.Web.UI.WebControls.TextBox
     
     '''<summary>
     '''txtFuelLimitPerDay control.
@@ -410,13 +473,13 @@ Partial Public Class Vehicle
     Protected WithEvents CV_FuelLimitPerDay As Global.System.Web.UI.WebControls.CompareValidator
     
     '''<summary>
-    '''txtType control.
+    '''TXT_FoBNUM control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents txtType As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents TXT_FoBNUM As Global.System.Web.UI.WebControls.TextBox
     
     '''<summary>
     '''TXT_ExpectedMPGPerK control.
@@ -435,15 +498,6 @@ Partial Public Class Vehicle
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents CV_ExpectedMPGPerK As Global.System.Web.UI.WebControls.CompareValidator
-    
-    '''<summary>
-    '''TXT_FoBNUM control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents TXT_FoBNUM As Global.System.Web.UI.WebControls.TextBox
     
     '''<summary>
     '''txtExportCode control.
@@ -507,6 +561,15 @@ Partial Public Class Vehicle
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents txtFSTagMacAddress As Global.System.Web.UI.WebControls.TextBox
+    
+    '''<summary>
+    '''txt_FirmwareVer control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txt_FirmwareVer As Global.System.Web.UI.WebControls.TextBox
     
     '''<summary>
     '''btnSave control.

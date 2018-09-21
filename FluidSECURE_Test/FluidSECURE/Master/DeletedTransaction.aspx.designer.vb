@@ -356,6 +356,60 @@ Partial Public Class DeletedTransaction
     Protected WithEvents txtOther As Global.System.Web.UI.WebControls.TextBox
     
     '''<summary>
+    '''divPrevHours control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents divPrevHours As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+    
+    '''<summary>
+    '''txtPreviousHours control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtPreviousHours As Global.System.Web.UI.WebControls.TextBox
+    
+    '''<summary>
+    '''CVPreviousHours control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents CVPreviousHours As Global.System.Web.UI.WebControls.CompareValidator
+    
+    '''<summary>
+    '''DDL_TransactionStatus control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents DDL_TransactionStatus As Global.System.Web.UI.WebControls.DropDownList
+    
+    '''<summary>
+    '''lbltranStatus control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lbltranStatus As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+    
+    '''<summary>
+    '''RDF_TransactionStatus control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents RDF_TransactionStatus As Global.System.Web.UI.WebControls.RequiredFieldValidator
+    
+    '''<summary>
     '''DDL_Fuel control.
     '''</summary>
     '''<remarks>
@@ -401,31 +455,13 @@ Partial Public Class DeletedTransaction
     Protected WithEvents HDF_TotalTransactions As Global.System.Web.UI.WebControls.HiddenField
     
     '''<summary>
-    '''DDL_TransactionStatus control.
+    '''lblCost control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents DDL_TransactionStatus As Global.System.Web.UI.WebControls.DropDownList
-    
-    '''<summary>
-    '''lbltranStatus control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents lbltranStatus As Global.System.Web.UI.HtmlControls.HtmlGenericControl
-    
-    '''<summary>
-    '''RDF_TransactionStatus control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents RDF_TransactionStatus As Global.System.Web.UI.WebControls.RequiredFieldValidator
+    Protected WithEvents lblCost As Global.System.Web.UI.HtmlControls.HtmlGenericControl
     
     '''<summary>
     '''divCompany control.
@@ -453,33 +489,6 @@ Partial Public Class DeletedTransaction
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents RDF_Customer As Global.System.Web.UI.WebControls.RequiredFieldValidator
-    
-    '''<summary>
-    '''lblCost control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents lblCost As Global.System.Web.UI.HtmlControls.HtmlGenericControl
-    
-    '''<summary>
-    '''divOffSet control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents divOffSet As Global.System.Web.UI.HtmlControls.HtmlGenericControl
-    
-    '''<summary>
-    '''chkOFFSite control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents chkOFFSite As Global.System.Web.UI.WebControls.CheckBox
     
     '''<summary>
     '''btnSave control.

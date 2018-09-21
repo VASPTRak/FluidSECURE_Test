@@ -756,7 +756,7 @@
 								</div>
 								<asp:RequiredFieldValidator ID="RDF_txtSwitchTimeB" runat="server" ControlToValidate="txtSwitchTimeB"
 									ErrorMessage="Please Enter Pulser Timing Adjust." Display="Dynamic" ForeColor="Red" SetFocusOnError="True" ValidationGroup="SiteValidation"></asp:RequiredFieldValidator>
-								<asp:CompareValidator ID="CV_txtSwitchTimeB" runat="server" Display="Dynamic" ErrorMessage="Please enter  Pulser Timing Adjust in number format." ForeColor="Red" Operator="DataTypeCheck" 
+								<asp:CompareValidator ID="CV_txtSwitchTimeB" runat="server" Display="Dynamic" ErrorMessage="Please enter  Pulser Timing Adjust in number format." ForeColor="Red" Operator="DataTypeCheck"
 									SetFocusOnError="True" Type="Integer" ValidationGroup="SiteValidation" ControlToValidate="txtSwitchTimeB"></asp:CompareValidator>
 							</div>
 						</div>
@@ -859,6 +859,28 @@
 						<p style="color: #021ffb; font-size: 14px; margin-top: 10px;">* : All calibration quantities must be whole units (gallons, liters, etc.) without tenths.</p>
 					</div>
 				</div>
+
+				<div class="modal fade" tabindex="-1" role="dialog" id="ModelForTransferLink">
+					<div class="modal-dialog modal-lg">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h3 class="modal-title text-center">FluidSecure</h3>
+							</div>
+							<div class="modal-body">
+								<h4 runat="server" id="lblMessageModelForTransferLink"></h4>
+							</div>
+							<div class="modal-footer nextButton">
+								<input type="button" id="btnCloselblMessageModelForTransferLinkOK" class="btn btn-default" onclick="ClosePopUp()" value="No" />
+								<input type="button" id="btnlblMessageModelForTransferLinkNo" class="btn btn-success" data-dismiss="modal" style="display: none;" value="Close" />
+								<asp:Button runat="server" ID="btnlblMessageModelForTransferLinkYes" class="btn btn-success" OnClientClick="ClosePopUp()" OnClick="btnlblMessageModelForTransferLinkYes_Click" Text="Yes" />
+							</div>
+						</div>
+						<!-- /.modal-content -->
+					</div>
+					<!-- /.modal-dialog -->
+				</div>
+				<!-- /.modal -->
+
 			</ContentTemplate>
 		</asp:UpdatePanel>
 
@@ -878,6 +900,22 @@
 		//    });
 		//}
 
+		function ClosePopUp() {
+			$("#btnlblMessageModelForTransferLinkNo").click();
+			$('body').removeClass("modal-open");
+			enableDisableButtons(false)
+		}
+
+		function OpenModelForTransferLinkBox() {
+			$("#lblMessageModelForTransferLink").val("");
+			enableDisableButtons(true)
+			$('#ModelForTransferLink').modal({
+				show: true,
+				backdrop: 'static',
+				keyboard: false
+			});
+
+		}
 
 		function CloseFuelingTimes() {
 			$("#btnCloseFuelingTimes").click();

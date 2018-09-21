@@ -12,7 +12,7 @@ Option Explicit On
 
 
 Partial Public Class FluidSecureHub
-
+    
     '''<summary>
     '''up_Main control.
     '''</summary>
@@ -21,7 +21,7 @@ Partial Public Class FluidSecureHub
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents up_Main As Global.System.Web.UI.UpdatePanel
-
+    
     '''<summary>
     '''lblVehicleMessage control.
     '''</summary>
@@ -30,7 +30,7 @@ Partial Public Class FluidSecureHub
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents lblVehicleMessage As Global.System.Web.UI.WebControls.Label
-
+    
     '''<summary>
     '''UP_Fuel control.
     '''</summary>
@@ -39,7 +39,7 @@ Partial Public Class FluidSecureHub
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents UP_Fuel As Global.System.Web.UI.UpdatePanel
-
+    
     '''<summary>
     '''gv_Vehicles control.
     '''</summary>
@@ -48,7 +48,7 @@ Partial Public Class FluidSecureHub
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents gv_Vehicles As Global.System.Web.UI.WebControls.GridView
-
+    
     '''<summary>
     '''btnCloseVehicle control.
     '''</summary>
@@ -57,7 +57,7 @@ Partial Public Class FluidSecureHub
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents btnCloseVehicle As Global.System.Web.UI.WebControls.Button
-
+    
     '''<summary>
     '''lblSiteMessage control.
     '''</summary>
@@ -66,7 +66,7 @@ Partial Public Class FluidSecureHub
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents lblSiteMessage As Global.System.Web.UI.WebControls.Label
-
+    
     '''<summary>
     '''UP_Sites control.
     '''</summary>
@@ -75,7 +75,7 @@ Partial Public Class FluidSecureHub
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents UP_Sites As Global.System.Web.UI.UpdatePanel
-
+    
     '''<summary>
     '''gv_Sites control.
     '''</summary>
@@ -84,7 +84,7 @@ Partial Public Class FluidSecureHub
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents gv_Sites As Global.System.Web.UI.WebControls.GridView
-
+    
     '''<summary>
     '''btnCancelSite control.
     '''</summary>
@@ -93,7 +93,7 @@ Partial Public Class FluidSecureHub
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents btnCancelSite As Global.System.Web.UI.WebControls.Button
-
+    
     '''<summary>
     '''lblHeader control.
     '''</summary>
@@ -102,7 +102,7 @@ Partial Public Class FluidSecureHub
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents lblHeader As Global.System.Web.UI.WebControls.Label
-
+    
     '''<summary>
     '''message control.
     '''</summary>
@@ -111,7 +111,7 @@ Partial Public Class FluidSecureHub
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents message As Global.System.Web.UI.HtmlControls.HtmlGenericControl
-
+    
     '''<summary>
     '''ErrorMessage control.
     '''</summary>
@@ -120,7 +120,7 @@ Partial Public Class FluidSecureHub
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents ErrorMessage As Global.System.Web.UI.HtmlControls.HtmlGenericControl
-
+    
     '''<summary>
     '''txtPersonName control.
     '''</summary>
@@ -129,7 +129,7 @@ Partial Public Class FluidSecureHub
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents txtPersonName As Global.System.Web.UI.WebControls.TextBox
-
+    
     '''<summary>
     '''HDF_PersonnelId control.
     '''</summary>
@@ -138,7 +138,7 @@ Partial Public Class FluidSecureHub
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents HDF_PersonnelId As Global.System.Web.UI.WebControls.HiddenField
-
+    
     '''<summary>
     '''HDF_UniqueUserId control.
     '''</summary>
@@ -147,7 +147,7 @@ Partial Public Class FluidSecureHub
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents HDF_UniqueUserId As Global.System.Web.UI.WebControls.HiddenField
-
+    
     '''<summary>
     '''HDF_CompanyId control.
     '''</summary>
@@ -156,7 +156,7 @@ Partial Public Class FluidSecureHub
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents HDF_CompanyId As Global.System.Web.UI.WebControls.HiddenField
-
+    
     '''<summary>
     '''HDF_TotalPersonnel control.
     '''</summary>
@@ -165,7 +165,7 @@ Partial Public Class FluidSecureHub
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents HDF_TotalPersonnel As Global.System.Web.UI.WebControls.HiddenField
-
+    
     '''<summary>
     '''HDF_PreviousPreAuthCount control.
     '''</summary>
@@ -174,7 +174,7 @@ Partial Public Class FluidSecureHub
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents HDF_PreviousPreAuthCount As Global.System.Web.UI.WebControls.HiddenField
-
+    
     '''<summary>
     '''txtEmail control.
     '''</summary>
@@ -183,7 +183,7 @@ Partial Public Class FluidSecureHub
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents txtEmail As Global.System.Web.UI.WebControls.TextBox
-
+    
     '''<summary>
     '''txtSiteName control.
     '''</summary>
@@ -192,7 +192,16 @@ Partial Public Class FluidSecureHub
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents txtSiteName As Global.System.Web.UI.WebControls.TextBox
-
+    
+    '''<summary>
+    '''txtHUB_Address control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtHUB_Address As Global.System.Web.UI.WebControls.TextBox
+    
     '''<summary>
     '''txtPhoneNumber control.
     '''</summary>
@@ -201,7 +210,7 @@ Partial Public Class FluidSecureHub
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents txtPhoneNumber As Global.System.Web.UI.WebControls.TextBox
-
+    
     '''<summary>
     '''RFD_PhoneNumber control.
     '''</summary>
@@ -210,7 +219,7 @@ Partial Public Class FluidSecureHub
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents RFD_PhoneNumber As Global.System.Web.UI.WebControls.RequiredFieldValidator
-
+    
     '''<summary>
     '''lblErrorMsg control.
     '''</summary>
@@ -219,7 +228,7 @@ Partial Public Class FluidSecureHub
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents lblErrorMsg As Global.System.Web.UI.WebControls.Label
-
+    
     '''<summary>
     '''txtIMEINumber control.
     '''</summary>
@@ -228,7 +237,7 @@ Partial Public Class FluidSecureHub
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents txtIMEINumber As Global.System.Web.UI.WebControls.TextBox
-
+    
     '''<summary>
     '''UFLSHide control.
     '''</summary>
@@ -237,7 +246,7 @@ Partial Public Class FluidSecureHub
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents UFLSHide As Global.System.Web.UI.HtmlControls.HtmlGenericControl
-
+    
     '''<summary>
     '''UFLSLabel control.
     '''</summary>
@@ -246,7 +255,7 @@ Partial Public Class FluidSecureHub
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents UFLSLabel As Global.System.Web.UI.HtmlControls.HtmlGenericControl
-
+    
     '''<summary>
     '''UFLSCheckbox control.
     '''</summary>
@@ -255,7 +264,7 @@ Partial Public Class FluidSecureHub
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents UFLSCheckbox As Global.System.Web.UI.HtmlControls.HtmlGenericControl
-
+    
     '''<summary>
     '''chkSoftUpdate control.
     '''</summary>
@@ -264,7 +273,7 @@ Partial Public Class FluidSecureHub
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents chkSoftUpdate As Global.System.Web.UI.WebControls.CheckBox
-
+    
     '''<summary>
     '''chkIsApproved control.
     '''</summary>
@@ -273,7 +282,7 @@ Partial Public Class FluidSecureHub
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents chkIsApproved As Global.System.Web.UI.WebControls.CheckBox
-
+    
     '''<summary>
     '''DDL_Department control.
     '''</summary>
@@ -282,7 +291,7 @@ Partial Public Class FluidSecureHub
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents DDL_Department As Global.System.Web.UI.WebControls.DropDownList
-
+    
     '''<summary>
     '''RFD_Department control.
     '''</summary>
@@ -291,133 +300,7 @@ Partial Public Class FluidSecureHub
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents RFD_Department As Global.System.Web.UI.WebControls.RequiredFieldValidator
-
-    '''<summary>
-    '''CHK_IsPersonnelPINRequire control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents CHK_IsPersonnelPINRequire As Global.System.Web.UI.WebControls.CheckBox
-
-    '''<summary>
-    '''txtExportCode control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents txtExportCode As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
-    '''divCompany control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents divCompany As Global.System.Web.UI.HtmlControls.HtmlGenericControl
-
-    '''<summary>
-    '''DDL_Customer control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents DDL_Customer As Global.System.Web.UI.WebControls.DropDownList
-
-    '''<summary>
-    '''RFD_Customer control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents RFD_Customer As Global.System.Web.UI.WebControls.RequiredFieldValidator
-
-    '''<summary>
-    '''txtBCardReader control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents txtBCardReader As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
-    '''txtPrinterName control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents txtPrinterName As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
-    '''txtBluetoothCardReaderMacAddress control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents txtBluetoothCardReaderMacAddress As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
-    '''txtPrinterMACAddress control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents txtPrinterMACAddress As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
-    '''txtLFBCardReader control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents txtLFBCardReader As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
-    '''txtVeederRootMacAddress control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents txtVeederRootMacAddress As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
-    '''txtLFBluetoothCardReaderMacAddress control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents txtLFBluetoothCardReaderMacAddress As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
-    '''CHK_IsVehicleHasFob control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents CHK_IsVehicleHasFob As Global.System.Web.UI.WebControls.CheckBox
-
-    '''<summary>
-    '''lblIsVehicleHasFob control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents lblIsVehicleHasFob As Global.System.Web.UI.WebControls.Label
-
+    
     '''<summary>
     '''chk_GateHub control.
     '''</summary>
@@ -426,7 +309,115 @@ Partial Public Class FluidSecureHub
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents chk_GateHub As Global.System.Web.UI.WebControls.CheckBox
-
+    
+    '''<summary>
+    '''txtExportCode control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtExportCode As Global.System.Web.UI.WebControls.TextBox
+    
+    '''<summary>
+    '''CHK_IsPersonnelPINRequire control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents CHK_IsPersonnelPINRequire As Global.System.Web.UI.WebControls.CheckBox
+    
+    '''<summary>
+    '''txtBCardReader control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtBCardReader As Global.System.Web.UI.WebControls.TextBox
+    
+    '''<summary>
+    '''chk_IsVehicleNumberRequire control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents chk_IsVehicleNumberRequire As Global.System.Web.UI.WebControls.CheckBox
+    
+    '''<summary>
+    '''txtBluetoothCardReaderMacAddress control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtBluetoothCardReaderMacAddress As Global.System.Web.UI.WebControls.TextBox
+    
+    '''<summary>
+    '''divCompany control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents divCompany As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+    
+    '''<summary>
+    '''DDL_Customer control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents DDL_Customer As Global.System.Web.UI.WebControls.DropDownList
+    
+    '''<summary>
+    '''RFD_Customer control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents RFD_Customer As Global.System.Web.UI.WebControls.RequiredFieldValidator
+    
+    '''<summary>
+    '''txtLFBCardReader control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtLFBCardReader As Global.System.Web.UI.WebControls.TextBox
+    
+    '''<summary>
+    '''txtPrinterName control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtPrinterName As Global.System.Web.UI.WebControls.TextBox
+    
+    '''<summary>
+    '''txtLFBluetoothCardReaderMacAddress control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtLFBluetoothCardReaderMacAddress As Global.System.Web.UI.WebControls.TextBox
+    
+    '''<summary>
+    '''txtPrinterMACAddress control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtPrinterMACAddress As Global.System.Web.UI.WebControls.TextBox
+    
     '''<summary>
     '''CHK_IsPersonHasFob control.
     '''</summary>
@@ -435,7 +426,7 @@ Partial Public Class FluidSecureHub
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents CHK_IsPersonHasFob As Global.System.Web.UI.WebControls.CheckBox
-
+    
     '''<summary>
     '''lblIsPersonHasFob control.
     '''</summary>
@@ -444,7 +435,34 @@ Partial Public Class FluidSecureHub
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents lblIsPersonHasFob As Global.System.Web.UI.WebControls.Label
-
+    
+    '''<summary>
+    '''txtVeederRootMacAddress control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtVeederRootMacAddress As Global.System.Web.UI.WebControls.TextBox
+    
+    '''<summary>
+    '''CHK_IsVehicleHasFob control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents CHK_IsVehicleHasFob As Global.System.Web.UI.WebControls.CheckBox
+    
+    '''<summary>
+    '''lblIsVehicleHasFob control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblIsVehicleHasFob As Global.System.Web.UI.WebControls.Label
+    
     '''<summary>
     '''btnSave control.
     '''</summary>
@@ -453,7 +471,7 @@ Partial Public Class FluidSecureHub
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents btnSave As Global.System.Web.UI.WebControls.Button
-
+    
     '''<summary>
     '''btnCancel control.
     '''</summary>
@@ -462,7 +480,7 @@ Partial Public Class FluidSecureHub
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents btnCancel As Global.System.Web.UI.WebControls.Button
-
+    
     '''<summary>
     '''btnSaveAndAddNew control.
     '''</summary>
@@ -471,7 +489,7 @@ Partial Public Class FluidSecureHub
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents btnSaveAndAddNew As Global.System.Web.UI.WebControls.Button
-
+    
     '''<summary>
     '''btnFirst control.
     '''</summary>
@@ -480,7 +498,7 @@ Partial Public Class FluidSecureHub
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents btnFirst As Global.System.Web.UI.WebControls.Button
-
+    
     '''<summary>
     '''btnprevious control.
     '''</summary>
@@ -489,7 +507,7 @@ Partial Public Class FluidSecureHub
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents btnprevious As Global.System.Web.UI.WebControls.Button
-
+    
     '''<summary>
     '''lblof control.
     '''</summary>
@@ -498,7 +516,7 @@ Partial Public Class FluidSecureHub
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents lblof As Global.System.Web.UI.WebControls.Label
-
+    
     '''<summary>
     '''btnNext control.
     '''</summary>
@@ -507,7 +525,7 @@ Partial Public Class FluidSecureHub
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents btnNext As Global.System.Web.UI.WebControls.Button
-
+    
     '''<summary>
     '''btnLast control.
     '''</summary>

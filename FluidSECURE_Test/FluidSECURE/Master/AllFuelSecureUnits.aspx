@@ -162,7 +162,7 @@
                                         <asp:Label ID="lblTankMonitorNumber" Text='<%# DataBinder.Eval(Container.DataItem, "TankMonitorNumber")%>'
                                             runat="server" />
                                     </ItemTemplate>
-                                </asp:TemplateField>--%>
+                                </asp:TemplateField>
                                 <asp:TemplateField SortExpression="IPAddress" ItemStyle-HorizontalAlign="Left"
                                     HeaderText="Mac Address">
                                     <ItemTemplate>
@@ -170,7 +170,7 @@
                                             runat="server" />
                                     </ItemTemplate>
                                 </asp:TemplateField>
-                                <%--<asp:TemplateField SortExpression="ExportCode" ItemStyle-HorizontalAlign="Left"
+                                <asp:TemplateField SortExpression="ExportCode" ItemStyle-HorizontalAlign="Left"
                                     HeaderText="Export Code">
                                     <ItemTemplate>
                                         <asp:Label ID="lblExportCode" Text='<%# DataBinder.Eval(Container.DataItem, "ExportCode")%>'

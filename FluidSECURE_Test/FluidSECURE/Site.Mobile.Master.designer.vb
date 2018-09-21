@@ -230,6 +230,15 @@ Partial Public Class Site_Mobile
     Protected WithEvents UploadedFSVMFirmware As Global.System.Web.UI.HtmlControls.HtmlGenericControl
     
     '''<summary>
+    '''UploadedFSNPFirmware control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents UploadedFSNPFirmware As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+    
+    '''<summary>
     '''CompanyHostingReport control.
     '''</summary>
     '''<remarks>
@@ -237,6 +246,15 @@ Partial Public Class Site_Mobile
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents CompanyHostingReport As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+    
+    '''<summary>
+    '''ShipmentReport control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents ShipmentReport As Global.System.Web.UI.HtmlControls.HtmlGenericControl
     
     '''<summary>
     '''CustomerWiseTransactionDetails control.

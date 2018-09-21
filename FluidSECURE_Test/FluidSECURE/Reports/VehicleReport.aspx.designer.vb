@@ -77,6 +77,15 @@ Partial Public Class VehicleReport
     Protected WithEvents RDF_Customer As Global.System.Web.UI.WebControls.RequiredFieldValidator
     
     '''<summary>
+    '''DDL_Dept control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents DDL_Dept As Global.System.Web.UI.WebControls.DropDownList
+    
+    '''<summary>
     '''DDL_Vehicle control.
     '''</summary>
     '''<remarks>

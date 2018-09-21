@@ -105,10 +105,10 @@
                             <asp:TextBox ID="txtExportCode" runat="server" CssClass="form-control input-sm" MaxLength="25" Width="210" TabIndex="5"></asp:TextBox>
                         </div>
                         <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
-                            <label>Other label:</label>
+                            <label>Vehicle Number Require:</label>
                         </div>
                         <div class="form-group col-md-3 col-sm-3 col-xs-12">
-                            <asp:TextBox ID="txtOtherLabel" runat="server" CssClass="form-control input-sm" MaxLength="50" TabIndex="11"></asp:TextBox>
+                            <asp:CheckBox ID="chk_VehicleNumberRequire" runat="server" TabIndex="11" Checked="true"/>
                         </div>
                     </div>
                     <div class="row col-md-12 col-sm-12 col-xs-12">
@@ -169,6 +169,12 @@
                         </div>
                         <div class="form-group col-md-3 col-sm-3 col-xs-12">
                             <asp:CheckBox runat="server" ID="chkAssignPerToVeh" />
+                        </div>
+                        <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
+                            <label>Other label:</label>
+                        </div>
+                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                            <asp:TextBox ID="txtOtherLabel" runat="server" CssClass="form-control input-sm" MaxLength="50" TabIndex="13"></asp:TextBox>
                         </div>
                     </div>
                     <div class="row col-md-12 col-sm-12 col-xs-12" id="divPricing" runat="server">

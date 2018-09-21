@@ -45,6 +45,7 @@ Public Class Shipment
 							message.Visible = True
 							message.InnerText = "Record saved"
 						End If
+
 					Else
 						btnFirst.Visible = False
 						btnNext.Visible = False
@@ -52,9 +53,14 @@ Public Class Shipment
 						btnLast.Visible = False
 						lblof.Visible = False
 						lblHeader.Text = "Add Shipment"
+						RBL_Options.SelectedValue = 1
+						RBL_Options_SelectedIndexChanged(Nothing, Nothing)
+						DDL_Customer_SelectedIndexChanged(Nothing, Nothing)
+						chkIsReplacement_CheckedChanged(Nothing, Nothing)
+						CHK_Returned_CheckedChanged(Nothing, Nothing)
+
 					End If
 					txtFluidSecureUnitName.Focus()
-
 
 				End If
 			End If
@@ -80,33 +86,53 @@ Public Class Shipment
 
 				txtFluidSecureUnitName.Text = dtShipment.Rows(0)("FluidSecureUnitName").ToString()
 				DDL_Customer.SelectedValue = dtShipment.Rows(0)("CompanyId").ToString().TrimEnd().TrimStart()
+				DDL_Customer_SelectedIndexChanged(Nothing, Nothing)
 				txtAddress.Text = dtShipment.Rows(0)("Address").ToString()
 				txtShipmentDate.Text = Convert.ToDateTime(dtShipment.Rows(0)("ShipmentDate").ToString()).ToString("MM/dd/yyyy")
 				'txtShipmentTime.Text = Convert.ToDateTime(dtShipment.Rows(0)("ShipmentDate").ToString()).ToString("hh:mm tt")
+				txtHubName.Text = dtShipment.Rows(0)("HubName").ToString()
+				chkIsReplacement.Checked = dtShipment.Rows(0)("IsReplacement").ToString()
+				DDL_Sites.SelectedValue = dtShipment.Rows(0)("ReplacementForSiteId").ToString()
+				DDL_Hub.SelectedValue = dtShipment.Rows(0)("ReplacementForHubId").ToString()
+				CHK_Returned.Checked = dtShipment.Rows(0)("IsReturned").ToString()
+				If (dtShipment.Rows(0)("ReturnedOn").ToString() = "") Then
+					txtReturnedDate.Text = ""
+				Else
+					txtReturnedDate.Text = Convert.ToDateTime(dtShipment.Rows(0)("ReturnedOn").ToString()).ToString("MM/dd/yyyy")
+				End If
 
-				OBJMaster = New MasterBAL()
+				RBL_Options.SelectedValue = dtShipment.Rows(0)("ShipmentForLinkOrHub").ToString()
+				RBL_Options_SelectedIndexChanged(Nothing, Nothing)
+                chkIsReplacement_CheckedChanged(Nothing, Nothing)
+                CHK_Returned_CheckedChanged(Nothing, Nothing)
 
-				HDF_TotalShipments.Value = OBJMaster.GetShipmentIdByCondition(ShipmentId, False, False, False, False, True, Session("RoleId").ToString(), Convert.ToInt32(Session("PersonId").ToString()))
+                OBJMaster = New MasterBAL()
+
+				Dim CompanyId As Integer = 0
+				If (Session("CustomerId") <> 0 And Not Session("CustomerId") Is Nothing) Then
+					CompanyId = Convert.ToInt32(Session("CustomerId").ToString())
+				End If
+				HDF_TotalShipments.Value = OBJMaster.GetShipmentIdByCondition(ShipmentId, False, False, False, False, True, Session("RoleId").ToString(), Convert.ToInt32(Session("PersonId").ToString()), CompanyId)
 
 				OBJMaster = New MasterBAL()
 				Dim dtAllShipments As DataTable = New DataTable()
-                'If Session("CompanyNameHeader") <> Nothing Then
-                '	If Session("CompanyNameHeader") <> "" And Session("CompanyNameHeader") <> "Select All" Then
-                '		dtAllShipments = OBJMaster.GetShipmentsByCondition(" and SD.Company = '" + Session("CompanyNameHeader").ToString() + "' ", Session("RoleId").ToString())
-                '	Else
-                '		dtAllShipments = OBJMaster.GetShipmentsByCondition("", Session("RoleId").ToString())
-                '	End If
-                'Else
-                '	dtAllShipments = OBJMaster.GetShipmentsByCondition("", Session("RoleId").ToString())
-                'End If
+				'If Session("CompanyNameHeader") <> Nothing Then
+				'	If Session("CompanyNameHeader") <> "" And Session("CompanyNameHeader") <> "Select All" Then
+				'		dtAllShipments = OBJMaster.GetShipmentsByCondition(" and SD.Company = '" + Session("CompanyNameHeader").ToString() + "' ", Session("RoleId").ToString())
+				'	Else
+				'		dtAllShipments = OBJMaster.GetShipmentsByCondition("", Session("RoleId").ToString())
+				'	End If
+				'Else
+				'	dtAllShipments = OBJMaster.GetShipmentsByCondition("", Session("RoleId").ToString())
+				'End If
 
-                If (Session("CustomerId") <> 0 And Not Session("CustomerId") Is Nothing) Then
-                    dtAllShipments = OBJMaster.GetShipmentsByCondition(" and SD.CompanyId = " + Session("CustomerId").ToString() + " ", Session("RoleId").ToString())
-                Else
-                    dtAllShipments = OBJMaster.GetShipmentsByCondition("", Session("RoleId").ToString())
-                End If
+				If (Session("CustomerId") <> 0 And Not Session("CustomerId") Is Nothing) Then
+					dtAllShipments = OBJMaster.GetShipmentsByCondition(" and SD.CompanyId = " + Session("CustomerId").ToString() + " ", Session("RoleId").ToString())
+				Else
+					dtAllShipments = OBJMaster.GetShipmentsByCondition("", Session("RoleId").ToString())
+				End If
 
-                dtAllShipments.PrimaryKey = New DataColumn() {dtAllShipments.Columns(0)}
+				dtAllShipments.PrimaryKey = New DataColumn() {dtAllShipments.Columns(0)}
 				Dim dr As DataRow = dtAllShipments.Rows.Find(ShipmentId)
 				If Not IsDBNull(dr) Then
 
@@ -163,8 +189,13 @@ Public Class Shipment
 		Try
 			Dim CurrentShipmentId As Integer = HDF_ShipmentId.Value
 
+			Dim CompanyId As Integer = 0
+			If (Session("CustomerId") <> 0 And Not Session("CustomerId") Is Nothing) Then
+				CompanyId = Convert.ToInt32(Session("CustomerId").ToString())
+			End If
+
 			OBJMaster = New MasterBAL()
-			Dim ShipmentId As Integer = OBJMaster.GetShipmentIdByCondition(CurrentShipmentId, True, False, False, False, False, Session("RoleId").ToString(), Convert.ToInt32(Session("PersonId").ToString()))
+			Dim ShipmentId As Integer = OBJMaster.GetShipmentIdByCondition(CurrentShipmentId, True, False, False, False, False, Session("RoleId").ToString(), Convert.ToInt32(Session("PersonId").ToString()), CompanyId)
 			HDF_ShipmentId.Value = ShipmentId
 			BindShipmentDetails(ShipmentId)
 
@@ -179,9 +210,12 @@ Public Class Shipment
 		Try
 
 			Dim CurrentShipmentId As Integer = HDF_ShipmentId.Value
-
+			Dim CompanyId As Integer = 0
+			If (Session("CustomerId") <> 0 And Not Session("CustomerId") Is Nothing) Then
+				CompanyId = Convert.ToInt32(Session("CustomerId").ToString())
+			End If
 			OBJMaster = New MasterBAL()
-			Dim ShipmentId As Integer = OBJMaster.GetShipmentIdByCondition(CurrentShipmentId, False, False, False, True, False, Session("RoleId").ToString(), Convert.ToInt32(Session("PersonId").ToString()))
+			Dim ShipmentId As Integer = OBJMaster.GetShipmentIdByCondition(CurrentShipmentId, False, False, False, True, False, Session("RoleId").ToString(), Convert.ToInt32(Session("PersonId").ToString()), CompanyId)
 			HDF_ShipmentId.Value = ShipmentId
 			BindShipmentDetails(ShipmentId)
 
@@ -196,9 +230,12 @@ Public Class Shipment
 		Try
 
 			Dim CurrentShipmentId As Integer = HDF_ShipmentId.Value
-
+			Dim CompanyId As Integer = 0
+			If (Session("CustomerId") <> 0 And Not Session("CustomerId") Is Nothing) Then
+				CompanyId = Convert.ToInt32(Session("CustomerId").ToString())
+			End If
 			OBJMaster = New MasterBAL()
-			Dim ShipmentId As Integer = OBJMaster.GetShipmentIdByCondition(CurrentShipmentId, False, False, True, False, False, Session("RoleId").ToString(), Convert.ToInt32(Session("PersonId").ToString()))
+			Dim ShipmentId As Integer = OBJMaster.GetShipmentIdByCondition(CurrentShipmentId, False, False, True, False, False, Session("RoleId").ToString(), Convert.ToInt32(Session("PersonId").ToString()), CompanyId)
 			HDF_ShipmentId.Value = ShipmentId
 			BindShipmentDetails(ShipmentId)
 
@@ -213,9 +250,12 @@ Public Class Shipment
 		Try
 
 			Dim CurrentShipmentId As Integer = HDF_ShipmentId.Value
-
+			Dim CompanyId As Integer = 0
+			If (Session("CustomerId") <> 0 And Not Session("CustomerId") Is Nothing) Then
+				CompanyId = Convert.ToInt32(Session("CustomerId").ToString())
+			End If
 			OBJMaster = New MasterBAL()
-			Dim ShipmentId As Integer = OBJMaster.GetShipmentIdByCondition(CurrentShipmentId, False, True, False, False, False, Session("RoleId").ToString(), Convert.ToInt32(Session("PersonId").ToString()))
+			Dim ShipmentId As Integer = OBJMaster.GetShipmentIdByCondition(CurrentShipmentId, False, True, False, False, False, Session("RoleId").ToString(), Convert.ToInt32(Session("PersonId").ToString()), CompanyId)
 			HDF_ShipmentId.Value = ShipmentId
 			BindShipmentDetails(ShipmentId)
 
@@ -298,16 +338,51 @@ Public Class Shipment
 
 			End If
 			Dim CheckIdExists As Integer = 0
-			OBJMaster = New MasterBAL()
-			CheckIdExists = OBJMaster.CheckFluidSecureUnitExist(txtFluidSecureUnitName.Text, ShipmentId)
 
-			If CheckIdExists = -1 Then
+			If (RBL_Options.SelectedValue = "1") Then
+				OBJMaster = New MasterBAL()
+				CheckIdExists = OBJMaster.CheckFluidSecureUnitExist(txtFluidSecureUnitName.Text, ShipmentId)
 
+				If CheckIdExists = -1 Then
+
+					ErrorMessage.Visible = True
+					ErrorMessage.InnerText = "FluidSecure Link already exist."
+
+					Return
+
+				End If
+
+			End If
+
+			If (RBL_Options.SelectedValue = "1") Then
+				txtHubName.Text = ""
+				DDL_Hub.SelectedValue = 0
+			ElseIf (RBL_Options.SelectedValue = "2") Then
+				txtFluidSecureUnitName.Text = ""
+				DDL_Sites.SelectedValue = 0
+			End If
+			If (chkIsReplacement.Checked = False) Then
+				DDL_Hub.SelectedValue = 0
+				DDL_Sites.SelectedValue = 0
+			Else
+				If (RBL_Options.SelectedValue = "1" And DDL_Sites.SelectedValue = 0) Then
+					ErrorMessage.Visible = True
+					ErrorMessage.InnerText = "Please select site."
+					DDL_Sites.Focus()
+					Return
+				ElseIf (RBL_Options.SelectedValue = "2" And DDL_Hub.SelectedValue = 0) Then
+					ErrorMessage.Visible = True
+					ErrorMessage.InnerText = "Please select hub."
+					DDL_Hub.Focus()
+					Return
+				End If
+			End If
+
+			If (CHK_Returned.Checked = True And txtReturnedDate.Text = "") Then
 				ErrorMessage.Visible = True
-				ErrorMessage.InnerText = "FluidSecure Link already exist."
-
+				ErrorMessage.InnerText = "Please enter Returned Date."
+				txtReturnedDate.Focus()
 				Return
-
 			End If
 
 			OBJMaster = New MasterBAL()
@@ -317,8 +392,12 @@ Public Class Shipment
 			OBJMaster = New MasterBAL()
 
 			Dim shipmentDatetime As DateTime = Request.Form(txtShipmentDate.UniqueID) '& " " & Request.Form(txtShipmentTime.UniqueID)
+			Dim ReturnedOn As DateTime = IIf(txtReturnedDate.Text = "", DateTime.MinValue, Request.Form(txtReturnedDate.UniqueID)) '& " " & Request.Form(txtShipmentTime.UniqueID)
 
-			result = OBJMaster.SaveUpdateShipment(ShipmentId, txtFluidSecureUnitName.Text, DDL_Customer.SelectedItem.Text.ToString().TrimStart().TrimEnd(), txtAddress.Text, Convert.ToInt32(Session("PersonId")), shipmentDatetime, DDL_Customer.SelectedValue)
+			result = OBJMaster.SaveUpdateShipment(ShipmentId, txtFluidSecureUnitName.Text, DDL_Customer.SelectedItem.Text.ToString().TrimStart().TrimEnd(),
+												  txtAddress.Text, Convert.ToInt32(Session("PersonId")), shipmentDatetime, DDL_Customer.SelectedValue,
+												  txtHubName.Text, chkIsReplacement.Checked, DDL_Sites.SelectedValue, DDL_Hub.SelectedValue, CHK_Returned.Checked,
+												  ReturnedOn, RBL_Options.SelectedValue)
 
 
 			If result > 0 Then
@@ -389,4 +468,144 @@ Public Class Shipment
 		End Try
 	End Sub
 
+	Protected Sub RBL_Options_SelectedIndexChanged(sender As Object, e As EventArgs)
+		Try
+			If (RBL_Options.SelectedValue = "1") Then
+				ShipmentForLinkName.Visible = True
+				ShipmentForHubName.Visible = False
+				If chkIsReplacement.Checked Then
+					ReplacementForLink.Visible = True
+					ReplacementForHub.Visible = False
+				Else
+					ReplacementForLink.Visible = False
+					ReplacementForHub.Visible = False
+				End If
+
+			ElseIf (RBL_Options.SelectedValue = "2") Then
+				ShipmentForLinkName.Visible = False
+				ShipmentForHubName.Visible = True
+
+				If chkIsReplacement.Checked Then
+					ReplacementForLink.Visible = False
+					ReplacementForHub.Visible = True
+				Else
+					ReplacementForLink.Visible = False
+					ReplacementForHub.Visible = False
+				End If
+
+			End If
+		Catch ex As Exception
+			log.Error("Error occurred in RBL_Options_SelectedIndexChanged Exception is :" + ex.Message)
+			ErrorMessage.Visible = True
+			ErrorMessage.InnerText = "Error occurred while getting data, please try again later."
+		Finally
+			ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "LoadDateTimeControl();", True)
+		End Try
+	End Sub
+	Private Sub BindAllHubs()
+		Try
+			Dim dtPersonnel As DataTable = New DataTable()
+			OBJMaster = New MasterBAL()
+
+			dtPersonnel = OBJMaster.GetPersonnelByNameAndNumberAndEmail(" and ISNULL(ANU.IsFluidSecureHub,0)=1  and ANU.CustomerId = " & DDL_Customer.SelectedValue, Convert.ToInt32(Session("PersonId").ToString()), Session("RoleId").ToString())
+
+			DDL_Hub.DataSource = dtPersonnel
+			DDL_Hub.DataValueField = "PersonId"
+			DDL_Hub.DataTextField = "HubSiteName"
+			DDL_Hub.DataBind()
+
+			DDL_Hub.Items.Insert(0, New ListItem("Select Site", "0"))
+
+		Catch ex As Exception
+
+			log.Error("Error occurred in BindAllHubs Exception is :" + ex.Message)
+			ErrorMessage.Visible = True
+			ErrorMessage.InnerText = "Error occurred while getting All Hubs, please try again later."
+
+		End Try
+
+	End Sub
+
+	Private Sub BindSites()
+		Try
+
+			Dim dtSites As DataTable = New DataTable()
+			OBJMaster = New MasterBAL()
+
+			dtSites = OBJMaster.GetSiteByCondition(" And c.CustomerId =" + DDL_Customer.SelectedValue, Session("PersonId").ToString(), Session("RoleId").ToString(), False)
+
+			DDL_Sites.DataSource = dtSites
+			DDL_Sites.DataValueField = "SiteId"
+			DDL_Sites.DataTextField = "WifiSSid"
+			DDL_Sites.DataBind()
+
+			DDL_Sites.Items.Insert(0, New ListItem("Select FluidSecure Link", "0"))
+		Catch ex As Exception
+
+			ErrorMessage.Visible = True
+			ErrorMessage.InnerText = "Error occurred  while getting sites, please try again later."
+
+			log.Error("Error occurred in BindSites Exception is :" + ex.Message)
+
+		End Try
+	End Sub
+
+	Protected Sub DDL_Customer_SelectedIndexChanged(sender As Object, e As EventArgs)
+		Try
+
+			BindAllHubs()
+			BindSites()
+
+		Catch ex As Exception
+
+			log.Error("Error occurred in DDL_Customer_SelectedIndexChanged Exception is :" + ex.Message)
+			ErrorMessage.Visible = True
+			ErrorMessage.InnerText = "Error occurred while getting data, please try again later."
+
+		Finally
+			ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "LoadDateTimeControl();", True)
+		End Try
+	End Sub
+
+	Protected Sub chkIsReplacement_CheckedChanged(sender As Object, e As EventArgs)
+		Try
+			If (chkIsReplacement.Checked = True) Then
+				If (RBL_Options.SelectedValue = "1") Then
+					ReplacementForLink.Visible = True
+					ReplacementForHub.Visible = False
+				ElseIf (RBL_Options.SelectedValue = "2") Then
+					ReplacementForLink.Visible = False
+					ReplacementForHub.Visible = True
+				End If
+			Else
+				ReplacementForLink.Visible = False
+				ReplacementForHub.Visible = False
+			End If
+
+		Catch ex As Exception
+			log.Error("Error occurred in chkIsReplacement_CheckedChanged Exception is :" + ex.Message)
+			ErrorMessage.Visible = True
+			ErrorMessage.InnerText = "Error occurred while Checking data, please try again later."
+		Finally
+			ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "LoadDateTimeControl();", True)
+		End Try
+	End Sub
+
+	Protected Sub CHK_Returned_CheckedChanged(sender As Object, e As EventArgs)
+		Try
+
+			If (CHK_Returned.Checked = True) Then
+				ReturnedDate.Visible = True
+			Else
+				ReturnedDate.Visible = False
+			End If
+
+		Catch ex As Exception
+			log.Error("Error occurred in CHK_Returned_CheckedChanged Exception is :" + ex.Message)
+			ErrorMessage.Visible = True
+			ErrorMessage.InnerText = "Error occurred while Checking data, please try again later."
+		Finally
+			ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "LoadDateTimeControl();", True)
+		End Try
+	End Sub
 End Class

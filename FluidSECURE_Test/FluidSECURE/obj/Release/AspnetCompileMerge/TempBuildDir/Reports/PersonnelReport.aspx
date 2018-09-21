@@ -14,7 +14,7 @@
                         <p class="text-center red" id="ErrorMessage" runat="server"></p>
                     </div>
                     <div class="row col-md-12 col-sm-12 col-xs-12">
-                        <div ID = "divCompany" runat ="server" class="form-group col-md-3 col-sm-3 textright col-xs-12">
+                        <div id="divCompany" runat="server" class="form-group col-md-3 col-sm-3 textright col-xs-12">
                             <label>
                                 Company:</label>
                         </div>
@@ -23,8 +23,17 @@
                             <asp:RequiredFieldValidator ID="RDF_Customer" runat="server" ControlToValidate="DDL_Customer" Display="Dynamic"
                                 ErrorMessage="Please select Company." ForeColor="Red" InitialValue="0" SetFocusOnError="True" ValidationGroup="PersonValidation"></asp:RequiredFieldValidator>
                         </div>
-
                         <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
+                            <label>
+                                Department:</label>
+                        </div>
+                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                            <asp:DropDownList ID="DDL_Dept" runat="server" TabIndex="2" CssClass="form-control input-sm" AutoPostBack="true" OnSelectedIndexChanged="DDL_Dept_SelectedIndexChanged"></asp:DropDownList>
+                        </div>
+
+                    </div>
+                    <div class="row col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group col-md-offset-6 col-md-3 col-sm-3 textright col-xs-12">
                             <label>
                                 Person:</label>
                         </div>
@@ -38,7 +47,6 @@
                             UseSubmitBehavior="False" TabIndex="3" ValidationGroup="PersonValidation" />
                     </div>
                 </div>
-            </div>
         </ContentTemplate>
     </asp:UpdatePanel>
 

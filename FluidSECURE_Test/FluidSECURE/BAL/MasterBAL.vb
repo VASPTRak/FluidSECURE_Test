@@ -53,12 +53,13 @@ Public Class MasterBAL
 											CurrentLat As String, CurrentLng As String, CurrentLocationAddress As String, VehicleNumber As String,
 											DepartmentNumber As String, PersonPin As String, Other As String, Hours As Integer, IsMissed As Boolean, IsUpdate As Boolean, TransactionStatus As Integer, HubId As Integer, Pulses As Integer,
 											VehicleName As String, DepartmentName As String, FuelTypeName As String, Email As String, PersonName As String, CompanyName As String, OFFSite As Boolean, customerID As Integer,
-											Optional RawOdometer As Integer = 0) As Integer
+											PreviousHours As Integer,
+											RawOdometer As Integer) As Integer
 		Dim result As Integer
 		result = 0
 		Try
 			Dim dal = New GeneralizedDAL()
-			Dim parcollection(34) As SqlParameter
+			Dim parcollection(35) As SqlParameter
 
 			Dim ParVehicleId = New SqlParameter("@VehicleId", SqlDbType.Int)
 			Dim ParSiteId = New SqlParameter("@SiteId", SqlDbType.Int)
@@ -98,6 +99,7 @@ Public Class MasterBAL
 			Dim ParcustomerID = New SqlParameter("@customerID", SqlDbType.Int)
 
 			Dim ParRawOdometer = New SqlParameter("@RawOdometer", SqlDbType.Int)
+			Dim ParPreviousHours = New SqlParameter("@PreviousHours", SqlDbType.Int)
 
 			ParVehicleId.Direction = ParameterDirection.Input
 			ParSiteId.Direction = ParameterDirection.Input
@@ -137,6 +139,7 @@ Public Class MasterBAL
 			ParcustomerID.Direction = ParameterDirection.Input
 
 			ParRawOdometer.Direction = ParameterDirection.Input
+			ParPreviousHours.Direction = ParameterDirection.Input
 
 			ParVehicleId.Value = VehicleId
 			ParSiteId.Value = SiteId
@@ -176,6 +179,7 @@ Public Class MasterBAL
 			ParcustomerID.Value = customerID
 
 			ParRawOdometer.Value = RawOdometer
+			ParPreviousHours.Value = IIf(PreviousHours = -1, Nothing, PreviousHours)
 
 			parcollection(0) = ParVehicleId
 			parcollection(1) = ParSiteId
@@ -215,6 +219,7 @@ Public Class MasterBAL
 			parcollection(33) = ParcustomerID
 
 			parcollection(34) = ParRawOdometer
+			parcollection(35) = ParPreviousHours
 
 			result = dal.ExecuteStoredProcedureGetInteger("usp_tt_Transaction_InsertUpdateTransaction", parcollection)
 
@@ -685,160 +690,163 @@ Public Class MasterBAL
 
 	End Sub
 
-	Public Function UpdateAndUnDeleteTransaction(VehicleId As Integer, SiteId As Integer, PersonId As Integer, CurrentOdometer As Integer,
-											FuelQuantity As Decimal, FuelTypeId As Integer, PhoneNumber As String, WifiSSId As String,
-											TransactionDate As DateTime, TransactionId As Integer, UserId As Integer, TransactionFrom As String, previousOdometer As Integer, VehicleNumber As String,
-											DepartmentNumber As String, PersonPin As String, Other As String, Hours As Integer, IsMissed As Boolean, IsUpdate As Boolean, TransactionStatus As Integer, HubId As Integer, Pulses As Integer,
-											VehicleName As String, DepartmentName As String, FuelTypeName As String, Email As String, PersonName As String, CompanyName As String, OFFSite As Boolean, customerID As Integer, IsManuallyEdit As Boolean) As Integer '
-		Dim result As Integer
-		result = 0
-		Try
-			Dim dal = New GeneralizedDAL()
-			Dim parcollection(31) As SqlParameter
+    Public Function UpdateAndUnDeleteTransaction(VehicleId As Integer, SiteId As Integer, PersonId As Integer, CurrentOdometer As Integer,
+                                            FuelQuantity As Decimal, FuelTypeId As Integer, PhoneNumber As String, WifiSSId As String,
+                                            TransactionDate As DateTime, TransactionId As Integer, UserId As Integer, TransactionFrom As String, previousOdometer As Integer, VehicleNumber As String,
+                                            DepartmentNumber As String, PersonPin As String, Other As String, Hours As Integer, PreviousHours As Integer, IsMissed As Boolean, IsUpdate As Boolean, TransactionStatus As Integer, HubId As Integer, Pulses As Integer,
+                                            VehicleName As String, DepartmentName As String, FuelTypeName As String, Email As String, PersonName As String, CompanyName As String, OFFSite As Boolean, customerID As Integer, IsManuallyEdit As Boolean) As Integer '
+        Dim result As Integer
+        result = 0
+        Try
+            Dim dal = New GeneralizedDAL()
+            Dim parcollection(32) As SqlParameter
 
-			Dim ParVehicleId = New SqlParameter("@VehicleId", SqlDbType.Int)
-			Dim ParSiteId = New SqlParameter("@SiteId", SqlDbType.Int)
-			Dim ParPersonId = New SqlParameter("@PersonId", SqlDbType.Int)
-			Dim ParCurrentOdometer = New SqlParameter("@CurrentOdometer", SqlDbType.Int)
-			Dim ParFuelQuantity = New SqlParameter("@FuelQuantity", SqlDbType.Decimal)
-			Dim ParFuelTypeId = New SqlParameter("@FuelTypeId", SqlDbType.Int)
-			Dim ParPhoneNumber = New SqlParameter("@PhoneNumber", SqlDbType.NVarChar, 20)
-			Dim ParWifiSSId = New SqlParameter("@WifiSSId", SqlDbType.NVarChar, 50)
-			Dim ParTransactionDate = New SqlParameter("@TransactionDate", SqlDbType.DateTime)
-			Dim ParTransactionId = New SqlParameter("@TransactionId", SqlDbType.Int)
-			Dim ParUserId = New SqlParameter("@UserId", SqlDbType.Int)
-			Dim ParTransactionFrom = New SqlParameter("@TransactionFrom", SqlDbType.NVarChar, 1)
-			Dim ParpreviousOdometer = New SqlParameter("@previousOdometer", SqlDbType.Int)
-			Dim ParVehicleNumber = New SqlParameter("@VehicleNumber", SqlDbType.NVarChar, 10)
-			Dim ParDepartmentNumber = New SqlParameter("@DepartmentNumber", SqlDbType.NVarChar, 10)
-			Dim ParPersonPin = New SqlParameter("@PersonPin", SqlDbType.NVarChar, 20)
-			Dim ParOther = New SqlParameter("@Other", SqlDbType.NVarChar, 2000)
-			Dim ParHours = New SqlParameter("@Hours", SqlDbType.Int)
-			Dim ParIsMissed = New SqlParameter("@IsMissed", SqlDbType.Bit)
-			Dim ParIsUpdate = New SqlParameter("@IsUpdate", SqlDbType.Bit)
-			Dim ParTransactionStatus = New SqlParameter("@TransactionStatus", SqlDbType.Int)
-			Dim ParHubId = New SqlParameter("@HubId", SqlDbType.Int)
-			Dim ParPulses = New SqlParameter("@Pulses", SqlDbType.Int)
-			Dim ParVehicleName = New SqlParameter("@VehicleName", SqlDbType.NVarChar, 25)
-			Dim ParDepartmentName = New SqlParameter("@DepartmentName", SqlDbType.NVarChar, 20)
-			Dim ParFuelTypeName = New SqlParameter("@FuelTypeName", SqlDbType.NVarChar, 20)
-			Dim ParEmail = New SqlParameter("@Email", SqlDbType.NVarChar, 256)
-			Dim ParPersonName = New SqlParameter("@PersonName", SqlDbType.NVarChar, 30)
-			Dim ParCompanyName = New SqlParameter("@CompanyName", SqlDbType.NVarChar, 50)
-			Dim ParOFFSite = New SqlParameter("@OFFSite", SqlDbType.Bit)
-			Dim ParcustomerID = New SqlParameter("@customerID", SqlDbType.Int)
-			Dim ParIsManuallyEdit = New SqlParameter("@IsManuallyEdit", SqlDbType.Bit)
+            Dim ParVehicleId = New SqlParameter("@VehicleId", SqlDbType.Int)
+            Dim ParSiteId = New SqlParameter("@SiteId", SqlDbType.Int)
+            Dim ParPersonId = New SqlParameter("@PersonId", SqlDbType.Int)
+            Dim ParCurrentOdometer = New SqlParameter("@CurrentOdometer", SqlDbType.Int)
+            Dim ParFuelQuantity = New SqlParameter("@FuelQuantity", SqlDbType.Decimal)
+            Dim ParFuelTypeId = New SqlParameter("@FuelTypeId", SqlDbType.Int)
+            Dim ParPhoneNumber = New SqlParameter("@PhoneNumber", SqlDbType.NVarChar, 20)
+            Dim ParWifiSSId = New SqlParameter("@WifiSSId", SqlDbType.NVarChar, 50)
+            Dim ParTransactionDate = New SqlParameter("@TransactionDate", SqlDbType.DateTime)
+            Dim ParTransactionId = New SqlParameter("@TransactionId", SqlDbType.Int)
+            Dim ParUserId = New SqlParameter("@UserId", SqlDbType.Int)
+            Dim ParTransactionFrom = New SqlParameter("@TransactionFrom", SqlDbType.NVarChar, 1)
+            Dim ParpreviousOdometer = New SqlParameter("@previousOdometer", SqlDbType.Int)
+            Dim ParVehicleNumber = New SqlParameter("@VehicleNumber", SqlDbType.NVarChar, 10)
+            Dim ParDepartmentNumber = New SqlParameter("@DepartmentNumber", SqlDbType.NVarChar, 10)
+            Dim ParPersonPin = New SqlParameter("@PersonPin", SqlDbType.NVarChar, 20)
+            Dim ParOther = New SqlParameter("@Other", SqlDbType.NVarChar, 2000)
+            Dim ParHours = New SqlParameter("@Hours", SqlDbType.Int)
+            Dim ParPreviousHours = New SqlParameter("@PreviousHours", SqlDbType.Int)
+            Dim ParIsMissed = New SqlParameter("@IsMissed", SqlDbType.Bit)
+            Dim ParIsUpdate = New SqlParameter("@IsUpdate", SqlDbType.Bit)
+            Dim ParTransactionStatus = New SqlParameter("@TransactionStatus", SqlDbType.Int)
+            Dim ParHubId = New SqlParameter("@HubId", SqlDbType.Int)
+            Dim ParPulses = New SqlParameter("@Pulses", SqlDbType.Int)
+            Dim ParVehicleName = New SqlParameter("@VehicleName", SqlDbType.NVarChar, 25)
+            Dim ParDepartmentName = New SqlParameter("@DepartmentName", SqlDbType.NVarChar, 20)
+            Dim ParFuelTypeName = New SqlParameter("@FuelTypeName", SqlDbType.NVarChar, 20)
+            Dim ParEmail = New SqlParameter("@Email", SqlDbType.NVarChar, 256)
+            Dim ParPersonName = New SqlParameter("@PersonName", SqlDbType.NVarChar, 30)
+            Dim ParCompanyName = New SqlParameter("@CompanyName", SqlDbType.NVarChar, 50)
+            Dim ParOFFSite = New SqlParameter("@OFFSite", SqlDbType.Bit)
+            Dim ParcustomerID = New SqlParameter("@customerID", SqlDbType.Int)
+            Dim ParIsManuallyEdit = New SqlParameter("@IsManuallyEdit", SqlDbType.Bit)
 
-			ParVehicleId.Direction = ParameterDirection.Input
-			ParSiteId.Direction = ParameterDirection.Input
-			ParPersonId.Direction = ParameterDirection.Input
-			ParCurrentOdometer.Direction = ParameterDirection.Input
-			ParFuelQuantity.Direction = ParameterDirection.Input
-			ParFuelTypeId.Direction = ParameterDirection.Input
-			ParPhoneNumber.Direction = ParameterDirection.Input
-			ParWifiSSId.Direction = ParameterDirection.Input
-			ParTransactionDate.Direction = ParameterDirection.Input
-			ParTransactionId.Direction = ParameterDirection.Input
-			ParUserId.Direction = ParameterDirection.Input
-			ParTransactionFrom.Direction = ParameterDirection.Input
-			ParpreviousOdometer.Direction = ParameterDirection.Input
-			ParVehicleNumber.Direction = ParameterDirection.Input
-			ParDepartmentNumber.Direction = ParameterDirection.Input
-			ParPersonPin.Direction = ParameterDirection.Input
-			ParOther.Direction = ParameterDirection.Input
-			ParHours.Direction = ParameterDirection.Input
-			ParIsMissed.Direction = ParameterDirection.Input
-			ParIsUpdate.Direction = ParameterDirection.Input
-			ParTransactionStatus.Direction = ParameterDirection.Input
-			ParHubId.Direction = ParameterDirection.Input
-			ParPulses.Direction = ParameterDirection.Input
-			ParVehicleName.Direction = ParameterDirection.Input
-			ParDepartmentName.Direction = ParameterDirection.Input
-			ParFuelTypeName.Direction = ParameterDirection.Input
-			ParEmail.Direction = ParameterDirection.Input
-			ParPersonName.Direction = ParameterDirection.Input
-			ParCompanyName.Direction = ParameterDirection.Input
-			ParOFFSite.Direction = ParameterDirection.Input
-			ParcustomerID.Direction = ParameterDirection.Input
-			ParIsManuallyEdit.Direction = ParameterDirection.Input
+            ParVehicleId.Direction = ParameterDirection.Input
+            ParSiteId.Direction = ParameterDirection.Input
+            ParPersonId.Direction = ParameterDirection.Input
+            ParCurrentOdometer.Direction = ParameterDirection.Input
+            ParFuelQuantity.Direction = ParameterDirection.Input
+            ParFuelTypeId.Direction = ParameterDirection.Input
+            ParPhoneNumber.Direction = ParameterDirection.Input
+            ParWifiSSId.Direction = ParameterDirection.Input
+            ParTransactionDate.Direction = ParameterDirection.Input
+            ParTransactionId.Direction = ParameterDirection.Input
+            ParUserId.Direction = ParameterDirection.Input
+            ParTransactionFrom.Direction = ParameterDirection.Input
+            ParpreviousOdometer.Direction = ParameterDirection.Input
+            ParVehicleNumber.Direction = ParameterDirection.Input
+            ParDepartmentNumber.Direction = ParameterDirection.Input
+            ParPersonPin.Direction = ParameterDirection.Input
+            ParOther.Direction = ParameterDirection.Input
+            ParHours.Direction = ParameterDirection.Input
+            ParPreviousHours.Direction = ParameterDirection.Input
+            ParIsMissed.Direction = ParameterDirection.Input
+            ParIsUpdate.Direction = ParameterDirection.Input
+            ParTransactionStatus.Direction = ParameterDirection.Input
+            ParHubId.Direction = ParameterDirection.Input
+            ParPulses.Direction = ParameterDirection.Input
+            ParVehicleName.Direction = ParameterDirection.Input
+            ParDepartmentName.Direction = ParameterDirection.Input
+            ParFuelTypeName.Direction = ParameterDirection.Input
+            ParEmail.Direction = ParameterDirection.Input
+            ParPersonName.Direction = ParameterDirection.Input
+            ParCompanyName.Direction = ParameterDirection.Input
+            ParOFFSite.Direction = ParameterDirection.Input
+            ParcustomerID.Direction = ParameterDirection.Input
+            ParIsManuallyEdit.Direction = ParameterDirection.Input
 
-			ParVehicleId.Value = VehicleId
-			ParSiteId.Value = SiteId
-			ParPersonId.Value = PersonId
-			ParCurrentOdometer.Value = CurrentOdometer
-			ParFuelQuantity.Value = FuelQuantity
-			ParFuelTypeId.Value = FuelTypeId
-			ParPhoneNumber.Value = PhoneNumber
-			ParWifiSSId.Value = WifiSSId
-			ParTransactionDate.Value = TransactionDate
-			ParTransactionId.Value = TransactionId
-			ParUserId.Value = UserId
-			ParTransactionFrom.Value = TransactionFrom
-			ParpreviousOdometer.Value = previousOdometer
-			ParVehicleNumber.Value = VehicleNumber
-			ParDepartmentNumber.Value = DepartmentNumber
-			ParPersonPin.Value = PersonPin
-			ParOther.Value = Other
-			ParHours.Value = IIf(Hours = -1, Nothing, Hours)
-			ParIsMissed.Value = IsMissed
-			ParIsUpdate.Value = IsUpdate
-			ParTransactionStatus.Value = TransactionStatus
-			ParHubId.Value = HubId
-			ParPulses.Value = IIf(Pulses = -1, Nothing, Pulses)
-			ParVehicleName.Value = VehicleName
-			ParDepartmentName.Value = DepartmentName
-			ParFuelTypeName.Value = FuelTypeName
-			ParEmail.Value = Email
-			ParPersonName.Value = PersonName
-			ParCompanyName.Value = CompanyName
-			ParOFFSite.Value = OFFSite
-			ParcustomerID.Value = customerID
-			ParIsManuallyEdit.Value = IsManuallyEdit
+            ParVehicleId.Value = VehicleId
+            ParSiteId.Value = SiteId
+            ParPersonId.Value = PersonId
+            ParCurrentOdometer.Value = CurrentOdometer
+            ParFuelQuantity.Value = FuelQuantity
+            ParFuelTypeId.Value = FuelTypeId
+            ParPhoneNumber.Value = PhoneNumber
+            ParWifiSSId.Value = WifiSSId
+            ParTransactionDate.Value = TransactionDate
+            ParTransactionId.Value = TransactionId
+            ParUserId.Value = UserId
+            ParTransactionFrom.Value = TransactionFrom
+            ParpreviousOdometer.Value = previousOdometer
+            ParVehicleNumber.Value = VehicleNumber
+            ParDepartmentNumber.Value = DepartmentNumber
+            ParPersonPin.Value = PersonPin
+            ParOther.Value = Other
+            ParHours.Value = IIf(Hours = -1, Nothing, Hours)
+            ParPreviousHours.Value = IIf(PreviousHours = -1, Nothing, PreviousHours)
+            ParIsMissed.Value = IsMissed
+            ParIsUpdate.Value = IsUpdate
+            ParTransactionStatus.Value = TransactionStatus
+            ParHubId.Value = HubId
+            ParPulses.Value = IIf(Pulses = -1, Nothing, Pulses)
+            ParVehicleName.Value = VehicleName
+            ParDepartmentName.Value = DepartmentName
+            ParFuelTypeName.Value = FuelTypeName
+            ParEmail.Value = Email
+            ParPersonName.Value = PersonName
+            ParCompanyName.Value = CompanyName
+            ParOFFSite.Value = OFFSite
+            ParcustomerID.Value = customerID
+            ParIsManuallyEdit.Value = IsManuallyEdit
 
-			parcollection(0) = ParVehicleId
-			parcollection(1) = ParSiteId
-			parcollection(2) = ParPersonId
-			parcollection(3) = ParCurrentOdometer
-			parcollection(4) = ParFuelQuantity
-			parcollection(5) = ParFuelTypeId
-			parcollection(6) = ParPhoneNumber
-			parcollection(7) = ParWifiSSId
-			parcollection(8) = ParTransactionDate
-			parcollection(9) = ParTransactionId
-			parcollection(10) = ParUserId
-			parcollection(11) = ParTransactionFrom
-			parcollection(12) = ParpreviousOdometer
-			parcollection(13) = ParVehicleNumber
-			parcollection(14) = ParDepartmentNumber
-			parcollection(15) = ParPersonPin
-			parcollection(16) = ParOther
-			parcollection(17) = ParHours
-			parcollection(18) = ParIsMissed
-			parcollection(19) = ParIsUpdate
-			parcollection(20) = ParTransactionStatus
-			parcollection(21) = ParHubId
-			parcollection(22) = ParPulses
-			parcollection(23) = ParVehicleName
-			parcollection(24) = ParDepartmentName
-			parcollection(25) = ParFuelTypeName
-			parcollection(26) = ParEmail
-			parcollection(27) = ParPersonName
-			parcollection(28) = ParCompanyName
-			parcollection(29) = ParOFFSite
-			parcollection(30) = ParcustomerID
-			parcollection(31) = ParIsManuallyEdit
+            parcollection(0) = ParVehicleId
+            parcollection(1) = ParSiteId
+            parcollection(2) = ParPersonId
+            parcollection(3) = ParCurrentOdometer
+            parcollection(4) = ParFuelQuantity
+            parcollection(5) = ParFuelTypeId
+            parcollection(6) = ParPhoneNumber
+            parcollection(7) = ParWifiSSId
+            parcollection(8) = ParTransactionDate
+            parcollection(9) = ParTransactionId
+            parcollection(10) = ParUserId
+            parcollection(11) = ParTransactionFrom
+            parcollection(12) = ParpreviousOdometer
+            parcollection(13) = ParVehicleNumber
+            parcollection(14) = ParDepartmentNumber
+            parcollection(15) = ParPersonPin
+            parcollection(16) = ParOther
+            parcollection(17) = ParHours
+            parcollection(18) = ParIsMissed
+            parcollection(19) = ParIsUpdate
+            parcollection(20) = ParTransactionStatus
+            parcollection(21) = ParHubId
+            parcollection(22) = ParPulses
+            parcollection(23) = ParVehicleName
+            parcollection(24) = ParDepartmentName
+            parcollection(25) = ParFuelTypeName
+            parcollection(26) = ParEmail
+            parcollection(27) = ParPersonName
+            parcollection(28) = ParCompanyName
+            parcollection(29) = ParOFFSite
+            parcollection(30) = ParcustomerID
+            parcollection(31) = ParIsManuallyEdit
+            parcollection(32) = ParPreviousHours
 
-			result = dal.ExecuteStoredProcedureGetInteger("usp_tt_Transaction_UpdateAndUnDeleteTransaction", parcollection)
+            result = dal.ExecuteStoredProcedureGetInteger("usp_tt_Transaction_UpdateAndUnDeleteTransaction", parcollection)
 
-			Return result
-		Catch ex As Exception
-			log.Error("Error occurred in InsertTransaction Exception is :" + ex.Message)
-			Return result
-		End Try
+            Return result
+        Catch ex As Exception
+            log.Error("Error occurred in InsertTransaction Exception is :" + ex.Message)
+            Return result
+        End Try
 
-	End Function
-
-	Public Function SetIsTransactionMailSent(ByVal TransactionId As Integer, Quantity As Decimal) As Integer
+    End Function
+    Public Function SetIsTransactionMailSent(ByVal TransactionId As Integer, Quantity As Decimal) As Integer
 		Dim dal = New GeneralizedDAL()
 		Try
 			Dim parcollection(1) As SqlParameter
@@ -1326,13 +1334,15 @@ Public Class MasterBAL
 		End Try
 	End Function
 
-    Public Function SaveUpdateCustomer(CustomerID As Integer, CustomerName As String, ContactName As String, ContactNumber As String, ContactAddress As String, ExportCode As String, UserId As Integer, IsLoginRequire As Boolean, IsOdometerRequire As Boolean,
-                                       IsDepartmentRequire As Boolean, IsPersonnelPINRequire As Boolean, IsOtherRequire As Boolean, OtherLabel As String, IsActive As Boolean,
+    Public Function SaveUpdateCustomer(CustomerID As Integer, CustomerName As String, ContactName As String, ContactNumber As String, ContactAddress As String, ExportCode As String, UserId As Integer,
+                                       IsLoginRequire As Boolean, IsOdometerRequire As Boolean,
+                                       IsDepartmentRequire As Boolean, IsPersonnelPINRequire As Boolean,
+                                       IsOtherRequire As Boolean, OtherLabel As String, IsActive As Boolean, IsVehicleNumberRequire As Boolean,
                                        Optional Costing As Integer = 1, Optional BeginningHostingDate As DateTime = Nothing, Optional EndingHostingDate As DateTime = Nothing) As Integer
         Try
             Dim result As Integer
             Dim dal = New GeneralizedDAL()
-            Dim parcollection(16) As SqlParameter
+            Dim parcollection(17) As SqlParameter
             Dim ParCustomerID = New SqlParameter("@CustomerID", SqlDbType.Int)
             Dim ParCustomerName = New SqlParameter("@CustomerName", SqlDbType.NVarChar, 50)
             Dim ParContactName = New SqlParameter("@ContactName", SqlDbType.NVarChar, 30)
@@ -1347,7 +1357,7 @@ Public Class MasterBAL
             Dim ParIsOtherRequire = New SqlParameter("@IsOtherRequire", SqlDbType.Bit)
             Dim ParOtherLabel = New SqlParameter("@OtherLabel", SqlDbType.NVarChar, 50)
             Dim ParIsActive = New SqlParameter("@IsActive", SqlDbType.Bit)
-
+            Dim ParIsVehicleNumberRequire = New SqlParameter("@IsVehicleNumberRequire", SqlDbType.Bit)
             Dim ParCosting = New SqlParameter("@CostingMethod", SqlDbType.Int)
             Dim ParBeginningHostingDate = New SqlParameter("@BeginningHostingDate", SqlDbType.DateTime)
             Dim ParEndingHostingDate = New SqlParameter("@EndingHostingDate", SqlDbType.DateTime)
@@ -1365,10 +1375,11 @@ Public Class MasterBAL
             ParIsOtherRequire.Direction = ParameterDirection.Input
             ParOtherLabel.Direction = ParameterDirection.Input
             ParIsActive.Direction = ParameterDirection.Input
-
+            ParIsVehicleNumberRequire.Direction = ParameterDirection.Input
             ParCosting.Direction = ParameterDirection.Input
             ParBeginningHostingDate.Direction = ParameterDirection.Input
             ParEndingHostingDate.Direction = ParameterDirection.Input
+
 
             ParCustomerID.Value = CustomerID
             ParCustomerName.Value = CustomerName
@@ -1384,7 +1395,7 @@ Public Class MasterBAL
             ParIsOtherRequire.Value = IsOtherRequire
             ParOtherLabel.Value = OtherLabel
             ParIsActive.Value = IsActive
-
+            ParIsVehicleNumberRequire.Value = IsVehicleNumberRequire
             ParCosting.Value = Costing
             ParBeginningHostingDate.Value = IIf(BeginningHostingDate = Nothing, DateTime.Now, BeginningHostingDate)
             ParEndingHostingDate.Value = IIf(EndingHostingDate = Nothing, DateTime.Now, EndingHostingDate)
@@ -1408,7 +1419,7 @@ Public Class MasterBAL
             parcollection(14) = ParBeginningHostingDate
             parcollection(15) = ParEndingHostingDate
             parcollection(16) = ParIsActive
-
+            parcollection(17) = ParIsVehicleNumberRequire
             result = dal.ExecuteStoredProcedureGetInteger("usp_tt_Customer_InsertUpdate", parcollection)
 
             Return result
@@ -1649,58 +1660,58 @@ Public Class MasterBAL
 	End Function
 
 
-    Public Function GetTanksWithoutDeliveryByCustomerId(customerId As Integer) As DataSet
-        Dim dal = New GeneralizedDAL()
-        Try
-            Dim ds As DataSet = New DataSet()
+	Public Function GetTanksWithoutDeliveryByCustomerId(customerId As Integer) As DataSet
+		Dim dal = New GeneralizedDAL()
+		Try
+			Dim ds As DataSet = New DataSet()
 
-            Dim Param As SqlParameter() = New SqlParameter(0) {}
+			Dim Param As SqlParameter() = New SqlParameter(0) {}
 
-            Param(0) = New SqlParameter("@CustomerId", SqlDbType.Int)
-            Param(0).Direction = ParameterDirection.Input
-            Param(0).Value = customerId
+			Param(0) = New SqlParameter("@CustomerId", SqlDbType.Int)
+			Param(0).Direction = ParameterDirection.Input
+			Param(0).Value = customerId
 
-            ds = dal.ExecuteStoredProcedureGetDataSet("usp_tt_Customer_GetTanksWithoutDeliveryByCustomerId", Param)
+			ds = dal.ExecuteStoredProcedureGetDataSet("usp_tt_Customer_GetTanksWithoutDeliveryByCustomerId", Param)
 
-            Return ds
-        Catch ex As Exception
-            log.Error("Error occurred in GetTanksWithoutDeliveryByCustomerId Exception is :" + ex.Message)
-            Return Nothing
-        End Try
-    End Function
+			Return ds
+		Catch ex As Exception
+			log.Error("Error occurred in GetTanksWithoutDeliveryByCustomerId Exception is :" + ex.Message)
+			Return Nothing
+		End Try
+	End Function
 
-    Public Function ActiveInActiveCompany(ByVal CustomerId As Integer, ActiveOrInactiveValue As Boolean, UserId As Integer) As Integer
-        Dim dal = New GeneralizedDAL()
-        Try
-            Dim parcollection(2) As SqlParameter
-            Dim ParCustomerId = New SqlParameter("@CustomerId", SqlDbType.Int)
-            ParCustomerId.Direction = ParameterDirection.Input
-            ParCustomerId.Value = CustomerId
-            parcollection(0) = ParCustomerId
+	Public Function ActiveInActiveCompany(ByVal CustomerId As Integer, ActiveOrInactiveValue As Boolean, UserId As Integer) As Integer
+		Dim dal = New GeneralizedDAL()
+		Try
+			Dim parcollection(2) As SqlParameter
+			Dim ParCustomerId = New SqlParameter("@CustomerId", SqlDbType.Int)
+			ParCustomerId.Direction = ParameterDirection.Input
+			ParCustomerId.Value = CustomerId
+			parcollection(0) = ParCustomerId
 
-            Dim ParcheckActiveOrInactiveValue = New SqlParameter("@ActiveOrInactiveValue", SqlDbType.Bit)
-            ParcheckActiveOrInactiveValue.Direction = ParameterDirection.Input
-            ParcheckActiveOrInactiveValue.Value = ActiveOrInactiveValue
-            parcollection(1) = ParcheckActiveOrInactiveValue
+			Dim ParcheckActiveOrInactiveValue = New SqlParameter("@ActiveOrInactiveValue", SqlDbType.Bit)
+			ParcheckActiveOrInactiveValue.Direction = ParameterDirection.Input
+			ParcheckActiveOrInactiveValue.Value = ActiveOrInactiveValue
+			parcollection(1) = ParcheckActiveOrInactiveValue
 
-            Dim ParUserId = New SqlParameter("@UserId", SqlDbType.Int)
-            ParUserId.Direction = ParameterDirection.Input
-            ParUserId.Value = UserId
-            parcollection(2) = ParUserId
+			Dim ParUserId = New SqlParameter("@UserId", SqlDbType.Int)
+			ParUserId.Direction = ParameterDirection.Input
+			ParUserId.Value = UserId
+			parcollection(2) = ParUserId
 
-            Dim result As Integer = dal.ExecuteStoredProcedureGetInteger("usp_tt_Customer_ActiveInActive", parcollection)
-            Return result
-        Catch ex As Exception
-            log.Error("Error occurred in ActiveInActiveCompany Exception is :" + ex.Message)
-            Return 0
-        End Try
-    End Function
+			Dim result As Integer = dal.ExecuteStoredProcedureGetInteger("usp_tt_Customer_ActiveInActive", parcollection)
+			Return result
+		Catch ex As Exception
+			log.Error("Error occurred in ActiveInActiveCompany Exception is :" + ex.Message)
+			Return 0
+		End Try
+	End Function
 
 #End Region
 
 #Region "Fuel"
 
-    Public Function SaveUpdateFuel(FuelTypeID As Integer, FuelType As String, ExportCode As String, UserId As Integer, CompanyId As Integer, ProductPrice As Decimal) As Integer
+	Public Function SaveUpdateFuel(FuelTypeID As Integer, FuelType As String, ExportCode As String, UserId As Integer, CompanyId As Integer, ProductPrice As Decimal) As Integer
 		Try
 			Dim result As Integer
 			Dim dal = New GeneralizedDAL()
@@ -2861,13 +2872,18 @@ Public Class MasterBAL
 		End Try
 	End Function
 
-	Public Function GetPersonAccessLevels() As DataTable
+	Public Function GetPersonAccessLevels(RoleName As String) As DataTable
 		Dim dal = New GeneralizedDAL()
 		Try
+			Dim parcollection(0) As SqlParameter
+			Dim ParRoleName = New SqlParameter("@RoleName", SqlDbType.NVarChar, 20)
+			ParRoleName.Direction = ParameterDirection.Input
+			ParRoleName.Value = RoleName
+			parcollection(0) = ParRoleName
 
 			Dim ds As DataSet = New DataSet()
 
-			ds = dal.ExecuteStoredProcedureGetDataSet("usp_tt_Personnel_GetPerson_AccessLevels")
+			ds = dal.ExecuteStoredProcedureGetDataSet("usp_tt_Personnel_GetPerson_AccessLevels", parcollection)
 
 			Return ds.Tables(0)
 
@@ -3121,156 +3137,169 @@ Public Class MasterBAL
 		End Try
 	End Function
 
-	Public Function SaveUpdateVehicle(VehicleId As Integer, VehicleName As String, Make As String, Model As String, Year As Integer, LicensePlateNumber As String,
-									  VIN As String, Type As String, Extension As String, Comment As String, CurrentOdometer As Integer, DepartmentId As Integer,
-									  FuelLimitPerTxn As Integer, FuelLimitPerDay As Integer, RequireOdometerEntry As String, CheckOdometerReasonable As String, OdoLimit As Integer,
-									  VehicleNumber As String, Acc_Id As String, ExportCode As String,
-									  UserId As Integer, CustomerId As Integer, ExpectedMPGPerK As Decimal, Hours As Boolean, MileageOrKilometers As Integer,
-									  LicenseState As String, OdometerReasonabilityConditions As Integer, FOBNumber As String, Active As Boolean, FSTagMacAddress As String) As Integer
-		Try
-			Dim result As Integer
-			Dim dal = New GeneralizedDAL()
-			Dim parcollection(29) As SqlParameter
-			Dim ParVehicleId = New SqlParameter("@VehicleId", SqlDbType.Int)
-			Dim ParVehicleName = New SqlParameter("@VehicleName", SqlDbType.NVarChar, 25)
-			Dim ParMake = New SqlParameter("@Make", SqlDbType.NVarChar, 15)
-			Dim ParModel = New SqlParameter("@Model", SqlDbType.NVarChar, 15)
-			Dim ParYear = New SqlParameter("@Year", SqlDbType.Int)
-			Dim ParLicensePlateNumber = New SqlParameter("@LicensePlateNumber", SqlDbType.NVarChar, 8)
-			Dim ParVIN = New SqlParameter("@VIN", SqlDbType.NVarChar, 20)
-			Dim ParType = New SqlParameter("@Type", SqlDbType.NVarChar, 20)
-			Dim ParExtension = New SqlParameter("@Extension", SqlDbType.VarChar, 50)
-			Dim ParComment = New SqlParameter("@Comment", SqlDbType.NVarChar, 2000)
-			Dim ParCurrentOdometer = New SqlParameter("@CurrentOdometer", SqlDbType.Int)
-			Dim ParDepartmentId = New SqlParameter("@DepartmentId", SqlDbType.Int)
-			Dim ParFuelLimitPerTxn = New SqlParameter("@FuelLimitPerTxn", SqlDbType.Int)
-			Dim ParFuelLimitPerDay = New SqlParameter("@FuelLimitPerDay", SqlDbType.Int)
-			Dim ParRequireOdometerEntry = New SqlParameter("@RequireOdometerEntry", SqlDbType.VarChar, 1)
-			Dim ParCheckOdometerReasonable = New SqlParameter("@CheckOdometerReasonable", SqlDbType.VarChar, 1)
-			Dim ParOdoLimit = New SqlParameter("@OdoLimit", SqlDbType.Int)
+    Public Function SaveUpdateVehicle(VehicleId As Integer, VehicleName As String, Make As String, Model As String, Year As Integer, LicensePlateNumber As String,
+                                      VIN As String, Type As String, Extension As String, Comment As String, CurrentOdometer As Integer, DepartmentId As Integer,
+                                      FuelLimitPerTxn As Integer, FuelLimitPerDay As Integer, RequireOdometerEntry As String, CheckOdometerReasonable As String, OdoLimit As Integer,
+                                      VehicleNumber As String, Acc_Id As String, ExportCode As String,
+                                      UserId As Integer, CustomerId As Integer, ExpectedMPGPerK As Decimal, Hours As Boolean, MileageOrKilometers As Integer,
+                                      LicenseState As String, OdometerReasonabilityConditions As Integer, FOBNumber As String, Active As Boolean, FSTagMacAddress As String,
+                                      CurrentHours As Integer, HoursLimit As Integer, CurrentFSVMFirmwareVersion As String) As Integer
+        Try
+            Dim result As Integer
+            Dim dal = New GeneralizedDAL()
+            Dim parcollection(32) As SqlParameter
+            Dim ParVehicleId = New SqlParameter("@VehicleId", SqlDbType.Int)
+            Dim ParVehicleName = New SqlParameter("@VehicleName", SqlDbType.NVarChar, 25)
+            Dim ParMake = New SqlParameter("@Make", SqlDbType.NVarChar, 15)
+            Dim ParModel = New SqlParameter("@Model", SqlDbType.NVarChar, 15)
+            Dim ParYear = New SqlParameter("@Year", SqlDbType.Int)
+            Dim ParLicensePlateNumber = New SqlParameter("@LicensePlateNumber", SqlDbType.NVarChar, 8)
+            Dim ParVIN = New SqlParameter("@VIN", SqlDbType.NVarChar, 20)
+            Dim ParType = New SqlParameter("@Type", SqlDbType.NVarChar, 20)
+            Dim ParExtension = New SqlParameter("@Extension", SqlDbType.VarChar, 50)
+            Dim ParComment = New SqlParameter("@Comment", SqlDbType.NVarChar, 2000)
+            Dim ParCurrentOdometer = New SqlParameter("@CurrentOdometer", SqlDbType.Int)
+            Dim ParDepartmentId = New SqlParameter("@DepartmentId", SqlDbType.Int)
+            Dim ParFuelLimitPerTxn = New SqlParameter("@FuelLimitPerTxn", SqlDbType.Int)
+            Dim ParFuelLimitPerDay = New SqlParameter("@FuelLimitPerDay", SqlDbType.Int)
+            Dim ParRequireOdometerEntry = New SqlParameter("@RequireOdometerEntry", SqlDbType.VarChar, 1)
+            Dim ParCheckOdometerReasonable = New SqlParameter("@CheckOdometerReasonable", SqlDbType.VarChar, 1)
+            Dim ParOdoLimit = New SqlParameter("@OdoLimit", SqlDbType.Int)
             Dim ParVehicleNumber = New SqlParameter("@VehicleNumber", SqlDbType.VarChar, 20)
             Dim ParAcc_Id = New SqlParameter("@Acc_Id", SqlDbType.VarChar, 20)
-			Dim ParExportCode = New SqlParameter("@ExportCode", SqlDbType.NVarChar, 50)
-			Dim ParUserId = New SqlParameter("@UserId", SqlDbType.Int)
-			Dim ParCustomerId = New SqlParameter("@CustomerId", SqlDbType.Int)
-			Dim ParExpectedMPGPerK = New SqlParameter("@ExpectedMPGPerK", SqlDbType.Decimal)
-			Dim ParHours = New SqlParameter("@Hours", SqlDbType.Bit)
-			Dim ParMileageOrKilometers = New SqlParameter("@MileageOrKilometers", SqlDbType.Int)
-			Dim ParLicenseState = New SqlParameter("@LicenseState", SqlDbType.NVarChar, 2)
-			Dim ParOdometerReasonabilityConditions = New SqlParameter("@OdometerReasonabilityConditions", SqlDbType.Int)
-			Dim ParFOBNumber = New SqlParameter("@FOBNumber", SqlDbType.NVarChar, -1)
-			Dim ParIsActive = New SqlParameter("@IsActive", SqlDbType.Bit)
-			Dim ParFSTagMacAddress = New SqlParameter("@FSTagMacAddress", SqlDbType.NVarChar, 50)
+            Dim ParExportCode = New SqlParameter("@ExportCode", SqlDbType.NVarChar, 50)
+            Dim ParUserId = New SqlParameter("@UserId", SqlDbType.Int)
+            Dim ParCustomerId = New SqlParameter("@CustomerId", SqlDbType.Int)
+            Dim ParExpectedMPGPerK = New SqlParameter("@ExpectedMPGPerK", SqlDbType.Decimal)
+            Dim ParHours = New SqlParameter("@Hours", SqlDbType.Bit)
+            Dim ParMileageOrKilometers = New SqlParameter("@MileageOrKilometers", SqlDbType.Int)
+            Dim ParLicenseState = New SqlParameter("@LicenseState", SqlDbType.NVarChar, 2)
+            Dim ParOdometerReasonabilityConditions = New SqlParameter("@OdometerReasonabilityConditions", SqlDbType.Int)
+            Dim ParFOBNumber = New SqlParameter("@FOBNumber", SqlDbType.NVarChar, -1)
+            Dim ParIsActive = New SqlParameter("@IsActive", SqlDbType.Bit)
+            Dim ParFSTagMacAddress = New SqlParameter("@FSTagMacAddress", SqlDbType.NVarChar, 50)
+            Dim ParCurrentHours = New SqlParameter("@CurrentHours", SqlDbType.Int)
+            Dim ParHoursLimit = New SqlParameter("@HoursLimit", SqlDbType.Int)
+            Dim ParCurrentFSVMFirmwareVersion = New SqlParameter("@CurrentFSVMFirmwareVersion", SqlDbType.NVarChar, 50)
 
-			ParVehicleId.Direction = ParameterDirection.Input
-			ParVehicleName.Direction = ParameterDirection.Input
-			ParMake.Direction = ParameterDirection.Input
-			ParModel.Direction = ParameterDirection.Input
-			ParYear.Direction = ParameterDirection.Input
-			ParLicensePlateNumber.Direction = ParameterDirection.Input
-			ParVIN.Direction = ParameterDirection.Input
-			ParType.Direction = ParameterDirection.Input
-			ParExtension.Direction = ParameterDirection.Input
-			ParComment.Direction = ParameterDirection.Input
-			ParCurrentOdometer.Direction = ParameterDirection.Input
-			ParDepartmentId.Direction = ParameterDirection.Input
-			ParFuelLimitPerTxn.Direction = ParameterDirection.Input
-			ParFuelLimitPerDay.Direction = ParameterDirection.Input
-			ParRequireOdometerEntry.Direction = ParameterDirection.Input
-			ParCheckOdometerReasonable.Direction = ParameterDirection.Input
-			ParOdoLimit.Direction = ParameterDirection.Input
-			ParVehicleNumber.Direction = ParameterDirection.Input
-			ParAcc_Id.Direction = ParameterDirection.Input
-			ParExportCode.Direction = ParameterDirection.Input
-			ParUserId.Direction = ParameterDirection.Input
-			ParCustomerId.Direction = ParameterDirection.Input
-			ParExpectedMPGPerK.Direction = ParameterDirection.Input
-			ParHours.Direction = ParameterDirection.Input
-			ParMileageOrKilometers.Direction = ParameterDirection.Input
-			ParLicenseState.Direction = ParameterDirection.Input
-			ParOdometerReasonabilityConditions.Direction = ParameterDirection.Input
-			ParFOBNumber.Direction = ParameterDirection.Input
-			ParIsActive.Direction = ParameterDirection.Input
-			ParFSTagMacAddress.Direction = ParameterDirection.Input
+            ParVehicleId.Direction = ParameterDirection.Input
+            ParVehicleName.Direction = ParameterDirection.Input
+            ParMake.Direction = ParameterDirection.Input
+            ParModel.Direction = ParameterDirection.Input
+            ParYear.Direction = ParameterDirection.Input
+            ParLicensePlateNumber.Direction = ParameterDirection.Input
+            ParVIN.Direction = ParameterDirection.Input
+            ParType.Direction = ParameterDirection.Input
+            ParExtension.Direction = ParameterDirection.Input
+            ParComment.Direction = ParameterDirection.Input
+            ParCurrentOdometer.Direction = ParameterDirection.Input
+            ParDepartmentId.Direction = ParameterDirection.Input
+            ParFuelLimitPerTxn.Direction = ParameterDirection.Input
+            ParFuelLimitPerDay.Direction = ParameterDirection.Input
+            ParRequireOdometerEntry.Direction = ParameterDirection.Input
+            ParCheckOdometerReasonable.Direction = ParameterDirection.Input
+            ParOdoLimit.Direction = ParameterDirection.Input
+            ParVehicleNumber.Direction = ParameterDirection.Input
+            ParAcc_Id.Direction = ParameterDirection.Input
+            ParExportCode.Direction = ParameterDirection.Input
+            ParUserId.Direction = ParameterDirection.Input
+            ParCustomerId.Direction = ParameterDirection.Input
+            ParExpectedMPGPerK.Direction = ParameterDirection.Input
+            ParHours.Direction = ParameterDirection.Input
+            ParMileageOrKilometers.Direction = ParameterDirection.Input
+            ParLicenseState.Direction = ParameterDirection.Input
+            ParOdometerReasonabilityConditions.Direction = ParameterDirection.Input
+            ParFOBNumber.Direction = ParameterDirection.Input
+            ParIsActive.Direction = ParameterDirection.Input
+            ParFSTagMacAddress.Direction = ParameterDirection.Input
+            ParCurrentHours.Direction = ParameterDirection.Input
+            ParHoursLimit.Direction = ParameterDirection.Input
+            ParCurrentFSVMFirmwareVersion.Direction = ParameterDirection.Input
 
-			ParVehicleId.Value = VehicleId
-			ParVehicleName.Value = VehicleName
-			ParMake.Value = Make
-			ParModel.Value = Model
-			ParYear.Value = IIf(Year = -1, Nothing, Year)
-			ParLicensePlateNumber.Value = LicensePlateNumber
-			ParVIN.Value = VIN
-			ParType.Value = Type
-			ParExtension.Value = Extension
-			ParComment.Value = Comment
-			ParCurrentOdometer.Value = IIf(CurrentOdometer = -1, Nothing, CurrentOdometer)
-			ParDepartmentId.Value = DepartmentId
-			ParFuelLimitPerTxn.Value = FuelLimitPerTxn
-			ParFuelLimitPerDay.Value = FuelLimitPerDay
-			ParRequireOdometerEntry.Value = RequireOdometerEntry
-			ParCheckOdometerReasonable.Value = CheckOdometerReasonable
-			ParOdoLimit.Value = IIf(OdoLimit = -1, Nothing, OdoLimit)
-			ParVehicleNumber.Value = VehicleNumber
-			ParAcc_Id.Value = Acc_Id
-			ParExportCode.Value = ExportCode
-			ParUserId.Value = UserId
-			ParCustomerId.Value = CustomerId
-			ParExpectedMPGPerK.Value = IIf(ExpectedMPGPerK = -1, Nothing, ExpectedMPGPerK)
-			ParHours.Value = Hours
-			ParMileageOrKilometers.Value = MileageOrKilometers
-			ParLicenseState.Value = LicenseState
-			ParOdometerReasonabilityConditions.Value = OdometerReasonabilityConditions
-			ParFOBNumber.Value = FOBNumber
-			ParIsActive.Value = Active
-			ParFSTagMacAddress.Value = FSTagMacAddress
+            ParVehicleId.Value = VehicleId
+            ParVehicleName.Value = VehicleName
+            ParMake.Value = Make
+            ParModel.Value = Model
+            ParYear.Value = IIf(Year = -1, Nothing, Year)
+            ParLicensePlateNumber.Value = LicensePlateNumber
+            ParVIN.Value = VIN
+            ParType.Value = Type
+            ParExtension.Value = Extension
+            ParComment.Value = Comment
+            ParCurrentOdometer.Value = IIf(CurrentOdometer = -1, Nothing, CurrentOdometer)
+            ParDepartmentId.Value = DepartmentId
+            ParFuelLimitPerTxn.Value = FuelLimitPerTxn
+            ParFuelLimitPerDay.Value = FuelLimitPerDay
+            ParRequireOdometerEntry.Value = RequireOdometerEntry
+            ParCheckOdometerReasonable.Value = CheckOdometerReasonable
+            ParOdoLimit.Value = IIf(OdoLimit = -1, Nothing, OdoLimit)
+            ParVehicleNumber.Value = VehicleNumber
+            ParAcc_Id.Value = Acc_Id
+            ParExportCode.Value = ExportCode
+            ParUserId.Value = UserId
+            ParCustomerId.Value = CustomerId
+            ParExpectedMPGPerK.Value = IIf(ExpectedMPGPerK = -1, Nothing, ExpectedMPGPerK)
+            ParHours.Value = Hours
+            ParMileageOrKilometers.Value = MileageOrKilometers
+            ParLicenseState.Value = LicenseState
+            ParOdometerReasonabilityConditions.Value = OdometerReasonabilityConditions
+            ParFOBNumber.Value = FOBNumber
+            ParIsActive.Value = Active
+            ParFSTagMacAddress.Value = FSTagMacAddress
+            ParCurrentHours.Value = IIf(CurrentHours = -1, Nothing, CurrentHours)
+            ParHoursLimit.Value = IIf(HoursLimit = -1, Nothing, HoursLimit)
+            ParCurrentFSVMFirmwareVersion.Value = CurrentFSVMFirmwareVersion
 
-			parcollection(0) = ParVehicleId
-			parcollection(1) = ParVehicleName
-			parcollection(2) = ParMake
-			parcollection(3) = ParModel
-			parcollection(4) = ParYear
-			parcollection(5) = ParLicensePlateNumber
-			parcollection(6) = ParVIN
-			parcollection(7) = ParExtension
-			parcollection(8) = ParComment
-			parcollection(9) = ParCurrentOdometer
-			parcollection(10) = ParFuelLimitPerTxn
-			parcollection(11) = ParRequireOdometerEntry
-			parcollection(12) = ParCheckOdometerReasonable
-			parcollection(13) = ParOdoLimit
-			parcollection(14) = ParUserId
-			parcollection(15) = ParVehicleNumber
-			parcollection(16) = ParAcc_Id
-			parcollection(17) = ParExportCode
-			parcollection(18) = ParType
-			parcollection(19) = ParDepartmentId
-			parcollection(20) = ParFuelLimitPerDay
-			parcollection(21) = ParCustomerId
-			parcollection(22) = ParExpectedMPGPerK
-			parcollection(23) = ParHours
-			parcollection(24) = ParMileageOrKilometers
-			parcollection(25) = ParLicenseState
-			parcollection(26) = ParOdometerReasonabilityConditions
-			parcollection(27) = ParFOBNumber
-			parcollection(28) = ParIsActive
-			parcollection(29) = ParFSTagMacAddress
+            parcollection(0) = ParVehicleId
+            parcollection(1) = ParVehicleName
+            parcollection(2) = ParMake
+            parcollection(3) = ParModel
+            parcollection(4) = ParYear
+            parcollection(5) = ParLicensePlateNumber
+            parcollection(6) = ParVIN
+            parcollection(7) = ParExtension
+            parcollection(8) = ParComment
+            parcollection(9) = ParCurrentOdometer
+            parcollection(10) = ParFuelLimitPerTxn
+            parcollection(11) = ParRequireOdometerEntry
+            parcollection(12) = ParCheckOdometerReasonable
+            parcollection(13) = ParOdoLimit
+            parcollection(14) = ParUserId
+            parcollection(15) = ParVehicleNumber
+            parcollection(16) = ParAcc_Id
+            parcollection(17) = ParExportCode
+            parcollection(18) = ParType
+            parcollection(19) = ParDepartmentId
+            parcollection(20) = ParFuelLimitPerDay
+            parcollection(21) = ParCustomerId
+            parcollection(22) = ParExpectedMPGPerK
+            parcollection(23) = ParHours
+            parcollection(24) = ParMileageOrKilometers
+            parcollection(25) = ParLicenseState
+            parcollection(26) = ParOdometerReasonabilityConditions
+            parcollection(27) = ParFOBNumber
+            parcollection(28) = ParIsActive
+            parcollection(29) = ParFSTagMacAddress
+            parcollection(30) = ParCurrentHours
+            parcollection(31) = ParHoursLimit
+            parcollection(32) = ParCurrentFSVMFirmwareVersion
 
-			result = dal.ExecuteStoredProcedureGetInteger("usp_tt_Vechicle_InsertUpdate", parcollection)
+            result = dal.ExecuteStoredProcedureGetInteger("usp_tt_Vechicle_InsertUpdate", parcollection)
 
-			Return result
-		Catch ex As Exception
-			log.Error("Error occurred in SaveUpdateVehicle Exception is :" + ex.Message)
-			Return 0
+            Return result
+        Catch ex As Exception
+            log.Error("Error occurred in SaveUpdateVehicle Exception is :" + ex.Message)
+            Return 0
 
-		Finally
+        Finally
 
-		End Try
+        End Try
 
-		Return 0
+        Return 0
 
-	End Function
+    End Function
 
-	Public Function GetVehicleByCondition(Conditions As String, PersonId As Integer, RoleId As String) As DataTable
+    Public Function GetVehicleByCondition(Conditions As String, PersonId As Integer, RoleId As String) As DataTable
 		Dim dal = New GeneralizedDAL()
 		Try
 
@@ -3458,7 +3487,35 @@ Public Class MasterBAL
 
 		End Try
 	End Function
+	Public Function CheckVehicleVINExist(ByVal VIN As String, VehicleId As Integer, CompanyId As Integer) As Boolean
+		Dim dal = New GeneralizedDAL()
+		Try
+			Dim parcollection(2) As SqlParameter
 
+			Dim ParVehicleNumber = New SqlParameter("@VIN", SqlDbType.NVarChar, 20)
+			ParVehicleNumber.Direction = ParameterDirection.Input
+			ParVehicleNumber.Value = VIN
+			parcollection(0) = ParVehicleNumber
+
+			Dim ParVehicleId = New SqlParameter("@VehicleId", SqlDbType.Int)
+			ParVehicleId.Direction = ParameterDirection.Input
+			ParVehicleId.Value = VehicleId
+			parcollection(1) = ParVehicleId
+
+			Dim ParCompanyId = New SqlParameter("@CompanyId", SqlDbType.Int)
+			ParCompanyId.Direction = ParameterDirection.Input
+			ParCompanyId.Value = CompanyId
+
+			parcollection(2) = ParCompanyId
+
+			Return dal.ExecuteStoredProcedureGetBoolean("usp_tt_Vehicle_CheckVehicleVINExist", parcollection)
+
+		Catch ex As Exception
+			log.Error("Error occurred in CheckVehicleVINExist Exception is :" + ex.Message)
+			Return True
+
+		End Try
+	End Function
 	Public Function CheckVehicleFSTagMacAddressExist(ByVal FSTagMacAddress As String, VehicleId As Integer, CompanyId As Integer) As Boolean
 		Dim dal = New GeneralizedDAL()
 		Try
@@ -3489,7 +3546,7 @@ Public Class MasterBAL
 		End Try
 	End Function
 
-    Public Function GetVehicleColumnNameForSearch() As DataTable
+	Public Function GetVehicleColumnNameForSearch() As DataTable
 		Dim dal = New GeneralizedDAL()
 		Try
 
@@ -3509,71 +3566,71 @@ Public Class MasterBAL
 		End Try
 	End Function
 
-    Public Function MapPersonToNewGuestVehicle(UserId As Integer, VehicleId As Integer, CustomerId As Integer) As Integer
-        Try
-            Dim dal = New GeneralizedDAL()
-            Dim Param As SqlParameter() = New SqlParameter(2) {}
+	Public Function MapPersonToNewGuestVehicle(UserId As Integer, VehicleId As Integer, CustomerId As Integer) As Integer
+		Try
+			Dim dal = New GeneralizedDAL()
+			Dim Param As SqlParameter() = New SqlParameter(2) {}
 
 
-            Param(0) = New SqlParameter()
-            Param(0).ParameterName = "@VehicleId"
-            Param(0).SqlDbType = SqlDbType.Int
-            Param(0).Direction = ParameterDirection.Input
-            Param(0).Value = VehicleId
+			Param(0) = New SqlParameter()
+			Param(0).ParameterName = "@VehicleId"
+			Param(0).SqlDbType = SqlDbType.Int
+			Param(0).Direction = ParameterDirection.Input
+			Param(0).Value = VehicleId
 
-            Param(1) = New SqlParameter()
-            Param(1).ParameterName = "@UserId"
-            Param(1).SqlDbType = SqlDbType.Int
-            Param(1).Direction = ParameterDirection.Input
-            Param(1).Value = UserId
+			Param(1) = New SqlParameter()
+			Param(1).ParameterName = "@UserId"
+			Param(1).SqlDbType = SqlDbType.Int
+			Param(1).Direction = ParameterDirection.Input
+			Param(1).Value = UserId
 
 
-            Param(2) = New SqlParameter()
-            Param(2).ParameterName = "@CustomerId"
-            Param(2).SqlDbType = SqlDbType.Int
-            Param(2).Direction = ParameterDirection.Input
-            Param(2).Value = CustomerId
+			Param(2) = New SqlParameter()
+			Param(2).ParameterName = "@CustomerId"
+			Param(2).SqlDbType = SqlDbType.Int
+			Param(2).Direction = ParameterDirection.Input
+			Param(2).Value = CustomerId
 
-            Dim result As Integer = dal.ExecuteStoredProcedureTableValuePrameter("usp_tt_Vehicle_MapPersonToNewGuestVehicle", Param)
+			Dim result As Integer = dal.ExecuteStoredProcedureTableValuePrameter("usp_tt_Vehicle_MapPersonToNewGuestVehicle", Param)
 
-            Return 1
-        Catch ex As Exception
-            log.Error("Error occurred in MapPersonToNewGuestVehicle Exception is :" + ex.Message)
-            Return 0
-        Finally
-            'sqlConn.Close()
-        End Try
-    End Function
+			Return 1
+		Catch ex As Exception
+			log.Error("Error occurred in MapPersonToNewGuestVehicle Exception is :" + ex.Message)
+			Return 0
+		Finally
+			'sqlConn.Close()
+		End Try
+	End Function
 
-    'Public Function ImportVehicles(dtVehicles As DataTable, CustomerId As Integer, UserId As Integer) As Integer
-    '    Dim dal = New GeneralizedDAL()
-    '    Try
-    '        Dim parcollection(2) As SqlParameter
-    '        Dim ParVehicles = New SqlParameter()
-    '        ParVehicles.ParameterName = "@dtTableTemp"
-    '        ParVehicles.Value = dtVehicles
-    '        ParVehicles.SqlDbType = System.Data.SqlDbType.Structured
-    '        parcollection(0) = ParVehicles
+	'Public Function ImportVehicles(dtVehicles As DataTable, CustomerId As Integer, UserId As Integer) As Integer
+	'    Dim dal = New GeneralizedDAL()
+	'    Try
+	'        Dim parcollection(2) As SqlParameter
+	'        Dim ParVehicles = New SqlParameter()
+	'        ParVehicles.ParameterName = "@dtTableTemp"
+	'        ParVehicles.Value = dtVehicles
+	'        ParVehicles.SqlDbType = System.Data.SqlDbType.Structured
+	'        parcollection(0) = ParVehicles
 
-    '        Dim ParCustomerId = New SqlParameter("@CustomerId", SqlDbType.Int)
-    '        ParCustomerId.Direction = ParameterDirection.Input
-    '        ParCustomerId.Value = CustomerId
-    '        parcollection(1) = ParCustomerId
+	'        Dim ParCustomerId = New SqlParameter("@CustomerId", SqlDbType.Int)
+	'        ParCustomerId.Direction = ParameterDirection.Input
+	'        ParCustomerId.Value = CustomerId
+	'        parcollection(1) = ParCustomerId
 
-    '        Dim ParUserId = New SqlParameter("@UserId", SqlDbType.Int)
-    '        ParUserId.Direction = ParameterDirection.Input
-    '        ParUserId.Value = UserId
-    '        parcollection(2) = ParUserId
+	'        Dim ParUserId = New SqlParameter("@UserId", SqlDbType.Int)
+	'        ParUserId.Direction = ParameterDirection.Input
+	'        ParUserId.Value = UserId
+	'        parcollection(2) = ParUserId
 
-    '        Dim result As Integer = dal.ExecuteStoredProcedureGetInteger("usp_tt_Vehicle_importVehicles", parcollection)
-    '        Return result
-    '    Catch ex As Exception
-    '        log.Error("Error occurred in ImportVehicles Exception is :" + ex.Message)
-    '        Return 0
-    '    End Try
-    'End Function
+	'        Dim result As Integer = dal.ExecuteStoredProcedureGetInteger("usp_tt_Vehicle_importVehicles", parcollection)
+	'        Return result
+	'    Catch ex As Exception
+	'        log.Error("Error occurred in ImportVehicles Exception is :" + ex.Message)
+	'        Return 0
+	'    End Try
+	'End Function
 
-    Public Function AssignedFOBNumberToVehicle(ByVal VehicleId As Integer, FOBNumber As String) As Integer
+	Public Function AssignedFOBNumberToVehicle(ByVal VehicleId As Integer, FOBNumber As String) As Integer
 		Dim dal = New GeneralizedDAL()
 		Try
 			Dim parcollection(1) As SqlParameter
@@ -5324,11 +5381,31 @@ Public Class MasterBAL
 		End Try
 	End Function
 
+    Public Function GetShipmentDetails(Condition As String) As DataTable
+        Dim dal = New GeneralizedDAL()
+        Try
+            Dim parcollection() As SqlParameter = New SqlParameter(0) {}
+            Dim ds = New DataSet()
+
+            parcollection(0) = New SqlParameter("@Condition", SqlDbType.NVarChar, 2000)
+            parcollection(0).Direction = ParameterDirection.Input
+            parcollection(0).Value = Condition
+
+            ds = dal.ExecuteStoredProcedureGetDataSet("usp_tt_Report_GetShipmentDetails", parcollection)
+
+            Return ds.Tables(0)
+
+        Catch ex As Exception
+            log.Error("Error occurred in GetVehicleDetails Exception is :" + ex.Message)
+            Return Nothing
+        Finally
+        End Try
+    End Function
 #End Region
 
 #Region "Dashboard"
 
-	Public Function GetDetails(CustomerId As Integer, CurrentDate As DateTime) As DataSet
+    Public Function GetDetails(CustomerId As Integer, CurrentDate As DateTime) As DataSet
 		Dim dal = New GeneralizedDAL()
 		Try
 			Dim parcollection() As SqlParameter = New SqlParameter(1) {}
@@ -5471,13 +5548,13 @@ Public Class MasterBAL
 		End Try
 	End Function
 
-	Public Function GetShipmentIdByCondition(ShipmentId As Integer, IsFirst As Boolean, IsLast As Boolean, IsNext As Boolean, IsPrevious As Boolean, IsCount As Boolean, RoleId As String, LoginPersonId As Integer) As Integer
+	Public Function GetShipmentIdByCondition(ShipmentId As Integer, IsFirst As Boolean, IsLast As Boolean, IsNext As Boolean, IsPrevious As Boolean, IsCount As Boolean, RoleId As String, LoginPersonId As Integer, CompanyId As Integer) As Integer
 		Dim dal = New GeneralizedDAL()
 		Try
 
 			Dim ds As DataSet = New DataSet()
 
-			Dim Param As SqlParameter() = New SqlParameter(7) {}
+			Dim Param As SqlParameter() = New SqlParameter(8) {}
 
 			Param(0) = New SqlParameter("@IsFirst", SqlDbType.Bit)
 			Param(0).Direction = ParameterDirection.Input
@@ -5510,6 +5587,10 @@ Public Class MasterBAL
 			Param(7) = New SqlParameter("@LoginPersonId", SqlDbType.Int)
 			Param(7).Direction = ParameterDirection.Input
 			Param(7).Value = LoginPersonId
+
+			Param(8) = New SqlParameter("@CompanyId", SqlDbType.Int)
+			Param(8).Direction = ParameterDirection.Input
+			Param(8).Value = CompanyId
 
 			Dim result As Integer = dal.ExecuteStoredProcedureGetInteger("usp_tt_Shipment_GetShipmentIdByCondition", Param)
 
@@ -5548,11 +5629,13 @@ Public Class MasterBAL
 	End Function
 
 	Public Function SaveUpdateShipment(ShipmentId As Integer, FluidSecureUnitName As String, Company As String, Address As String,
-									   UserId As Integer, ShipmentDate As DateTime, CompanyId As Integer) As Integer
+									   UserId As Integer, ShipmentDate As DateTime, CompanyId As Integer, HubName As String, IsReplacement As Boolean,
+									   ReplacementForSiteId As Integer, ReplacementForHubId As Integer, IsReturned As Boolean, ReturnedOn As DateTime,
+									   ShipmentForLinkOrHub As Integer) As Integer
 		Try
 			Dim result As Integer
 			Dim dal = New GeneralizedDAL()
-			Dim parcollection(6) As SqlParameter
+			Dim parcollection(13) As SqlParameter
 			Dim ParShipmentId = New SqlParameter("@ShipmentId", SqlDbType.Int)
 			Dim ParFluidSecureUnitName = New SqlParameter("@FluidSecureUnitName", SqlDbType.NVarChar, 32)
 			Dim ParCompany = New SqlParameter("@Company", SqlDbType.NVarChar, 30)
@@ -5560,6 +5643,13 @@ Public Class MasterBAL
 			Dim ParShipmentDate = New SqlParameter("@ShipmentDate", SqlDbType.DateTime)
 			Dim ParUserId = New SqlParameter("@UserId", SqlDbType.Int)
 			Dim ParCompanyId = New SqlParameter("@CompanyId", SqlDbType.Int)
+			Dim ParHubName = New SqlParameter("@HubName", SqlDbType.NVarChar, 32)
+			Dim ParIsReplacement = New SqlParameter("@IsReplacement", SqlDbType.NVarChar, 32)
+			Dim ParReplacementForSiteId = New SqlParameter("@ReplacementForSiteId", SqlDbType.Int)
+			Dim ParReplacementForHubId = New SqlParameter("@ReplacementForHubId", SqlDbType.Int)
+			Dim ParIsReturned = New SqlParameter("@IsReturned", SqlDbType.Bit)
+			Dim ParReturnedOn = New SqlParameter("@ReturnedOn", SqlDbType.DateTime)
+			Dim ParShipmentForLinkOrHub = New SqlParameter("@ShipmentForLinkOrHub", SqlDbType.Int)
 
 			ParShipmentId.Direction = ParameterDirection.Input
 			ParFluidSecureUnitName.Direction = ParameterDirection.Input
@@ -5568,6 +5658,13 @@ Public Class MasterBAL
 			ParShipmentDate.Direction = ParameterDirection.Input
 			ParUserId.Direction = ParameterDirection.Input
 			ParCompanyId.Direction = ParameterDirection.Input
+			ParHubName.Direction = ParameterDirection.Input
+			ParIsReplacement.Direction = ParameterDirection.Input
+			ParReplacementForSiteId.Direction = ParameterDirection.Input
+			ParReplacementForHubId.Direction = ParameterDirection.Input
+			ParIsReturned.Direction = ParameterDirection.Input
+			ParReturnedOn.Direction = ParameterDirection.Input
+			ParShipmentForLinkOrHub.Direction = ParameterDirection.Input
 
 			ParShipmentId.Value = ShipmentId
 			ParFluidSecureUnitName.Value = FluidSecureUnitName
@@ -5576,6 +5673,13 @@ Public Class MasterBAL
 			ParUserId.Value = UserId
 			ParShipmentDate.Value = ShipmentDate
 			ParCompanyId.Value = CompanyId
+			ParHubName.Value = HubName
+			ParIsReplacement.Value = IsReplacement
+			ParReplacementForSiteId.Value = ReplacementForSiteId
+			ParReplacementForHubId.Value = ReplacementForHubId
+			ParIsReturned.Value = IsReturned
+			ParReturnedOn.Value = IIf(IsReturned = True, ReturnedOn, Nothing)
+			ParShipmentForLinkOrHub.Value = ShipmentForLinkOrHub
 
 			parcollection(0) = ParShipmentId
 			parcollection(1) = ParFluidSecureUnitName
@@ -5584,6 +5688,13 @@ Public Class MasterBAL
 			parcollection(4) = ParUserId
 			parcollection(5) = ParShipmentDate
 			parcollection(6) = ParCompanyId
+			parcollection(7) = ParHubName
+			parcollection(8) = ParIsReplacement
+			parcollection(9) = ParReplacementForSiteId
+			parcollection(10) = ParReplacementForHubId
+			parcollection(11) = ParIsReturned
+			parcollection(12) = ParReturnedOn
+			parcollection(13) = ParShipmentForLinkOrHub
 
 			result = dal.ExecuteStoredProcedureGetInteger("usp_tt_Shipment_InsertUpdate", parcollection)
 
@@ -6401,105 +6512,105 @@ Public Class MasterBAL
 
 #Region "Reconciliation - TankInventory"
 
-    Public Function SaveUpdateTankInventory(TankInventoryId As Integer, TankNumber As String, ENTRY_TYPE As String, InventoryDateTime As DateTime, Quantity As Decimal, DateType As String, CompanyId As Integer, UserId As Integer, EndDateForRD As DateTime, FluidLink As String,
-                                            ReadingDateTime As DateTime, ProbeReading As Decimal, FromSiteId As Integer, TLD As String, RecordType As String,
-                                                                   Optional Price As Decimal = 0, Optional TLDTemperature As Decimal = 1, Optional Response_code As String = "") As Integer
-        Try
-            Dim result As Integer
-            Dim dal = New GeneralizedDAL()
-            Dim parcollection(17) As SqlParameter
-            Dim ParTankInventoryId = New SqlParameter("@TankInventoryId", SqlDbType.Int)
-            Dim ParTankNumber = New SqlParameter("@TankNumber", SqlDbType.NVarChar, 10)
-            Dim ParENTRY_TYPE = New SqlParameter("@ENTRY_TYPE", SqlDbType.NVarChar, 20)
-            Dim ParInventoryDateTime = New SqlParameter("@InventoryDateTime", SqlDbType.DateTime)
-            Dim ParQuantity = New SqlParameter("@Quantity", SqlDbType.Decimal)
-            Dim ParDateType = New SqlParameter("@DateType", SqlDbType.NVarChar, 2)
-            Dim ParCompanyId = New SqlParameter("@CompanyId", SqlDbType.Int)
-            Dim ParUserId = New SqlParameter("@UserId", SqlDbType.Int)
-            Dim ParEndDateForRD = New SqlParameter("@EndDateForRD", SqlDbType.DateTime)
-            Dim ParFluidLink = New SqlParameter("@FluidLink", SqlDbType.NVarChar, 20)
-            Dim ParRecordType = New SqlParameter("@RecordType", SqlDbType.NVarChar, 11)
-            Dim ParReadingDateTime = New SqlParameter("@ReadingDateTime", SqlDbType.DateTime)
-            Dim ParProbeReading = New SqlParameter("@ProbeReading", SqlDbType.Decimal)
-            Dim ParFromSiteId = New SqlParameter("@FromSiteId", SqlDbType.Int)
-            Dim ParTLD = New SqlParameter("@TLD", SqlDbType.NVarChar, 50)
-            Dim ParPrice = New SqlParameter("@Price", SqlDbType.Decimal)
-            Dim ParTLDTemperature = New SqlParameter("@TLDTemperature", SqlDbType.Decimal)
-            Dim ParResponse_code = New SqlParameter("@Response_code", SqlDbType.NVarChar, 50)
+	Public Function SaveUpdateTankInventory(TankInventoryId As Integer, TankNumber As String, ENTRY_TYPE As String, InventoryDateTime As DateTime, Quantity As Decimal, DateType As String, CompanyId As Integer, UserId As Integer, EndDateForRD As DateTime, FluidLink As String,
+											ReadingDateTime As DateTime, ProbeReading As Decimal, FromSiteId As Integer, TLD As String, RecordType As String,
+																   Optional Price As Decimal = 0, Optional TLDTemperature As Decimal = 1, Optional Response_code As String = "") As Integer
+		Try
+			Dim result As Integer
+			Dim dal = New GeneralizedDAL()
+			Dim parcollection(17) As SqlParameter
+			Dim ParTankInventoryId = New SqlParameter("@TankInventoryId", SqlDbType.Int)
+			Dim ParTankNumber = New SqlParameter("@TankNumber", SqlDbType.NVarChar, 10)
+			Dim ParENTRY_TYPE = New SqlParameter("@ENTRY_TYPE", SqlDbType.NVarChar, 20)
+			Dim ParInventoryDateTime = New SqlParameter("@InventoryDateTime", SqlDbType.DateTime)
+			Dim ParQuantity = New SqlParameter("@Quantity", SqlDbType.Decimal)
+			Dim ParDateType = New SqlParameter("@DateType", SqlDbType.NVarChar, 2)
+			Dim ParCompanyId = New SqlParameter("@CompanyId", SqlDbType.Int)
+			Dim ParUserId = New SqlParameter("@UserId", SqlDbType.Int)
+			Dim ParEndDateForRD = New SqlParameter("@EndDateForRD", SqlDbType.DateTime)
+			Dim ParFluidLink = New SqlParameter("@FluidLink", SqlDbType.NVarChar, 20)
+			Dim ParRecordType = New SqlParameter("@RecordType", SqlDbType.NVarChar, 11)
+			Dim ParReadingDateTime = New SqlParameter("@ReadingDateTime", SqlDbType.DateTime)
+			Dim ParProbeReading = New SqlParameter("@ProbeReading", SqlDbType.Decimal)
+			Dim ParFromSiteId = New SqlParameter("@FromSiteId", SqlDbType.Int)
+			Dim ParTLD = New SqlParameter("@TLD", SqlDbType.NVarChar, 50)
+			Dim ParPrice = New SqlParameter("@Price", SqlDbType.Decimal)
+			Dim ParTLDTemperature = New SqlParameter("@TLDTemperature", SqlDbType.Decimal)
+			Dim ParResponse_code = New SqlParameter("@Response_code", SqlDbType.NVarChar, 50)
 
-            ParTankInventoryId.Direction = ParameterDirection.Input
-            ParTankNumber.Direction = ParameterDirection.Input
-            ParENTRY_TYPE.Direction = ParameterDirection.Input
-            ParInventoryDateTime.Direction = ParameterDirection.Input
-            ParQuantity.Direction = ParameterDirection.Input
-            ParDateType.Direction = ParameterDirection.Input
-            ParCompanyId.Direction = ParameterDirection.Input
-            ParUserId.Direction = ParameterDirection.Input
-            ParEndDateForRD.Direction = ParameterDirection.Input
-            ParFluidLink.Direction = ParameterDirection.Input
-            ParRecordType.Direction = ParameterDirection.Input
-            ParReadingDateTime.Direction = ParameterDirection.Input
-            ParProbeReading.Direction = ParameterDirection.Input
-            ParFromSiteId.Direction = ParameterDirection.Input
-            ParTLD.Direction = ParameterDirection.Input
-            ParPrice.Direction = ParameterDirection.Input
-            ParTLDTemperature.Direction = ParameterDirection.Input
-            ParResponse_code.Direction = ParameterDirection.Input
+			ParTankInventoryId.Direction = ParameterDirection.Input
+			ParTankNumber.Direction = ParameterDirection.Input
+			ParENTRY_TYPE.Direction = ParameterDirection.Input
+			ParInventoryDateTime.Direction = ParameterDirection.Input
+			ParQuantity.Direction = ParameterDirection.Input
+			ParDateType.Direction = ParameterDirection.Input
+			ParCompanyId.Direction = ParameterDirection.Input
+			ParUserId.Direction = ParameterDirection.Input
+			ParEndDateForRD.Direction = ParameterDirection.Input
+			ParFluidLink.Direction = ParameterDirection.Input
+			ParRecordType.Direction = ParameterDirection.Input
+			ParReadingDateTime.Direction = ParameterDirection.Input
+			ParProbeReading.Direction = ParameterDirection.Input
+			ParFromSiteId.Direction = ParameterDirection.Input
+			ParTLD.Direction = ParameterDirection.Input
+			ParPrice.Direction = ParameterDirection.Input
+			ParTLDTemperature.Direction = ParameterDirection.Input
+			ParResponse_code.Direction = ParameterDirection.Input
 
-            ParTankInventoryId.Value = TankInventoryId
-            ParTankNumber.Value = TankNumber
-            ParENTRY_TYPE.Value = ENTRY_TYPE
-            ParInventoryDateTime.Value = InventoryDateTime
-            ParQuantity.Value = Quantity
-            ParDateType.Value = DateType
-            ParCompanyId.Value = CompanyId
-            ParUserId.Value = UserId
-            ParEndDateForRD.Value = EndDateForRD
-            ParFluidLink.Value = FluidLink
-            ParRecordType.Value = RecordType
-            ParReadingDateTime.Value = ReadingDateTime
-            ParProbeReading.Value = ProbeReading
-            ParFromSiteId.Value = FromSiteId
-            ParTLD.Value = TLD
-            ParPrice.Value = Price
-            ParTLDTemperature.Value = TLDTemperature
-            ParResponse_code.Value = Response_code
+			ParTankInventoryId.Value = TankInventoryId
+			ParTankNumber.Value = TankNumber
+			ParENTRY_TYPE.Value = ENTRY_TYPE
+			ParInventoryDateTime.Value = InventoryDateTime
+			ParQuantity.Value = Quantity
+			ParDateType.Value = DateType
+			ParCompanyId.Value = CompanyId
+			ParUserId.Value = UserId
+			ParEndDateForRD.Value = EndDateForRD
+			ParFluidLink.Value = FluidLink
+			ParRecordType.Value = RecordType
+			ParReadingDateTime.Value = ReadingDateTime
+			ParProbeReading.Value = ProbeReading
+			ParFromSiteId.Value = FromSiteId
+			ParTLD.Value = TLD
+			ParPrice.Value = Price
+			ParTLDTemperature.Value = TLDTemperature
+			ParResponse_code.Value = Response_code
 
-            parcollection(0) = ParTankInventoryId
-            parcollection(1) = ParTankNumber
-            parcollection(2) = ParENTRY_TYPE
-            parcollection(3) = ParInventoryDateTime
-            parcollection(4) = ParQuantity
-            parcollection(5) = ParDateType
-            parcollection(6) = ParCompanyId
-            parcollection(7) = ParUserId
-            parcollection(8) = ParEndDateForRD
-            parcollection(9) = ParFluidLink
-            parcollection(10) = ParRecordType
-            parcollection(11) = ParReadingDateTime
-            parcollection(12) = ParProbeReading
-            parcollection(13) = ParFromSiteId
-            parcollection(14) = ParTLD
-            parcollection(15) = ParPrice
-            parcollection(16) = ParTLDTemperature
-            parcollection(17) = ParResponse_code
+			parcollection(0) = ParTankInventoryId
+			parcollection(1) = ParTankNumber
+			parcollection(2) = ParENTRY_TYPE
+			parcollection(3) = ParInventoryDateTime
+			parcollection(4) = ParQuantity
+			parcollection(5) = ParDateType
+			parcollection(6) = ParCompanyId
+			parcollection(7) = ParUserId
+			parcollection(8) = ParEndDateForRD
+			parcollection(9) = ParFluidLink
+			parcollection(10) = ParRecordType
+			parcollection(11) = ParReadingDateTime
+			parcollection(12) = ParProbeReading
+			parcollection(13) = ParFromSiteId
+			parcollection(14) = ParTLD
+			parcollection(15) = ParPrice
+			parcollection(16) = ParTLDTemperature
+			parcollection(17) = ParResponse_code
 
-            result = dal.ExecuteStoredProcedureGetInteger("usp_tt_TankInventoryInsertUpdate", parcollection)
+			result = dal.ExecuteStoredProcedureGetInteger("usp_tt_TankInventoryInsertUpdate", parcollection)
 
-            Return result
-        Catch ex As Exception
-            log.Error("Error occurred in SaveUpdateTankInventory Exception is :" + ex.Message)
-            Return 0
+			Return result
+		Catch ex As Exception
+			log.Error("Error occurred in SaveUpdateTankInventory Exception is :" + ex.Message)
+			Return 0
 
-        Finally
+		Finally
 
-        End Try
+		End Try
 
-        Return 0
+		Return 0
 
-    End Function
+	End Function
 
-    Public Function GetTankInventorys(PersonId As Integer, RoleId As String, CustomerId As Integer, Entry_Type As String) As DataTable
+	Public Function GetTankInventorys(PersonId As Integer, RoleId As String, CustomerId As Integer, Entry_Type As String) As DataTable
 		Dim dal = New GeneralizedDAL()
 		Try
 			Dim parcollection() As SqlParameter = New SqlParameter(3) {}
@@ -7953,14 +8064,14 @@ Public Class MasterBAL
 #End Region
 
 #Region "FSVM"
-	Public Function InsertUpdateFSVM(VINAuthorizationID As Integer, TransactionId As Integer, CustomerId As Integer, RPM As String, SPD As String, MIL As String, PC As String,
+	Public Function InsertUpdateFSVM(VINAuthorizationID As Integer, TransactionId As Integer, CustomerId As Integer, RPM As String, SPD As String, MIL As String, ODOK As String, PC As String,
 									 PID1 As String, PID2 As String, PID3 As String, PID4 As String, PID5 As String, PID6 As String, PID7 As String, PID8 As String, PID9 As String, PID10 As String,
 									 PID11 As String, PID12 As String, PID13 As String, PID14 As String, PID15 As String, PID16 As String, PID17 As String, PID18 As String, PID19 As String, PID20 As String) As Integer '
 		Dim result As Integer
 		result = 0
 		Try
 			Dim dal = New GeneralizedDAL()
-			Dim parcollection(26) As SqlParameter
+			Dim parcollection(27) As SqlParameter
 
 			Dim ParVINAuthorizationID = New SqlParameter("@VINAuthorizationID", SqlDbType.Int)
 			Dim ParTransactionId = New SqlParameter("@TransactionId", SqlDbType.Int)
@@ -7968,6 +8079,7 @@ Public Class MasterBAL
 			Dim ParRPM = New SqlParameter("@RPM", SqlDbType.NVarChar, 10)
 			Dim ParSPD = New SqlParameter("@SPD", SqlDbType.NVarChar, 10)
 			Dim ParMIL = New SqlParameter("@MIL", SqlDbType.NVarChar, 10)
+			Dim ParODOK = New SqlParameter("@ODOK", SqlDbType.NVarChar, 10)
 			Dim ParPC = New SqlParameter("@PC", SqlDbType.NVarChar, 10)
 			Dim ParPID1 = New SqlParameter("@PID1", SqlDbType.NVarChar, 10)
 			Dim ParPID2 = New SqlParameter("@PID2", SqlDbType.NVarChar, 10)
@@ -7996,6 +8108,7 @@ Public Class MasterBAL
 			ParRPM.Direction = ParameterDirection.Input
 			ParSPD.Direction = ParameterDirection.Input
 			ParMIL.Direction = ParameterDirection.Input
+			ParODOK.Direction = ParameterDirection.Input
 			ParPC.Direction = ParameterDirection.Input
 			ParPID1.Direction = ParameterDirection.Input
 			ParPID2.Direction = ParameterDirection.Input
@@ -8024,6 +8137,7 @@ Public Class MasterBAL
 			ParRPM.Value = RPM
 			ParSPD.Value = SPD
 			ParMIL.Value = MIL
+			ParODOK.Value = ODOK
 			ParPC.Value = PC
 			ParPID1.Value = PID1
 			ParPID2.Value = PID2
@@ -8073,7 +8187,7 @@ Public Class MasterBAL
 			parcollection(24) = ParPID18
 			parcollection(25) = ParPID19
 			parcollection(26) = ParPID20
-
+			parcollection(27) = ParODOK
 
 			result = dal.ExecuteStoredProcedureGetInteger("usp_tt_FSVM_InsertUpdate", parcollection)
 
@@ -8586,4 +8700,327 @@ Public Class MasterBAL
 	End Function
 
 #End Region
+
+#Region "Upload FSNP Firmware"
+    Public Function SaveUpdateFSNPFirmware(FSNPFirmwareId As Integer, FSNPFirmwareFileName As String, FSNPFirmwareFilePath As String, Version As String, UserId As Integer) As Integer
+        Try
+            Dim result As Integer
+            Dim dal = New GeneralizedDAL()
+            Dim parcollection(4) As SqlParameter
+            Dim ParFSNPFirmwareId = New SqlParameter("@FSNPFirmwareId", SqlDbType.Int)
+            Dim ParFSNPFirmwareFileName = New SqlParameter("@FSNPFirmwareFileName", SqlDbType.NVarChar, 2000)
+            Dim ParFSNPFirmwareFilePath = New SqlParameter("@FSNPFirmwareFilePath", SqlDbType.NVarChar, 2000)
+            Dim ParVersion = New SqlParameter("@Version", SqlDbType.NVarChar, 2000)
+            Dim ParUserId = New SqlParameter("@UserId", SqlDbType.Int)
+
+            ParFSNPFirmwareId.Direction = ParameterDirection.Input
+            ParFSNPFirmwareFileName.Direction = ParameterDirection.Input
+            ParFSNPFirmwareFilePath.Direction = ParameterDirection.Input
+            ParVersion.Direction = ParameterDirection.Input
+            ParUserId.Direction = ParameterDirection.Input
+
+            ParFSNPFirmwareId.Value = FSNPFirmwareId
+            ParFSNPFirmwareFileName.Value = FSNPFirmwareFileName
+            ParFSNPFirmwareFilePath.Value = FSNPFirmwareFilePath
+            ParVersion.Value = Version
+            ParUserId.Value = UserId
+
+            parcollection(0) = ParFSNPFirmwareId
+            parcollection(1) = ParFSNPFirmwareFileName
+            parcollection(2) = ParFSNPFirmwareFilePath
+            parcollection(3) = ParVersion
+            parcollection(4) = ParUserId
+
+            result = dal.ExecuteStoredProcedureGetInteger("usp_tt_FSNPFirmware_InsertUpdate", parcollection)
+
+            Return result
+        Catch ex As Exception
+            log.Error("Error occurred in SaveUpdateFSNPFirmware Exception is :" + ex.Message)
+            Return 0
+
+        Finally
+
+        End Try
+
+        Return 0
+
+    End Function
+
+    Public Function GetFSNPFirmwareColumnNameForSearch() As DataTable
+        Dim dal = New GeneralizedDAL()
+        Try
+
+            Dim ds As DataSet = New DataSet()
+
+            Dim Param As SqlParameter() = New SqlParameter() {}
+
+            ds = dal.ExecuteStoredProcedureGetDataSet("usp_tt_FSNPFirmware_GetColumnNameForSearch", Param)
+
+            Return ds.Tables(0)
+
+        Catch ex As Exception
+
+            log.Error("Error occurred in GetFSNPFirmwareColumnNameForSearch Exception is :" + ex.Message)
+            Return Nothing
+        Finally
+
+        End Try
+    End Function
+
+    Public Function GetFSNPFirmwaresByCondition(Conditions As String, PersonId As Integer, RoleId As String) As DataTable
+        Dim dal = New GeneralizedDAL()
+        Try
+            Dim parcollection() As SqlParameter = New SqlParameter(1) {}
+            Dim ds = New DataSet()
+
+            parcollection(0) = New SqlParameter("@Conditions", SqlDbType.NVarChar, 2000)
+            parcollection(0).Direction = ParameterDirection.Input
+            parcollection(0).Value = Conditions
+
+            parcollection(1) = New SqlParameter("@RoleId", SqlDbType.NVarChar, 2000)
+            parcollection(1).Direction = ParameterDirection.Input
+            parcollection(1).Value = RoleId
+
+            ds = dal.ExecuteStoredProcedureGetDataSet("usp_tt_FSNPFirmware_GetFSNPFirmwaresByCondition", parcollection)
+
+            Return ds.Tables(0)
+
+        Catch ex As Exception
+            log.Error("Error occurred in GetFSNPFirmwaresByCondition Exception is :" + ex.Message)
+            Return Nothing
+        Finally
+        End Try
+    End Function
+
+    Public Function LaunchFSNPFirmware(ByVal FSNPFirmwareId As Integer, UserId As Integer) As Integer
+        Dim dal = New GeneralizedDAL()
+        Try
+            Dim parcollection(1) As SqlParameter
+            Dim ParFSNPFirmwareId = New SqlParameter("@FSNPFirmwareId", SqlDbType.Int)
+            ParFSNPFirmwareId.Direction = ParameterDirection.Input
+            ParFSNPFirmwareId.Value = FSNPFirmwareId
+            parcollection(0) = ParFSNPFirmwareId
+
+            Dim ParUserId = New SqlParameter("@UserId", SqlDbType.Int)
+            ParUserId.Direction = ParameterDirection.Input
+            ParUserId.Value = UserId
+            parcollection(1) = ParUserId
+
+            Dim result As Integer = dal.ExecuteStoredProcedureGetInteger("usp_tt_FSNPFirmware_LaunchFSNPFirmware", parcollection)
+            Return result
+        Catch ex As Exception
+            log.Error("Error occurred in LaunchFSNPFirmware Exception is :" + ex.Message)
+            Return 0
+        End Try
+    End Function
+
+    Public Function CheckFSNPVersionIsExist(ByVal Version As String) As Integer
+        Dim dal = New GeneralizedDAL()
+        Try
+            Dim parcollection(0) As SqlParameter
+            Dim ParVersion = New SqlParameter("@Version", SqlDbType.NVarChar, 2000)
+            ParVersion.Direction = ParameterDirection.Input
+            ParVersion.Value = Version
+            parcollection(0) = ParVersion
+
+            Return dal.ExecuteStoredProcedureGetInteger("usp_tt_FSNPFirmware_CheckVersionIsExist", parcollection)
+
+        Catch ex As Exception
+            log.Error("Error occurred in CheckVersionIsExist Exception is :" + ex.Message)
+            Return 0
+
+        End Try
+    End Function
+
+    Public Function DeleteFSNPFirmware(ByVal FSNPFirmwareId As Integer, UserId As Integer) As Integer
+        Dim dal = New GeneralizedDAL()
+        Try
+            Dim parcollection(1) As SqlParameter
+            Dim ParFSNPFirmwareId = New SqlParameter("@FSNPFirmwareId", SqlDbType.Int)
+            ParFSNPFirmwareId.Direction = ParameterDirection.Input
+            ParFSNPFirmwareId.Value = FSNPFirmwareId
+            parcollection(0) = ParFSNPFirmwareId
+
+            Dim ParUserId = New SqlParameter("@UserId", SqlDbType.Int)
+            ParUserId.Direction = ParameterDirection.Input
+            ParUserId.Value = UserId
+            parcollection(1) = ParUserId
+
+            Dim result As Integer = dal.ExecuteStoredProcedureGetInteger("usp_tt_FSNPFirmware_Delete", parcollection)
+            Return result
+        Catch ex As Exception
+            log.Error("Error occurred in DeleteFSNPFirmware Exception is :" + ex.Message)
+            Return 0
+        End Try
+    End Function
+
+    Public Function GetLaunchedFSNPFirmwareDetails() As DataTable
+        Dim dal = New GeneralizedDAL()
+        Try
+            Dim parcollection() As SqlParameter = New SqlParameter() {}
+            Dim ds = New DataSet()
+
+
+            ds = dal.ExecuteStoredProcedureGetDataSet("usp_tt_FSNPFirmware_GetLaunchedFSNPFirmwareDetails", parcollection)
+
+            Return ds.Tables(0)
+
+        Catch ex As Exception
+            log.Error("Error occurred in GetLaunchedFSNPFirmwareDetails Exception is :" + ex.Message)
+            Return Nothing
+        Finally
+        End Try
+    End Function
+
+    Public Function CheckLaunchedAndExistedFSNPVersionAndUpdate(HoseId As String, version As String, personId As Integer, flag As Integer) As DataSet
+        Try
+            Dim result As DataSet
+            Dim dal = New GeneralizedDAL()
+            Dim parcollection(3) As SqlParameter
+
+            Dim ParSSID = New SqlParameter("@HoseId", SqlDbType.NVarChar, 200)
+            Dim Parversion = New SqlParameter("@version", SqlDbType.NVarChar, 200)
+            Dim ParpersonId = New SqlParameter("@personId", SqlDbType.Int)
+            Dim Parflag = New SqlParameter("@flag", SqlDbType.Int)
+
+            ParSSID.Direction = ParameterDirection.Input
+            ParSSID.Value = HoseId
+            parcollection(0) = ParSSID
+
+
+            Parversion.Direction = ParameterDirection.Input
+            Parversion.Value = version
+            parcollection(1) = Parversion
+
+            ParpersonId.Direction = ParameterDirection.Input
+            ParpersonId.Value = personId
+            parcollection(2) = ParpersonId
+
+            Parflag.Direction = ParameterDirection.Input
+            Parflag.Value = flag
+            parcollection(3) = Parflag
+
+            result = dal.ExecuteStoredProcedureGetDataSet("usp_tt_CheckLaunchedAndExistedFSNPVersionAndUpdate", parcollection)
+
+            Return result
+        Catch ex As Exception
+            log.Error("Error occurred in checkLaunchedAndExistedFSNPVersionAndUpdate Exception is :" + ex.Message)
+            Return Nothing
+
+        Finally
+
+        End Try
+
+        Return Nothing
+
+    End Function
+
+    Public Function GetFSNPFirmxareFluidLinkMappingByFSNPFirmwaredID(FSNPFirmwareId As Integer) As DataTable
+        Dim result As DataSet
+        Try
+
+            Dim dal = New GeneralizedDAL()
+            Dim parcollection(0) As SqlParameter
+            Dim ParFSNPFirmwareId = New SqlParameter("@FSNPFirmwareId", SqlDbType.Int)
+
+
+            ParFSNPFirmwareId.Direction = ParameterDirection.Input
+
+
+            ParFSNPFirmwareId.Value = FSNPFirmwareId
+
+
+            parcollection(0) = ParFSNPFirmwareId
+
+
+            result = dal.ExecuteStoredProcedureGetDataSet("usp_tt_FSNPFirmware_GetCompanyNodes", parcollection)
+
+            Return result.Tables(0)
+        Catch ex As Exception
+            log.Error("Error occurred in SaveUpdateFSNPFirmware Exception is :" + ex.Message)
+            Return Nothing
+
+        Finally
+
+        End Try
+    End Function
+
+    Public Function InsertFSNPFirmwareFluidSecureLinksMapping(dtFSNPFirmwareFluidSecureLinks As DataTable, FSNPFirmwareId As Integer) As Integer
+        Try
+            Dim dal = New GeneralizedDAL()
+            Dim Param As SqlParameter() = New SqlParameter(1) {}
+
+
+            Param(0) = New SqlParameter()
+            Param(0).ParameterName = "@dtFSNPFirmwareFluidSecureLinks"
+            Param(0).SqlDbType = SqlDbType.Structured
+            Param(0).Direction = ParameterDirection.Input
+            Param(0).Value = dtFSNPFirmwareFluidSecureLinks
+            Param(0).TypeName = "dbo.FSNPFirmwareFluidSecureLinksMapping"
+
+            Param(1) = New SqlParameter()
+            Param(1).ParameterName = "@FSNPFirmwareId"
+            Param(1).SqlDbType = SqlDbType.Int
+            Param(1).Direction = ParameterDirection.Input
+            Param(1).Value = FSNPFirmwareId
+
+            Dim result As Integer = dal.ExecuteStoredProcedureTableValuePrameter("usp_tt_FSNPFirmware_InsertFSNPFirmwareFluidSecureLinksMapping", Param)
+
+            Return 1
+        Catch ex As Exception
+            log.Error("Error occurred in InsertFSNPFirmwareFluidSecureLinksMapping Exception is :" + ex.Message)
+            Return 0
+        Finally
+            'sqlConn.Close()
+        End Try
+    End Function
+
+    Public Function DeleteFSNPFirmwareFluidSecureLinksMapping(CompanyId As Integer, FSNPFirmwareId As Integer) As Integer
+        Try
+            Dim dal = New GeneralizedDAL()
+            Dim Param As SqlParameter() = New SqlParameter(1) {}
+
+
+            Param(0) = New SqlParameter()
+            Param(0).ParameterName = "@CompanyId"
+            Param(0).SqlDbType = SqlDbType.Int
+            Param(0).Direction = ParameterDirection.Input
+            Param(0).Value = CompanyId
+
+            Param(1) = New SqlParameter()
+            Param(1).ParameterName = "@FSNPFirmwareId"
+            Param(1).SqlDbType = SqlDbType.Int
+            Param(1).Direction = ParameterDirection.Input
+            Param(1).Value = FSNPFirmwareId
+
+            Dim result As Integer = dal.ExecuteStoredProcedureTableValuePrameter("usp_tt_FSNPFirmware_DeleteFSNPFirmwareFluidSecureLinksMapping", Param)
+
+            Return 1
+        Catch ex As Exception
+            log.Error("Error occurred in DeleteFSNPFirmwareFluidSecureLinksMapping Exception is :" + ex.Message)
+            Return 0
+        Finally
+            'sqlConn.Close()
+        End Try
+    End Function
+
+    Public Function GetFSNPFirmwareById(ByVal FSNPFirmwareId As Integer) As DataSet
+        Dim dal = New GeneralizedDAL()
+        Try
+            Dim parcollection(0) As SqlParameter
+            Dim ParFSNPFirmwareId = New SqlParameter("@FSNPFirmwareId", SqlDbType.Int)
+            ParFSNPFirmwareId.Direction = ParameterDirection.Input
+            ParFSNPFirmwareId.Value = FSNPFirmwareId
+            parcollection(0) = ParFSNPFirmwareId
+
+            Dim result As DataSet = dal.ExecuteStoredProcedureGetDataSet("usp_tt_FSNPFirmware_GetFSNPFirmwareById", parcollection)
+            Return result
+        Catch ex As Exception
+            log.Error("Error occurred in GetFSNPFirmwareById Exception is :" + ex.Message)
+            Return Nothing
+        End Try
+    End Function
+
+#End Region
+
 End Class

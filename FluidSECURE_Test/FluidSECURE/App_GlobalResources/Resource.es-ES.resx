@@ -217,7 +217,7 @@
     <value>No está permitido que este Vehículo sea combustible para esta Manguera, comuníquese con el administrador.</value>
   </data>
   <data name="HandlerMsg25" xml:space="preserve">
-    <value>Este Vehicolo No es Permitido Favor de Contacte el Administrador</value>
+    <value>Número de vehículo inválido. Inténtalo de nuevo o contacta al administrador.</value>
   </data>
   <data name="HandlerMsg26" xml:space="preserve">
     <value>Su administrador no le ha otorgado el permiso de combustible en este lugar. Por favor contacte al administrador.</value>

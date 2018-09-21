@@ -478,11 +478,11 @@ Public Class VehicleImport
 	Private Function InsertRecord(dr As DataRow, dtSelectedFuels As DataTable) As Integer ', listOfSites As List(Of Integer)
 		Try
 
-			Dim result As Integer = OBJMaster.SaveUpdateVehicle(0, dr("VehicleName"), dr("Make"), dr("Model"), IIf(dr("Year") = "", "-1", dr("Year")), dr("LicensePlateNumber"), dr("VIN"), dr("Type"), dr("Extension"), "", "-1", dr("DepartmentId"),
-															0, 0, dr("RequireOdometerEntry"), dr("CheckOdometerReasonable"), IIf(dr("OdoLimit") = "", "-1", dr("OdoLimit")), dr("VehicleNumber"), dr("Acc_Id"), "", Convert.ToInt32(Session("PersonId")), ddlCustomer.SelectedValue,
-															"-1", dr("Hours"), 1, dr("LicenseState"), 1, "", True, "")
+            Dim result As Integer = OBJMaster.SaveUpdateVehicle(0, dr("VehicleName"), dr("Make"), dr("Model"), IIf(dr("Year") = "", "-1", dr("Year")), dr("LicensePlateNumber"), dr("VIN"), dr("Type"), dr("Extension"), "", "-1", dr("DepartmentId"),
+                                                            0, 0, dr("RequireOdometerEntry"), dr("CheckOdometerReasonable"), IIf(dr("OdoLimit") = "", "-1", dr("OdoLimit")), dr("VehicleNumber"), dr("Acc_Id"), "", Convert.ToInt32(Session("PersonId")), ddlCustomer.SelectedValue,
+                                                            "-1", dr("Hours"), 1, dr("LicenseState"), 1, "", True, "", 0, 0, "")
 
-			Dim dtFuelTpes As DataTable = New DataTable()
+            Dim dtFuelTpes As DataTable = New DataTable()
 			OBJMaster = New MasterBAL()
 
 			Dim dtFuelVehicle As DataTable = New DataTable("dtFuelTypeAndVehicle")

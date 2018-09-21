@@ -221,13 +221,13 @@ Partial Public Class Company
     Protected WithEvents txtExportCode As Global.System.Web.UI.WebControls.TextBox
     
     '''<summary>
-    '''txtOtherLabel control.
+    '''chk_VehicleNumberRequire control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents txtOtherLabel As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents chk_VehicleNumberRequire As Global.System.Web.UI.WebControls.CheckBox
     
     '''<summary>
     '''txtContactNumber control.
@@ -345,6 +345,15 @@ Partial Public Class Company
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents chkAssignPerToVeh As Global.System.Web.UI.WebControls.CheckBox
+    
+    '''<summary>
+    '''txtOtherLabel control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtOtherLabel As Global.System.Web.UI.WebControls.TextBox
     
     '''<summary>
     '''divPricing control.

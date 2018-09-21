@@ -13,9 +13,8 @@ Public Class Global_asax
             If (ConfigurationManager.AppSettings("AllowActivityLogin").ToString().ToLower() = "yes") Then
                 CSCommonHelper.WriteLog("Application Start", "", "", "", "", "", "success", "")
             End If
-        Catch ex As Exception
-            Dim a = ex.Message
-        End Try
+		Catch
+		End Try
     End Sub
 
 

@@ -133,6 +133,12 @@
                                             runat="server" />
                                     </ItemTemplate>
                                 </asp:TemplateField>
+								<asp:TemplateField SortExpression="HubName" ItemStyle-HorizontalAlign="Center" HeaderText="Hub Name" HeaderStyle-HorizontalAlign="Center">
+                                    <ItemTemplate>
+                                        <asp:Label ID="lblHubName" Text='<%# DataBinder.Eval(Container.DataItem, "HubName")%>'
+                                            runat="server" />
+                                    </ItemTemplate>
+                                </asp:TemplateField>
                                 <asp:TemplateField SortExpression="Company" ItemStyle-HorizontalAlign="Center" HeaderText="Shipment Company">
                                     <ItemTemplate>
                                         <asp:Label ID="lblCompanyName" Text='<%# DataBinder.Eval(Container.DataItem, "Company")%>'

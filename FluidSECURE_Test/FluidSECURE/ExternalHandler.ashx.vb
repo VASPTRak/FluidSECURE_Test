@@ -239,7 +239,7 @@ Public Class ExternalHandler
             companyAddress = drFinal("billing_address_1").ToString() & IIf(drFinal("billing_address_2").ToString() = "", "", " , " & drFinal("billing_address_2").ToString())
 
             'save company
-            result = OBJMaster.SaveUpdateCustomer(0, drFinal("billing_company").ToString(), ContactName, drFinal("billing_phone").ToString(), companyAddress, "", 0, False, False, False, False, False, "Other", 1, 1)
+            result = OBJMaster.SaveUpdateCustomer(0, drFinal("billing_company").ToString(), ContactName, drFinal("billing_phone").ToString(), companyAddress, "", 0, False, False, False, False, False, "Other", 1, 1, 1)
 
 
 
@@ -308,9 +308,11 @@ Public Class ExternalHandler
            .IsPersonHasFob = False,
            .IsTermConditionAgreed = False,
            .DateTimeTermConditionAccepted = Nothing,
-           .IsGateHub = False
+           .IsGateHub = False,
+           .IsVehicleNumberRequire = False,
+           .HubAddress = ""
    }
-		identityResult = New IdentityResult()
+        identityResult = New IdentityResult()
         Dim pwd As String = PasswordService.GeneratePassword()
         identityResult = manager.Create(user, pwd)
         If identityResult.Succeeded Then

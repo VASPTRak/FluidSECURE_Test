@@ -362,7 +362,7 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to This Vehicle is not permitted to fuel, please contact administrator..
+        '''  Looks up a localized string similar to Invalid vehicle number. Try again or contact administrator..
         '''</summary>
         Public Shared ReadOnly Property HandlerMsg25() As String
             Get
@@ -790,6 +790,15 @@ Namespace My.Resources
         Public Shared ReadOnly Property SearchDesc() As String
             Get
                 Return ResourceManager.GetString("SearchDesc", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to Active.
+        '''</summary>
+        Public Shared ReadOnly Property this() As String
+            Get
+                Return ResourceManager.GetString("this", resourceCulture)
             End Get
         End Property
         
