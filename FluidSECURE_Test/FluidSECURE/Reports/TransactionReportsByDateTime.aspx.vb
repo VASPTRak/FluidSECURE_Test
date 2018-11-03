@@ -68,7 +68,7 @@ Public Class TransactionReportsByDateTime
             DDL_Customer.DataBind()
             DDL_Customer.Items.Insert(0, New ListItem("Select Company", "0"))
 
-            If (Not Session("RoleName") = "SuperAdmin" And Not Session("RoleName") = "Support") Then
+            If (Not Session("RoleName") = "SuperAdmin" And Not Session("RoleName") = "Support" And Not Session("RoleName") = "GroupAdmin") Then
                 DDL_Customer.SelectedIndex = 1
                 DDL_Customer.Enabled = False
                 divCompany.Visible = False
@@ -77,8 +77,11 @@ Public Class TransactionReportsByDateTime
 
 
             If (Session("CustomerId") <> 0 And Not Session("CustomerId") Is Nothing) Then
-                DDL_Customer.SelectedIndex = 1
-
+                If (Session("RoleName") = "GroupAdmin") Then
+                    DDL_Customer.SelectedValue = Session("CustomerId")
+                Else
+                    DDL_Customer.SelectedIndex = 1
+                End If
             End If
 
         Catch ex As Exception

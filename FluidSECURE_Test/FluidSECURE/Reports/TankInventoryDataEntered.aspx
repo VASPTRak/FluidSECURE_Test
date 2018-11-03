@@ -19,7 +19,7 @@
                         <p class="text-center green" id="message" runat="server"></p>
                         <p class="text-center red" id="ErrorMessage" runat="server"></p>
                     </div>
-                   <%-- <div class="row col-md-12 col-sm-12 col-xs-12">
+                    <%-- <div class="row col-md-12 col-sm-12 col-xs-12">
                         <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
                             <label>
                                 Start Date:</label>
@@ -36,7 +36,7 @@
                             <asp:TextBox ID="txtEndDateTo" runat="server" Width="100" Style="float: left; margin-right: 10px;" CssClass="form-control input-sm" TabIndex="4"></asp:TextBox>
                         </div>
                     </div>--%>
-                   <%-- <div class="row col-md-12 col-sm-12 col-xs-12">
+                    <%-- <div class="row col-md-12 col-sm-12 col-xs-12">
                         <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
                             <label>
                                 Start Time:</label>
@@ -52,7 +52,7 @@
                             <asp:TextBox ID="txtEndTimeTo" runat="server" Width="150" CssClass="form-control input-sm" TabIndex="5"></asp:TextBox>
                         </div>
                     </div>--%>
-                     <div class="row col-md-12 col-sm-12 col-xs-12">
+                    <div class="row col-md-12 col-sm-12 col-xs-12">
                         <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
                             <label>
                                 Tank Number:</label>
@@ -61,14 +61,14 @@
                             <asp:DropDownList ID="ddl_TankNo" CssClass="form-control input-sm" TabIndex="1" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ddl_TankNo_SelectedIndexChanged"></asp:DropDownList>
                             <%--<asp:TextBox ID="txtTankNo" runat="server" CssClass="form-control input-sm" TabIndex="6" Width="50" onkeypress="return onlyNumbers(event);"></asp:TextBox>--%>
                         </div>
-                         </div>
-                     <div class="row col-md-12 col-sm-12 col-xs-12">
+                    </div>
+                    <div class="row col-md-12 col-sm-12 col-xs-12">
                         <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
                             <label>
                                 Start Date:</label>
                         </div>
                         <div class="form-group col-md-3 col-sm-3 col-xs-12">
-                            <asp:DropDownList ID="ddlStartDateTime" runat="server" CssClass="form-control input-sm" TabIndex="6" ></asp:DropDownList>
+                            <asp:DropDownList ID="ddlStartDateTime" runat="server" CssClass="form-control input-sm" TabIndex="6"></asp:DropDownList>
                         </div>
                         <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
                             <label>
@@ -84,7 +84,7 @@
                                 Company:</label>
                         </div>
                         <div class="form-group col-md-3 col-sm-3 col-xs-12">
-                            <asp:DropDownList ID="DDL_Customer" runat="server" CssClass="form-control input-sm" TabIndex="3" AutoPostBack ="true" OnSelectedIndexChanged="DDL_Customer_SelectedIndexChanged"></asp:DropDownList>
+                            <asp:DropDownList ID="DDL_Customer" runat="server" CssClass="form-control input-sm" TabIndex="3" AutoPostBack="true" OnSelectedIndexChanged="DDL_Customer_SelectedIndexChanged"></asp:DropDownList>
                             <asp:RequiredFieldValidator ID="RDF_Customer" runat="server" ControlToValidate="DDL_Customer" Display="Dynamic"
                                 ErrorMessage="Please select Company." ForeColor="Red" InitialValue="0" SetFocusOnError="True" ValidationGroup="InventoryValidation"></asp:RequiredFieldValidator>
                         </div>

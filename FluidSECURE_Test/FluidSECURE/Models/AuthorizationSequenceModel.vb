@@ -501,7 +501,18 @@ Public Class ResponceData
 			m_IsVehicleNumberRequire = value
 		End Set
 	End Property
-	Private m_IsVehicleNumberRequire As String
+    Private m_IsVehicleNumberRequire As String
+
+    Public Property IsTLDCall() As String
+        Get
+            Return m_IsTLDCall
+        End Get
+        Set(value As String)
+            m_IsTLDCall = value
+        End Set
+    End Property
+    Private m_IsTLDCall As String
+
 End Class
 
 Public Class RootObject
@@ -1321,6 +1332,8 @@ Public Class FAVehicleAuthorizationMasterResponse
     Public VehicleId As String
     Public FSVMFirmwareVersion As String
     Public FilePath As String
+    Public PIC As String
+    Public ESP32 As String
 End Class
 
 Public Class CheckAndValidateFSNPDetail
@@ -1368,6 +1381,7 @@ Public Class CheckAndValidateFSNPDetailResponse
     Public OdoLimit As String
     Public OdometerReasonabilityConditions As String
     Public CheckOdometerReasonable As String
+    Public IsFSNPUpgradable As String
 End Class
 
 Public Class SaveVehicleManualOdometerMaster

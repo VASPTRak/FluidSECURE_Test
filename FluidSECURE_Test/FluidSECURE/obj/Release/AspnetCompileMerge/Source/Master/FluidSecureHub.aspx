@@ -171,7 +171,7 @@
                             <%--<label class="text-danger font-required">[required]</label>--%>
                         </div>
                         <div class="form-group col-md-3 col-sm-3 col-xs-12">
-                            <asp:TextBox ID="txtEmail" TextMode="Email" runat="server" CssClass="form-control input-sm" MaxLength="256" TabIndex="12" ReadOnly="true"></asp:TextBox>
+                            <asp:TextBox ID="txtEmail" TextMode="Email" runat="server" CssClass="form-control input-sm" MaxLength="256" TabIndex="15" ReadOnly="true"></asp:TextBox>
                             <%--<asp:RequiredFieldValidator ID="RFDEmail" runat="server" ControlToValidate="txtEmail"
                                 ErrorMessage="Please Enter email." Display="Dynamic" ForeColor="Red" SetFocusOnError="True" ValidationGroup="PersonelValidation"></asp:RequiredFieldValidator>
                             <asp:RegularExpressionValidator ID="RDFEmail" runat="server" ControlToValidate="txtEmail" Display="Dynamic" ErrorMessage="Please enter valid email." ForeColor="Red" SetFocusOnError="True" ValidationExpression="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*" ValidationGroup="PersonelValidation"></asp:RegularExpressionValidator>--%>
@@ -192,29 +192,19 @@
                                 HUB Address:</label>
                         </div>
                         <div class="form-group col-md-3 col-sm-3 col-xs-12">
-                           <asp:TextBox ID="txtHUB_Address" runat="server" CssClass="form-control input-sm" TextMode="MultiLine" Rows="4" TabIndex="21"></asp:TextBox>
+                            <asp:TextBox ID="txtHUB_Address" runat="server" CssClass="form-control input-sm" TextMode="MultiLine" Rows="4" TabIndex="16"></asp:TextBox>
                         </div>
                     </div>
 
                     <div class="row col-md-12 col-sm-12 col-xs-12">
-                        <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
-                            <label>
-                                Phone Number
-                        <label class="text-danger font-required">[required]</label>:</label>
-                        </div>
-                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
-                            <asp:TextBox ID="txtPhoneNumber" runat="server" CssClass="form-control input-sm" MaxLength="15" Width="130" TabIndex="3" data-toggle="tooltip" title="Only (,),-, space, and + symbols allowed."></asp:TextBox>
-                            <asp:RequiredFieldValidator ID="RFD_PhoneNumber" runat="server" ControlToValidate="txtPhoneNumber"
-                                ErrorMessage="Please Enter Phone Number." Display="Dynamic" ForeColor="Red" SetFocusOnError="True" ValidationGroup="PersonelValidation"></asp:RequiredFieldValidator>
-                            <asp:Label ID="lblErrorMsg" runat="server" ForeColor="Red" Style="display: none;" Text="Please enter valid contact number."></asp:Label>
-                        </div>
+
 
                         <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
                             <label>
                                 Vehicles Allowed to Fuel:</label>
                         </div>
                         <div class="form-group col-md-3 col-sm-3 col-xs-12">
-                            <input type="button" id="BTN_Vehicles" tabindex="13" onclick="OpenVehicleTypeBox();" value="Click to add vehicle" />
+                            <input type="button" id="BTN_Vehicles" tabindex="3" onclick="OpenVehicleTypeBox();" value="Click to add vehicle" />
                         </div>
                     </div>
                     <div class="row col-md-12 col-sm-12 col-xs-12">
@@ -238,7 +228,7 @@
                                 Authorized Fueling links:</label>
                         </div>
                         <div class="form-group col-md-3 col-sm-3 col-xs-12">
-                            <input type="button" id="BTN_PersonSite" tabindex="14" onclick="OpenPersonSiteBox();" value="Click to add FluidSecure links" />
+                            <input type="button" id="BTN_PersonSite" tabindex="17" onclick="OpenPersonSiteBox();" value="Click to add FluidSecure links" />
                         </div>
                     </div>
 
@@ -257,7 +247,7 @@
                                 Active:</label>
                         </div>
                         <div class="form-group col-md-3 col-sm-3 col-xs-12">
-                            <asp:CheckBox ID="chkIsApproved" runat="server" TabIndex="15" />
+                            <asp:CheckBox ID="chkIsApproved" runat="server" TabIndex="18" />
                         </div>
 
                     </div>
@@ -279,7 +269,7 @@
                                 Gate HUB :</label>
                         </div>
                         <div class="form-group col-md-3 col-sm-3 col-xs-12">
-                            <asp:CheckBox ID="chk_GateHub" runat="server" TabIndex="22" />
+                            <asp:CheckBox ID="chk_GateHub" runat="server" TabIndex="19" />
                         </div>
                     </div>
 
@@ -296,7 +286,7 @@
                                 Personnel PIN Require:</label>
                         </div>
                         <div class="form-group col-md-3 col-sm-3 col-xs-12">
-                            <asp:CheckBox ID="CHK_IsPersonnelPINRequire" runat="server" TabIndex="16" />
+                            <asp:CheckBox ID="CHK_IsPersonnelPINRequire" runat="server" TabIndex="20" />
                         </div>
                     </div>
                     <div class="row col-md-12 col-sm-12 col-xs-12">
@@ -315,7 +305,7 @@
                                 Vehicle Number Require :</label>
                         </div>
                         <div class="form-group col-md-3 col-sm-3 col-xs-12">
-                            <asp:CheckBox ID="chk_IsVehicleNumberRequire" runat="server" Checked="true" TabIndex="22" />
+                            <asp:CheckBox ID="chk_IsVehicleNumberRequire" runat="server" Checked="true" TabIndex="21" />
                         </div>
                     </div>
                     <div class="row col-md-12 col-sm-12 col-xs-12">
@@ -333,7 +323,7 @@
                                 <label class="text-danger font-required">[required]</label>:</label>
                         </div>
                         <div class="form-group col-md-3 col-sm-3 col-xs-12">
-                            <asp:DropDownList ID="DDL_Customer" runat="server" CssClass="form-control input-sm" TabIndex="18" onchange="ConfirmChange();"></asp:DropDownList>
+                            <asp:DropDownList ID="DDL_Customer" runat="server" CssClass="form-control input-sm" TabIndex="22" onchange="ConfirmChange();"></asp:DropDownList>
                             <asp:RequiredFieldValidator ID="RFD_Customer" runat="server" Font-Size="Small"
                                 Font-Bold="False" Font-Names="arial" ErrorMessage="Please select company."
                                 ControlToValidate="DDL_Customer" Display="Dynamic" ForeColor="Red" InitialValue="0" SetFocusOnError="True" ValidationGroup="PersonelValidation"></asp:RequiredFieldValidator>
@@ -357,7 +347,7 @@
                                <%-- <label class="text-danger font-required">[required]</label>:</label>--%>
                         </div>
                         <div class="form-group col-md-3 col-sm-3 col-xs-12">
-                            <asp:TextBox ID="txtPrinterName" runat="server" CssClass="form-control input-sm" TabIndex="19" MaxLength="50"></asp:TextBox>
+                            <asp:TextBox ID="txtPrinterName" runat="server" CssClass="form-control input-sm" TabIndex="23" MaxLength="50"></asp:TextBox>
                             <%-- <asp:RequiredFieldValidator ID="RFD_PrinterName" runat="server" ControlToValidate="txtPrinterName"
                                 ErrorMessage="Please Enter Printer name." Display="Dynamic" ForeColor="Red" SetFocusOnError="True" ValidationGroup="PersonelValidation"></asp:RequiredFieldValidator>--%>
                         </div>
@@ -375,7 +365,7 @@
                             Printer MAC Address:
                         </div>
                         <div class="form-group col-md-2 col-sm-2 col-xs-12">
-                            <asp:TextBox ID="txtPrinterMACAddress" runat="server" CssClass="form-control input-sm" MaxLength="50" TabIndex="20"></asp:TextBox>
+                            <asp:TextBox ID="txtPrinterMACAddress" runat="server" CssClass="form-control input-sm" MaxLength="50" TabIndex="24"></asp:TextBox>
                         </div>
                     </div>
                     <div class="row col-md-12 col-sm-12 col-xs-12">
@@ -384,7 +374,7 @@
                                 Person Has a Fob/Card:</label>
                         </div>
                         <div class="form-group col-md-3 col-sm-3 col-xs-12">
-                            <asp:CheckBox ID="CHK_IsPersonHasFob" runat="server" TabIndex="22" />
+                            <asp:CheckBox ID="CHK_IsPersonHasFob" runat="server" TabIndex="12" />
                             <asp:Label ID="lblIsPersonHasFob" runat="server" Text="(MUST use the Fob/Card, and not use a Person PIN on HUB application)"></asp:Label>
                         </div>
                         <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
@@ -392,7 +382,7 @@
                                 Veeder Root Mac Address:</label>
                         </div>
                         <div class="form-group col-md-3 col-sm-3 col-xs-12">
-                            <asp:TextBox ID="txtVeederRootMacAddress" runat="server" CssClass="form-control input-sm" MaxLength="50" TabIndex="21"></asp:TextBox>
+                            <asp:TextBox ID="txtVeederRootMacAddress" runat="server" CssClass="form-control input-sm" MaxLength="50" TabIndex="25"></asp:TextBox>
                         </div>
                     </div>
                     <div class="row col-md-12 col-sm-12 col-xs-12">
@@ -401,17 +391,66 @@
                                 Vehicle Has a Fob/Card:</label>
                         </div>
                         <div class="form-group col-md-3 col-sm-3 col-xs-12">
-                            <asp:CheckBox ID="CHK_IsVehicleHasFob" runat="server" TabIndex="22" />
+                            <asp:CheckBox ID="CHK_IsVehicleHasFob" runat="server" TabIndex="12" />
                             <asp:Label ID="lblIsVehicleHasFob" runat="server" Text="(MUST use the Fob/Card, and not use a vehicle number on HUB application)"></asp:Label>
+                        </div>
+                        <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
+                            <label>
+                                Is Logging:</label>
+                        </div>
+                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                            <asp:CheckBox ID="chk_IsLogging" runat="server" TabIndex="26" Checked="true" />
+                        </div>
+                    </div>
+                    <div class="row col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
+                            <label>
+                                Contact Name:</label>
+                        </div>
+                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                            <asp:TextBox ID="txtContactName" runat="server" CssClass="form-control input-sm" MaxLength="100" TabIndex="12"></asp:TextBox>
+                        </div>
+                        <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
+                            <label>
+                                Contact Phone Number:</label>
+                        </div>
+                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                            <asp:TextBox ID="txtPhoneNumber" runat="server" CssClass="form-control input-sm" MaxLength="15" Width="130" TabIndex="27" data-toggle="tooltip" title="Only (,),-, space, and + symbols allowed."></asp:TextBox>
+                            <%--  <asp:RequiredFieldValidator ID="RFD_PhoneNumber" runat="server" ControlToValidate="txtPhoneNumber"
+                                ErrorMessage="Please Enter Phone Number." Display="Dynamic" ForeColor="Red" SetFocusOnError="True" ValidationGroup="PersonelValidation"></asp:RequiredFieldValidator>--%>
+                            <asp:Label ID="lblErrorMsg" runat="server" ForeColor="Red" Style="display: none;" Text="Please enter valid phone number."></asp:Label>
+                        </div>
+                    </div>
+                    <div class="row col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
+                            <label>
+                                Contact Email:</label>
+                        </div>
+                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                            <asp:TextBox ID="txtContactEmail" TextMode="Email" runat="server" CssClass="form-control input-sm" MaxLength="256" TabIndex="14"></asp:TextBox>
+                            <asp:RegularExpressionValidator ID="RDFContactEmail" runat="server" ControlToValidate="txtContactEmail" Display="Dynamic" ErrorMessage="Please enter valid contact email." ForeColor="Red" SetFocusOnError="True"
+                                ValidationExpression="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*" ValidationGroup="PersonelValidation"></asp:RegularExpressionValidator>
+                        </div>
+                        <div id="WifiChannelToUse" runat="server">
+                            <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
+                                <label>Wifi Channel To Use : </label>
+                            </div>
+                            <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                                <asp:DropDownList ID="DDL_WifiChannelToUse" runat="server" CssClass="form-control input-sm" Width="100" TabIndex="28">
+                                    <asp:ListItem Text="1" Value="1"></asp:ListItem>
+                                    <asp:ListItem Text="6" Value="6"></asp:ListItem>
+                                    <asp:ListItem Text="11" Value="11" Selected="True"></asp:ListItem>
+                                </asp:DropDownList>
+                            </div>
                         </div>
                     </div>
                     <div class="row col-md-12 col-sm-12 text-center col-xs-12">
                         <asp:Button ID="btnSave" CssClass="btn btn-primary" runat="server" OnClick="btnSave_Click" Text="Save" Width="100px"
-                            UseSubmitBehavior="true" TabIndex="22" ValidationGroup="PersonelValidation" OnClientClick="return IsValidPhoneNumber();" />
+                            UseSubmitBehavior="true" TabIndex="29" ValidationGroup="PersonelValidation" OnClientClick="return IsValidPhoneNumber();" />
                         <asp:Button ID="btnCancel" CssClass="btn btn-default" runat="server" Text="Cancel" Width="100px" CausesValidation="False"
-                            UseSubmitBehavior="False" TabIndex="23" OnClick="btnCancel_Click" OnClientClick="window.location.href='/Master/AllFluidSecureHub?Filter=Filter'" />
+                            UseSubmitBehavior="False" TabIndex="30" OnClick="btnCancel_Click" OnClientClick="window.location.href='/Master/AllFluidSecureHub?Filter=Filter'" />
                         <asp:Button ID="btnSaveAndAddNew" CssClass="btn btn-primary" runat="server" Text="Save & Add New" Width="150px" OnClientClick="return IsValidPhoneNumber();"
-                            UseSubmitBehavior="true" TabIndex="24" ValidationGroup="PersonelValidation" OnClick="btnSaveAndAddNew_Click" />
+                            UseSubmitBehavior="true" TabIndex="31" ValidationGroup="PersonelValidation" OnClick="btnSaveAndAddNew_Click" />
                     </div>
                     <div class="row col-md-12 col-sm-12 text-center clear col-xs-12" style="margin: 10px 0">
                         <asp:Button ID="btnFirst" runat="server" Text="|<" CssClass="NewDept_ButtonFooter"
@@ -527,19 +566,22 @@
             var phoneNumber = document.getElementById('<%=txtPhoneNumber.ClientID%>').value;
             //it accepts 850-294-2562(us phone number- req date 09-Dec-2016)
             //if (phoneNumber.match(/^(?:(?:\+?1\s*(?:[.-]\s*)?)?(?:\(\s*([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9])\s*\)|([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9]))\s*(?:[.-]\s*)?)?([2-9]1[02-9]|[2-9][02-9]1|[2-9][02-9]{2})\s*(?:[.-]\s*)?([0-9]{4})(?:\s*(?:#|x\.?|ext\.?|extension)\s*(\d+))?$/)) {//phone number accept all number with only (-)+space symbols.
-            if (phoneNumber.match(/^[- +()]*[0-9][- +()0-9]*$/)) {
+            if (phoneNumber.match(/^[- +()]*[0-9][- +()0-9]*$/) || phoneNumber == '') {
                 document.getElementById('<%=lblErrorMsg.ClientID%>').style.display = "none";
-		        //return true;
-		        if (Page_ClientValidate("PersonelValidation"))
-		            return true;
-		        else
-		            return false;
-		    }
-		    else {
-		        document.getElementById('<%=lblErrorMsg.ClientID%>').style.display = "";
-		        Page_ClientValidate("PersonelValidation")
-		        return false;
-		    }
+                //return true;
+
+                if (Page_ClientValidate("PersonelValidation"))
+                    return true;
+                else
+                    return false;
+
+
+            }
+            else {
+                document.getElementById('<%=lblErrorMsg.ClientID%>').style.display = "";
+                Page_ClientValidate("PersonelValidation")
+                return false;
+            }
 
         }
 
@@ -715,7 +757,7 @@
             }
         }--%>
 
-    </script>
+</script>
     <script>
         function SearchSite() {
             var input, filter, table, tr, td, i;

@@ -118,7 +118,7 @@ Public Class _Default
 			DDL_Customer.DataBind()
 			DDL_Customer.Items.Insert(0, New ListItem("Select All", "0"))
 
-			If (Not Session("RoleName") = "SuperAdmin" And Not Session("RoleName") = "Support") Then
+			If (Not Session("RoleName") = "SuperAdmin" And Not Session("RoleName") = "Support" And Not Session("RoleName") = "GroupAdmin") Then
 				DDL_Customer.SelectedIndex = 1
 				DDL_Customer.Enabled = False
 				LBL_Company.Visible = True

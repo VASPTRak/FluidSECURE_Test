@@ -32,6 +32,15 @@ Partial Public Class SiteMaster
     Protected WithEvents ReportMenu As Global.System.Web.UI.HtmlControls.HtmlGenericControl
     
     '''<summary>
+    '''TotalFuelUsageByHubPerVehicle control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents TotalFuelUsageByHubPerVehicle As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+    
+    '''<summary>
     '''ItemMenu control.
     '''</summary>
     '''<remarks>
@@ -185,6 +194,15 @@ Partial Public Class SiteMaster
     Protected WithEvents StandardExport As Global.System.Web.UI.HtmlControls.HtmlGenericControl
     
     '''<summary>
+    '''SpecializedExport control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents SpecializedExport As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+    
+    '''<summary>
     '''Export_WINCC control.
     '''</summary>
     '''<remarks>
@@ -248,6 +266,15 @@ Partial Public Class SiteMaster
     Protected WithEvents CompanyHostingReport As Global.System.Web.UI.HtmlControls.HtmlGenericControl
     
     '''<summary>
+    '''CustomerDetailsByStateCountryReport control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents CustomerDetailsByStateCountryReport As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+    
+    '''<summary>
     '''ShipmentReport control.
     '''</summary>
     '''<remarks>
@@ -255,6 +282,15 @@ Partial Public Class SiteMaster
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents ShipmentReport As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+    
+    '''<summary>
+    '''SpecializedFeature control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents SpecializedFeature As Global.System.Web.UI.HtmlControls.HtmlGenericControl
     
     '''<summary>
     '''CustomerWiseTransactionDetails control.

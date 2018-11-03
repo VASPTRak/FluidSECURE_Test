@@ -31,6 +31,9 @@ Public Class Vehicle
             Else
                 If Not IsPostBack Then
                     Session("FSVMFirmanameValue") = ""
+                    If Session("RoleName") = "CustomerAdmin" Then
+                        txtFSTagMacAddress.Enabled = False
+                    End If
                     txtVehicleNumber.Focus()
                     BindCustomers(Session("PersonId").ToString(), Session("RoleId").ToString())
                     BindSites(0)
@@ -137,7 +140,7 @@ Public Class Vehicle
             DDL_Customer.DataBind()
             DDL_Customer.Items.Insert(0, New ListItem("Select Company", "0"))
 
-            If (Not Session("RoleName") = "SuperAdmin") Then
+            If (Not Session("RoleName") = "SuperAdmin" And Not Session("RoleName") = "GroupAdmin") Then
                 DDL_Customer.SelectedIndex = 1
                 'DDL_Customer.Enabled = False
                 DDL_Customer.Visible = False
@@ -147,8 +150,11 @@ Public Class Vehicle
 
 
             If (Session("CustomerId") <> 0 And Not Session("CustomerId") Is Nothing) Then
-                DDL_Customer.SelectedIndex = 1
-
+                If (Session("RoleName") = "GroupAdmin") Then
+                    DDL_Customer.SelectedValue = Session("CustomerId")
+                Else
+                    DDL_Customer.SelectedIndex = 1
+                End If
             End If
 
         Catch ex As Exception
@@ -296,8 +302,21 @@ Public Class Vehicle
             dtVehicle = OBJMaster.GetVehiclebyId(vehicleId)
             Dim cnt As Integer = 0
             If (dtVehicle.Rows.Count > 0) Then
+                Dim isValid As Boolean = False
+                If (Session("RoleName") = "GroupAdmin") Then
+                    Dim dtCustOld As DataTable = New DataTable()
 
-                If (Not Session("RoleName") = "SuperAdmin") Then
+                    dtCustOld = OBJMaster.GetCustomerDetailsByPersonID(Convert.ToInt32(Session("PersonId").ToString()), Session("RoleId").ToString(), Session("CustomerId").ToString())
+                    For Each drCusts As DataRow In dtCustOld.Rows
+                        If (drCusts("CustomerId") = dtVehicle.Rows(0)("CustomerId").ToString()) Then
+                            isValid = True
+                            Exit For
+                        End If
+
+                    Next
+                End If
+
+                If (Not Session("RoleName") = "SuperAdmin" And Not isValid = True) Then
 
                     Dim dtCustOld As DataTable = New DataTable()
 
@@ -382,7 +401,7 @@ Public Class Vehicle
                     DDL_Customer.SelectedValue = IIf(dtVehicle.Rows(0)("CustomerId").ToString() = "", 0, dtVehicle.Rows(0)("CustomerId").ToString())
                 End If
 
-                If (Not Session("RoleName") = "SuperAdmin") Then
+                If (Not Session("RoleName") = "SuperAdmin" And Not Session("RoleName") = "GroupAdmin") Then
                     DDL_Customer.Enabled = False
                 End If
 
@@ -431,7 +450,12 @@ Public Class Vehicle
                     cnt = dtAllVehicles.Rows.IndexOf(dr) + 1
 
                 End If
-                If (cnt >= HDF_TotalVehicle.Value) Then
+                If (HDF_TotalVehicle.Value = 1) Then
+                    btnNext.Enabled = False
+                    btnLast.Enabled = False
+                    btnFirst.Enabled = False
+                    btnprevious.Enabled = False
+                ElseIf (cnt >= HDF_TotalVehicle.Value) Then
                     btnNext.Enabled = False
                     btnLast.Enabled = False
                     btnFirst.Enabled = True
@@ -898,12 +922,12 @@ Public Class Vehicle
                 End If
             End If
 
-            If txt_FirmwareVer.Text = "" Then
-                ErrorMessage.Visible = True
-                ErrorMessage.InnerText = "Current Firmware Version not enter. Please enter current Firmware Version and try again."
-                ErrorMessage.Focus()
-                Return
-            End If
+            'If txt_FirmwareVer.Text = "" Then
+            '    ErrorMessage.Visible = True
+            '    ErrorMessage.InnerText = "Current Firmware Version not enter. Please enter current Firmware Version and try again."
+            '    ErrorMessage.Focus()
+            '    Return
+            'End If
 
             Dim CheckVehicleFSTagMacAddressExist As Boolean = False
             OBJMaster = New MasterBAL()
@@ -1214,4 +1238,7 @@ Public Class Vehicle
         End Try
     End Sub
 
+    Protected Sub btnClearFSTagMacAddress_Click(sender As Object, e As EventArgs)
+        txtFSTagMacAddress.Text = ""
+    End Sub
 End Class

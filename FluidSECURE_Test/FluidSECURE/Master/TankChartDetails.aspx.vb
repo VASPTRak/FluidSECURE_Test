@@ -45,11 +45,50 @@ Public Class TankChartDetails
 		Try
 
 			OBJMaster = New MasterBAL()
-			Dim dtTankChartDetail As DataTable = New DataTable()
-			dtTankChartDetail = OBJMaster.GetTankChartDetailsByTankChartId(TankChartId)
+			Dim dtTankChart As DataTable = New DataTable()
+			dtTankChart = OBJMaster.GetTankChartByTankChartId(TankChartId)
+			Dim cnt As Integer = 0
+			If (dtTankChart.Rows.Count > 0) Then
+				Dim isValid As Boolean = False
+				If (Session("RoleName") = "GroupAdmin") Then
+					Dim dtCustOld As DataTable = New DataTable()
 
-			Session("dtTankChartDetail") = dtTankChartDetail
-			BindGrid()
+					dtCustOld = OBJMaster.GetCustomerDetailsByPersonID(Convert.ToInt32(Session("PersonId").ToString()), Session("RoleId").ToString(), Session("CustomerId").ToString())
+					For Each drCusts As DataRow In dtCustOld.Rows
+						If (drCusts("CustomerId") = dtTankChart.Rows(0)("CompanyId").ToString()) Then
+							isValid = True
+							Exit For
+						End If
+
+					Next
+				End If
+				If (Not Session("RoleName") = "SuperAdmin" And Not isValid = True) Then
+
+					Dim dtCust As DataTable = New DataTable()
+
+					dtCust = OBJMaster.GetCustomerDetailsByPersonID(Convert.ToInt32(Session("PersonId").ToString()), Session("RoleId").ToString(), Session("CustomerId").ToString())
+
+					If (dtCust.Rows(0)("CustomerId").ToString() <> dtTankChart.Rows(0)("CompanyId").ToString()) Then
+
+						ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "NotValidUser();", True)
+
+						Return
+					End If
+
+				End If
+
+				OBJMaster = New MasterBAL()
+				Dim dtTankChartDetail As DataTable = New DataTable()
+				dtTankChartDetail = OBJMaster.GetTankChartDetailsByTankChartId(TankChartId)
+
+				Session("dtTankChartDetail") = dtTankChartDetail
+				BindGrid()
+			Else
+				ErrorMessage.Visible = True
+				ErrorMessage.InnerText = "Data Not found. Please try again after some time."
+			End If
+
+
 		Catch ex As Exception
 			log.Error("Error occurred in BindTankChartDetails Exception is :" + ex.Message)
 			ErrorMessage.Visible = True

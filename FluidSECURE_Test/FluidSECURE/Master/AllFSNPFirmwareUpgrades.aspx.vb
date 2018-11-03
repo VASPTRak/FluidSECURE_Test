@@ -220,7 +220,7 @@ Public Class AllFSNPFirmwareUpgrades
     End Function
 
     Protected Sub btn_New_Click(sender As Object, e As EventArgs)
-        Response.Redirect("~/Master/FSNPFirmwareUpgrades")
+        Response.Redirect("~/Master/FSNPFirmwareUpgrades.aspx")
     End Sub
 
     Protected Sub gvUploadedFSNPFirmware_RowDataBound(sender As Object, e As GridViewRowEventArgs)

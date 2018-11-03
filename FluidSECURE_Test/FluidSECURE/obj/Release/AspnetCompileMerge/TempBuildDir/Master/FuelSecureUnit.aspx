@@ -488,6 +488,15 @@
 							</div>
 
 						</div>
+                        <div class="row col-md-12 col-sm-12 col-xs-12" runat="server" id="divShowHideReplacingLink">
+                            <div class="form-group col-md-4 col-sm-4 textright col-xs-12">
+								<label>
+									Replacing Link:</label>
+							</div>
+                            <div class="form-group col-md-2 col-sm-2 col-xs-12">
+								<asp:CheckBox ID="chk_EnableDisableLinkName" runat="server" TabIndex="19" AutoPostBack="true" OnCheckedChanged="chk_EnableDisableLinkName_CheckedChanged"/>
+							</div>
+                        </div>
 						<div class="row col-md-12 col-sm-12 col-xs-12">
 							<div class="form-group col-md-4 col-sm-4 textright col-xs-12">
 								<label>

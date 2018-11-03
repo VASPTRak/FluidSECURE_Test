@@ -194,6 +194,15 @@ Partial Public Class AllTransactions
     Protected WithEvents gvTransactions As Global.System.Web.UI.WebControls.GridView
     
     '''<summary>
+    '''rptPager control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents rptPager As Global.System.Web.UI.WebControls.Repeater
+    
+    '''<summary>
     '''UP_VehicleRecurringMSG control.
     '''</summary>
     '''<remarks>

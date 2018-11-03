@@ -95,13 +95,13 @@ Partial Public Class RegisterCompany
     Protected WithEvents RFDContactName As Global.System.Web.UI.WebControls.RequiredFieldValidator
 
     '''<summary>
-    '''txtContactAddress control.
+    '''txtStreetAddress control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents txtContactAddress As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents txtStreetAddress As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''txtContactNumber control.
@@ -129,6 +129,42 @@ Partial Public Class RegisterCompany
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents RFDContactNo As Global.System.Web.UI.WebControls.RequiredFieldValidator
+
+    '''<summary>
+    '''txtCity control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtCity As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''txtState control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtState As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''txtZip control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtZip As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''txtCountry control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtCountry As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''txtShiptmentFluidSecureUnitName control.

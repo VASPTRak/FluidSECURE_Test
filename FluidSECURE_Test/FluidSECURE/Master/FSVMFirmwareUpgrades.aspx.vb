@@ -34,13 +34,19 @@ Public Class FSVMFirmwareUpgrades
 						lblHeader.Text = "Edit FSVMFirmware"
 						Dim dtFSVMFirmware As DataTable = New DataTable()
 						OBJMaster = New MasterBAL()
-						dtFSVMFirmware = OBJMaster.GetFSVMFirmwaresByCondition(" and FSVMFirmwareId = " + hdfFSVMFirmwareID.Value, Convert.ToInt32(Session("PersonId").ToString()), Session("RoleId").ToString())
-						ViewDiv.Visible = True
+                        dtFSVMFirmware = OBJMaster.GetFSVMFirmwaresByCondition(" and FSVMFirmwareId = " + hdfFSVMFirmwareID.Value, Convert.ToInt32(Session("PersonId").ToString()), Session("RoleId").ToString())
+                        ViewDiv.Visible = True
 						Uploaddiv.Visible = False
 						If dtFSVMFirmware IsNot Nothing And dtFSVMFirmware.Rows.Count > 0 Then
 							lblFSVMFirmwareName.Text = dtFSVMFirmware.Rows(0)("Version").ToString()
-							lblUploadFSVMFirmware.Text = dtFSVMFirmware.Rows(0)("FSVMFirmwareFileName").ToString()
-						End If
+                            lblUploadFSVMFirmware.Text = dtFSVMFirmware.Rows(0)("FSVMFirmwareFileName").ToString()
+                            If dtFSVMFirmware.Rows(0)("FSVMFileType").ToString() = "1" Then
+                                lblFSVMFirmwareFileType.Text = "PIC"
+                            Else
+                                lblFSVMFirmwareFileType.Text = "ESP32"
+                            End If
+
+                        End If
 						BindCompanyAndVehicles(Convert.ToInt32(Session("PersonId").ToString()), Session("RoleId").ToString(), 0)
 						BindCheckBoxVehiclesValues()
 						If (Request.QueryString("RecordIs") = "New") Then
@@ -133,7 +139,7 @@ Public Class FSVMFirmwareUpgrades
 
                 'Dim shipmentDatetime As DateTime = Request.Form(txtShipmentDate.UniqueID) & " " & Request.Form(txtShipmentTime.UniqueID)
 
-                result = OBJMaster.SaveUpdateFSVMFirmware(FSVMFirmwareId, FSVMFirmwareFileName, FSVMFirmwareFilePath, txtFSVMFirmwareversionnumber.Text, Convert.ToInt32(Session("PersonId")))
+                result = OBJMaster.SaveUpdateFSVMFirmware(FSVMFirmwareId, FSVMFirmwareFileName, FSVMFirmwareFilePath, txtFSVMFirmwareversionnumber.Text, Convert.ToInt32(Session("PersonId")), rdbFileType.SelectedValue.ToString())
 
                 If result > 0 Then
                     'Save FSVMFirmwareupgrade Mapping with VehicleId
@@ -159,7 +165,7 @@ Public Class FSVMFirmwareUpgrades
 
                 End If
             Else
-                Dim result = OBJMaster.SaveUpdateFSVMFirmware(Convert.ToInt32(hdfFSVMFirmwareID.Value), "", "", "", Convert.ToInt32(Session("PersonId")))
+                Dim result = OBJMaster.SaveUpdateFSVMFirmware(Convert.ToInt32(hdfFSVMFirmwareID.Value), "", "", "", Convert.ToInt32(Session("PersonId")), rdbFileType.SelectedValue.ToString())
                 If result > 0 Then
                     'Save FSVMFirmwareupgrade Mapping with VehicleId
                     SaveFSVMFirmwareupgradeMappingwithVehicleId(result)
@@ -282,10 +288,11 @@ Public Class FSVMFirmwareUpgrades
                 Dim dtActualVehicles As DataTable = New DataTable()
                 Dim dcID = New DataColumn("VehicleId", GetType(Int32))
                 Dim dcName = New DataColumn("VehicleName", GetType(String))
+                Dim dcNumber = New DataColumn("VehicleNumber", GetType(String))
 
                 dtActualVehicles.Columns.Add(dcID)
                 dtActualVehicles.Columns.Add(dcName)
-
+                dtActualVehicles.Columns.Add(dcNumber)
 
                 OBJMaster = New MasterBAL()
 
@@ -293,7 +300,7 @@ Public Class FSVMFirmwareUpgrades
                 dtVehicles = OBJMaster.GetVehicleByCondition(" And c.CustomerId =" + customerId, Session("PersonId").ToString(), Session("RoleId").ToString())
                 If dtVehicles IsNot Nothing And dtVehicles.Rows.Count > 0 Then
                     For i = 0 To dtVehicles.Rows.Count - 1
-                        dtActualVehicles.Rows.Add(Convert.ToInt32(dtVehicles.Rows(i)("VehicleId")), dtVehicles.Rows(i)("VehicleName").ToString())
+                        dtActualVehicles.Rows.Add(Convert.ToInt32(dtVehicles.Rows(i)("VehicleId")), dtVehicles.Rows(i)("VehicleName").ToString(), dtVehicles.Rows(i)("VehicleNumber").ToString())
                     Next
                 End If
 
@@ -380,12 +387,13 @@ Public Class FSVMFirmwareUpgrades
 				mapping = afterVehicles
 			End If
 
-			data = "FSVMFirmwareId = " & FSVMFirmwareId & " ; " &
-									"Upload FSVMFirmware Name = " & dtTankInventory.Tables(0).Rows(0)("FSVMFirmwareFileName").Replace(",", " ") & " ; " &
-									"FSVMFirmware version number = " & dtTankInventory.Tables(0).Rows(0)("Version").Replace(",", " ") & " ; " &
-									"FSVMFirmware and Vehicles Mapping  = " & mapping & " ; "
+            data = "FSVMFirmwareId = " & FSVMFirmwareId & " ; " &
+                                    "Upload FSVMFirmware Name = " & dtTankInventory.Tables(0).Rows(0)("FSVMFirmwareFileName").Replace(",", " ") & " ; " &
+                                    "FSVMFirmware version number = " & dtTankInventory.Tables(0).Rows(0)("Version").Replace(",", " ") & " ; " &
+                                    "FSVMFirmware version number = " & IIf(dtTankInventory.Tables(0).Rows(0)("FSVMFileType").Replace(",", " ") = "1", "PIC", "ESP32") & " ; " &
+                                    "FSVMFirmware and Vehicles Mapping  = " & mapping & " ; "
 
-			Return data
+            Return data
 		Catch ex As Exception
 			log.Error(String.Format("Error Occurred while CreateData. Error is {0}.", ex.Message))
 			Return ""

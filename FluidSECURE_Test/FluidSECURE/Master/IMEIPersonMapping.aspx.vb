@@ -71,19 +71,34 @@ Public Class IMEIPersonMapping
         Try
 
             OBJMaster = New MasterBAL()
-            Dim dtIMEIPersonnelMapping As DataTable = New DataTable()
+            Dim dtPersonnel As DataTable = New DataTable()
+            Dim cnt As Integer = 0
 
-            dtIMEIPersonnelMapping = OBJMaster.GetIMEIPersonnelMappingByPersonId(PersonId)
+            dtPersonnel = OBJMaster.GetPersonnelByPersonIdAndId(PersonId, UniqueUserId)
 
-            If (dtIMEIPersonnelMapping.Rows.Count > 0) Then
+            If (dtPersonnel.Rows.Count > 0) Then
+                Dim isValid As Boolean = False
+                If (Session("RoleName") = "GroupAdmin") Then
+                    Dim dtCustOld As DataTable = New DataTable()
 
-                If (Not Session("RoleName") = "SuperAdmin") Then
+                    dtCustOld = OBJMaster.GetCustomerDetailsByPersonID(Convert.ToInt32(Session("PersonId").ToString()), Session("RoleId").ToString(), Session("CustomerId").ToString())
+                    For Each drCusts As DataRow In dtCustOld.Rows
+                        If (drCusts("CustomerId") = dtPersonnel.Rows(0)("CustomerId").ToString()) Then
+                            isValid = True
+                            Exit For
+                        End If
+
+                    Next
+                End If
+
+
+                If (Not Session("RoleName") = "SuperAdmin" And Not isValid = True) Then
 
                     Dim dtCustOld As DataTable = New DataTable()
 
                     dtCustOld = OBJMaster.GetCustomerDetailsByPersonID(Convert.ToInt32(Session("PersonId").ToString()), Session("RoleId").ToString(), Session("CustomerId").ToString())
 
-                    If (dtCustOld.Rows(0)("CustomerId").ToString() <> dtIMEIPersonnelMapping.Rows(0)("CustomerId").ToString()) Then
+                    If (dtCustOld.Rows(0)("CustomerId").ToString() <> dtPersonnel.Rows(0)("CustomerId").ToString()) Then
 
                         ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "NotValidUser();", True)
 
@@ -92,16 +107,32 @@ Public Class IMEIPersonMapping
 
                 End If
 
-                gvIMEIPersonnel.DataSource = dtIMEIPersonnelMapping
-                gvIMEIPersonnel.DataBind()
+
+                OBJMaster = New MasterBAL()
+                Dim dtIMEIPersonnelMapping As DataTable = New DataTable()
+
+                dtIMEIPersonnelMapping = OBJMaster.GetIMEIPersonnelMappingByPersonId(PersonId)
+
+                If (dtIMEIPersonnelMapping.Rows.Count > 0) Then
+
+                    gvIMEIPersonnel.DataSource = dtIMEIPersonnelMapping
+                    gvIMEIPersonnel.DataBind()
+                Else
+                    gvIMEIPersonnel.DataSource = Nothing
+                    gvIMEIPersonnel.DataBind()
+                End If
+
+                If (ConfigurationManager.AppSettings("AllowActivityLogin").ToString().ToLower() = "yes") Then
+                    beforeData = CreateData(Convert.ToInt32(HDF_PersonnelId.Value))
+                End If
+
             Else
-                gvIMEIPersonnel.DataSource = Nothing
-                gvIMEIPersonnel.DataBind()
+                ErrorMessage.Visible = True
+                ErrorMessage.InnerText = "Data Not found. Please try again after some time."
             End If
 
-            If (ConfigurationManager.AppSettings("AllowActivityLogin").ToString().ToLower() = "yes") Then
-                beforeData = CreateData(Convert.ToInt32(HDF_PersonnelId.Value))
-            End If
+
+
 
 
         Catch ex As Exception

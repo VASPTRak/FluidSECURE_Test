@@ -54,17 +54,20 @@ Public Class DeptImport
 			ddlCustomer.DataBind()
 			ddlCustomer.Items.Insert(0, New ListItem("Select Company", "0"))
 
-			If (Not Session("RoleName") = "SuperAdmin") Then
-				ddlCustomer.SelectedIndex = 1
-				ddlCustomer.Enabled = False
-				ddlCustomer.Visible = False
-				divCompany.Visible = False
-			End If
+            If (Not Session("RoleName") = "SuperAdmin" And Not Session("RoleName") = "GroupAdmin") Then
+                ddlCustomer.SelectedIndex = 1
+                ddlCustomer.Enabled = False
+                ddlCustomer.Visible = False
+                divCompany.Visible = False
+            End If
 
-			If (Session("CustomerId") <> 0 And Not Session("CustomerId") Is Nothing) Then
-				ddlCustomer.SelectedIndex = 1
-
-			End If
+            If (Session("CustomerId") <> 0 And Not Session("CustomerId") Is Nothing) Then
+                If (Session("RoleName") = "GroupAdmin") Then
+                    ddlCustomer.SelectedValue = Session("CustomerId")
+                Else
+                    ddlCustomer.SelectedIndex = 1
+                End If
+            End If
 
 		Catch ex As Exception
 

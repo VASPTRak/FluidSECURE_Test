@@ -29,6 +29,7 @@
 							<asp:DropDownList ID="DDL_ShipmentFor" runat="server" TabIndex="2" CssClass="form-control input-sm">
 								<asp:ListItem Text="FluidSecure Links" Value="1"></asp:ListItem>
 								<asp:ListItem Text="FluidSecure Hubs" Value="2"></asp:ListItem>
+                                <asp:ListItem Text="Card Reader" Value="3"></asp:ListItem>
 							</asp:DropDownList>
 						</div>
 					</div>

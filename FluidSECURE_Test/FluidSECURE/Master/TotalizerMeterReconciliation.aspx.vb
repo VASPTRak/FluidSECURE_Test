@@ -5,71 +5,71 @@ Public Class TotalizerMeterReconciliation
     Inherits System.Web.UI.Page
     Private Shared ReadOnly log As ILog = LogManager.GetLogger(GetType(TotalizerMeterReconciliation))
     Shared beforeData As String = ""
-	Dim OBJMaster As MasterBAL
+    Dim OBJMaster As MasterBAL
 
-	Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
-		Try
+    Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+        Try
 
-			XmlConfigurator.Configure()
+            XmlConfigurator.Configure()
 
-		'ErrorMessage.Visible = False
-		message.Visible = False
+            'ErrorMessage.Visible = False
+            message.Visible = False
 
-			If CSCommonHelper.CheckSessionExpired() = False Then
-				'unautorized access error log
-				ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "CheckSession();", True)
-			ElseIf Session("RoleName") = "User" Or Session("RoleName") = "Reports Only" Or Session("RoleName") = "Support" Then
-				'Access denied 
-				Response.Redirect("/home")
-			Else
-				If Not IsPostBack Then
-					If (Not Request.QueryString("Type") = Nothing And (Request.QueryString("Type") = "TM")) Then
-						hdnEntryType.Value = Request.QueryString("Type")
-						BindCustomer(Convert.ToInt32(Session("PersonId").ToString()), Session("RoleId").ToString())
-						bindFluidLink()
-						If Request.QueryString("Tankinventoryid") IsNot Nothing And Request.QueryString("Tankinventoryid") <> "" Then
-							lblHeader.Text = "Edit Totalizer/Meter Reconciliation Information"
-							hdnTankInventory.Value = Request.QueryString("Tankinventoryid")
-							bindTotalizerMeterReconciliationData()
-							If (Request.QueryString("RecordIs") = "New") Then
-								message.Visible = True
-								message.Text = "Record saved"
-								ErrorMessage.Visible = False
-								ErrorMessage.Text = ""
-								DDL_FluidLink.Focus()
-							End If
-						Else
-							lblHeader.Text = "Add Totalizer/Meter Reconciliation Information"
-							txtStartDate.Text = DateTime.Now.ToString("MM/dd/yyyy")
-							txtStartTime.Text = DateTime.Now.ToString("hh:mm tt")
-							'txtEndDate.Text = DateTime.Now.ToString("MM/dd/yyyy")
-							'txtEndTime.Text = DateTime.Now.ToString("hh:mm tt")
-							DDL_FluidLink.SelectedIndex = 0
-							'txtEndLevelQuan.Text = 0
-							txtStartLevelQuan.Text = 0
+            If CSCommonHelper.CheckSessionExpired() = False Then
+                'unautorized access error log
+                ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "CheckSession();", True)
+            ElseIf Session("RoleName") = "User" Or Session("RoleName") = "Reports Only" Or Session("RoleName") = "Support" Then
+                'Access denied 
+                Response.Redirect("/home")
+            Else
+                If Not IsPostBack Then
+                    If (Not Request.QueryString("Type") = Nothing And (Request.QueryString("Type") = "TM")) Then
+                        hdnEntryType.Value = Request.QueryString("Type")
+                        BindCustomer(Convert.ToInt32(Session("PersonId").ToString()), Session("RoleId").ToString())
+                        bindFluidLink()
+                        If Request.QueryString("Tankinventoryid") IsNot Nothing And Request.QueryString("Tankinventoryid") <> "" Then
+                            lblHeader.Text = "Edit Totalizer/Meter Reconciliation Information"
+                            hdnTankInventory.Value = Request.QueryString("Tankinventoryid")
+                            bindTotalizerMeterReconciliationData()
+                            If (Request.QueryString("RecordIs") = "New") Then
+                                message.Visible = True
+                                message.Text = "Record saved"
+                                ErrorMessage.Visible = False
+                                ErrorMessage.Text = ""
+                                DDL_FluidLink.Focus()
+                            End If
+                        Else
+                            lblHeader.Text = "Add Totalizer/Meter Reconciliation Information"
+                            txtStartDate.Text = DateTime.Now.ToString("MM/dd/yyyy")
+                            txtStartTime.Text = DateTime.Now.ToString("hh:mm tt")
+                            'txtEndDate.Text = DateTime.Now.ToString("MM/dd/yyyy")
+                            'txtEndTime.Text = DateTime.Now.ToString("hh:mm tt")
+                            DDL_FluidLink.SelectedIndex = 0
+                            'txtEndLevelQuan.Text = 0
+                            txtStartLevelQuan.Text = 0
 
-							If (Request.QueryString("RecordIs") = "New") Then
-								message.Visible = True
-								message.Text = "Record saved"
-								ErrorMessage.Visible = False
-								ErrorMessage.Text = ""
-								DDL_FluidLink.Focus()
-							End If
-						End If
-					Else
-						Response.Redirect("/home")
-					End If
-					ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "LoadDateTimeControl();", True)
-				End If
-			End If
+                            If (Request.QueryString("RecordIs") = "New") Then
+                                message.Visible = True
+                                message.Text = "Record saved"
+                                ErrorMessage.Visible = False
+                                ErrorMessage.Text = ""
+                                DDL_FluidLink.Focus()
+                            End If
+                        End If
+                    Else
+                        Response.Redirect("/home")
+                    End If
+                    ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "LoadDateTimeControl();", True)
+                End If
+            End If
 
 
-		Catch ex As Exception
-			log.Error("Error occurred in Page_Load Exception is :" + ex.Message)
-			ErrorMessage.Visible = True
-			ErrorMessage.Text = IIf(ErrorMessage.Text <> "", "", "Error occurred while loading details, please try again later.")
-		End Try
-	End Sub
+        Catch ex As Exception
+            log.Error("Error occurred in Page_Load Exception is :" + ex.Message)
+            ErrorMessage.Visible = True
+            ErrorMessage.Text = IIf(ErrorMessage.Text <> "", "", "Error occurred while loading details, please try again later.")
+        End Try
+    End Sub
 
     Private Sub BindCustomer(PersonId As Integer, RoleId As String)
         Try
@@ -85,7 +85,7 @@ Public Class TotalizerMeterReconciliation
             DDL_Customer.DataBind()
             DDL_Customer.Items.Insert(0, New ListItem("Select Company", "0"))
 
-            If (Not Session("RoleName") = "SuperAdmin") Then
+            If (Not Session("RoleName") = "SuperAdmin" And Not Session("RoleName") = "GroupAdmin") Then
                 DDL_Customer.SelectedIndex = 1
                 DDL_Customer.Enabled = False
                 DDL_Customer.Visible = False
@@ -93,7 +93,11 @@ Public Class TotalizerMeterReconciliation
             End If
 
             If (Session("CustomerId") <> 0 And Not Session("CustomerId") Is Nothing) Then
-                DDL_Customer.SelectedIndex = 1
+                If (Session("RoleName") = "GroupAdmin") Then
+                    DDL_Customer.SelectedValue = Session("CustomerId")
+                Else
+                    DDL_Customer.SelectedIndex = 1
+                End If
 
             End If
         Catch ex As Exception
@@ -105,26 +109,26 @@ Public Class TotalizerMeterReconciliation
         End Try
     End Sub
 
-	Protected Sub btnStartSave_Click(sender As Object, e As EventArgs)
-		Try
-			If CSCommonHelper.CheckSessionExpired() = False Then
-				'unautorized access error log
+    Protected Sub btnStartSave_Click(sender As Object, e As EventArgs)
+        Try
+            If CSCommonHelper.CheckSessionExpired() = False Then
+                'unautorized access error log
 
-				ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "CheckSession();", True)
-				Return
-			End If
+                ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "CheckSession();", True)
+                Return
+            End If
 
-			If DDL_FluidLink.SelectedValue.ToString() = "0" Then
-				ErrorMessage.Visible = True
-				ErrorMessage.Text = "Please select FluidSecure Link number"
-				DDL_FluidLink.Focus()
-				Return
-			ElseIf DDL_Customer.SelectedValue.ToString() = "0" Then
-				ErrorMessage.Visible = True
-				ErrorMessage.Text = "Please Select Company"
-				DDL_Customer.Focus()
-				Return
-			End If
+            If DDL_FluidLink.SelectedValue.ToString() = "0" Then
+                ErrorMessage.Visible = True
+                ErrorMessage.Text = "Please select FluidSecure Link number"
+                DDL_FluidLink.Focus()
+                Return
+            ElseIf DDL_Customer.SelectedValue.ToString() = "0" Then
+                ErrorMessage.Visible = True
+                ErrorMessage.Text = "Please Select Company"
+                DDL_Customer.Focus()
+                Return
+            End If
 
             Dim resultDecimalQ As Decimal = 0
 
@@ -143,11 +147,11 @@ Public Class TotalizerMeterReconciliation
             End If
 
             OBJMaster = New MasterBAL
-			Dim dtTot As DataTable = New DataTable()
-			Dim TankInventoryId As Integer = 0
-			If hdnTankInventory.Value <> "" Then
-				TankInventoryId = Convert.ToInt32(hdnTankInventory.Value)
-			End If
+            Dim dtTot As DataTable = New DataTable()
+            Dim TankInventoryId As Integer = 0
+            If hdnTankInventory.Value <> "" Then
+                TankInventoryId = Convert.ToInt32(hdnTankInventory.Value)
+            End If
 
             Dim InventoryDateTime As DateTime
             Try
@@ -159,204 +163,204 @@ Public Class TotalizerMeterReconciliation
             End Try
 
             Dim condition = ""
-			condition = " and FluidLink = " + DDL_FluidLink.SelectedValue.ToString() + " and TankInventoryId <> " + TankInventoryId.ToString() + " and DateType = 's' and ENTRY_TYPE = 'TM' and CompanyId = " + DDL_Customer.SelectedValue.ToString() + " and InventoryDateTime = '" + InventoryDateTime + "' "
-			dtTot = OBJMaster.GetTankInventorybyConditions(condition, Convert.ToInt32(Session("PersonId").ToString()), Session("RoleId").ToString())
-			If dtTot IsNot Nothing Then
-				If dtTot.Rows.Count > 0 Then
-					ErrorMessage.Visible = True
-					ErrorMessage.Text = "Start Level already save for FluidSecure Link Number  " + DDL_FluidLink.SelectedValue.ToString() + " and Date and Time " + InventoryDateTime.ToString("MM/dd/yyyy hh:mm:tt")
-					ErrorMessage.Focus()
-					Return
-				End If
-			End If
+            condition = " and FluidLink = " + DDL_FluidLink.SelectedValue.ToString() + " and TankInventoryId <> " + TankInventoryId.ToString() + " and DateType = 's' and ENTRY_TYPE = 'TM' and CompanyId = " + DDL_Customer.SelectedValue.ToString() + " and InventoryDateTime = '" + InventoryDateTime + "' "
+            dtTot = OBJMaster.GetTankInventorybyConditions(condition, Convert.ToInt32(Session("PersonId").ToString()), Session("RoleId").ToString())
+            If dtTot IsNot Nothing Then
+                If dtTot.Rows.Count > 0 Then
+                    ErrorMessage.Visible = True
+                    ErrorMessage.Text = "Start Level already save for FluidSecure Link Number  " + DDL_FluidLink.SelectedValue.ToString() + " and Date and Time " + InventoryDateTime.ToString("MM/dd/yyyy hh:mm:tt")
+                    ErrorMessage.Focus()
+                    Return
+                End If
+            End If
 
 
-			Dim result = OBJMaster.SaveUpdateTankInventory(TankInventoryId, "", "TM", InventoryDateTime, Convert.ToDecimal(txtStartLevelQuan.Text), "s", Convert.ToInt32(DDL_Customer.SelectedValue), Convert.ToInt32(Session("PersonId").ToString()), DateTime.Now, DDL_FluidLink.SelectedValue.ToString(), DateTime.Now, 0.0, 0, "", "Manual")
+            Dim result = OBJMaster.SaveUpdateTankInventory(TankInventoryId, "", "TM", InventoryDateTime, Convert.ToDecimal(txtStartLevelQuan.Text), "s", Convert.ToInt32(DDL_Customer.SelectedValue), Convert.ToInt32(Session("PersonId").ToString()), DateTime.Now, DDL_FluidLink.SelectedValue.ToString(), DateTime.Now, 0.0, 0, "", "Manual")
 
-			If result > 0 Then
-				If (hdnTankInventory.Value <> "") Then
-					message.Visible = True
-					message.Text = "Start Level Record saved"
+            If result > 0 Then
+                If (hdnTankInventory.Value <> "") Then
+                    message.Visible = True
+                    message.Text = "Start Level Record saved"
 
-					If (ConfigurationManager.AppSettings("AllowActivityLogin").ToString().ToLower() = "yes") Then
-						Dim writtenData As String = CreateData(result, 1)
-						CSCommonHelper.WriteLog("Modified", "TotalizerMeterReconciliation", beforeData, writtenData, Session("PersonName").ToString() & "(" & Session("PersonEmail").ToString() & ")", Session("IPAddress").ToString(), "success", "")
-					End If
+                    If (ConfigurationManager.AppSettings("AllowActivityLogin").ToString().ToLower() = "yes") Then
+                        Dim writtenData As String = CreateData(result, 1)
+                        CSCommonHelper.WriteLog("Modified", "TotalizerMeterReconciliation", beforeData, writtenData, Session("PersonName").ToString() & "(" & Session("PersonEmail").ToString() & ")", Session("IPAddress").ToString(), "success", "")
+                    End If
 
-				Else
-					If (ConfigurationManager.AppSettings("AllowActivityLogin").ToString().ToLower() = "yes") Then
-						Dim writtenData As String = CreateData(result, 1)
-						CSCommonHelper.WriteLog("Added", "TotalizerMeterReconciliation", "", writtenData, Session("PersonName").ToString() & "(" & Session("PersonEmail").ToString() & ")", Session("IPAddress").ToString(), "success", "")
-					End If
-					txtStartDate.Text = DateTime.Now.ToString("MM/dd/yyyy")
-					txtStartTime.Text = DateTime.Now.ToString("hh:mm tt")
-					txtStartLevelQuan.Text = "0"
-					message.Visible = True
-					message.Text = "Start Level Record saved"
-				End If
-				ErrorMessage.Visible = False
-				ErrorMessage.Text = ""
-				DDL_FluidLink.Focus()
+                Else
+                    If (ConfigurationManager.AppSettings("AllowActivityLogin").ToString().ToLower() = "yes") Then
+                        Dim writtenData As String = CreateData(result, 1)
+                        CSCommonHelper.WriteLog("Added", "TotalizerMeterReconciliation", "", writtenData, Session("PersonName").ToString() & "(" & Session("PersonEmail").ToString() & ")", Session("IPAddress").ToString(), "success", "")
+                    End If
+                    txtStartDate.Text = DateTime.Now.ToString("MM/dd/yyyy")
+                    txtStartTime.Text = DateTime.Now.ToString("hh:mm tt")
+                    txtStartLevelQuan.Text = "0"
+                    message.Visible = True
+                    message.Text = "Start Level Record saved"
+                End If
+                ErrorMessage.Visible = False
+                ErrorMessage.Text = ""
+                DDL_FluidLink.Focus()
 
-				If TankInventoryId <> 0 Then
-					Response.Redirect("TotalizerMeterReconciliation?TankinventoryId=" & result.ToString() + "&Type=" + hdnEntryType.Value & "&RecordIs=New", False)
-				Else
-					Response.Redirect("TotalizerMeterReconciliation?Type=" + hdnEntryType.Value & "&RecordIs=New", False)
-				End If
-
-
-			Else
-				If (hdnTankInventory.Value <> "") Then
-					If (ConfigurationManager.AppSettings("AllowActivityLogin").ToString().ToLower() = "yes") Then
-						Dim writtenData As String = CreateData(Convert.ToInt32(hdnTankInventory.Value), 1)
-						CSCommonHelper.WriteLog("Modified", "TotalizerMeterReconciliation", beforeData, writtenData, Session("PersonName").ToString() & "(" & Session("PersonEmail").ToString() & ")", Session("IPAddress").ToString(), "fail", "TotalizerMeterReconciliation update failed")
-					End If
-
-					ErrorMessage.Visible = True
-					ErrorMessage.Text = "Start Level Save failed, please try again"
-
-				Else
-					If (ConfigurationManager.AppSettings("AllowActivityLogin").ToString().ToLower() = "yes") Then
-						Dim writtenData As String = CreateData(result, 1)
-						CSCommonHelper.WriteLog("Added", "TotalizerMeterReconciliation", "", writtenData, Session("PersonName").ToString() & "(" & Session("PersonEmail").ToString() & ")", Session("IPAddress").ToString(), "fail", "TotalizerMeterReconciliation Addition failed")
-					End If
-
-					ErrorMessage.Visible = True
-					ErrorMessage.Text = "Start Level Save failed, please try again"
-
-				End If
-				DDL_FluidLink.Focus()
-			End If
-		Catch ex As Exception
-			log.Error("Error occurred in btnStartSave_Click Exception is :" + ex.Message)
-			If (hdnTankInventory.Value <> "") Then
-				If (ConfigurationManager.AppSettings("AllowActivityLogin").ToString().ToLower() = "yes") Then
-					Dim writtenData As String = CreateData(Convert.ToInt32(hdnTankInventory.Value), 1)
-					CSCommonHelper.WriteLog("Modified", "TotalizerMeterReconciliation", beforeData, writtenData, Session("PersonName").ToString() & "(" & Session("PersonEmail").ToString() & ")", Session("IPAddress").ToString(), "fail", "TotalizerMeterReconciliation update failed. Exception is : " & ex.Message)
-				End If
-				ErrorMessage.Visible = True
-				ErrorMessage.Text = "Totalizer/Meter Reconciliation Start Level update failed, please try again"
-			Else
-				If (ConfigurationManager.AppSettings("AllowActivityLogin").ToString().ToLower() = "yes") Then
-					Dim writtenData As String = CreateData(Convert.ToInt32(hdnTankInventory.Value), 1)
-					CSCommonHelper.WriteLog("Added", "TotalizerMeterReconciliation", "", writtenData, Session("PersonName").ToString() & "(" & Session("PersonEmail").ToString() & ")", Session("IPAddress").ToString(), "fail", "TotalizerMeterReconciliation Addition failed. Exception is : " & ex.Message)
-				End If
-				ErrorMessage.Visible = True
-				ErrorMessage.Text = "Totalizer/Meter Reconciliation Start Level Addition failed, please try again"
-			End If
-
-		Finally
-			ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "LoadDateTimeControl();ClosePopUpStart();", True)
-		End Try
-	End Sub
-
-	'Protected Sub btnEndSave_Click(sender As Object, e As EventArgs)
-	'    Try
-	'        If DDL_FluidLink.SelectedValue.ToString() = "0" Then
-	'            ErrorMessage.Visible = True
-	'            ErrorMessage.Text = "Please select FluidSecure Link number"
-	'            DDL_FluidLink.Focus()
-	'            Return
-	'        ElseIf DDL_Customer.SelectedValue.ToString() = "0" Then
-	'            ErrorMessage.Visible = True
-	'            ErrorMessage.Text = "Please Select Company"
-	'            DDL_Customer.Focus()
-	'            Return
-	'        End If
-
-	'        OBJMaster = New MasterBAL
-	'        Dim dtTot As DataTable = New DataTable()
-	'        Dim TankInventoryId As Integer = 0
-	'        If hdnTankInventory.Value <> "" Then
-	'            TankInventoryId = Convert.ToInt32(hdnTankInventory.Value)
-	'        End If
-	'        Dim InventoryDateTime As DateTime = Request.Form(txtEndDate.UniqueID) & " " & Request.Form(txtEndTime.UniqueID)
-	'        Dim condition = ""
-	'        condition = " and FluidLink = " + DDL_FluidLink.SelectedValue.ToString() + " and TankInventoryId <> " + TankInventoryId.ToString() + " and DateType = 'e' and ENTRY_TYPE = 'TM' and CompanyId = " + DDL_Customer.SelectedValue.ToString() + " and InventoryDateTime = '" + InventoryDateTime + "' "
-	'        dtTot = OBJMaster.GetTankInventorybyConditions(condition, Convert.ToInt32(Session("PersonId").ToString()), Session("RoleId").ToString())
-	'        If dtTot IsNot Nothing Then
-	'            If dtTot.Rows.Count > 0 Then
-	'                ErrorMessage.Visible = True
-	'                ErrorMessage.Text = "End Level already save for FluidSecure Link Number  " + DDL_FluidLink.SelectedValue.ToString() + " and Date and Time " + InventoryDateTime.ToString("MM/dd/yyyy hh:mm:tt")
-	'                ErrorMessage.Focus()
-	'                Return
-	'            End If
-	'        End If
+                If TankInventoryId <> 0 Then
+                    Response.Redirect("TotalizerMeterReconciliation?TankinventoryId=" & result.ToString() + "&Type=" + hdnEntryType.Value & "&RecordIs=New", False)
+                Else
+                    Response.Redirect("TotalizerMeterReconciliation?Type=" + hdnEntryType.Value & "&RecordIs=New", False)
+                End If
 
 
-	'        Dim result = OBJMaster.SaveUpdateTankInventory(TankInventoryId, "", "TM", InventoryDateTime, Convert.ToInt32(txtEndLevelQuan.Text), "e", Convert.ToInt32(DDL_Customer.SelectedValue), Convert.ToInt32(Session("PersonId").ToString()), DateTime.Now, DDL_FluidLink.SelectedValue.ToString(), DateTime.Now, 0.0, 0, "", "Manual")
+            Else
+                If (hdnTankInventory.Value <> "") Then
+                    If (ConfigurationManager.AppSettings("AllowActivityLogin").ToString().ToLower() = "yes") Then
+                        Dim writtenData As String = CreateData(Convert.ToInt32(hdnTankInventory.Value), 1)
+                        CSCommonHelper.WriteLog("Modified", "TotalizerMeterReconciliation", beforeData, writtenData, Session("PersonName").ToString() & "(" & Session("PersonEmail").ToString() & ")", Session("IPAddress").ToString(), "fail", "TotalizerMeterReconciliation update failed")
+                    End If
 
-	'        If result > 0 Then
-	'            If (hdnTankInventory.Value <> "") Then
-	'                message.Visible = True
-	'                message.Text = "End Level Record saved"
+                    ErrorMessage.Visible = True
+                    ErrorMessage.Text = "Start Level Save failed, please try again"
 
-	'                If (ConfigurationManager.AppSettings("AllowActivityLogin").ToString().ToLower() = "yes") Then
-	'                    Dim writtenData As String = CreateData(result, 2)
-	'                    CSCommonHelper.WriteLog("Modified", "TotalizerMeterReconciliation", beforeData, writtenData, Session("PersonName").ToString() & "(" & Session("PersonEmail").ToString() & ")", Session("IPAddress").ToString(), "success", "")
-	'                End If
+                Else
+                    If (ConfigurationManager.AppSettings("AllowActivityLogin").ToString().ToLower() = "yes") Then
+                        Dim writtenData As String = CreateData(result, 1)
+                        CSCommonHelper.WriteLog("Added", "TotalizerMeterReconciliation", "", writtenData, Session("PersonName").ToString() & "(" & Session("PersonEmail").ToString() & ")", Session("IPAddress").ToString(), "fail", "TotalizerMeterReconciliation Addition failed")
+                    End If
 
-	'            Else
-	'                If (ConfigurationManager.AppSettings("AllowActivityLogin").ToString().ToLower() = "yes") Then
-	'                    Dim writtenData As String = CreateData(result, 2)
-	'                    CSCommonHelper.WriteLog("Added", "TotalizerMeterReconciliation", "", writtenData, Session("PersonName").ToString() & "(" & Session("PersonEmail").ToString() & ")", Session("IPAddress").ToString(), "success", "")
-	'                End If
+                    ErrorMessage.Visible = True
+                    ErrorMessage.Text = "Start Level Save failed, please try again"
 
-	'                message.Visible = True
-	'                message.Text = "End Level Record saved"
-	'                txtEndDate.Text = DateTime.Now.ToString("MM/dd/yyyy")
-	'                txtEndTime.Text = DateTime.Now.ToString("hh:mm tt")
-	'                txtEndLevelQuan.Text = "0"
-	'            End If
-	'            ErrorMessage.Visible = False
-	'            ErrorMessage.Text = ""
-	'            DDL_FluidLink.Focus()
-	'            Response.Redirect("TotalizerMeterReconciliation?TankinventoryId=" & result.ToString() + "&Type=" + hdnEntryType.Value & "&RecordIs=New", False)
-	'        Else
-	'            If (hdnTankInventory.Value <> "") Then
-	'                If (ConfigurationManager.AppSettings("AllowActivityLogin").ToString().ToLower() = "yes") Then
-	'                    Dim writtenData As String = CreateData(Convert.ToInt32(hdnTankInventory.Value), 2)
-	'                    CSCommonHelper.WriteLog("Modified", "TotalizerMeterReconciliation", beforeData, writtenData, Session("PersonName").ToString() & "(" & Session("PersonEmail").ToString() & ")", Session("IPAddress").ToString(), "fail", "TotalizerMeterReconciliation update failed")
-	'                End If
+                End If
+                DDL_FluidLink.Focus()
+            End If
+        Catch ex As Exception
+            log.Error("Error occurred in btnStartSave_Click Exception is :" + ex.Message)
+            If (hdnTankInventory.Value <> "") Then
+                If (ConfigurationManager.AppSettings("AllowActivityLogin").ToString().ToLower() = "yes") Then
+                    Dim writtenData As String = CreateData(Convert.ToInt32(hdnTankInventory.Value), 1)
+                    CSCommonHelper.WriteLog("Modified", "TotalizerMeterReconciliation", beforeData, writtenData, Session("PersonName").ToString() & "(" & Session("PersonEmail").ToString() & ")", Session("IPAddress").ToString(), "fail", "TotalizerMeterReconciliation update failed. Exception is : " & ex.Message)
+                End If
+                ErrorMessage.Visible = True
+                ErrorMessage.Text = "Totalizer/Meter Reconciliation Start Level update failed, please try again"
+            Else
+                If (ConfigurationManager.AppSettings("AllowActivityLogin").ToString().ToLower() = "yes") Then
+                    Dim writtenData As String = CreateData(Convert.ToInt32(hdnTankInventory.Value), 1)
+                    CSCommonHelper.WriteLog("Added", "TotalizerMeterReconciliation", "", writtenData, Session("PersonName").ToString() & "(" & Session("PersonEmail").ToString() & ")", Session("IPAddress").ToString(), "fail", "TotalizerMeterReconciliation Addition failed. Exception is : " & ex.Message)
+                End If
+                ErrorMessage.Visible = True
+                ErrorMessage.Text = "Totalizer/Meter Reconciliation Start Level Addition failed, please try again"
+            End If
 
-	'                ErrorMessage.Visible = True
-	'                ErrorMessage.Text = "End Level Save failed, please try again"
-	'            Else
-	'                If (ConfigurationManager.AppSettings("AllowActivityLogin").ToString().ToLower() = "yes") Then
-	'                    If (ConfigurationManager.AppSettings("AllowActivityLogin").ToString().ToLower() = "yes") Then
-	'                        Dim writtenData As String = CreateData(result, 2)
-	'                        CSCommonHelper.WriteLog("Added", "TotalizerMeterReconciliation", "", writtenData, Session("PersonName").ToString() & "(" & Session("PersonEmail").ToString() & ")", Session("IPAddress").ToString(), "fail", "TotalizerMeterReconciliation Addition failed")
-	'                    End If
+        Finally
+            ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "LoadDateTimeControl();ClosePopUpStart();", True)
+        End Try
+    End Sub
 
-	'                    ErrorMessage.Visible = True
-	'                    ErrorMessage.Text = "End Level Save failed, please try again"
-	'                End If
-	'                DDL_FluidLink.Focus()
-	'            End If
-	'        End If
-	'    Catch ex As Exception
-	'        log.Error("Error occurred in btnEndSave_Click Exception is :" + ex.Message)
-	'        If (hdnTankInventory.Value <> "") Then
-	'            If (ConfigurationManager.AppSettings("AllowActivityLogin").ToString().ToLower() = "yes") Then
-	'                Dim writtenData As String = CreateData(Convert.ToInt32(hdnTankInventory.Value), 2)
-	'                CSCommonHelper.WriteLog("Modified", "TotalizerMeterReconciliation", beforeData, writtenData, Session("PersonName").ToString() & "(" & Session("PersonEmail").ToString() & ")", Session("IPAddress").ToString(), "fail", "TotalizerMeterReconciliation update failed. Exception is : " & ex.Message)
-	'            End If
-	'            ErrorMessage.Visible = True
-	'            ErrorMessage.Text = "Totalizer/Meter Reconciliation End Level update failed, please try again"
-	'        Else
-	'            If (ConfigurationManager.AppSettings("AllowActivityLogin").ToString().ToLower() = "yes") Then
-	'                Dim writtenData As String = CreateData(Convert.ToInt32(hdnTankInventory.Value), 2)
-	'                CSCommonHelper.WriteLog("Added", "TotalizerMeterReconciliation", "", writtenData, Session("PersonName").ToString() & "(" & Session("PersonEmail").ToString() & ")", Session("IPAddress").ToString(), "fail", "TotalizerMeterReconciliation Addition failed. Exception is : " & ex.Message)
-	'            End If
-	'            ErrorMessage.Visible = True
-	'            ErrorMessage.Text = "Totalizer/Meter Reconciliation End Level Addition failed, please try again"
-	'        End If
-	'    Finally
-	'        ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "LoadDateTimeControl();ClosePopUpEnd();", True)
-	'    End Try
-	'End Sub
+    'Protected Sub btnEndSave_Click(sender As Object, e As EventArgs)
+    '    Try
+    '        If DDL_FluidLink.SelectedValue.ToString() = "0" Then
+    '            ErrorMessage.Visible = True
+    '            ErrorMessage.Text = "Please select FluidSecure Link number"
+    '            DDL_FluidLink.Focus()
+    '            Return
+    '        ElseIf DDL_Customer.SelectedValue.ToString() = "0" Then
+    '            ErrorMessage.Visible = True
+    '            ErrorMessage.Text = "Please Select Company"
+    '            DDL_Customer.Focus()
+    '            Return
+    '        End If
 
-	Protected Sub btnCancelStart_Click(sender As Object, e As EventArgs)
+    '        OBJMaster = New MasterBAL
+    '        Dim dtTot As DataTable = New DataTable()
+    '        Dim TankInventoryId As Integer = 0
+    '        If hdnTankInventory.Value <> "" Then
+    '            TankInventoryId = Convert.ToInt32(hdnTankInventory.Value)
+    '        End If
+    '        Dim InventoryDateTime As DateTime = Request.Form(txtEndDate.UniqueID) & " " & Request.Form(txtEndTime.UniqueID)
+    '        Dim condition = ""
+    '        condition = " and FluidLink = " + DDL_FluidLink.SelectedValue.ToString() + " and TankInventoryId <> " + TankInventoryId.ToString() + " and DateType = 'e' and ENTRY_TYPE = 'TM' and CompanyId = " + DDL_Customer.SelectedValue.ToString() + " and InventoryDateTime = '" + InventoryDateTime + "' "
+    '        dtTot = OBJMaster.GetTankInventorybyConditions(condition, Convert.ToInt32(Session("PersonId").ToString()), Session("RoleId").ToString())
+    '        If dtTot IsNot Nothing Then
+    '            If dtTot.Rows.Count > 0 Then
+    '                ErrorMessage.Visible = True
+    '                ErrorMessage.Text = "End Level already save for FluidSecure Link Number  " + DDL_FluidLink.SelectedValue.ToString() + " and Date and Time " + InventoryDateTime.ToString("MM/dd/yyyy hh:mm:tt")
+    '                ErrorMessage.Focus()
+    '                Return
+    '            End If
+    '        End If
+
+
+    '        Dim result = OBJMaster.SaveUpdateTankInventory(TankInventoryId, "", "TM", InventoryDateTime, Convert.ToInt32(txtEndLevelQuan.Text), "e", Convert.ToInt32(DDL_Customer.SelectedValue), Convert.ToInt32(Session("PersonId").ToString()), DateTime.Now, DDL_FluidLink.SelectedValue.ToString(), DateTime.Now, 0.0, 0, "", "Manual")
+
+    '        If result > 0 Then
+    '            If (hdnTankInventory.Value <> "") Then
+    '                message.Visible = True
+    '                message.Text = "End Level Record saved"
+
+    '                If (ConfigurationManager.AppSettings("AllowActivityLogin").ToString().ToLower() = "yes") Then
+    '                    Dim writtenData As String = CreateData(result, 2)
+    '                    CSCommonHelper.WriteLog("Modified", "TotalizerMeterReconciliation", beforeData, writtenData, Session("PersonName").ToString() & "(" & Session("PersonEmail").ToString() & ")", Session("IPAddress").ToString(), "success", "")
+    '                End If
+
+    '            Else
+    '                If (ConfigurationManager.AppSettings("AllowActivityLogin").ToString().ToLower() = "yes") Then
+    '                    Dim writtenData As String = CreateData(result, 2)
+    '                    CSCommonHelper.WriteLog("Added", "TotalizerMeterReconciliation", "", writtenData, Session("PersonName").ToString() & "(" & Session("PersonEmail").ToString() & ")", Session("IPAddress").ToString(), "success", "")
+    '                End If
+
+    '                message.Visible = True
+    '                message.Text = "End Level Record saved"
+    '                txtEndDate.Text = DateTime.Now.ToString("MM/dd/yyyy")
+    '                txtEndTime.Text = DateTime.Now.ToString("hh:mm tt")
+    '                txtEndLevelQuan.Text = "0"
+    '            End If
+    '            ErrorMessage.Visible = False
+    '            ErrorMessage.Text = ""
+    '            DDL_FluidLink.Focus()
+    '            Response.Redirect("TotalizerMeterReconciliation?TankinventoryId=" & result.ToString() + "&Type=" + hdnEntryType.Value & "&RecordIs=New", False)
+    '        Else
+    '            If (hdnTankInventory.Value <> "") Then
+    '                If (ConfigurationManager.AppSettings("AllowActivityLogin").ToString().ToLower() = "yes") Then
+    '                    Dim writtenData As String = CreateData(Convert.ToInt32(hdnTankInventory.Value), 2)
+    '                    CSCommonHelper.WriteLog("Modified", "TotalizerMeterReconciliation", beforeData, writtenData, Session("PersonName").ToString() & "(" & Session("PersonEmail").ToString() & ")", Session("IPAddress").ToString(), "fail", "TotalizerMeterReconciliation update failed")
+    '                End If
+
+    '                ErrorMessage.Visible = True
+    '                ErrorMessage.Text = "End Level Save failed, please try again"
+    '            Else
+    '                If (ConfigurationManager.AppSettings("AllowActivityLogin").ToString().ToLower() = "yes") Then
+    '                    If (ConfigurationManager.AppSettings("AllowActivityLogin").ToString().ToLower() = "yes") Then
+    '                        Dim writtenData As String = CreateData(result, 2)
+    '                        CSCommonHelper.WriteLog("Added", "TotalizerMeterReconciliation", "", writtenData, Session("PersonName").ToString() & "(" & Session("PersonEmail").ToString() & ")", Session("IPAddress").ToString(), "fail", "TotalizerMeterReconciliation Addition failed")
+    '                    End If
+
+    '                    ErrorMessage.Visible = True
+    '                    ErrorMessage.Text = "End Level Save failed, please try again"
+    '                End If
+    '                DDL_FluidLink.Focus()
+    '            End If
+    '        End If
+    '    Catch ex As Exception
+    '        log.Error("Error occurred in btnEndSave_Click Exception is :" + ex.Message)
+    '        If (hdnTankInventory.Value <> "") Then
+    '            If (ConfigurationManager.AppSettings("AllowActivityLogin").ToString().ToLower() = "yes") Then
+    '                Dim writtenData As String = CreateData(Convert.ToInt32(hdnTankInventory.Value), 2)
+    '                CSCommonHelper.WriteLog("Modified", "TotalizerMeterReconciliation", beforeData, writtenData, Session("PersonName").ToString() & "(" & Session("PersonEmail").ToString() & ")", Session("IPAddress").ToString(), "fail", "TotalizerMeterReconciliation update failed. Exception is : " & ex.Message)
+    '            End If
+    '            ErrorMessage.Visible = True
+    '            ErrorMessage.Text = "Totalizer/Meter Reconciliation End Level update failed, please try again"
+    '        Else
+    '            If (ConfigurationManager.AppSettings("AllowActivityLogin").ToString().ToLower() = "yes") Then
+    '                Dim writtenData As String = CreateData(Convert.ToInt32(hdnTankInventory.Value), 2)
+    '                CSCommonHelper.WriteLog("Added", "TotalizerMeterReconciliation", "", writtenData, Session("PersonName").ToString() & "(" & Session("PersonEmail").ToString() & ")", Session("IPAddress").ToString(), "fail", "TotalizerMeterReconciliation Addition failed. Exception is : " & ex.Message)
+    '            End If
+    '            ErrorMessage.Visible = True
+    '            ErrorMessage.Text = "Totalizer/Meter Reconciliation End Level Addition failed, please try again"
+    '        End If
+    '    Finally
+    '        ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "LoadDateTimeControl();ClosePopUpEnd();", True)
+    '    End Try
+    'End Sub
+
+    Protected Sub btnCancelStart_Click(sender As Object, e As EventArgs)
         Try
 
         Catch ex As Exception
@@ -437,26 +441,39 @@ Public Class TotalizerMeterReconciliation
             OBJMaster = New MasterBAL
             Dim dtTot As DataTable = New DataTable()
             dtTot = OBJMaster.GetTankInventorybyId(Convert.ToInt32(hdnTankInventory.Value))
-           If dtTot IsNot Nothing Then
-				If dtTot.Rows.Count > 0 Then
+            If dtTot IsNot Nothing Then
+                If dtTot.Rows.Count > 0 Then
+                    Dim isValid As Boolean = False
+                    If (Session("RoleName") = "GroupAdmin") Then
+                        Dim dtCustOld As DataTable = New DataTable()
 
-					If (Not Session("RoleName") = "SuperAdmin") Then
+                        dtCustOld = OBJMaster.GetCustomerDetailsByPersonID(Convert.ToInt32(Session("PersonId").ToString()), Session("RoleId").ToString(), Session("CustomerId").ToString())
+                        For Each drCusts As DataRow In dtCustOld.Rows
+                            If (drCusts("CustomerId") = dtTot.Rows(0)("CompanyId").ToString()) Then
+                                isValid = True
+                                Exit For
+                            End If
 
-						Dim dtCust As DataTable = New DataTable()
+                        Next
+                    End If
 
-						dtCust = OBJMaster.GetCustomerDetailsByPersonID(Convert.ToInt32(Session("PersonId").ToString()), Session("RoleId").ToString(), Session("CustomerId").ToString())
+                    If (Not Session("RoleName") = "SuperAdmin" And Not isValid = True) Then
 
-						If (dtCust.Rows(0)("CustomerId").ToString() <> dtTot.Rows(0)("CompanyId").ToString()) Then
+                        Dim dtCust As DataTable = New DataTable()
 
-							ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "NotValidUser();", True)
+                        dtCust = OBJMaster.GetCustomerDetailsByPersonID(Convert.ToInt32(Session("PersonId").ToString()), Session("RoleId").ToString(), Session("CustomerId").ToString())
 
-							Return
-						End If
+                        If (dtCust.Rows(0)("CustomerId").ToString() <> dtTot.Rows(0)("CompanyId").ToString()) Then
 
-					End If
+                            ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "NotValidUser();", True)
 
-					DDL_Customer.SelectedValue = dtTot.Rows(0)("CompanyId").ToString()
-					bindFluidLink()
+                            Return
+                        End If
+
+                    End If
+
+                    DDL_Customer.SelectedValue = dtTot.Rows(0)("CompanyId").ToString()
+                    bindFluidLink()
                     DDL_FluidLink.SelectedValue = dtTot.Rows(0)("FluidLink").ToString()
 
                     If dtTot.Rows(0)("DateType") = "s" Then
@@ -540,17 +557,17 @@ Public Class TotalizerMeterReconciliation
     'End Sub
 
     Protected Sub DDL_Customer_SelectedIndexChanged(sender As Object, e As EventArgs)
-		Try
-			bindFluidLink()
+        Try
+            bindFluidLink()
 
-		Catch ex As Exception
-			log.Error("Error occurred in DDL_Customer_SelectedIndexChanged Exception is :" + ex.Message)
-			ErrorMessage.Visible = True
-			ErrorMessage.Text = "Error occurred while getting data, please try again later."
-		Finally
-			ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "LoadDateTimeControl();", True)
-		End Try
-	End Sub
+        Catch ex As Exception
+            log.Error("Error occurred in DDL_Customer_SelectedIndexChanged Exception is :" + ex.Message)
+            ErrorMessage.Visible = True
+            ErrorMessage.Text = "Error occurred while getting data, please try again later."
+        Finally
+            ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "LoadDateTimeControl();", True)
+        End Try
+    End Sub
 
     Protected Sub bindFluidLink()
         Try

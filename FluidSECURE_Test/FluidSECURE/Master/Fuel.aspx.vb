@@ -76,15 +76,18 @@ Public Class Fuel
 			DDL_Customer.DataBind()
 			DDL_Customer.Items.Insert(0, New ListItem("Select Company", "0"))
 
-			If (Not Session("RoleName") = "SuperAdmin") Then
+			If (Not Session("RoleName") = "SuperAdmin" And Not Session("RoleName") = "GroupAdmin") Then
 				DDL_Customer.SelectedIndex = 1
 				DDL_Customer.Enabled = False
 				DDL_Customer.Visible = False
 				divCompany.Visible = False
 			End If
 			If (Session("CustomerId") <> 0 And Not Session("CustomerId") Is Nothing) Then
-				DDL_Customer.SelectedIndex = 1
-
+				If (Session("RoleName") = "GroupAdmin") Then
+					DDL_Customer.SelectedValue = Session("CustomerId")
+				Else
+					DDL_Customer.SelectedIndex = 1
+				End If
 			End If
 
 		Catch ex As Exception
@@ -106,7 +109,21 @@ Public Class Fuel
 			Dim cnt As Integer = 0
 			If (dtFuel.Rows.Count > 0) Then
 
-				If (Not Session("RoleName") = "SuperAdmin") Then
+				Dim isValid As Boolean = False
+				If (Session("RoleName") = "GroupAdmin") Then
+					Dim dtCustOld As DataTable = New DataTable()
+
+					dtCustOld = OBJMaster.GetCustomerDetailsByPersonID(Convert.ToInt32(Session("PersonId").ToString()), Session("RoleId").ToString(), Session("CustomerId").ToString())
+					For Each drCusts As DataRow In dtCustOld.Rows
+						If (drCusts("CustomerId") = dtFuel.Rows(0)("CompanyId").ToString()) Then
+							isValid = True
+							Exit For
+						End If
+
+					Next
+				End If
+
+				If (Not Session("RoleName") = "SuperAdmin" And Not isValid = True) Then
 
 					Dim dtCustOld As DataTable = New DataTable()
 
@@ -135,7 +152,7 @@ Public Class Fuel
 					Session("FuelCustomerId") = IIf(dtFuel.Rows(0)("CompanyId").ToString() = "", 0, dtFuel.Rows(0)("CompanyId").ToString())
 				End If
 
-				If (Not Session("RoleName") = "SuperAdmin") Then
+				If (Not Session("RoleName") = "SuperAdmin" And Not Session("RoleName") = "GroupAdmin") Then
 					DDL_Customer.Enabled = False
 				End If
 
@@ -184,30 +201,35 @@ Public Class Fuel
 					cnt = dtAllFuel.Rows.IndexOf(dr) + 1
 
 				End If
-				If (cnt >= HDF_TotalFuelType.Value) Then
-					btnNext.Enabled = False
-					btnLast.Enabled = False
-					btnFirst.Enabled = True
-					btnprevious.Enabled = True
-				ElseIf (cnt <= 1) Then
-					btnNext.Enabled = True
-					btnLast.Enabled = True
-					btnFirst.Enabled = False
-					btnprevious.Enabled = False
-				ElseIf (cnt > 1 And cnt < HDF_TotalFuelType.Value) Then
-					btnNext.Enabled = True
+                If (HDF_TotalFuelType.Value = 1) Then
+                    btnNext.Enabled = False
+                    btnLast.Enabled = False
+                    btnFirst.Enabled = False
+                    btnprevious.Enabled = False
+                ElseIf (cnt >= HDF_TotalFuelType.Value) Then
+                    btnNext.Enabled = False
+                    btnLast.Enabled = False
+                    btnFirst.Enabled = True
+                    btnprevious.Enabled = True
+                ElseIf (cnt <= 1) Then
+                    btnNext.Enabled = True
+                    btnLast.Enabled = True
+                    btnFirst.Enabled = False
+                    btnprevious.Enabled = False
+                ElseIf (cnt > 1 And cnt < HDF_TotalFuelType.Value) Then
+                    btnNext.Enabled = True
 					btnLast.Enabled = True
 					btnFirst.Enabled = True
 					btnprevious.Enabled = True
 				End If
-				If cnt = 1 And HDF_TotalFuelType.Value.ToString() = "1" Then
-					btnNext.Enabled = False
-					btnLast.Enabled = False
-					btnFirst.Enabled = False
-					btnprevious.Enabled = False
-				End If
+                'If cnt = 1 And HDF_TotalFuelType.Value.ToString() = "1" Then
+                '	btnNext.Enabled = False
+                '	btnLast.Enabled = False
+                '	btnFirst.Enabled = False
+                '	btnprevious.Enabled = False
+                'End If
 
-				lblof.Text = cnt & " of " & HDF_TotalFuelType.Value.ToString()
+                lblof.Text = cnt & " of " & HDF_TotalFuelType.Value.ToString()
 
 			Else
 				ErrorMessage.Visible = True
@@ -427,31 +449,31 @@ Public Class Fuel
 
 			End If
 
-            If txtFuelType.Text = "" Then
-                ErrorMessage.Visible = True
-                ErrorMessage.InnerText = "Please enter Fuel Type and try again."
-                txtFuelType.Focus()
-                Return
-            End If
+			If txtFuelType.Text = "" Then
+				ErrorMessage.Visible = True
+				ErrorMessage.InnerText = "Please enter Fuel Type and try again."
+				txtFuelType.Focus()
+				Return
+			End If
 
-            If DDL_Customer.SelectedIndex = 0 Then
-                ErrorMessage.Visible = True
-                ErrorMessage.InnerText = "Please select Company and try again."
-                DDL_Customer.Focus()
-                Return
-            End If
+			If DDL_Customer.SelectedIndex = 0 Then
+				ErrorMessage.Visible = True
+				ErrorMessage.InnerText = "Please select Company and try again."
+				DDL_Customer.Focus()
+				Return
+			End If
 
-            Dim resultDecimal As Decimal = 0
+			Dim resultDecimal As Decimal = 0
 
-            If (txtProductPrice.Text <> "" And Not (Decimal.TryParse(txtProductPrice.Text, resultDecimal))) Then
-                ErrorMessage.Visible = True
-                ErrorMessage.InnerText = "Please enter Product price as decimal and try again."
-                txtProductPrice.Focus()
-                Return
-            End If
+			If (txtProductPrice.Text <> "" And Not (Decimal.TryParse(txtProductPrice.Text, resultDecimal))) Then
+				ErrorMessage.Visible = True
+				ErrorMessage.InnerText = "Please enter Product price as decimal and try again."
+				txtProductPrice.Focus()
+				Return
+			End If
 
 
-            Dim result As Integer = 0
+			Dim result As Integer = 0
 
 			OBJMaster = New MasterBAL()
 

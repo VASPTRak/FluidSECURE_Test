@@ -92,8 +92,7 @@ Public Class RegisterCompany
             Dim user = New ApplicationUser()
 
             'save company
-            result = OBJMaster.SaveUpdateCustomer(CustId, txtCustName.Text, txtContactName.Text, txtContactNumber.Text, txtContactAddress.Text, "", 0, False, False, False, False, False, "Other", 1, 1, 1)
-
+            result = OBJMaster.SaveUpdateCustomer(CustId, txtCustName.Text, txtContactName.Text, txtContactNumber.Text, "", "", 0, False, False, False, False, False, "Other", 1, 0, txtStreetAddress.Text, txtCity.Text, txtState.Text, txtZip.Text, txtCountry.Text, )
             If result > 0 Then
                 HDF_Custd.Value = result
 
@@ -137,7 +136,8 @@ Public Class RegisterCompany
        .DateTimeTermConditionAccepted = Nothing,
          .IsGateHub = False,
          .IsVehicleNumberRequire = False,
-         .HubAddress = ""
+         .HubAddress = "",
+               .IsLogging = 0
            }
                 identityResult = New IdentityResult()
                 identityResult = manager.Create(user, txtAdminPassword.Text)

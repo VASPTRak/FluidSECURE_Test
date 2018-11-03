@@ -65,18 +65,21 @@ Public Class TransactionReportsByMilesPerGallon
 			DDL_Customer.DataBind()
 			DDL_Customer.Items.Insert(0, New ListItem("Select Company", "0"))
 
-			If (Not Session("RoleName") = "SuperAdmin" And Not Session("RoleName") = "Support") Then
-				DDL_Customer.SelectedIndex = 1
-				DDL_Customer.Enabled = False
-				DDL_Customer.Visible = False
-				divCompany.Visible = False
-			End If
+            If (Not Session("RoleName") = "SuperAdmin" And Not Session("RoleName") = "Support" And Not Session("RoleName") = "GroupAdmin") Then
+                DDL_Customer.SelectedIndex = 1
+                DDL_Customer.Enabled = False
+                DDL_Customer.Visible = False
+                divCompany.Visible = False
+            End If
 
 
-			If (Session("CustomerId") <> 0 And Not Session("CustomerId") Is Nothing) Then
-				DDL_Customer.SelectedIndex = 1
-
-			End If
+            If (Session("CustomerId") <> 0 And Not Session("CustomerId") Is Nothing) Then
+                If (Session("RoleName") = "GroupAdmin") Then
+                    DDL_Customer.SelectedValue = Session("CustomerId")
+                Else
+                    DDL_Customer.SelectedIndex = 1
+                End If
+            End If
 
 		Catch ex As Exception
 
@@ -428,7 +431,7 @@ Public Class TransactionReportsByMilesPerGallon
 			End If
 
 			'strConditions += "  and ISNULL(IsFluidSecureHub,0)=0  order by t.TransactionDateTime,VehicleName"
-			strConditions += " order by t.TransactionDateTime,VehicleName"
+			strConditions += " order by t.TransactionDateTime,t.VehicleName"
 
 			Dim ExtraCondition As String = ""
 			Dim MPGParam As String = ""

@@ -18,30 +18,46 @@
                 <p class="text-center red" id="ErrorMessage" runat="server"></p>
             </div>
 
-            <div class="row col-md-12 col-sm-12 col-xs-12" runat="server" id="Uploaddiv">
-                <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
-                    <label>
-                        FSVMFirmware version number
-                        <label runat="server" id="lblRequired" class="text-danger font-required">[required]</label>:</label>
-                </div>
-                <div class="form-group col-md-3 col-sm-3 col-xs-12">
-                    <asp:TextBox ID="txtFSVMFirmwareversionnumber" CssClass="form-control input-sm" TabIndex="1" runat="server"></asp:TextBox>
-                    <asp:RequiredFieldValidator ID="RFDFSVMFirmwareversionnumber" runat="server" ControlToValidate="txtFSVMFirmwareversionnumber"
-                        ErrorMessage="Please Enter FSVMFirmware version number." Display="Dynamic" ForeColor="Red" SetFocusOnError="True" ValidationGroup="FSVMFirmwareValidation"></asp:RequiredFieldValidator>
-                </div>
-                <div>
+            <div runat="server" id="Uploaddiv">
+                <div class="row col-md-12 col-sm-12 col-xs-12">
                     <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
                         <label>
-                            Upload FSVM Firmware:
-                            <label class="text-danger font-required">[required]</label>:</label>
+                            FSVMFirmware version number
+                        <label runat="server" id="lblRequired" class="text-danger font-required">[required]</label>:</label>
                     </div>
                     <div class="form-group col-md-3 col-sm-3 col-xs-12">
-                        <asp:FileUpload ID="FU_FSVMFirmware" runat="server" TabIndex="2" />
-                        <asp:RequiredFieldValidator if="RDF_FSVMFirmware" runat="server" Display="Dynamic" ErrorMessage="Please select file to upload." ControlToValidate="FU_FSVMFirmware" ForeColor="Red" SetFocusOnError="True" ValidationGroup="FSVMFirmwareValidation"></asp:RequiredFieldValidator>
+                        <asp:TextBox ID="txtFSVMFirmwareversionnumber" CssClass="form-control input-sm" TabIndex="1" runat="server"></asp:TextBox>
+                        <asp:RequiredFieldValidator ID="RFDFSVMFirmwareversionnumber" runat="server" ControlToValidate="txtFSVMFirmwareversionnumber"
+                            ErrorMessage="Please Enter FSVMFirmware version number." Display="Dynamic" ForeColor="Red" SetFocusOnError="True" ValidationGroup="FSVMFirmwareValidation"></asp:RequiredFieldValidator>
+                    </div>
+                    <div>
+                        <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
+                            <label>
+                                Upload FSVM Firmware:
+                            <label class="text-danger font-required">[required]</label>:</label>
+                        </div>
+                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                            <asp:FileUpload ID="FU_FSVMFirmware" runat="server" TabIndex="2" />
+                            <asp:RequiredFieldValidator if="RDF_FSVMFirmware" runat="server" Display="Dynamic" ErrorMessage="Please select file to upload." ControlToValidate="FU_FSVMFirmware" ForeColor="Red" SetFocusOnError="True" ValidationGroup="FSVMFirmwareValidation"></asp:RequiredFieldValidator>
+                        </div>
+                    </div>
+                </div>
+                <div class="row col-md-12 col-sm-12 col-xs-12">
+                    <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
+                            <label>
+                                FSVM Firmware File Type:
+                            <label class="text-danger font-required">[required]</label>:</label>
+                        </div>
+                    <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
+                        <asp:RadioButtonList runat="server" ID="rdbFileType" RepeatDirection="Horizontal" >
+                            <asp:ListItem Text="PIC" Value="1" Selected="True"></asp:ListItem>
+                            <asp:ListItem Text="ESP32" Value="2"></asp:ListItem>
+                        </asp:RadioButtonList>
                     </div>
                 </div>
             </div>
-            <div class="row col-md-12 col-sm-12 col-xs-12" runat="server" id="ViewDiv">
+            <div runat="server" id="ViewDiv">            
+            <div class="row col-md-12 col-sm-12 col-xs-12">
                 <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
                     <label>
                         FSVMFirmware version number:</label>
@@ -58,7 +74,18 @@
                         <asp:Label runat="server" ID="lblUploadFSVMFirmware"></asp:Label>
                     </div>
                 </div>
+                </div>
+                <div class="row col-md-12 col-sm-12 col-xs-12">
+                    <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
+                        <label>
+                            FSVMFirmware File Type:</label>
+                    </div>
+                    <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                        <asp:Label runat="server" ID="lblFSVMFirmwareFileType"></asp:Label>
+                    </div>
+                    </div>
             </div>
+                </div>
             <div class="row col-md-12 col-sm-12 col-xs-12">
                 <div class="panel panel-default" style="width: 100%; margin: 0 auto 0;">
                     <div class="panel-heading" style="text-align: center">
@@ -93,9 +120,16 @@
                                                                                 </ItemTemplate>
                                                                                 <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" />
                                                                             </asp:TemplateField>
+                                                                            <asp:TemplateField HeaderText="Vehicle Number">
+                                                                                <ItemTemplate>
+                                                                                    <asp:Label ID="lblVehicleNumber" Text='<%# DataBinder.Eval(Container.DataItem, "VehicleNumber")%>'
+                                                                                        runat="server" />
+                                                                                </ItemTemplate>
+                                                                                <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" />
+                                                                            </asp:TemplateField>
                                                                             <asp:TemplateField HeaderText="Vehicles">
                                                                                 <ItemTemplate>
-                                                                                    <asp:Label ID="lblVersion" Text='<%# DataBinder.Eval(Container.DataItem, "VehicleName")%>'
+                                                                                    <asp:Label ID="lblVehicleName" Text='<%# DataBinder.Eval(Container.DataItem, "VehicleName")%>'
                                                                                         runat="server" />
                                                                                 </ItemTemplate>
                                                                                 <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" />
@@ -142,7 +176,7 @@
         </div>
     </div>
 
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
     <script type="text/javascript">
         $("[src*=plus]").live("click", function () {
             //$(this).closest("tr").after("<tr><td></td><td colspan = '999'>" + $(this).next().html() + "</td></tr>")
@@ -158,7 +192,7 @@
             $(this).closest("tr").find("div[id*='pnlOrders']").hide();
         });
 
-        
+
         function checkAll(objRef) {
             var GridView = objRef.parentNode.parentNode.parentNode;
             var inputList = GridView.getElementsByTagName("input");
@@ -177,36 +211,34 @@
             }
         }
 
-            function SelectboxSite(objRef) {
-                var IsChecked = objRef.checked;
-                if (IsChecked == false) {
-                    var GridView = objRef.parentNode.parentNode.parentNode;
-                    var inputList = GridView.getElementsByTagName("input");
-                    inputList[0].checked = false;
-                }
-                else 
-                {
-                    var GridView = objRef.parentNode.parentNode.parentNode;
-                    var inputList = GridView.getElementsByTagName("input");
-                    var flag = 0
-                    for (var i = 1; i < inputList.length; i++) {
-                        //Get the Cell To find out ColumnIndex
-                        if (inputList[i].type == "checkbox" && objRef != inputList[i]) {
-                            if (inputList[i].checked) {
-                                flag = 0
-                            }
-                            else {
-                                flag = 1
-                                break;
-                            }
+        function SelectboxSite(objRef) {
+            var IsChecked = objRef.checked;
+            if (IsChecked == false) {
+                var GridView = objRef.parentNode.parentNode.parentNode;
+                var inputList = GridView.getElementsByTagName("input");
+                inputList[0].checked = false;
+            }
+            else {
+                var GridView = objRef.parentNode.parentNode.parentNode;
+                var inputList = GridView.getElementsByTagName("input");
+                var flag = 0
+                for (var i = 1; i < inputList.length; i++) {
+                    //Get the Cell To find out ColumnIndex
+                    if (inputList[i].type == "checkbox" && objRef != inputList[i]) {
+                        if (inputList[i].checked) {
+                            flag = 0
+                        }
+                        else {
+                            flag = 1
+                            break;
                         }
                     }
-                    if(flag == 0)
-                    {
-                        inputList[0].checked = true;
-                    }
+                }
+                if (flag == 0) {
+                    inputList[0].checked = true;
                 }
             }
+        }
 
     </script>
 </asp:Content>

@@ -95,6 +95,15 @@ Partial Public Class FSVMFirmwareUpgrades
     Protected WithEvents FU_FSVMFirmware As Global.System.Web.UI.WebControls.FileUpload
     
     '''<summary>
+    '''rdbFileType control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents rdbFileType As Global.System.Web.UI.WebControls.RadioButtonList
+    
+    '''<summary>
     '''ViewDiv control.
     '''</summary>
     '''<remarks>
@@ -120,6 +129,15 @@ Partial Public Class FSVMFirmwareUpgrades
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents lblUploadFSVMFirmware As Global.System.Web.UI.WebControls.Label
+    
+    '''<summary>
+    '''lblFSVMFirmwareFileType control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblFSVMFirmwareFileType As Global.System.Web.UI.WebControls.Label
     
     '''<summary>
     '''up_Main control.

@@ -22,14 +22,57 @@ Public Class UpdateTransactionCost
 			Else
 				If Not IsPostBack Then
 					If (Not Request.QueryString("FuelTypeID") = Nothing And Not Request.QueryString("FuelTypeID") = "") Then
-						HDF_FuelTypeId.Value = Request.QueryString("FuelTypeID")
-						txtStartDate.Text = DateTime.Now.ToString("MM/dd/yyyy")
-						txtEndDate.Text = DateTime.Now.ToString("MM/dd/yyyy")
-                        lblProductName.InnerText = Session("FuelType")
-                        txtStartTime.Text = DateTime.Now.ToString("hh:mm tt")
-                        txtEndTime.Text = DateTime.Now.ToString("hh:mm tt")
-                        ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "LoadDateTimeControl();", True)
-                    End If
+
+						OBJMaster = New MasterBAL()
+						Dim dtFuel As DataTable = New DataTable()
+						dtFuel = OBJMaster.GetFuelByTypeId(Request.QueryString("FuelTypeID"))
+						Dim cnt As Integer = 0
+						If (dtFuel.Rows.Count > 0) Then
+
+							Dim isValid As Boolean = False
+							If (Session("RoleName") = "GroupAdmin") Then
+								Dim dtCustOld As DataTable = New DataTable()
+
+								dtCustOld = OBJMaster.GetCustomerDetailsByPersonID(Convert.ToInt32(Session("PersonId").ToString()), Session("RoleId").ToString(), Session("CustomerId").ToString())
+								For Each drCusts As DataRow In dtCustOld.Rows
+									If (drCusts("CustomerId") = dtFuel.Rows(0)("CompanyId").ToString()) Then
+										isValid = True
+										Exit For
+									End If
+
+								Next
+							End If
+
+							If (Not Session("RoleName") = "SuperAdmin" And Not isValid = True) Then
+
+								Dim dtCustOld As DataTable = New DataTable()
+
+								dtCustOld = OBJMaster.GetCustomerDetailsByPersonID(Convert.ToInt32(Session("PersonId").ToString()), Session("RoleId").ToString(), Session("CustomerId").ToString())
+
+								If (dtCustOld.Rows(0)("CustomerId").ToString() <> dtFuel.Rows(0)("CompanyId").ToString()) Then
+
+									ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "NotValidUser();", True)
+
+									Return
+								End If
+
+							End If
+
+							HDF_FuelTypeId.Value = Request.QueryString("FuelTypeID")
+							txtStartDate.Text = DateTime.Now.ToString("MM/dd/yyyy")
+							txtEndDate.Text = DateTime.Now.ToString("MM/dd/yyyy")
+							lblProductName.InnerText = Session("FuelType")
+							txtStartTime.Text = DateTime.Now.ToString("hh:mm tt")
+							txtEndTime.Text = DateTime.Now.ToString("hh:mm tt")
+							ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "LoadDateTimeControl();", True)
+
+						Else
+							ErrorMessage.Visible = True
+							ErrorMessage.Text = "Data Not found. Please try again after some time."
+						End If
+
+
+					End If
 					txt_Price.Attributes.Add("OnKeyPress", "return KeyPressProduct(event);")
 				End If
 			End If

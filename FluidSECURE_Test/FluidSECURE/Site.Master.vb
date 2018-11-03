@@ -31,9 +31,9 @@
 	End Sub
 
 	Protected Sub master_Page_PreLoad(sender As Object, e As EventArgs)
-        'Response.Redirect("~/SiteRedirect.html")
+		'Response.Redirect("~/SiteRedirect.html")
 
-        If Not IsPostBack Then
+		If Not IsPostBack Then
 			' Set Anti-XSRF token
 			ViewState(AntiXsrfTokenKey) = Page.ViewStateUserKey
 			ViewState(AntiXsrfUserNameKey) = If(Context.User.Identity.Name, [String].Empty)
@@ -79,34 +79,40 @@
 		End If
 	End Sub
 
-	Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
-		If Not HttpContext.Current.Request.Url.AbsolutePath.ToLower().Contains("login") Then
-			'If Session("PersonId") Is Nothing Then
-			'    ScriptManager.RegisterStartupScript(Me, Me.[GetType](), "MSG", "OPENURL();", True)
-			'End If
-		Else
-			Dim AutheticationManager = HttpContext.Current.GetOwinContext().Authentication
-			AutheticationManager.SignOut()
-		End If
+    Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+        If Not HttpContext.Current.Request.Url.AbsolutePath.ToLower().Contains("login") Then
+            'If Session("PersonId") Is Nothing Then
+            '    ScriptManager.RegisterStartupScript(Me, Me.[GetType](), "MSG", "OPENURL();", True)
+            'End If
+        Else
+            Dim AutheticationManager = HttpContext.Current.GetOwinContext().Authentication
+            AutheticationManager.SignOut()
+        End If
 
-		If Session("FromLoginPage") <> "Y" Then 'New field for Adding Reset password date
+        If Session("FromLoginPage") <> "Y" Then 'New field for Adding Reset password date
 
-			OtherMenu.Visible = False
+            OtherMenu.Visible = False
             CompanyHostingReport.Visible = False
             ShipmentReport.Visible = False
+            SpecializedFeature.Visible = False
+            Session("SpecializedExport") = ""
+            Session("TotalFuelUsageByHubPerVehicle") = ""
             CustomerWiseTransactionDetails.Visible = False
             ResetTermsPrivacyPolicys.Visible = False
             Export_WINCC.Visible = False
+            SpecializedExport.Visible = False
+            TotalFuelUsageByHubPerVehicle.Visible = False
+
             If Session("RoleName") = "User" Then
 
-				ItemMenu.Visible = False
-				ReportMenu.Visible = False
-				TransactionsMenu.Visible = False
-				Export.Visible = False
-				Import.Visible = False
-				Reconciliation.Visible = False
-				Export_WINCC.Visible = False
-			ElseIf Session("RoleName") = "Reports Only" Then
+                ItemMenu.Visible = False
+                ReportMenu.Visible = False
+                TransactionsMenu.Visible = False
+                Export.Visible = False
+                Import.Visible = False
+                Reconciliation.Visible = False
+                Export_WINCC.Visible = False
+            ElseIf Session("RoleName") = "Reports Only" Then
                 ItemMenu.Visible = False
                 ReportMenu.Visible = True
                 TransactionsMenu.Visible = False
@@ -119,83 +125,139 @@
                 CustomizedExport.Visible = False
                 TransactionExportSetting.Visible = False
             ElseIf Session("RoleName") = "Support" Then
-				ItemMenu.Visible = False
+                ItemMenu.Visible = False
 
-				VehiclestMenu.Visible = False
-				PersonnelMenu.Visible = False
-				DepartmentsMenu.Visible = False
-				CompaniesMenu.Visible = False
-				ProductsMenu.Visible = False
-				FluidSecureMenu.Visible = False
+                VehiclestMenu.Visible = False
+                PersonnelMenu.Visible = False
+                DepartmentsMenu.Visible = False
+                CompaniesMenu.Visible = False
+                ProductsMenu.Visible = False
+                FluidSecureMenu.Visible = False
                 UploadedFirmware.Visible = False
                 UploadedFSVMFirmware.Visible = False
                 UploadedFSNPFirmware.Visible = False
                 FluidSecureHubMenu.Visible = False
-				DayLightSavingId.Visible = False
-				Export_WINCC.Visible = False
+                DayLightSavingId.Visible = False
+                Export_WINCC.Visible = False
 
-				ReportMenu.Visible = True
+                ReportMenu.Visible = True
 
-				TransactionsMenu.Visible = False
-				Export.Visible = False
-				Import.Visible = False
-				Reconciliation.Visible = False
-			End If
+                TransactionsMenu.Visible = False
+                Export.Visible = False
+                Import.Visible = False
+                Reconciliation.Visible = False
+            End If
 
-			If (Session("RoleName") = "SuperAdmin") Then
-				ShipmentMenu.Visible = True
+            If (Session("RoleName") = "SuperAdmin") Then
+                ShipmentMenu.Visible = True
                 UploadedFirmware.Visible = True
                 UploadedFSVMFirmware.Visible = True
                 UploadedFSNPFirmware.Visible = True
                 OtherMenu.Visible = True
                 CompanyHostingReport.Visible = True
                 ShipmentReport.Visible = True
+                SpecializedFeature.Visible = True
                 CustomerWiseTransactionDetails.Visible = True
-				ResetTermsPrivacyPolicys.Visible = True
-				DayLightSavingId.Visible = True
+                ResetTermsPrivacyPolicys.Visible = True
+                DayLightSavingId.Visible = True
                 TransactionExportSetting.Visible = True
                 Export_WINCC.Visible = True
+
+                ' Specilized Export
+                SpecializedExport.Visible = True
+                SpecializedExport.InnerHtml = "<a href=/Master/SpecializedExport.aspx>Specialized Export: Hawaii Telecom" & "</a>"
+
+                ' TotalFuelUsageByHubPerVehicle
+                TotalFuelUsageByHubPerVehicle.Visible = True
             Else
-				If (Session("RoleName") = "Support") Then 'If (Session("RoleName") = "CustomerAdmin" Or Session("RoleName") = "Support") Then
-					ShipmentMenu.Visible = True
+                If (Session("RoleName") = "Support") Then 'If (Session("RoleName") = "CustomerAdmin" Or Session("RoleName") = "Support") Then
+                    ShipmentMenu.Visible = True
                     UploadedFirmware.Visible = False
                     UploadedFSVMFirmware.Visible = False
                     UploadedFSNPFirmware.Visible = False
                     OtherMenu.Visible = True
-				Else
-					ShipmentMenu.Visible = False
-				End If
+                Else
+                    ShipmentMenu.Visible = False
+                End If
                 UploadedFirmware.Visible = False
                 UploadedFSVMFirmware.Visible = False
                 UploadedFSNPFirmware.Visible = False
                 DayLightSavingId.Visible = False
-                If (Session("RoleName") = "CustomerAdmin") Then
-					TransactionExportSetting.Visible = True
-					Export.Visible = True
-				End If
-			End If
-		End If
-		If Session("CompanyNameHeader") <> Nothing Then
-			If (Session("CompanyNameHeader").ToString <> "" And Session("CompanyNameHeader").ToString <> "Select All") Then
-				If hdfHide.Value <> "homepage" Then
-					lblMasterCompany.Text = "Company: "
-					lblMasterCompanyName.Text = " " + Session("CompanyNameHeader").ToString()
-				Else
-					lblMasterCompany.Text = ""
-					lblMasterCompanyName.Text = ""
-				End If
-			Else
-				lblMasterCompany.Text = ""
-				lblMasterCompanyName.Text = ""
-			End If
-		Else
-			lblMasterCompany.Text = ""
-			lblMasterCompanyName.Text = ""
-		End If
 
-	End Sub
+                If (Session("RoleName") = "CustomerAdmin") Or (Session("RoleName") = "GroupAdmin") Then
+                    TransactionExportSetting.Visible = True
+                    Export.Visible = True
 
-	Protected Sub Unnamed_LoggingOut(sender As Object, e As LoginCancelEventArgs)
+
+                    ' Specilized Export
+                    If Session("PersonId") IsNot Nothing And Session("UniqueId") IsNot Nothing Then
+                        Dim OBJMaster As MasterBAL = New MasterBAL()
+                        Dim dtPersonnel As DataTable = New DataTable()
+                        Dim cnt As Integer = 0
+
+                        dtPersonnel = OBJMaster.GetPersonnelByPersonIdAndId(Convert.ToInt32(Session("PersonId")), Session("UniqueId").ToString())
+                        If dtPersonnel IsNot Nothing And dtPersonnel.Rows.Count > 0 Then
+                            OBJMaster = New MasterBAL()
+
+                            Dim dtuspGetCustMenuMapingById As DataTable = New DataTable()
+                            dtuspGetCustMenuMapingById = OBJMaster.GetCustMenuMapingById(" and CustomerMenuLinkId = 1", dtPersonnel.Rows(0)("CustomerId").ToString())
+                            If dtuspGetCustMenuMapingById IsNot Nothing And dtuspGetCustMenuMapingById.Rows.Count > 0 Then
+                                SpecializedExport.Visible = True
+                                If Session("CompanyNameHeader").ToString() IsNot Nothing Then
+                                    Session("SpecializedExport") = "SpecializedExport"
+                                    If (Session("RoleName") = "CustomerAdmin") Then
+                                        SpecializedExport.InnerHtml = "<a href=/Master/SpecializedExport.aspx>Specialized Export : " & Session("CompanyNameHeader").ToString() & "</a>"
+                                    Else
+                                        SpecializedExport.InnerHtml = "<a href=/Master/SpecializedExport.aspx>Specialized Export: Hawaii Telecom" & "</a>"
+                                    End If
+                                Else
+                                    SpecializedExport.Visible = False
+                                End If
+                            Else
+                                SpecializedExport.Visible = False
+                            End If
+
+                            Dim dtTotalFuelUsageByHubPerVehicle As DataTable = New DataTable()
+                            dtTotalFuelUsageByHubPerVehicle = OBJMaster.GetCustMenuMapingById(" and CustomerMenuLinkId = 2 ", dtPersonnel.Rows(0)("CustomerId").ToString())
+                           If dtTotalFuelUsageByHubPerVehicle IsNot Nothing And dtTotalFuelUsageByHubPerVehicle.Rows.Count > 0 Then
+                                Session("TotalFuelUsageByHubPerVehicle") = "TotalFuelUsageByHubPerVehicle"
+                                TotalFuelUsageByHubPerVehicle.Visible = True
+                            Else
+                                TotalFuelUsageByHubPerVehicle.Visible = False
+                            End If
+                        Else
+                            SpecializedExport.Visible = False
+                            TotalFuelUsageByHubPerVehicle.Visible = False
+                        End If
+                    Else
+                        SpecializedExport.Visible = False
+                        TotalFuelUsageByHubPerVehicle.Visible = False
+                    End If
+
+                End If
+            End If
+        End If
+        If Session("CompanyNameHeader") <> Nothing Then
+            If (Session("CompanyNameHeader").ToString <> "" And Session("CompanyNameHeader").ToString <> "Select All") Then
+                If hdfHide.Value <> "homepage" Then
+                    lblMasterCompany.Text = "Company: "
+                    lblMasterCompanyName.Text = " " + Session("CompanyNameHeader").ToString()
+                Else
+                    lblMasterCompany.Text = ""
+                    lblMasterCompanyName.Text = ""
+                End If
+            Else
+                lblMasterCompany.Text = ""
+                lblMasterCompanyName.Text = ""
+            End If
+        Else
+            lblMasterCompany.Text = ""
+            lblMasterCompanyName.Text = ""
+        End If
+
+    End Sub
+
+    Protected Sub Unnamed_LoggingOut(sender As Object, e As LoginCancelEventArgs)
 		Context.GetOwinContext().Authentication.SignOut()
 		Session.Abandon()
 	End Sub

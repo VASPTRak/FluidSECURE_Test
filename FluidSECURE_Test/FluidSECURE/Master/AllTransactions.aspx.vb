@@ -38,7 +38,7 @@ Public Class AllTransactions
                     BindColumns()
                     BindCustomer()
                     BindAllFuelType()
-                    BindAllPersonnels()
+                    'BindAllPersonnels()
                     BindAllHubs()
                     BindAllFluidSecureLink()
 
@@ -211,33 +211,33 @@ Public Class AllTransactions
 
     End Sub
 
-    Private Sub BindAllPersonnels()
-        Try
-            Dim dtPersonnel As DataTable = New DataTable()
-            Dim strConditions As String = ""
-            If (Session("CustomerId") <> 0 And Not Session("CustomerId") Is Nothing) Then
-                strConditions = " and T.CompanyId= " & Session("CustomerId") + " "
-            End If
+    'Private Sub BindAllPersonnels()
+    '    Try
+    '        Dim dtPersonnel As DataTable = New DataTable()
+    '        Dim strConditions As String = ""
+    '        If (Session("CustomerId") <> 0 And Not Session("CustomerId") Is Nothing) Then
+    '            strConditions = " and T.CompanyId= " & Session("CustomerId") + " "
+    '        End If
 
-            dtPersonnel = OBJMaster.GetTransactionsByCondition(strConditions, Convert.ToInt32(Session("PersonId").ToString()), Session("RoleId").ToString(), False)
-            Dim distinctDT As DataTable = dtPersonnel.DefaultView.ToTable(True, "PersonId", "PersonName")
+    '        dtPersonnel = OBJMaster.GetTransactionsByCondition(strConditions, Convert.ToInt32(Session("PersonId").ToString()), Session("RoleId").ToString(), False, 0, 0, False)
+    '        Dim distinctDT As DataTable = dtPersonnel.DefaultView.ToTable(True, "PersonId", "PersonName")
 
-            'DDL_users.DataSource = distinctDT
+    '        'DDL_users.DataSource = distinctDT
 
-            'DDL_users.DataValueField = "PersonId"
-            'DDL_users.DataTextField = "PersonName"
-            'DDL_users.DataBind()
+    '        'DDL_users.DataValueField = "PersonId"
+    '        'DDL_users.DataTextField = "PersonName"
+    '        'DDL_users.DataBind()
 
-            'DDL_users.Items.Insert(0, New ListItem("Select Personnel", "0"))
+    '        'DDL_users.Items.Insert(0, New ListItem("Select Personnel", "0"))
 
-        Catch ex As Exception
+    '    Catch ex As Exception
 
-            log.Error("Error occurred in BindAllPersonnels Exception is :" + ex.Message)
-            ErrorMessage.Visible = True
-            ErrorMessage.InnerText = "Error occurred while getting Personnels, please try again later."
+    '        log.Error("Error occurred in BindAllPersonnels Exception is :" + ex.Message)
+    '        ErrorMessage.Visible = True
+    '        ErrorMessage.InnerText = "Error occurred while getting Personnels, please try again later."
 
-        End Try
-    End Sub
+    '    End Try
+    'End Sub
 
     Private Sub BindAllHubs()
         Try
@@ -364,21 +364,15 @@ Public Class AllTransactions
 
             Dim dtTransactions As DataTable = New DataTable()
             Session("TranConditions") = strConditions
-            dtTransactions = OBJMaster.GetTransactionsByCondition(strConditions, Session("PersonId").ToString(), Session("RoleId").ToString(), False)
-
+            'dtTransactions = OBJMaster.GetTransactionsByCondition(strConditions, Session("PersonId").ToString(), Session("RoleId").ToString(), False, 0, 0, False)
+            dtTransactions = Me.GetTransactionsPageWise(1, strConditions, "", "", 1)
             Session("dtTransactions") = dtTransactions
 
             gvTransactions.DataSource = dtTransactions
             gvTransactions.DataBind()
-            lblTotalNumberOfRecords.Text = "Total Records: 0"
-            If dtTransactions IsNot Nothing Then
-                If dtTransactions.Rows.Count > 0 Then
-                    lblTotalNumberOfRecords.Text = "Total Records: " + Convert.ToString(dtTransactions.Rows.Count)
-                End If
-            End If
 
-            ViewState("Column_Name") = "TransactionId"
-            ViewState("Sort_Order") = "DESC"
+            'ViewState("Column_Name") = "TransactionId"
+            'ViewState("Sort_Order") = "DESC"
 
             Session("TranDDL_ColumnName") = DDL_ColumnName.SelectedValue
             Session("Trantxt_valueNameValue") = txt_value.Text
@@ -418,55 +412,37 @@ Public Class AllTransactions
 
     End Sub
 
-    Private Sub RebindData(sColimnName As String, sSortOrder As String)
-        Try
-            Dim dt As DataTable = CType(Session("dtTransactions"), DataTable)
-            dt.DefaultView.Sort = sColimnName + " " + sSortOrder
-            gvTransactions.DataSource = dt
-            gvTransactions.DataBind()
-            ViewState("Column_Name") = sColimnName
-            ViewState("Sort_Order") = sSortOrder
-        Catch ex As Exception
-            log.Error("Error occurred in RebindData Exception is :" + ex.Message)
-            ErrorMessage.Visible = True
-            ErrorMessage.InnerText = "Error occurred while getting data, please try again later."
-        End Try
-    End Sub
-
-    Protected Sub gvTransactions_Sorting(sender As Object, e As GridViewSortEventArgs) Handles gvTransactions.Sorting
-        Try
-            If e.SortExpression = ViewState("Column_Name").ToString() Then
-                If ViewState("Sort_Order").ToString() = "ASC" Then
-                    RebindData(e.SortExpression, "DESC")
-                Else
-                    RebindData(e.SortExpression, "ASC")
-                End If
-
-            Else
-                RebindData(e.SortExpression, "ASC")
-            End If
-        Catch ex As Exception
-            log.Error("Error occurred in gvTransactions_Sorting Exception is :" + ex.Message)
-            ErrorMessage.Visible = True
-            ErrorMessage.InnerText = "Error occurred while getting data, please try again later."
-        End Try
-
-    End Sub
-
-    Protected Sub gvTransactions_PageIndexChanging(ByVal sender As Object, ByVal e As System.Web.UI.WebControls.GridViewPageEventArgs) Handles gvTransactions.PageIndexChanging
-        Try
-            gvTransactions.PageIndex = e.NewPageIndex
-
-            Dim dtTransactions As DataTable = Session("dtTransactions")
-
-            gvTransactions.DataSource = dtTransactions
-            gvTransactions.DataBind()
+    'Private Sub RebindData(sColimnName As String, sSortOrder As String)
+    '    Try
+    '        Dim dt As DataTable = CType(Session("dtTransactions"), DataTable)
+    '        dt.DefaultView.Sort = sColimnName + " " + sSortOrder
+    '        gvTransactions.DataSource = dt
+    '        gvTransactions.DataBind()
+    '        ViewState("Column_Name") = sColimnName
+    '        ViewState("Sort_Order") = sSortOrder
+    '    Catch ex As Exception
+    '        log.Error("Error occurred in RebindData Exception is :" + ex.Message)
+    '        ErrorMessage.Visible = True
+    '        ErrorMessage.InnerText = "Error occurred while getting data, please try again later."
+    '    End Try
+    'End Sub
 
 
-        Catch ex As Exception
-            log.Error("Error occurred in gvTransactions_PageIndexChanging Exception is :" + ex.Message)
-        End Try
-    End Sub
+
+    'Protected Sub gvTransactions_PageIndexChanging(ByVal sender As Object, ByVal e As System.Web.UI.WebControls.GridViewPageEventArgs) Handles gvTransactions.PageIndexChanging
+    '    Try
+    '        gvTransactions.PageIndex = e.NewPageIndex
+
+    '        Dim dtTransactions As DataTable = Session("dtTransactions")
+
+    '        gvTransactions.DataSource = dtTransactions
+    '        gvTransactions.DataBind()
+
+
+    '    Catch ex As Exception
+    '        log.Error("Error occurred in gvTransactions_PageIndexChanging Exception is :" + ex.Message)
+    '    End Try
+    'End Sub
 
     Protected Sub DDL_ColumnName_SelectedIndexChanged(sender As Object, e As EventArgs) Handles DDL_ColumnName.SelectedIndexChanged
         Try
@@ -680,6 +656,7 @@ Public Class AllTransactions
     Protected Sub gvTransactions_RowDataBound(sender As Object, e As GridViewRowEventArgs)
         Try
 
+
             If (e.Row.RowType = DataControlRowType.DataRow) Then
                 Dim TransactionStatus As String = gvTransactions.DataKeys(e.Row.RowIndex).Values("TransactionStatusText").ToString()
 
@@ -818,5 +795,149 @@ Public Class AllTransactions
             ErrorMessage.InnerText = "Error occurred while getting data, please try again later."
         End Try
     End Sub
+    Private Sub PopulatePager(ByVal recordCount As Integer, ByVal currentPage As Integer)
+        Dim dblPageCount As Double = CType((CType(recordCount, Decimal) / Decimal.Parse(20)), Double)
+        Dim pageCount As Integer = CType(Math.Ceiling(dblPageCount), Integer)
+        Dim pages As New List(Of ListItem)
 
+        If (pageCount > 0) Then
+
+            Dim showMax As Integer = 10
+            Dim startPage As Integer = currentPage - 10
+            Dim endPage As Integer = currentPage + 9
+
+            If (currentPage <> 1) Then
+                pages.Add(New ListItem("First", "1", (currentPage > 1)))
+            End If
+
+            If (startPage <= 0) Then
+                endPage = 10
+                startPage = 1
+            ElseIf (currentPage > startPage) Then
+                startPage = currentPage
+                endPage = startPage + 9
+                pages.Add(New ListItem("...", startPage - 10, True))
+            End If
+
+            If (endPage > pageCount) Then
+                endPage = pageCount
+                startPage = endPage - showMax - 1
+            End If
+
+
+            For i = startPage To endPage
+                If (Convert.ToInt16(i) > 0 And Convert.ToInt16(endPage) > 1) Then
+                    pages.Add(New ListItem(i.ToString, i.ToString, (i <> currentPage)))
+                End If
+            Next
+
+            'If (endPage <= pageCount) Then
+            '    pages.Add(New ListItem("...", endPage + 1, True))
+            'End If
+            If (currentPage <> pageCount) Then
+                If (pageCount > 10) Then
+                    If (currentPage + 10 <= pageCount) Then
+                        pages.Add(New ListItem("...", endPage + 1, True))
+                    End If
+                End If
+                pages.Add(New ListItem("Last", pageCount.ToString, (currentPage < pageCount)))
+            End If
+
+        End If
+        rptPager.DataSource = pages
+        rptPager.DataBind()
+
+    End Sub
+    Protected Sub Page_Changed(ByVal sender As Object, ByVal e As EventArgs)
+        Dim pageIndex As Integer = Integer.Parse(CType(sender, LinkButton).CommandArgument)
+
+        Dim dtTransactions As DataTable = New DataTable()
+        Dim strConditions As String = ""
+        If (Not Session("TranConditions") Is Nothing) Then
+            strConditions = Session("TranConditions")
+        End If
+
+        dtTransactions = Me.GetTransactionsPageWise(pageIndex, strConditions, gvTransactions.Attributes("CustomSortFields"),
+                                                   gvTransactions.Attributes("CustomSortDirection"), 0)
+
+        'Session("dtTransactions") = dtTransactions
+
+        gvTransactions.DataSource = dtTransactions
+        gvTransactions.DataBind()
+    End Sub
+
+    Private Function GetTransactionsPageWise(ByVal pageIndex As Integer, strConditions As String, CustomSortFields As String, CustomSortDirection As String,
+                                             firstLoad As Boolean) As DataTable
+        'https://www.youtube.com/watch?v=roW6nUG7jx0
+
+        OBJMaster = New MasterBAL()
+        Dim dtTransactions As DataTable = New DataTable()
+        Dim dsT As New DataSet()
+        If (firstLoad = True Or CustomSortFields = "TransactionId") Then
+            dsT = OBJMaster.GetTransactionsByCondition(strConditions, Session("PersonId").ToString(), Session("RoleId").ToString(), False,
+                                                       pageIndex, 20, 1, "", "")
+
+        Else
+            dsT = OBJMaster.GetTransactionsByCondition(strConditions, Session("PersonId").ToString(), Session("RoleId").ToString(), False,
+                                                       pageIndex, 20, 1, gvTransactions.Attributes("CustomSortFields"),
+                                                       gvTransactions.Attributes("CustomSortDirection"))
+        End If
+        Dim recordCount As Integer = dsT.Tables(1).Rows(0)("TotalCount")
+        Me.PopulatePager(recordCount, pageIndex)
+
+        lblTotalNumberOfRecords.Text = "Total Records: 0"
+        If dsT.Tables(1) IsNot Nothing Then
+            If dsT.Tables(1).Rows.Count > 0 Then
+                lblTotalNumberOfRecords.Text = "Total Records: " + Convert.ToString(dsT.Tables(1).Rows(0)("TotalCount"))
+            End If
+        End If
+
+        Return dsT.Tables(0)
+    End Function
+
+    Private Sub SortGridView(gv As GridView, e As GridViewSortEventArgs, ByRef sortdirection As SortDirection, ByRef sortfield As String)
+        sortfield = e.SortExpression
+        sortdirection = e.SortDirection
+        If (gv.Attributes("CustomSortFields") IsNot Nothing And gv.Attributes("CustomSortDirection") IsNot Nothing) Then
+            If (sortfield = gv.Attributes("CustomSortFields")) Then
+                If (gv.Attributes("CustomSortDirection") = "ASC") Then
+                    sortdirection = SortDirection.Descending
+                Else
+                    sortdirection = SortDirection.Ascending
+                End If
+            End If
+        End If
+
+        gv.Attributes("CustomSortFields") = sortfield
+        gv.Attributes("CustomSortDirection") = IIf(sortdirection = SortDirection.Ascending, "ASC", "DESC")
+
+    End Sub
+
+    Protected Sub gvTransactions_Sorting(sender As Object, e As GridViewSortEventArgs) Handles gvTransactions.Sorting
+        Try
+
+            Dim sortDirection As SortDirection = SortDirection.Ascending
+            Dim sortField As String = String.Empty
+
+            SortGridView(gvTransactions, e, sortDirection, sortField)
+            Dim strDirection = IIf(sortDirection = SortDirection.Ascending, "ASC", "DESC")
+
+            Dim dtTransactions As DataTable = New DataTable()
+            Dim strConditions As String = ""
+            If (Not Session("TranConditions") Is Nothing) Then
+                strConditions = Session("TranConditions")
+            End If
+
+            dtTransactions = Me.GetTransactionsPageWise(gvTransactions.PageIndex + 1, strConditions, e.SortExpression, e.SortDirection, 0)
+
+            gvTransactions.DataSource = dtTransactions
+            gvTransactions.DataBind()
+
+        Catch ex As Exception
+            log.Error("Error occurred in gvTransactions_Sorting Exception is :" + ex.Message)
+            ErrorMessage.Visible = True
+            ErrorMessage.InnerText = "Error occurred while getting data, please try again later."
+        End Try
+
+    End Sub
 End Class

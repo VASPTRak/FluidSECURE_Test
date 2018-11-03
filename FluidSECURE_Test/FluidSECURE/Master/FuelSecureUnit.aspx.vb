@@ -31,78 +31,90 @@ Public Class FuelSecureUnit
 				Response.Redirect("/home")
 
 			Else
-				If Not IsPostBack Then
-					Session("FirmanameValue") = ""
-					Session("WifiSSIDValue") = ""
-					GetCustomers(Convert.ToInt32(Session("PersonId").ToString()), Session("RoleId").ToString())
-					BindTimeZones()
-					BindTiming()
-					BindDays()
-					If (Not Request.QueryString("SiteId") = Nothing And Not Request.QueryString("SiteId") = "") Then
-						HDF_SiteID.Value = Request.QueryString("SiteId")
-						BindSiteDetails(Request.QueryString("SiteId"))
-						btnFirst.Visible = True
-						btnNext.Visible = True
-						btnprevious.Visible = True
-						btnLast.Visible = True
-						lblHeader.Text = "Edit FluidSecure Link Information"
+                If Not IsPostBack Then
+                    Session("FirmanameValue") = ""
+                    Session("WifiSSIDValue") = ""
+                    GetCustomers(Convert.ToInt32(Session("PersonId").ToString()), Session("RoleId").ToString())
+                    BindTimeZones()
+                    BindTiming()
+                    BindDays()
+                    If (Not Request.QueryString("SiteId") = Nothing And Not Request.QueryString("SiteId") = "") Then
+                        HDF_SiteID.Value = Request.QueryString("SiteId")
+                        BindSiteDetails(Request.QueryString("SiteId"))
+                        btnFirst.Visible = True
+                        btnNext.Visible = True
+                        btnprevious.Visible = True
+                        btnLast.Visible = True
+                        lblHeader.Text = "Edit FluidSecure Link Information"
 
-						If (Request.QueryString("RecordIs") = "New") Then
-							message.Visible = True
-							message.InnerText = "Record saved"
-						End If
+                        If (Request.QueryString("RecordIs") = "New") Then
+                            message.Visible = True
+                            message.InnerText = "Record saved"
+                        End If
 
-						txtSiteNo.Enabled = False
+                        txtSiteNo.Enabled = False
 
-						If Session("RoleName") = "SuperAdmin" Then
-							txtwifissid.Enabled = True
-						Else
-							txtwifissid.Enabled = False
-						End If
+                    Else
+                        If Session("RoleName") <> "SuperAdmin" Then
+                            Response.Redirect("~/Master/AllFuelSecureUnits.aspx")
+                        End If
 
-					Else
-						btnFirst.Visible = False
-						btnNext.Visible = False
-						btnprevious.Visible = False
-						btnLast.Visible = False
-						lblof.Visible = False
-						divActivate.Visible = False
-						lblHeader.Text = "Add FluidSecure Link Information"
-						txtSiteNo.Enabled = False
+                        btnFirst.Visible = False
+                        btnNext.Visible = False
+                        btnprevious.Visible = False
+                        btnLast.Visible = False
+                        lblof.Visible = False
+                        divActivate.Visible = False
+                        lblHeader.Text = "Add FluidSecure Link Information"
+                        txtSiteNo.Enabled = False
 
-						Dim result As DataSet
-						OBJMaster = New MasterBAL()
-						result = OBJMaster.checkLaunchedAndExistedVersionAndUpdate("", "", 0, 2)
+                        Dim result As DataSet
+                        OBJMaster = New MasterBAL()
+                        result = OBJMaster.checkLaunchedAndExistedVersionAndUpdate("", "", 0, 2)
 
-						If result IsNot Nothing Then
-							If result.Tables(0) IsNot Nothing Then
-								If result.Tables(0).Rows.Count > 0 Then
-									txt_FirmwareVer.Text = result.Tables(0).Rows(0)("launchedversion")
-								Else
-									txt_FirmwareVer.Text = ""
-								End If
-							Else
-								txt_FirmwareVer.Text = ""
-							End If
-						Else
-							txt_FirmwareVer.Text = ""
-						End If
+                        If result IsNot Nothing Then
+                            If result.Tables(0) IsNot Nothing Then
+                                If result.Tables(0).Rows.Count > 0 Then
+                                    txt_FirmwareVer.Text = result.Tables(0).Rows(0)("launchedversion")
+                                Else
+                                    txt_FirmwareVer.Text = ""
+                                End If
+                            Else
+                                txt_FirmwareVer.Text = ""
+                            End If
+                        Else
+                            txt_FirmwareVer.Text = ""
+                        End If
 
-					End If
-					DDL_TimeZone_SelectedIndexChanged(Nothing, Nothing)
+                    End If
+                    DDL_TimeZone_SelectedIndexChanged(Nothing, Nothing)
 
-					txtwifissid.Focus()
+                    txtwifissid.Focus()
 
-					'Allo Super admin to update current version
-					If Session("RoleName") = "SuperAdmin" Then
-						txt_FirmwareVer.Enabled = True
-					Else
-						txt_FirmwareVer.Enabled = False
-					End If
+                    'Allo Super admin to update current version
+                    If Session("RoleName") = "SuperAdmin" Then
+                        txt_FirmwareVer.Enabled = True
+                    Else
+                        txt_FirmwareVer.Enabled = False
+                    End If
 
 
-				End If
-			End If
+                End If
+
+                If Session("RoleName") = "SuperAdmin" Then
+                    divShowHideReplacingLink.Visible = False
+                    txtwifissid.Enabled = True
+                Else
+                    divShowHideReplacingLink.Visible = True
+                    If chk_EnableDisableLinkName.Checked Then
+                        txtwifissid.Enabled = True
+                    Else
+                        txtwifissid.Enabled = False
+                    End If
+
+                End If
+
+            End If
 
 
 		Catch ex As Exception
@@ -195,8 +207,8 @@ Public Class FuelSecureUnit
 			ViewState("dtTanks") = dtTanks
 			DDL_Tank.DataSource = dtTanks
 			DDL_Tank.DataTextField = "TankNumberNameForView"
-			DDL_Tank.DataValueField = "TankId"
-			DDL_Tank.DataBind()
+            DDL_Tank.DataValueField = "TankNumber"
+            DDL_Tank.DataBind()
 			DDL_Tank.Items.Insert(0, New ListItem("Select Tank Number", "0"))
 
 		Catch ex As Exception
@@ -218,18 +230,21 @@ Public Class FuelSecureUnit
 			ddlCustomer.DataBind()
 			ddlCustomer.Items.Insert(0, New ListItem("Select Company", "0"))
 
-			If (Not Session("RoleName") = "SuperAdmin") Then
-				ddlCustomer.SelectedIndex = 1
-				ddlCustomer.Enabled = False
-				divCompany.Visible = False
-				ddlCustomer.Visible = False
+            If (Not Session("RoleName") = "SuperAdmin" And Not Session("RoleName") = "GroupAdmin") Then
+                ddlCustomer.SelectedIndex = 1
+                ddlCustomer.Enabled = False
+                divCompany.Visible = False
+                ddlCustomer.Visible = False
 
-			End If
+            End If
 
-			If (Session("CustomerId") <> 0 And Not Session("CustomerId") Is Nothing) Then
-				ddlCustomer.SelectedIndex = 1
-
-			End If
+            If (Session("CustomerId") <> 0 And Not Session("CustomerId") Is Nothing) Then
+                If (Session("RoleName") = "GroupAdmin") Then
+                    ddlCustomer.SelectedValue = Session("CustomerId")
+                Else
+                    ddlCustomer.SelectedIndex = 1
+                End If
+            End If
 
 			ddlCustomer_SelectedIndexChanged(Nothing, Nothing)
 
@@ -314,23 +329,37 @@ Public Class FuelSecureUnit
 			dtSite = OBJMaster.GetSiteId(SiteID)
 			Dim cnt As Integer = 0
 			If (dtSite.Rows.Count > 0) Then
+                Dim isValid As Boolean = False
+                If (Session("RoleName") = "GroupAdmin") Then
+                    Dim dtCustOld As DataTable = New DataTable()
 
-				If (Not Session("RoleName") = "SuperAdmin") Then
+                    dtCustOld = OBJMaster.GetCustomerDetailsByPersonID(Convert.ToInt32(Session("PersonId").ToString()), Session("RoleId").ToString(), Session("CustomerId").ToString())
+                    For Each drCusts As DataRow In dtCustOld.Rows
+                        If (drCusts("CustomerId") = dtSite.Rows(0)("CustomerId").ToString()) Then
+                            isValid = True
+                            Exit For
+                        End If
 
-					Dim dtCust As DataTable = New DataTable()
+                    Next
+                End If
 
-					dtCust = OBJMaster.GetCustomerDetailsByPersonID(Convert.ToInt32(Session("PersonId").ToString()), Session("RoleId").ToString(), Session("CustomerId").ToString())
 
-					If (dtCust.Rows(0)("CustomerId").ToString() <> dtSite.Rows(0)("CustomerId").ToString()) Then
+                If (Not Session("RoleName") = "SuperAdmin" And Not isValid = True) Then
 
-						ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "NotValidUser();", True)
+                    Dim dtCust As DataTable = New DataTable()
 
-						Return
-					End If
+                    dtCust = OBJMaster.GetCustomerDetailsByPersonID(Convert.ToInt32(Session("PersonId").ToString()), Session("RoleId").ToString(), Session("CustomerId").ToString())
 
-				End If
+                    If (dtCust.Rows(0)("CustomerId").ToString() <> dtSite.Rows(0)("CustomerId").ToString()) Then
 
-				BindSiteTimings(SiteID)
+                        'ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "NotValidUser();", True)
+                        Response.Redirect("/home")
+                        Return
+                    End If
+
+                End If
+
+                BindSiteTimings(SiteID)
 				BindSiteDays(SiteID)
 				txtSiteNo.Text = dtSite.Rows(0)("SiteNumber").ToString()
 				txtSiteAddress.Text = dtSite.Rows(0)("SiteAddress").ToString()
@@ -347,12 +376,12 @@ Public Class FuelSecureUnit
 
 				Session("OldCompanyId") = ddlCustomer.SelectedValue
 
-				If (Not Session("RoleName") = "SuperAdmin") Then
-					ddlCustomer.Enabled = False
-				End If
+                If (Not Session("RoleName") = "SuperAdmin" And Not Session("RoleName") = "GroupAdmin") Then
+                    ddlCustomer.Enabled = False
+                End If
 
-				'GetFuelType(ddlCustomer.SelectedValue)
-				ddlCustomer_SelectedIndexChanged(Nothing, Nothing)
+                'GetFuelType(ddlCustomer.SelectedValue)
+                ddlCustomer_SelectedIndexChanged(Nothing, Nothing)
 				BindHoseDetails(SiteID)
 
 				OBJMaster = New MasterBAL()
@@ -380,29 +409,34 @@ Public Class FuelSecureUnit
 					cnt = dtAllSite.Rows.IndexOf(dr) + 1
 
 				End If
-				If (cnt >= HDF_TotalSite.Value) Then
-					btnNext.Enabled = False
-					btnLast.Enabled = False
-					btnFirst.Enabled = True
-					btnprevious.Enabled = True
-				ElseIf (cnt <= 1) Then
-					btnNext.Enabled = True
-					btnLast.Enabled = True
-					btnFirst.Enabled = False
-					btnprevious.Enabled = False
-				ElseIf (cnt > 1 And cnt < HDF_TotalSite.Value) Then
-					btnNext.Enabled = True
+                If (HDF_TotalSite.Value = 1) Then
+                    btnNext.Enabled = False
+                    btnLast.Enabled = False
+                    btnFirst.Enabled = False
+                    btnprevious.Enabled = False
+                ElseIf (cnt >= HDF_TotalSite.Value) Then
+                    btnNext.Enabled = False
+                    btnLast.Enabled = False
+                    btnFirst.Enabled = True
+                    btnprevious.Enabled = True
+                ElseIf (cnt <= 1) Then
+                    btnNext.Enabled = True
+                    btnLast.Enabled = True
+                    btnFirst.Enabled = False
+                    btnprevious.Enabled = False
+                ElseIf (cnt > 1 And cnt < HDF_TotalSite.Value) Then
+                    btnNext.Enabled = True
 					btnLast.Enabled = True
 					btnFirst.Enabled = True
 					btnprevious.Enabled = True
 				End If
-				If cnt = 1 And HDF_TotalSite.Value.ToString() = "1" Then
-					btnNext.Enabled = False
-					btnLast.Enabled = False
-					btnFirst.Enabled = False
-					btnprevious.Enabled = False
-				End If
-				lblof.Text = cnt & " of " & HDF_TotalSite.Value.ToString()
+                'If cnt = 1 And HDF_TotalSite.Value.ToString() = "1" Then
+                '	btnNext.Enabled = False
+                '	btnLast.Enabled = False
+                '	btnFirst.Enabled = False
+                '	btnprevious.Enabled = False
+                'End If
+                lblof.Text = cnt & " of " & HDF_TotalSite.Value.ToString()
 
 				If (ConfigurationManager.AppSettings("AllowActivityLogin").ToString().ToLower() = "yes") Then
 					beforeData = CreateData(SiteID, True)
@@ -436,8 +470,8 @@ Public Class FuelSecureUnit
 
 				'txtankNumber.Text = dtHose.Rows(0)("TankNumber").ToString()
 				Try
-					DDL_Tank.SelectedValue = dtHose.Rows(0)("TankId").ToString()
-				Catch ex As Exception
+                    DDL_Tank.SelectedValue = dtHose.Rows(0)("TankNumber").ToString()
+                Catch ex As Exception
 					DDL_Tank.SelectedIndex = 0
 				End Try
 
@@ -835,45 +869,46 @@ Public Class FuelSecureUnit
 				FuelingDay = afterFuelingDay
 			End If
 
-			Dim data As String = "SiteID = " & SiteID & " ; " &
-									"FluidSecure Link Number = " & txtSiteNo.Text.Replace(",", " ") & " ; " &
-									"FluidSecure Link Current Name (SSID) = " & txtwifissid.Text.Replace(",", " ") & " ; " &
-									"FluidSecure New Name (will change on next fueling) = " & txt_ReplaceableHoseName.Text.Replace(",", " ") & " ; " &
-									"Tank Number = " & DDL_Tank.SelectedItem.Text.Replace(",", " ") & " ; " &
-									"Product in Tank = " & ddlFuelType.SelectedItem.Text.Replace(",", " ") & " ; " &
-									"Authorized Fueling Times = " & FuelingTimes & " ; " &
-									"Authorized Fueling Days = " & FuelingDay & " ; " &
-									"Export Code = " & txt_ExportCode.Text.Replace(",", " ") & " ; " &
-									"Units measured = " & txtUnitsmeasured.Text.Replace(",", " ") & " ; " &
-									"Pulses = " & txt_Pulses.Text.Replace(",", " ") & " ; " &
-									"Pulser Ratio = " & txtPulserRatio.Text.Replace(",", " ") & " ; " &
-									"Time Zone = " & DDL_TimeZone.SelectedItem.Text.Replace(",", " ") & " ; " &
-									"Selected time zone = " & LBL_TimeZone.Text.Replace(",", " ") & " ; " &
-									"Assign this FS link to all Vehicles having the same fueling product = " & IIf(chk_vehicleMap.Checked = True, "Yes", "No") & " ; " &
-									"Assign this FS link to all Personnel = " & IIf(chk_personnelMap.Checked = True, "Yes", "No") & " ; " &
-									"Disable Geo Location = " & IIf(CHK_DisableGeoLocation.Checked = True, "Yes", "No") & " ; " &
-									"Latitude = " & txtLat.Text.Replace(",", " ") & " ; " &
-									"Longitude = " & txtLong.Text.Replace(",", " ") & " ; " &
-									"Address = " & txtSiteAddress.Text.Replace(",", " ") & " ; " &
-									"Pump On Time = " & txtPumpOnTime.Text & " ; " &
-									"Pump Off Time = " & txtPumpOnTime.Text & " ; " &
-									"MAC Address = " & txtIpAddress.Text.Replace(",", " ") & " ; " &
-									"Connected Hub = " & lblConnectedHub.Text.Replace(",", " ") & " ; " &
-									"Company = " & ddlCustomer.SelectedItem.Text.Replace(",", " ") & " ; " &
-									"Original Name Of FluidSecure Link = " & TXT_OriginalNameOfFluidSecure.Text.Replace(",", " ") & " ; " &
-									"Current Firmware Version = " & IIf(Session("RoleName") = "CustomerAdmin", Session("FirmanameValue").ToString().Replace(",", " "), txt_FirmwareVer.Text.Replace(",", " ")) & " ; " &
-									"Is FluidSecure Link Busy = " & IIf(CHK_IsBusy.Checked = True, "Yes", "No") & " ; " &
-									"Order Sequence = " & txtDisplayOrder.Text.Replace(",", " ") & " ; " &
-									"FSNP Mac Address = " & txtFSNPMacAddress.Text.Replace(",", " ") & " ; " &
-									"Pulser Timing Adjust = " & txtSwitchTimeB.Text.Replace(",", " ") & " ; " &
-									"Number Of Zero Transaction = " & txtNumberOfZeroTransaction.Text.Replace(",", " ") & " ; " &
-									"Reconfigure Link = " & CHK_ReconfigureLink.Checked & " ; " &
-									"Activate = " & CHK_Activate.Checked & " ; "
+            Dim data As String = "SiteID = " & SiteID & " ; " &
+                                    "FluidSecure Link Number = " & txtSiteNo.Text.Replace(",", " ") & " ; " &
+                                    "FluidSecure Link Current Name (SSID) = " & txtwifissid.Text.Replace(",", " ") & " ; " &
+                                    "FluidSecure New Name (will change on next fueling) = " & txt_ReplaceableHoseName.Text.Replace(",", " ") & " ; " &
+                                    "Tank Number = " & DDL_Tank.SelectedValue.ToString().Replace(",", " ") & " ; " &
+                                    "Product in Tank = " & ddlFuelType.SelectedItem.Text.Replace(",", " ") & " ; " &
+                                    "Authorized Fueling Times = " & FuelingTimes & " ; " &
+                                    "Authorized Fueling Days = " & FuelingDay & " ; " &
+                                    "Export Code = " & txt_ExportCode.Text.Replace(",", " ") & " ; " &
+                                    "Units measured = " & txtUnitsmeasured.Text.Replace(",", " ") & " ; " &
+                                    "Pulses = " & txt_Pulses.Text.Replace(",", " ") & " ; " &
+                                    "Pulser Ratio = " & txtPulserRatio.Text.Replace(",", " ") & " ; " &
+                                    "Time Zone = " & DDL_TimeZone.SelectedItem.Text.Replace(",", " ") & " ; " &
+                                    "Selected time zone = " & LBL_TimeZone.Text.Replace(",", " ") & " ; " &
+                                    "Assign this FS link to all Vehicles having the same fueling product = " & IIf(chk_vehicleMap.Checked = True, "Yes", "No") & " ; " &
+                                    "Assign this FS link to all Personnel = " & IIf(chk_personnelMap.Checked = True, "Yes", "No") & " ; " &
+                                    "Disable Geo Location = " & IIf(CHK_DisableGeoLocation.Checked = True, "Yes", "No") & " ; " &
+                                    "Latitude = " & txtLat.Text.Replace(",", " ") & " ; " &
+                                    "Longitude = " & txtLong.Text.Replace(",", " ") & " ; " &
+                                    "Address = " & txtSiteAddress.Text.Replace(",", " ") & " ; " &
+                                    "Pump On Time = " & txtPumpOnTime.Text & " ; " &
+                                    "Pump Off Time = " & txtPumpOnTime.Text & " ; " &
+                                    "MAC Address = " & txtIpAddress.Text.Replace(",", " ") & " ; " &
+                                    "Connected Hub = " & lblConnectedHub.Text.Replace(",", " ") & " ; " &
+                                    "Company = " & ddlCustomer.SelectedItem.Text.Replace(",", " ") & " ; " &
+                                    "Original Name Of FluidSecure Link = " & TXT_OriginalNameOfFluidSecure.Text.Replace(",", " ") & " ; " &
+                                    "Current Firmware Version = " & IIf(Session("RoleName") = "CustomerAdmin", Session("FirmanameValue").ToString().Replace(",", " "), txt_FirmwareVer.Text.Replace(",", " ")) & " ; " &
+                                    "Is FluidSecure Link Busy = " & IIf(CHK_IsBusy.Checked = True, "Yes", "No") & " ; " &
+                                    "Order Sequence = " & txtDisplayOrder.Text.Replace(",", " ") & " ; " &
+                                    "FSNP Mac Address = " & txtFSNPMacAddress.Text.Replace(",", " ") & " ; " &
+                                    "Pulser Timing Adjust = " & txtSwitchTimeB.Text.Replace(",", " ") & " ; " &
+                                    "Number Of Zero Transaction = " & txtNumberOfZeroTransaction.Text.Replace(",", " ") & " ; " &
+                                    "Reconfigure Link = " & CHK_ReconfigureLink.Checked & " ; " &
+                                    "Enable Link name = " & IIf(chk_EnableDisableLinkName.Checked = True, "Yes", "No") & " ; " &
+                                    "Activate = " & CHK_Activate.Checked & " ; "
 
-			'"Tank Monitor = " & IIf(Chk_TankMonitor.Checked = True, "Yes", "No") & " ; " &
-			'"Tank Monitor Number = " & txtTankMonitorNo.Text.Replace(",", " ") & " ; " &
+            '"Tank Monitor = " & IIf(Chk_TankMonitor.Checked = True, "Yes", "No") & " ; " &
+            '"Tank Monitor Number = " & txtTankMonitorNo.Text.Replace(",", " ") & " ; " &
 
-			Return data
+            Return data
 		Catch ex As Exception
 			log.Error(String.Format("Error Occurred while CreateData. Error is {0}.", ex.Message))
 			Return ""
@@ -978,47 +1013,50 @@ Public Class FuelSecureUnit
 			End If
 			Dim dtTanks As DataTable = New DataTable()
 			dtTanks = ViewState("dtTanks")
-			Dim dv As DataView = dtTanks.DefaultView
-			dv.RowFilter = "TankId=" & DDL_Tank.SelectedValue
-			dtTanks = dv.ToTable()
+            Dim dv As DataView = dtTanks.DefaultView
+
+            Dim dttankInfo As DataTable = New DataTable()
+            OBJMaster = New MasterBAL()
+            dttankInfo = OBJMaster.GetTankbyConditions(" and t.CustomerId = " & ddlCustomer.SelectedValue.ToString() & " and TankNumber = '" & DDL_Tank.SelectedValue & "'", Convert.ToInt32(Session("PersonId")), Session("RoleId").ToString())
+            dv.RowFilter = "TankId=" & dttankInfo.Rows(0)("TankId").ToString()
+            dtTanks = dv.ToTable()
 			ddlFuelType.SelectedValue = dtTanks.Rows(0)("FuelTypeId")
 			Dim result As Integer = 0
-
-			If SiteId = 0 Then
-				'If Session("RoleName") = "CustomerAdmin" Then
-				result = OBJMaster.SaveUpdateSite(SiteId, 0, Nothing, txtSiteAddress.Text, txt_ExportCode.Text, ddlCustomer.SelectedValue, Convert.ToInt32(Session("PersonId")), Lat, Lng,
-												 HoseId, DDL_Tank.SelectedItem.Text, CVPulserRatio, txtwifissid.Text.Trim(), ddlFuelType.SelectedValue, "", txtPumpOffTime.Text, txtPumpOnTime.Text,
-												 "N", Nothing, txt_ReplaceableHoseName.Text, txtUnitsmeasured.Text, txt_Pulses.Text, DDL_TimeZone.SelectedValue, TXT_OriginalNameOfFluidSecure.Text,
-												 CHK_DisableGeoLocation.Checked, CHK_IsBusy.Checked, txtIpAddress.Text.ToLower(), txt_FirmwareVer.Text, Convert.ToInt32(txtSwitchTimeB.Text), DDL_Tank.SelectedValue, DisplayOrder,
-												  NumberOfZeroTransaction, CHK_Activate.Checked, txtFSNPMacAddress.Text, CHK_ReconfigureLink.Checked) ', chk_isReplaced.Checked
-				'Else
-				'    result = OBJMaster.SaveUpdateSite(SiteId, 0, Nothing, txtSiteAddress.Text, txt_ExportCode.Text, ddlCustomer.SelectedValue, Convert.ToInt32(Session("PersonId")), Lat, Lng,
-				'                                 HoseId, txtankNumber.Text, CVPulserRatio, txtwifissid.Text, ddlFuelType.SelectedValue, "", txtPumpOffTime.Text, txtPumpOnTime.Text,
-				'                                 IIf(Chk_TankMonitor.Checked = True, "Y", "N"), TankMonitorNo, txt_ReplaceableHoseName.Text, txtUnitsmeasured.Text, txt_Pulses.Text, DDL_TimeZone.SelectedValue, TXT_OriginalNameOfFluidSecure.Text,
-				'                                 CHK_DisableGeoLocation.Checked, CHK_IsBusy.Checked, txtIpAddress.Text.ToLower(), txt_FirmwareVer.Text, Convert.ToInt32(txtSwitchTimeB.Text)) ', chk_isReplaced.Checked
-				'End If
-			Else
-				If Session("RoleName") = "CustomerAdmin" Then
-					If Session("WifiSSIDValue").ToString() <> txtwifissid.Text Then
-						ErrorMessage.Visible = True
-						ErrorMessage.InnerText = "You Do Not have access To change FluidSecure Link Current Name (SSID)."
-						ErrorMessage.Focus()
-						Return
-					End If
-				End If
-				If Session("RoleName") = "CustomerAdmin" Then
-					result = OBJMaster.SaveUpdateSite(SiteId, txtSiteNo.Text, Nothing, txtSiteAddress.Text, txt_ExportCode.Text, ddlCustomer.SelectedValue, Convert.ToInt32(Session("PersonId")), Lat, Lng,
-												 HoseId, DDL_Tank.SelectedItem.Text, CVPulserRatio, txtwifissid.Text.Trim(), ddlFuelType.SelectedValue, "", txtPumpOffTime.Text, txtPumpOnTime.Text,
-												 "N", Nothing, txt_ReplaceableHoseName.Text, txtUnitsmeasured.Text, txt_Pulses.Text, DDL_TimeZone.SelectedValue, TXT_OriginalNameOfFluidSecure.Text,
-												 CHK_DisableGeoLocation.Checked, CHK_IsBusy.Checked, txtIpAddress.Text.ToLower(), Session("FirmanameValue").ToString, Convert.ToInt32(txtSwitchTimeB.Text), DDL_Tank.SelectedValue, DisplayOrder,
-													  NumberOfZeroTransaction, CHK_Activate.Checked, txtFSNPMacAddress.Text, CHK_ReconfigureLink.Checked) ', chk_isReplaced.Checked
-				Else
-					result = OBJMaster.SaveUpdateSite(SiteId, txtSiteNo.Text, Nothing, txtSiteAddress.Text, txt_ExportCode.Text, ddlCustomer.SelectedValue, Convert.ToInt32(Session("PersonId")), Lat, Lng,
-												 HoseId, DDL_Tank.SelectedItem.Text, CVPulserRatio, txtwifissid.Text.Trim(), ddlFuelType.SelectedValue, "", txtPumpOffTime.Text, txtPumpOnTime.Text,
-												 "N", Nothing, txt_ReplaceableHoseName.Text, txtUnitsmeasured.Text, txt_Pulses.Text, DDL_TimeZone.SelectedValue, TXT_OriginalNameOfFluidSecure.Text,
-												 CHK_DisableGeoLocation.Checked, CHK_IsBusy.Checked, txtIpAddress.Text.ToLower(), txt_FirmwareVer.Text, Convert.ToInt32(txtSwitchTimeB.Text), DDL_Tank.SelectedValue, DisplayOrder,
-													  NumberOfZeroTransaction, CHK_Activate.Checked, txtFSNPMacAddress.Text, CHK_ReconfigureLink.Checked) ', chk_isReplaced.Checked
-				End If
+            If SiteId = 0 Then
+                'If Session("RoleName") = "CustomerAdmin" Then
+                result = OBJMaster.SaveUpdateSite(SiteId, 0, Nothing, txtSiteAddress.Text, txt_ExportCode.Text, ddlCustomer.SelectedValue, Convert.ToInt32(Session("PersonId")), Lat, Lng,
+                                                 HoseId, DDL_Tank.SelectedValue, CVPulserRatio, txtwifissid.Text.Trim(), ddlFuelType.SelectedValue, "", txtPumpOffTime.Text, txtPumpOnTime.Text,
+                                                 "N", Nothing, txt_ReplaceableHoseName.Text, txtUnitsmeasured.Text, txt_Pulses.Text, DDL_TimeZone.SelectedValue, TXT_OriginalNameOfFluidSecure.Text,
+                                                 CHK_DisableGeoLocation.Checked, CHK_IsBusy.Checked, txtIpAddress.Text.ToLower(), txt_FirmwareVer.Text, Convert.ToInt32(txtSwitchTimeB.Text), dttankInfo.Rows(0)("TankId").ToString(), DisplayOrder,
+                                                  NumberOfZeroTransaction, CHK_Activate.Checked, txtFSNPMacAddress.Text, CHK_ReconfigureLink.Checked) ', chk_isReplaced.Checked
+                'Else
+                '    result = OBJMaster.SaveUpdateSite(SiteId, 0, Nothing, txtSiteAddress.Text, txt_ExportCode.Text, ddlCustomer.SelectedValue, Convert.ToInt32(Session("PersonId")), Lat, Lng,
+                '                                 HoseId, txtankNumber.Text, CVPulserRatio, txtwifissid.Text, ddlFuelType.SelectedValue, "", txtPumpOffTime.Text, txtPumpOnTime.Text,
+                '                                 IIf(Chk_TankMonitor.Checked = True, "Y", "N"), TankMonitorNo, txt_ReplaceableHoseName.Text, txtUnitsmeasured.Text, txt_Pulses.Text, DDL_TimeZone.SelectedValue, TXT_OriginalNameOfFluidSecure.Text,
+                '                                 CHK_DisableGeoLocation.Checked, CHK_IsBusy.Checked, txtIpAddress.Text.ToLower(), txt_FirmwareVer.Text, Convert.ToInt32(txtSwitchTimeB.Text)) ', chk_isReplaced.Checked
+                'End If
+            Else
+                If Session("RoleName") <> "SuperAdmin" Then
+                    If (Session("WifiSSIDValue").ToString() <> txtwifissid.Text) And chk_EnableDisableLinkName.Checked = False Then
+                        ErrorMessage.Visible = True
+                        ErrorMessage.InnerText = "You Do Not have access To change FluidSecure Link Current Name (SSID)."
+                        ErrorMessage.Focus()
+                        Return
+                    End If
+                End If
+                If Session("RoleName") = "SuperAdmin" Then
+                    result = OBJMaster.SaveUpdateSite(SiteId, txtSiteNo.Text, Nothing, txtSiteAddress.Text, txt_ExportCode.Text, ddlCustomer.SelectedValue, Convert.ToInt32(Session("PersonId")), Lat, Lng,
+                                                 HoseId, DDL_Tank.SelectedValue, CVPulserRatio, txtwifissid.Text.Trim(), ddlFuelType.SelectedValue, "", txtPumpOffTime.Text, txtPumpOnTime.Text,
+                                                 "N", Nothing, txt_ReplaceableHoseName.Text, txtUnitsmeasured.Text, txt_Pulses.Text, DDL_TimeZone.SelectedValue, TXT_OriginalNameOfFluidSecure.Text,
+                                                 CHK_DisableGeoLocation.Checked, CHK_IsBusy.Checked, txtIpAddress.Text.ToLower(), Session("FirmanameValue").ToString, Convert.ToInt32(txtSwitchTimeB.Text), dttankInfo.Rows(0)("TankId").ToString(), DisplayOrder,
+                                                      NumberOfZeroTransaction, CHK_Activate.Checked, txtFSNPMacAddress.Text, CHK_ReconfigureLink.Checked) ', chk_isReplaced.Checked
+                Else
+                    result = OBJMaster.SaveUpdateSite(SiteId, txtSiteNo.Text, Nothing, txtSiteAddress.Text, txt_ExportCode.Text, ddlCustomer.SelectedValue, Convert.ToInt32(Session("PersonId")), Lat, Lng,
+                                                 HoseId, DDL_Tank.SelectedValue, CVPulserRatio, txtwifissid.Text.Trim(), ddlFuelType.SelectedValue, "", txtPumpOffTime.Text, txtPumpOnTime.Text,
+                                                 "N", Nothing, txt_ReplaceableHoseName.Text, txtUnitsmeasured.Text, txt_Pulses.Text, DDL_TimeZone.SelectedValue, TXT_OriginalNameOfFluidSecure.Text,
+                                                 CHK_DisableGeoLocation.Checked, CHK_IsBusy.Checked, txtIpAddress.Text.ToLower(), txt_FirmwareVer.Text, Convert.ToInt32(txtSwitchTimeB.Text), dttankInfo.Rows(0)("TankId").ToString(), DisplayOrder,
+                                                      NumberOfZeroTransaction, CHK_Activate.Checked, txtFSNPMacAddress.Text, CHK_ReconfigureLink.Checked) ', chk_isReplaced.Checked
+                End If
 			End If
 
 			If result > 0 Then
@@ -1444,8 +1482,11 @@ Public Class FuelSecureUnit
 			Dim dtTanks As DataTable = New DataTable()
 			dtTanks = ViewState("dtTanks")
 			Dim dv As DataView = dtTanks.DefaultView
-			dv.RowFilter = "TankId=" & DDL_Tank.SelectedValue
-			dtTanks = dv.ToTable()
+            Dim dttankInfo As DataTable = New DataTable()
+            OBJMaster = New MasterBAL()
+            dttankInfo = OBJMaster.GetTankbyConditions(" and t.CustomerId = " & ddlCustomer.SelectedValue.ToString() & " and TankNumber = '" & DDL_Tank.SelectedValue & "'", Convert.ToInt32(Session("PersonId")), Session("RoleId").ToString())
+            dv.RowFilter = "TankId=" & dttankInfo.Rows(0)("TankId").ToString()
+            dtTanks = dv.ToTable()
 			ddlFuelType.SelectedValue = dtTanks.Rows(0)("FuelTypeId")
 		Catch ex As Exception
 			log.Error("Error occurred in DDL_Tank_SelectedIndexChanged Exception is :" + ex.Message)
@@ -1504,4 +1545,23 @@ Public Class FuelSecureUnit
 		ValidateAndSaveFSLink(SaveAndAddNew, False)
 
 	End Sub
+
+    Protected Sub chk_EnableDisableLinkName_CheckedChanged(sender As Object, e As EventArgs)
+        Try
+            If Session("RoleName") = "SuperAdmin" Then
+                txtwifissid.Enabled = True
+            Else
+                If chk_EnableDisableLinkName.Checked Then
+                    txtwifissid.Enabled = True
+                Else
+                    txtwifissid.Enabled = False
+                End If
+
+            End If
+        Catch ex As Exception
+            log.Error("Error occurred in chk_EnableDisableLinkName_CheckedChanged Exception is :" + ex.Message)
+            ErrorMessage.Visible = True
+            ErrorMessage.InnerText = "Error occurred while getting data, please try again later."
+        End Try
+    End Sub
 End Class

@@ -101,7 +101,7 @@ Public Class TankInventoryReconciliation
             DDL_Customer.DataBind()
             DDL_Customer.Items.Insert(0, New ListItem("Select Company", "0"))
 
-            If (Not Session("RoleName") = "SuperAdmin") Then
+            If (Not Session("RoleName") = "SuperAdmin" And Not Session("RoleName") = "GroupAdmin") Then
                 DDL_Customer.SelectedIndex = 1
                 DDL_Customer.Enabled = False
                 DDL_Customer.Visible = False
@@ -111,7 +111,11 @@ Public Class TankInventoryReconciliation
             Session("CostingMethodForDelivery") = dtCust.Rows(0)("CostingMethod").ToString()
 
             If (Session("CustomerId") <> 0 And Not Session("CustomerId") Is Nothing) Then
-                DDL_Customer.SelectedIndex = 1
+                If (Session("RoleName") = "GroupAdmin") Then
+                    DDL_Customer.SelectedValue = Session("CustomerId")
+                Else
+                    DDL_Customer.SelectedIndex = 1
+                End If
                 'If dtCust.Rows(0)("CostingMethod").ToString() = "1" Then
                 '    DeliDiv.Visible = False
                 'Else
@@ -711,7 +715,22 @@ Public Class TankInventoryReconciliation
             dtTank = OBJMaster.GetTankInventorybyId(Convert.ToInt32(hdnTankInventory.Value))
             If dtTank IsNot Nothing Then
                 If dtTank.Rows.Count > 0 Then
-                    If (Not Session("RoleName") = "SuperAdmin") Then
+
+                    Dim isValid As Boolean = False
+                    If (Session("RoleName") = "GroupAdmin") Then
+                        Dim dtCustOld As DataTable = New DataTable()
+
+                        dtCustOld = OBJMaster.GetCustomerDetailsByPersonID(Convert.ToInt32(Session("PersonId").ToString()), Session("RoleId").ToString(), Session("CustomerId").ToString())
+                        For Each drCusts As DataRow In dtCustOld.Rows
+                            If (drCusts("CustomerId") = dtTank.Rows(0)("CompanyId").ToString()) Then
+                                isValid = True
+                                Exit For
+                            End If
+
+                        Next
+                    End If
+
+                    If (Not Session("RoleName") = "SuperAdmin" And Not isValid = True) Then
 
                         Dim dtCust As DataTable = New DataTable()
 
@@ -719,8 +738,8 @@ Public Class TankInventoryReconciliation
 
                         If (dtCust.Rows(0)("CustomerId").ToString() <> dtTank.Rows(0)("CompanyId").ToString()) Then
 
-                            ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "NotValidUser();", True)
-
+                            'ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "NotValidUser();", True)
+                            Response.Redirect("/home")
                             Return
                         End If
 

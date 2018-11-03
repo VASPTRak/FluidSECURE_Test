@@ -39,12 +39,19 @@
                         </div>
                     </div>
                     <div class="row col-md-12 col-sm-12 col-xs-12">
-                        <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
+                        <%--<div class="form-group col-md-3 col-sm-3 textright col-xs-12">
                             <label>
                                 Contact Address:</label>
                         </div>
                         <div class="form-group col-md-3 col-sm-3 col-xs-12">
                             <asp:TextBox ID="txtContactAddress" runat="server" CssClass="form-control input-sm" MaxLength="50" Rows="4" TextMode="MultiLine" TabIndex="3"></asp:TextBox>
+                        </div>--%>
+                        <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
+                            <label>
+                                Street Address:</label>
+                        </div>
+                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                            <asp:TextBox ID="txtStreetAddress" runat="server" CssClass="form-control input-sm" MaxLength="50" TabIndex="3"></asp:TextBox>
                         </div>
                         <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
                             <label>
@@ -59,6 +66,40 @@
                                 ControlToValidate="txtContactNumber" Display="Dynamic" ForeColor="Red" SetFocusOnError="True" ValidationGroup="CustValidation"></asp:RequiredFieldValidator>
                         </div>
                     </div>
+                    <div class="row col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
+                            <label>
+                                City:</label>
+                        </div>
+                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                            <asp:TextBox ID="txtCity" runat="server" CssClass="form-control input-sm" TabIndex="4"></asp:TextBox>
+                        </div>
+                        <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
+                            <label>
+                                State:</label>
+                        </div>
+
+                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                            <asp:TextBox ID="txtState" runat="server" CssClass="form-control input-sm" TabIndex="5"></asp:TextBox>
+                        </div>
+                    </div>
+                    <div class="row col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
+                            <label>
+                                Zip:</label>
+                        </div>
+                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                            <asp:TextBox ID="txtZip" runat="server" CssClass="form-control input-sm" TabIndex="6"></asp:TextBox>
+                        </div>
+                        <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
+                            <label>
+                                Country:</label>
+                        </div>
+                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                            <asp:TextBox ID="txtCountry" runat="server" CssClass="form-control input-sm" TabIndex="7"></asp:TextBox>
+                        </div>
+                    </div>
+
                     <div class="row col-md-12 col-sm-12 col-xs-12">
 
                         <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
@@ -146,34 +187,33 @@
             }
 
 		}--%>
-		
-		function IsValidPhoneNumber() {
-			//debugger;
 
-			var phoneNumber = document.getElementById('<%=txtContactNumber.ClientID%>').value;
-			//it accepts 850-294-2562(us phone number- req date 09-Dec-2016)
-			//if (phoneNumber.match(/^(?:(?:\+?1\s*(?:[.-]\s*)?)?(?:\(\s*([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9])\s*\)|([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9]))\s*(?:[.-]\s*)?)?([2-9]1[02-9]|[2-9][02-9]1|[2-9][02-9]{2})\s*(?:[.-]\s*)?([0-9]{4})(?:\s*(?:#|x\.?|ext\.?|extension)\s*(\d+))?$/)) {
-			//phone number accept all number with only (-)+space symbols.
-			if (phoneNumber.match(/^[- +()]*[0-9][- +()0-9]*$/)) {
-				document.getElementById('<%=lblErrorMsg.ClientID%>').style.display = "none";
-				//return true;
-				if (Page_ClientValidate("CustValidation"))
-					return true;
-				else
-					return false;
+        function IsValidPhoneNumber() {
+            //debugger;
+
+            var phoneNumber = document.getElementById('<%=txtContactNumber.ClientID%>').value;
+		    //it accepts 850-294-2562(us phone number- req date 09-Dec-2016)
+		    //if (phoneNumber.match(/^(?:(?:\+?1\s*(?:[.-]\s*)?)?(?:\(\s*([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9])\s*\)|([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9]))\s*(?:[.-]\s*)?)?([2-9]1[02-9]|[2-9][02-9]1|[2-9][02-9]{2})\s*(?:[.-]\s*)?([0-9]{4})(?:\s*(?:#|x\.?|ext\.?|extension)\s*(\d+))?$/)) {
+		    //phone number accept all number with only (-)+space symbols.
+		    if (phoneNumber.match(/^[- +()]*[0-9][- +()0-9]*$/)) {
+		        document.getElementById('<%=lblErrorMsg.ClientID%>').style.display = "none";
+			    //return true;
+			    if (Page_ClientValidate("CustValidation"))
+			        return true;
+			    else
+			        return false;
 			}
 			else {
-				document.getElementById('<%=lblErrorMsg.ClientID%>').style.display = "";
-				return false;
+			    document.getElementById('<%=lblErrorMsg.ClientID%>').style.display = "";
+			    return false;
 			}
 
-		}
+        }
 
         $(function () {
             loadFuction();
         });
-        function loadFuction()
-        {
+        function loadFuction() {
             $('[data-toggle="tooltip"]').tooltip();
             //$("#<%=txtContactNumber.ClientID%>").mask("999-999-9999");
         }
@@ -197,22 +237,22 @@
         }
     </style>
     <!--alert message popup-->
-        <div class="modal fade" tabindex="-1" role="dialog" id="SuccessMsg">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h3 class="modal-title text-center">FluidSecure</h3>
-                    </div>
-                    <div class="modal-body">
-                        <h4>Company registered successfully.</h4>
-                    </div>
-                    <div class="modal-footer nextButton">
-                        <input type="button" id="btnMyModalSuccessMsg" class="btn btn-success" onclick="window.location.href = '/Account/login'" value="Ok" />
-                    </div>
+    <div class="modal fade" tabindex="-1" role="dialog" id="SuccessMsg">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title text-center">FluidSecure</h3>
                 </div>
-                <!-- /.modal-content -->
+                <div class="modal-body">
+                    <h4>Company registered successfully.</h4>
+                </div>
+                <div class="modal-footer nextButton">
+                    <input type="button" id="btnMyModalSuccessMsg" class="btn btn-success" onclick="window.location.href = '/Account/login'" value="Ok" />
+                </div>
             </div>
-            <!-- /.modal-dialog -->
+            <!-- /.modal-content -->
         </div>
-        <!-- /.modal -->
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
 </asp:Content>

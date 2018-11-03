@@ -118,9 +118,10 @@
                         <p class="text-center green" id="messageNew"></p>
                         <p class="text-center red" id="ErrorMessageNew"></p>
                     </div>
-                    <div class="row col-md-12 col-sm-12 col-xs-12" style="margin-bottom: 10px;margin-left: 5px">
+                    <div class="row col-md-12 col-sm-12 col-xs-12" style="margin-bottom: 10px; margin-left: 5px">
                         <div class="row col-md-6 col-sm-6 col-xs-12 text-left">
-                            <b><asp:Label runat="server" ID="lblTotalNumberOfRecords"></asp:Label></b>
+                            <b>
+                                <asp:Label runat="server" ID="lblTotalNumberOfRecords"></asp:Label></b>
                         </div>
                         <div class="row col-md-6 col-sm-6 col-xs-12 text-right">
                             <asp:Button ID="btn_New" CssClass="btn btn-primary" runat="server" Text="Add new Transaction" OnClick="btn_New_Click" />
@@ -129,8 +130,9 @@
                     <div class="col-md-12 col-sm-12  col-xs-12" style="overflow-x: auto">
 
                         <asp:GridView ID="gvTransactions" CssClass="table table-bordered table-hover" runat="server" PageSize="20" AllowPaging="true"
-                            DataKeyNames="TransactionId,TransactionStatus,TransactionStatusText" AutoGenerateColumns="False" AllowSorting="true" 
-                            EmptyDataText="0 records found for selected search criteria" OnRowDataBound="gvTransactions_RowDataBound">
+                            DataKeyNames="TransactionId,TransactionStatus,TransactionStatusText" AutoGenerateColumns="False" AllowSorting="true"
+                            EmptyDataText="0 records found for selected search criteria" CustomSortFields="TransactionId" CustomSortDirection="DESC"
+                            OnRowDataBound="gvTransactions_RowDataBound">
                             <PagerSettings Mode="NumericFirstLast" FirstPageText="First" LastPageText="Last" />
                             <Columns>
                                 <asp:TemplateField HeaderText="Edit">
@@ -219,7 +221,7 @@
                                             runat="server" />
                                     </ItemTemplate>
                                 </asp:TemplateField>--%>
-                               <%-- <asp:TemplateField SortExpression="TransactionCost" ItemStyle-HorizontalAlign="Center" HeaderText="Transaction Cost">
+                                <%-- <asp:TemplateField SortExpression="TransactionCost" ItemStyle-HorizontalAlign="Center" HeaderText="Transaction Cost">
                                     <ItemTemplate>
                                         <asp:Label ID="lblCurrentLat" Text='<%# DataBinder.Eval(Container.DataItem, "TransactionCost")%>'
                                             runat="server" />
@@ -247,6 +249,14 @@
                             <EmptyDataRowStyle Font-Bold="True" ForeColor="Red" BackColor="white" BorderColor="red"
                                 BorderStyle="Solid" BorderWidth="1px" />
                         </asp:GridView>
+
+                        <div class="col-md-12 col-sm-12  col-xs-12" style="overflow-x: auto">
+                            <asp:Repeater ID="rptPager" runat="server">
+                                <ItemTemplate>
+                                    <asp:LinkButton ID="lnkPage" CssClass="customPaging" runat="server" Text='<%#Eval("Text") %>' CommandArgument='<%# Eval("Value") %>' Enabled='<%# Eval("Enabled") %>' OnClick="Page_Changed"></asp:LinkButton>
+                                </ItemTemplate>
+                            </asp:Repeater>
+                        </div>
 
                         <%-- <asp:TemplateField HeaderText="Delete">
                                     <ItemTemplate>

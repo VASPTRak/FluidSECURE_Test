@@ -1,0 +1,980 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+This file is used by the publish/package process of your Web project. You can customize the behavior of this process
+by editing this MSBuild file. In order to learn more about this please visit https://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <_NewBackgroundProfile>False</_NewBackgroundProfile>
+    <_PublishTargetUrl>D:\Soham\Pub FS</_PublishTargetUrl>
+  </PropertyGroup>
+  <ItemGroup>
+    <File Include="About.aspx">
+      <publishTime>09/26/2018 05:15:40</publishTime>
+    </File>
+    <File Include="Account/AddPhoneNumber.aspx">
+      <publishTime>09/26/2018 05:15:40</publishTime>
+    </File>
+    <File Include="Account/Confirm.aspx">
+      <publishTime>09/26/2018 05:15:41</publishTime>
+    </File>
+    <File Include="Account/Forgot.aspx">
+      <publishTime>09/26/2018 05:15:41</publishTime>
+    </File>
+    <File Include="Account/Lockout.aspx">
+      <publishTime>09/26/2018 05:15:41</publishTime>
+    </File>
+    <File Include="Account/Login.aspx">
+      <publishTime>09/26/2018 05:15:42</publishTime>
+    </File>
+    <File Include="Account/login.Master">
+      <publishTime>09/26/2018 05:15:42</publishTime>
+    </File>
+    <File Include="Account/Manage.aspx">
+      <publishTime>09/26/2018 05:15:42</publishTime>
+    </File>
+    <File Include="Account/ManageLogins.aspx">
+      <publishTime>09/26/2018 05:15:43</publishTime>
+    </File>
+    <File Include="Account/ManagePassword.aspx">
+      <publishTime>09/26/2018 05:15:43</publishTime>
+    </File>
+    <File Include="Account/OpenAuthProviders.ascx">
+      <publishTime>09/26/2018 05:15:44</publishTime>
+    </File>
+    <File Include="Account/Register.aspx">
+      <publishTime>09/26/2018 05:15:44</publishTime>
+    </File>
+    <File Include="Account/RegisterExternalLogin.aspx">
+      <publishTime>09/26/2018 05:15:44</publishTime>
+    </File>
+    <File Include="Account/ResetPassword.aspx">
+      <publishTime>09/26/2018 05:15:45</publishTime>
+    </File>
+    <File Include="Account/ResetPasswordConfirmation.aspx">
+      <publishTime>09/26/2018 05:15:45</publishTime>
+    </File>
+    <File Include="Account/TwoFactorAuthenticationSignIn.aspx">
+      <publishTime>09/26/2018 05:15:45</publishTime>
+    </File>
+    <File Include="Account/VerifyPhoneNumber.aspx">
+      <publishTime>09/26/2018 05:15:46</publishTime>
+    </File>
+    <File Include="Account/Web.config">
+      <publishTime>09/26/2018 05:15:46</publishTime>
+    </File>
+    <File Include="AuthenticationService.aspx">
+      <publishTime>09/26/2018 05:15:48</publishTime>
+    </File>
+    <File Include="AuthorizedEmail.txt">
+      <publishTime>09/26/2018 05:15:48</publishTime>
+    </File>
+    <File Include="bin/Antlr3.Runtime.dll">
+      <publishTime>09/26/2018 05:24:34</publishTime>
+    </File>
+    <File Include="bin/Antlr3.Runtime.pdb">
+      <publishTime>09/26/2018 05:24:34</publishTime>
+    </File>
+    <File Include="bin/AspNet.ScriptManager.bootstrap.dll">
+      <publishTime>09/26/2018 05:24:35</publishTime>
+    </File>
+    <File Include="bin/AspNet.ScriptManager.jQuery.dll">
+      <publishTime>09/26/2018 05:24:36</publishTime>
+    </File>
+    <File Include="bin/EntityFramework.dll">
+      <publishTime>09/26/2018 05:24:41</publishTime>
+    </File>
+    <File Include="bin/EntityFramework.SqlServer.dll">
+      <publishTime>09/26/2018 05:24:41</publishTime>
+    </File>
+    <File Include="bin/es-ES/Fuel Secure.resources.dll">
+      <publishTime>10/08/2018 05:26:18</publishTime>
+    </File>
+    <File Include="bin/Fuel Secure.dll">
+      <publishTime>10/08/2018 05:26:18</publishTime>
+    </File>
+    <File Include="bin/Fuel Secure.pdb">
+      <publishTime>10/08/2018 05:26:18</publishTime>
+    </File>
+    <File Include="bin/ICSharpCode.SharpZipLib.dll">
+      <publishTime>09/26/2018 05:25:44</publishTime>
+    </File>
+    <File Include="bin/log4net.dll">
+      <publishTime>09/26/2018 05:24:50</publishTime>
+    </File>
+    <File Include="bin/MathNet.Numerics.dll">
+      <publishTime>09/26/2018 05:24:52</publishTime>
+    </File>
+    <File Include="bin/Microsoft.AspNet.FriendlyUrls.dll">
+      <publishTime>09/26/2018 05:24:57</publishTime>
+    </File>
+    <File Include="bin/Microsoft.AspNet.Identity.Core.dll">
+      <publishTime>09/26/2018 05:24:57</publishTime>
+    </File>
+    <File Include="bin/Microsoft.AspNet.Identity.EntityFramework.dll">
+      <publishTime>09/26/2018 05:24:58</publishTime>
+    </File>
+    <File Include="bin/Microsoft.AspNet.Identity.Owin.dll">
+      <publishTime>09/26/2018 05:24:59</publishTime>
+    </File>
+    <File Include="bin/Microsoft.AspNet.Web.Optimization.WebForms.dll">
+      <publishTime>09/26/2018 05:25:06</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Owin.dll">
+      <publishTime>09/26/2018 05:25:07</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Owin.Host.SystemWeb.dll">
+      <publishTime>09/26/2018 05:25:08</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Owin.Security.Cookies.dll">
+      <publishTime>09/26/2018 05:25:10</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Owin.Security.dll">
+      <publishTime>09/26/2018 05:25:09</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Owin.Security.Facebook.dll">
+      <publishTime>09/26/2018 05:25:11</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Owin.Security.Google.dll">
+      <publishTime>09/26/2018 05:25:12</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Owin.Security.MicrosoftAccount.dll">
+      <publishTime>09/26/2018 05:25:13</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Owin.Security.OAuth.dll">
+      <publishTime>09/26/2018 05:25:13</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Owin.Security.Twitter.dll">
+      <publishTime>09/26/2018 05:25:14</publishTime>
+    </File>
+    <File Include="bin/Microsoft.ReportViewer.Common.dll">
+      <publishTime>09/26/2018 05:15:58</publishTime>
+    </File>
+    <File Include="bin/Microsoft.ReportViewer.DataVisualization.dll">
+      <publishTime>09/26/2018 05:15:58</publishTime>
+    </File>
+    <File Include="bin/Microsoft.ReportViewer.ProcessingObjectModel.dll">
+      <publishTime>09/26/2018 05:15:58</publishTime>
+    </File>
+    <File Include="bin/Microsoft.ReportViewer.WebForms.dll">
+      <publishTime>09/26/2018 05:15:59</publishTime>
+    </File>
+    <File Include="bin/Microsoft.ReportViewer.WinForms.dll">
+      <publishTime>09/26/2018 05:15:59</publishTime>
+    </File>
+    <File Include="bin/Microsoft.ScriptManager.MSAjax.dll">
+      <publishTime>09/26/2018 05:25:03</publishTime>
+    </File>
+    <File Include="bin/Microsoft.ScriptManager.WebForms.dll">
+      <publishTime>09/26/2018 05:25:05</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Web.Infrastructure.dll">
+      <publishTime>09/26/2018 05:25:26</publishTime>
+    </File>
+    <File Include="bin/MySql.Data.dll">
+      <publishTime>09/26/2018 05:25:30</publishTime>
+    </File>
+    <File Include="bin/Newtonsoft.Json.dll">
+      <publishTime>09/26/2018 05:25:33</publishTime>
+    </File>
+    <File Include="bin/NPOI.dll">
+      <publishTime>09/26/2018 05:25:39</publishTime>
+    </File>
+    <File Include="bin/NPOI.OOXML.dll">
+      <publishTime>09/26/2018 05:25:39</publishTime>
+    </File>
+    <File Include="bin/NPOI.OpenXml4Net.dll">
+      <publishTime>09/26/2018 05:25:40</publishTime>
+    </File>
+    <File Include="bin/NPOI.OpenXmlFormats.dll">
+      <publishTime>09/26/2018 05:25:40</publishTime>
+    </File>
+    <File Include="bin/Owin.dll">
+      <publishTime>09/26/2018 05:25:42</publishTime>
+    </File>
+    <File Include="bin/System.Web.Optimization.dll">
+      <publishTime>09/26/2018 05:25:06</publishTime>
+    </File>
+    <File Include="bin/System.Web.Providers.dll">
+      <publishTime>09/26/2018 05:25:00</publishTime>
+    </File>
+    <File Include="bin/WebForms_Basic.xml">
+      <publishTime>10/08/2018 05:26:17</publishTime>
+    </File>
+    <File Include="bin/WebGrease.dll">
+      <publishTime>09/26/2018 05:25:46</publishTime>
+    </File>
+    <File Include="Bundle.config">
+      <publishTime>09/26/2018 05:16:05</publishTime>
+    </File>
+    <File Include="Contact.aspx">
+      <publishTime>09/26/2018 05:16:05</publishTime>
+    </File>
+    <File Include="Content/bootstrap.css">
+      <publishTime>09/26/2018 05:16:06</publishTime>
+    </File>
+    <File Include="Content/bootstrap.min.css">
+      <publishTime>09/26/2018 05:16:06</publishTime>
+    </File>
+    <File Include="Content/homepage.css">
+      <publishTime>09/26/2018 05:16:06</publishTime>
+    </File>
+    <File Include="Content/images/ajax-loader.gif">
+      <publishTime>09/26/2018 05:16:06</publishTime>
+    </File>
+    <File Include="Content/images/android-iphone.png">
+      <publishTime>09/26/2018 05:16:06</publishTime>
+    </File>
+    <File Include="Content/images/AST.jpg">
+      <publishTime>09/26/2018 05:16:06</publishTime>
+    </File>
+    <File Include="Content/images/banner.gif">
+      <publishTime>09/26/2018 05:16:07</publishTime>
+    </File>
+    <File Include="Content/images/bttn_arrow.png">
+      <publishTime>09/26/2018 05:16:07</publishTime>
+    </File>
+    <File Include="Content/images/calendar.png">
+      <publishTime>09/26/2018 05:16:07</publishTime>
+    </File>
+    <File Include="Content/images/Cloud.png">
+      <publishTime>09/26/2018 05:16:07</publishTime>
+    </File>
+    <File Include="Content/images/Dashboard.jpg">
+      <publishTime>09/26/2018 05:16:07</publishTime>
+    </File>
+    <File Include="Content/images/dashboard1.jpg">
+      <publishTime>09/26/2018 05:16:07</publishTime>
+    </File>
+    <File Include="Content/images/dashboard2.jpg">
+      <publishTime>09/26/2018 05:16:07</publishTime>
+    </File>
+    <File Include="Content/images/dashboard3.jpg">
+      <publishTime>09/26/2018 05:16:07</publishTime>
+    </File>
+    <File Include="Content/images/dashboard4.jpg">
+      <publishTime>09/26/2018 05:16:07</publishTime>
+    </File>
+    <File Include="Content/images/FluidSECURELogo.png">
+      <publishTime>09/26/2018 05:16:08</publishTime>
+    </File>
+    <File Include="Content/images/FluidSECURELogo_withoutSlogan.png">
+      <publishTime>09/26/2018 05:16:08</publishTime>
+    </File>
+    <File Include="Content/images/header-background-2.png">
+      <publishTime>09/26/2018 05:16:08</publishTime>
+    </File>
+    <File Include="Content/images/header-background.png">
+      <publishTime>09/26/2018 05:16:08</publishTime>
+    </File>
+    <File Include="Content/images/Home-Bg.jpg">
+      <publishTime>09/26/2018 05:16:09</publishTime>
+    </File>
+    <File Include="Content/images/home-icon-1.png">
+      <publishTime>09/26/2018 05:16:09</publishTime>
+    </File>
+    <File Include="Content/images/home-icon-2.png">
+      <publishTime>09/26/2018 05:16:09</publishTime>
+    </File>
+    <File Include="Content/images/home-icon-3.png">
+      <publishTime>09/26/2018 05:16:09</publishTime>
+    </File>
+    <File Include="Content/images/home-icon-4.png">
+      <publishTime>09/26/2018 05:16:09</publishTime>
+    </File>
+    <File Include="Content/images/icons8-search-50.png">
+      <publishTime>09/26/2018 05:16:09</publishTime>
+    </File>
+    <File Include="Content/images/logo.gif">
+      <publishTime>09/26/2018 05:16:09</publishTime>
+    </File>
+    <File Include="Content/images/minus.png">
+      <publishTime>09/26/2018 05:16:09</publishTime>
+    </File>
+    <File Include="Content/images/patent.png">
+      <publishTime>09/26/2018 05:16:09</publishTime>
+    </File>
+    <File Include="Content/images/plus.png">
+      <publishTime>09/26/2018 05:16:10</publishTime>
+    </File>
+    <File Include="Content/images/trakLogo.jpg">
+      <publishTime>09/26/2018 05:16:10</publishTime>
+    </File>
+    <File Include="Content/images/trakMain.png">
+      <publishTime>09/26/2018 05:16:10</publishTime>
+    </File>
+    <File Include="Content/images/ui-bg_flat_0_aaaaaa_40x100.png">
+      <publishTime>09/26/2018 05:16:10</publishTime>
+    </File>
+    <File Include="Content/images/ui-bg_flat_75_ffffff_40x100.png">
+      <publishTime>09/26/2018 05:16:10</publishTime>
+    </File>
+    <File Include="Content/images/ui-bg_glass_55_fbf9ee_1x400.png">
+      <publishTime>09/26/2018 05:16:10</publishTime>
+    </File>
+    <File Include="Content/images/ui-bg_glass_65_ffffff_1x400.png">
+      <publishTime>09/26/2018 05:16:10</publishTime>
+    </File>
+    <File Include="Content/images/ui-bg_glass_75_dadada_1x400.png">
+      <publishTime>09/26/2018 05:16:10</publishTime>
+    </File>
+    <File Include="Content/images/ui-bg_glass_75_e6e6e6_1x400.png">
+      <publishTime>09/26/2018 05:16:10</publishTime>
+    </File>
+    <File Include="Content/images/ui-bg_glass_95_fef1ec_1x400.png">
+      <publishTime>09/26/2018 05:16:11</publishTime>
+    </File>
+    <File Include="Content/images/ui-bg_highlight-soft_75_cccccc_1x100.png">
+      <publishTime>09/26/2018 05:16:11</publishTime>
+    </File>
+    <File Include="Content/images/ui-icons_ffffff_256x240.png">
+      <publishTime>09/26/2018 05:16:11</publishTime>
+    </File>
+    <File Include="Content/jquery-ui.css">
+      <publishTime>09/26/2018 05:16:11</publishTime>
+    </File>
+    <File Include="Content/jquery.timepicker.min.css">
+      <publishTime>09/26/2018 05:16:11</publishTime>
+    </File>
+    <File Include="Content/Site.css">
+      <publishTime>09/26/2018 05:16:11</publishTime>
+    </File>
+    <File Include="Content/styleLogin.css">
+      <publishTime>09/26/2018 05:16:11</publishTime>
+    </File>
+    <File Include="Content/Templates/DepartmentImportTemplate.csv">
+      <publishTime>09/26/2018 05:16:11</publishTime>
+    </File>
+    <File Include="Content/Templates/DepartmentImportTemplate.txt">
+      <publishTime>09/26/2018 05:16:11</publishTime>
+    </File>
+    <File Include="Content/Templates/HubUserImportTemplate.csv">
+      <publishTime>09/26/2018 05:16:11</publishTime>
+    </File>
+    <File Include="Content/Templates/HubUserImportTemplate.txt">
+      <publishTime>09/26/2018 05:16:11</publishTime>
+    </File>
+    <File Include="Content/Templates/PersonnelImportTemplate.csv">
+      <publishTime>09/26/2018 05:16:12</publishTime>
+    </File>
+    <File Include="Content/Templates/PersonnelImportTemplate.txt">
+      <publishTime>09/26/2018 05:16:12</publishTime>
+    </File>
+    <File Include="Content/Templates/VehicleImportTemplate.csv">
+      <publishTime>09/26/2018 18:57:28</publishTime>
+    </File>
+    <File Include="Content/Templates/VehicleImportTemplate.txt">
+      <publishTime>09/26/2018 05:16:12</publishTime>
+    </File>
+    <File Include="Default.aspx">
+      <publishTime>09/26/2018 05:16:12</publishTime>
+    </File>
+    <File Include="DefectiveBluetoothInfoEmail.txt">
+      <publishTime>09/26/2018 05:16:13</publishTime>
+    </File>
+    <File Include="ErrorPages/Error.aspx">
+      <publishTime>09/26/2018 05:16:14</publishTime>
+    </File>
+    <File Include="ExternalHandler.ashx">
+      <publishTime>09/26/2018 05:16:14</publishTime>
+    </File>
+    <File Include="favicon.ico">
+      <publishTime>09/26/2018 05:16:14</publishTime>
+    </File>
+    <File Include="fonts/glyphicons-halflings-regular.eot">
+      <publishTime>09/26/2018 05:16:15</publishTime>
+    </File>
+    <File Include="fonts/glyphicons-halflings-regular.svg">
+      <publishTime>09/26/2018 05:16:15</publishTime>
+    </File>
+    <File Include="fonts/glyphicons-halflings-regular.ttf">
+      <publishTime>09/26/2018 05:16:15</publishTime>
+    </File>
+    <File Include="fonts/glyphicons-halflings-regular.woff">
+      <publishTime>09/26/2018 05:16:15</publishTime>
+    </File>
+    <File Include="Global.asax">
+      <publishTime>09/26/2018 05:16:17</publishTime>
+    </File>
+    <File Include="HandlerTrak.ashx">
+      <publishTime>09/26/2018 05:16:17</publishTime>
+    </File>
+    <File Include="home.aspx">
+      <publishTime>09/26/2018 05:16:18</publishTime>
+    </File>
+    <File Include="HtmlPage1.html">
+      <publishTime>09/26/2018 05:16:19</publishTime>
+    </File>
+    <File Include="LinkDefectiveEmail.txt">
+      <publishTime>09/26/2018 05:16:19</publishTime>
+    </File>
+    <File Include="LoginHandler.ashx">
+      <publishTime>09/26/2018 05:16:19</publishTime>
+    </File>
+    <File Include="Master/AllAutoTransactionExportSettings.aspx">
+      <publishTime>09/26/2018 05:16:19</publishTime>
+    </File>
+    <File Include="Master/AllCompanies.aspx">
+      <publishTime>09/26/2018 05:16:20</publishTime>
+    </File>
+    <File Include="Master/AllCustomizedExportTemplates.aspx">
+      <publishTime>09/26/2018 05:16:20</publishTime>
+    </File>
+    <File Include="Master/AllDeletedTransactions.aspx">
+      <publishTime>09/26/2018 05:16:20</publishTime>
+    </File>
+    <File Include="Master/AllDeliveryVeederTankMonitorDetails.aspx">
+      <publishTime>09/26/2018 05:16:21</publishTime>
+    </File>
+    <File Include="Master/AllDepartments.aspx">
+      <publishTime>09/26/2018 05:16:21</publishTime>
+    </File>
+    <File Include="Master/AllFirmwareUpgrade.aspx">
+      <publishTime>09/26/2018 05:16:21</publishTime>
+    </File>
+    <File Include="Master/AllFluidSecureHub.aspx">
+      <publishTime>09/26/2018 05:16:22</publishTime>
+    </File>
+    <File Include="Master/AllFSNPFirmwareUpgrades.aspx">
+      <publishTime>09/26/2018 05:16:22</publishTime>
+    </File>
+    <File Include="Master/AllFSVMFirmwareUpgrades.aspx">
+      <publishTime>09/26/2018 05:16:23</publishTime>
+    </File>
+    <File Include="Master/AllFuels.aspx">
+      <publishTime>09/26/2018 05:16:23</publishTime>
+    </File>
+    <File Include="Master/AllFuelSecureUnits.aspx">
+      <publishTime>09/26/2018 05:16:23</publishTime>
+    </File>
+    <File Include="Master/AllInventoryVeederTankMonitorDetails.aspx">
+      <publishTime>09/26/2018 05:16:24</publishTime>
+    </File>
+    <File Include="Master/AllOFFSiteTransactions.aspx">
+      <publishTime>09/26/2018 05:16:24</publishTime>
+    </File>
+    <File Include="Master/AllPersonnel.aspx">
+      <publishTime>09/26/2018 05:16:25</publishTime>
+    </File>
+    <File Include="Master/AllShipments.aspx">
+      <publishTime>09/26/2018 05:16:26</publishTime>
+    </File>
+    <File Include="Master/AllTankCharts.aspx">
+      <publishTime>09/26/2018 05:16:26</publishTime>
+    </File>
+    <File Include="Master/AllTankInventoryReconciliation.aspx">
+      <publishTime>09/26/2018 05:16:27</publishTime>
+    </File>
+    <File Include="Master/AllTanks.aspx">
+      <publishTime>09/26/2018 05:16:27</publishTime>
+    </File>
+    <File Include="Master/AllTotalizerMeterReconciliation.aspx">
+      <publishTime>09/26/2018 05:16:28</publishTime>
+    </File>
+    <File Include="Master/AllTransactions.aspx">
+      <publishTime>09/26/2018 05:16:29</publishTime>
+    </File>
+    <File Include="Master/AllVehicles.aspx">
+      <publishTime>09/26/2018 05:16:30</publishTime>
+    </File>
+    <File Include="Master/AutoTransactionExportSettings.aspx">
+      <publishTime>09/26/2018 05:16:30</publishTime>
+    </File>
+    <File Include="Master/Company.aspx">
+      <publishTime>09/27/2018 16:21:39</publishTime>
+    </File>
+    <File Include="Master/CustomizedExport.aspx">
+      <publishTime>09/26/2018 05:16:32</publishTime>
+    </File>
+    <File Include="Master/DayLightSaving.aspx">
+      <publishTime>09/26/2018 05:16:32</publishTime>
+    </File>
+    <File Include="Master/DeletedTransaction.aspx">
+      <publishTime>09/26/2018 05:16:33</publishTime>
+    </File>
+    <File Include="Master/Department.aspx">
+      <publishTime>09/26/2018 05:16:33</publishTime>
+    </File>
+    <File Include="Master/DeptImport.aspx">
+      <publishTime>09/26/2018 05:16:35</publishTime>
+    </File>
+    <File Include="Master/ExportToWINCC.aspx">
+      <publishTime>09/26/2018 05:16:35</publishTime>
+    </File>
+    <File Include="Master/ExportTransactions.aspx">
+      <publishTime>09/26/2018 05:16:36</publishTime>
+    </File>
+    <File Include="Master/FirmwareUpgrades.aspx">
+      <publishTime>10/03/2018 16:30:55</publishTime>
+    </File>
+    <File Include="Master/FluidSecureHub.aspx">
+      <publishTime>09/26/2018 05:16:37</publishTime>
+    </File>
+    <File Include="Master/FSNPFirmwareUpgrades.aspx">
+      <publishTime>10/03/2018 16:31:03</publishTime>
+    </File>
+    <File Include="Master/FSVMFirmwareUpgrades.aspx">
+      <publishTime>10/03/2018 16:31:27</publishTime>
+    </File>
+    <File Include="Master/Fuel.aspx">
+      <publishTime>09/26/2018 05:16:40</publishTime>
+    </File>
+    <File Include="Master/FuelSecureUnit.aspx">
+      <publishTime>09/26/2018 05:16:41</publishTime>
+    </File>
+    <File Include="Master/HubUserImport.aspx">
+      <publishTime>09/26/2018 05:16:42</publishTime>
+    </File>
+    <File Include="Master/IMEIPersonMapping.aspx">
+      <publishTime>09/26/2018 05:16:42</publishTime>
+    </File>
+    <File Include="Master/OFFSiteTransaction.aspx">
+      <publishTime>09/26/2018 05:16:44</publishTime>
+    </File>
+    <File Include="Master/Personnel.aspx">
+      <publishTime>10/08/2018 09:46:55</publishTime>
+    </File>
+    <File Include="Master/PersonnelImport.aspx">
+      <publishTime>09/26/2018 05:16:46</publishTime>
+    </File>
+    <File Include="Master/RegisterCompany.aspx">
+      <publishTime>09/26/2018 05:16:48</publishTime>
+    </File>
+    <File Include="Master/ResetPassword.aspx">
+      <publishTime>09/26/2018 05:16:49</publishTime>
+    </File>
+    <File Include="Master/ResetTermAndPrivacy.aspx">
+      <publishTime>09/26/2018 05:16:50</publishTime>
+    </File>
+    <File Include="Master/Shipment.aspx">
+      <publishTime>09/26/2018 05:16:51</publishTime>
+    </File>
+    <File Include="Master/SpecializedExport.aspx">
+      <publishTime>09/27/2018 20:02:55</publishTime>
+    </File>
+    <File Include="Master/Tank.aspx">
+      <publishTime>09/26/2018 05:16:53</publishTime>
+    </File>
+    <File Include="Master/TankChart.aspx">
+      <publishTime>09/26/2018 05:16:54</publishTime>
+    </File>
+    <File Include="Master/TankChartDetails.aspx">
+      <publishTime>09/26/2018 05:16:56</publishTime>
+    </File>
+    <File Include="Master/TankInventoryReconciliation.aspx">
+      <publishTime>10/08/2018 09:29:14</publishTime>
+    </File>
+    <File Include="Master/TotalizerMeterReconciliation.aspx">
+      <publishTime>09/26/2018 05:16:59</publishTime>
+    </File>
+    <File Include="Master/Transaction.aspx">
+      <publishTime>09/26/2018 05:17:00</publishTime>
+    </File>
+    <File Include="Master/UpdateTransactionCost.aspx">
+      <publishTime>09/26/2018 05:17:02</publishTime>
+    </File>
+    <File Include="Master/Vehicle.aspx">
+      <publishTime>09/27/2018 14:58:47</publishTime>
+    </File>
+    <File Include="Master/VehicleImport.aspx">
+      <publishTime>09/26/2018 05:17:05</publishTime>
+    </File>
+    <File Include="Master/VehiclePersonMapping.aspx">
+      <publishTime>09/26/2018 05:17:06</publishTime>
+    </File>
+    <File Include="Master/ViewCollectedDiagnosticLogs.aspx">
+      <publishTime>09/26/2018 05:17:08</publishTime>
+    </File>
+    <File Include="packages.config">
+      <publishTime>09/26/2018 05:23:09</publishTime>
+    </File>
+    <File Include="RegistrationEmail.txt">
+      <publishTime>09/26/2018 05:23:10</publishTime>
+    </File>
+    <File Include="RegistrationFailedLog.txt">
+      <publishTime>09/26/2018 05:23:10</publishTime>
+    </File>
+    <File Include="RegistrationLogs.txt">
+      <publishTime>09/26/2018 05:23:10</publishTime>
+    </File>
+    <File Include="Reports/BillingReportByDeptDetails.aspx">
+      <publishTime>09/26/2018 05:23:11</publishTime>
+    </File>
+    <File Include="Reports/BillingReportByDeptDetails.rdlc">
+      <publishTime>09/26/2018 05:23:11</publishTime>
+    </File>
+    <File Include="Reports/BillingReportByDeptDetailsReport.aspx">
+      <publishTime>09/26/2018 05:23:11</publishTime>
+    </File>
+    <File Include="Reports/BillingReportByDeptSummary.aspx">
+      <publishTime>09/26/2018 05:23:12</publishTime>
+    </File>
+    <File Include="Reports/BillingReportByDeptSummary.rdlc">
+      <publishTime>09/26/2018 05:23:12</publishTime>
+    </File>
+    <File Include="Reports/BillingReportByDeptSummaryReport.aspx">
+      <publishTime>09/26/2018 05:23:12</publishTime>
+    </File>
+    <File Include="Reports/BillingReportByVehicleSummary.aspx">
+      <publishTime>09/26/2018 05:23:12</publishTime>
+    </File>
+    <File Include="Reports/BillingReportByVehicleSummary.rdlc">
+      <publishTime>09/26/2018 05:23:13</publishTime>
+    </File>
+    <File Include="Reports/BillingReportByVehicleSummaryReport.aspx">
+      <publishTime>09/26/2018 05:23:13</publishTime>
+    </File>
+    <File Include="Reports/CompanyHostingDateReport.aspx">
+      <publishTime>09/26/2018 05:23:13</publishTime>
+    </File>
+    <File Include="Reports/CompanyHostingDateReport.rdlc">
+      <publishTime>09/26/2018 05:23:14</publishTime>
+    </File>
+    <File Include="Reports/CompanyHostingDateRpt.aspx">
+      <publishTime>09/26/2018 05:23:14</publishTime>
+    </File>
+    <File Include="Reports/CustomerWiseTransactionDetails.aspx">
+      <publishTime>09/26/2018 05:23:15</publishTime>
+    </File>
+    <File Include="Reports/CustomerWiseTransactionDetailsReport.aspx">
+      <publishTime>09/26/2018 05:23:15</publishTime>
+    </File>
+    <File Include="Reports/DepartmentReport.aspx">
+      <publishTime>09/26/2018 05:23:16</publishTime>
+    </File>
+    <File Include="Reports/DeptReport.rdlc">
+      <publishTime>09/26/2018 05:23:17</publishTime>
+    </File>
+    <File Include="Reports/DeptRPT.aspx">
+      <publishTime>09/26/2018 05:23:17</publishTime>
+    </File>
+    <File Include="Reports/DS_Reports.xsc">
+      <publishTime>10/05/2018 05:36:38</publishTime>
+    </File>
+    <File Include="Reports/DS_Reports.xss">
+      <publishTime>10/05/2018 05:36:38</publishTime>
+    </File>
+    <File Include="Reports/EstimatedCarbonFootprintbyVehicle.aspx">
+      <publishTime>09/26/2018 05:23:19</publishTime>
+    </File>
+    <File Include="Reports/EstimatedCarbonFootprintbyVehicle.rdlc">
+      <publishTime>09/26/2018 05:23:20</publishTime>
+    </File>
+    <File Include="Reports/EstimatedCarbonFootprintbyVehicleReport.aspx">
+      <publishTime>09/26/2018 05:23:20</publishTime>
+    </File>
+    <File Include="Reports/FluidSecureHub.rdlc">
+      <publishTime>09/26/2018 05:23:21</publishTime>
+    </File>
+    <File Include="Reports/FluidSecureHubReport.aspx">
+      <publishTime>09/26/2018 05:23:21</publishTime>
+    </File>
+    <File Include="Reports/FluidSecureHubRPT.aspx">
+      <publishTime>09/26/2018 05:23:22</publishTime>
+    </File>
+    <File Include="Reports/FluidsecureLinkTotalizerDataEntered.aspx">
+      <publishTime>09/26/2018 05:23:22</publishTime>
+    </File>
+    <File Include="Reports/FluidsecureLinkTotalizerDataEnteredReport.aspx">
+      <publishTime>09/26/2018 05:23:23</publishTime>
+    </File>
+    <File Include="Reports/FluidsecureLinkTotalizerDataEnteredrpt.rdlc">
+      <publishTime>09/26/2018 05:23:24</publishTime>
+    </File>
+    <File Include="Reports/FluidSecureUnitReport.aspx">
+      <publishTime>09/26/2018 05:23:24</publishTime>
+    </File>
+    <File Include="Reports/FluidSecureUnitReport.rdlc">
+      <publishTime>09/26/2018 05:23:26</publishTime>
+    </File>
+    <File Include="Reports/FluidSecureUnitRPT.aspx">
+      <publishTime>09/26/2018 05:23:26</publishTime>
+    </File>
+    <File Include="Reports/FluidSecureUnitsLocationReport.aspx">
+      <publishTime>09/26/2018 05:23:27</publishTime>
+    </File>
+    <File Include="Reports/PersonnelReport.aspx">
+      <publishTime>09/26/2018 05:23:27</publishTime>
+    </File>
+    <File Include="Reports/PersonnelReport.rdlc">
+      <publishTime>09/26/2018 05:23:28</publishTime>
+    </File>
+    <File Include="Reports/PersonnelRPT.aspx">
+      <publishTime>09/26/2018 05:23:28</publishTime>
+    </File>
+    <File Include="Reports/PriceHistorybyProduct.aspx">
+      <publishTime>09/26/2018 05:23:29</publishTime>
+    </File>
+    <File Include="Reports/PriceHistorybyProductReport.aspx">
+      <publishTime>09/26/2018 05:23:31</publishTime>
+    </File>
+    <File Include="Reports/ShipmentDetailReport.aspx">
+      <publishTime>09/26/2018 05:23:32</publishTime>
+    </File>
+    <File Include="Reports/ShipmentRPT.aspx">
+      <publishTime>09/26/2018 05:23:34</publishTime>
+    </File>
+    <File Include="Reports/TankBalance.aspx">
+      <publishTime>09/26/2018 05:23:35</publishTime>
+    </File>
+    <File Include="Reports/TankBalanceReport.aspx">
+      <publishTime>09/26/2018 05:23:36</publishTime>
+    </File>
+    <File Include="Reports/TankInventoryDataEntered.aspx">
+      <publishTime>09/26/2018 05:23:38</publishTime>
+    </File>
+    <File Include="Reports/TankInventoryDataEnteredReport.aspx">
+      <publishTime>09/26/2018 05:23:39</publishTime>
+    </File>
+    <File Include="Reports/TankInventoryDataEnteredrpt.rdlc">
+      <publishTime>09/26/2018 05:23:40</publishTime>
+    </File>
+    <File Include="Reports/TankReconciliation.aspx">
+      <publishTime>09/26/2018 05:23:41</publishTime>
+    </File>
+    <File Include="Reports/TankReconciliationReport.aspx">
+      <publishTime>09/26/2018 05:23:42</publishTime>
+    </File>
+    <File Include="Reports/TankReconciliationrpt.rdlc">
+      <publishTime>09/26/2018 05:23:44</publishTime>
+    </File>
+    <File Include="Reports/TotalFuelUsageByHubPerVehicle.aspx">
+      <publishTime>10/05/2018 05:52:13</publishTime>
+    </File>
+    <File Include="Reports/TotalFuelUsageByHubPerVehicleReport.aspx">
+      <publishTime>10/05/2018 16:32:44</publishTime>
+    </File>
+    <File Include="Reports/TotalizerMeterReconciliationR.aspx">
+      <publishTime>09/26/2018 05:23:44</publishTime>
+    </File>
+    <File Include="Reports/TotalizerMeterReconciliationReport.aspx">
+      <publishTime>09/26/2018 05:23:45</publishTime>
+    </File>
+    <File Include="Reports/TotalizerMeterReconciliationrpt.rdlc">
+      <publishTime>09/26/2018 05:23:47</publishTime>
+    </File>
+    <File Include="Reports/TransactionReportByDepartment.aspx">
+      <publishTime>09/26/2018 05:23:47</publishTime>
+    </File>
+    <File Include="Reports/TransactionReportByDept.rdlc">
+      <publishTime>09/26/2018 05:23:48</publishTime>
+    </File>
+    <File Include="Reports/TransactionReportByDeptReport.aspx">
+      <publishTime>09/26/2018 05:23:49</publishTime>
+    </File>
+    <File Include="Reports/TransactionReportByLocation.aspx">
+      <publishTime>09/26/2018 05:23:50</publishTime>
+    </File>
+    <File Include="Reports/TransactionReportByLocationReport.aspx">
+      <publishTime>09/26/2018 05:23:52</publishTime>
+    </File>
+    <File Include="Reports/TransactionReportByPersonnel.aspx">
+      <publishTime>09/26/2018 05:23:54</publishTime>
+    </File>
+    <File Include="Reports/TransactionReportByPersonnel.rdlc">
+      <publishTime>09/26/2018 05:23:55</publishTime>
+    </File>
+    <File Include="Reports/TransactionReportByPersonnelReport.aspx">
+      <publishTime>09/26/2018 05:23:55</publishTime>
+    </File>
+    <File Include="Reports/TransactionReportBySite.aspx">
+      <publishTime>09/26/2018 05:23:57</publishTime>
+    </File>
+    <File Include="Reports/TransactionReportBySiteReport.aspx">
+      <publishTime>09/26/2018 05:23:59</publishTime>
+    </File>
+    <File Include="Reports/TransactionReportByVehicle.aspx">
+      <publishTime>09/26/2018 05:24:00</publishTime>
+    </File>
+    <File Include="Reports/TransactionReportByVehicle.rdlc">
+      <publishTime>09/26/2018 05:24:02</publishTime>
+    </File>
+    <File Include="Reports/TransactionReportByVehicleReport.aspx">
+      <publishTime>09/26/2018 05:24:03</publishTime>
+    </File>
+    <File Include="Reports/TransactionReportsByDateTime.aspx">
+      <publishTime>09/26/2018 05:24:04</publishTime>
+    </File>
+    <File Include="Reports/TransactionReportsByDateTimeReport.aspx">
+      <publishTime>09/26/2018 05:24:06</publishTime>
+    </File>
+    <File Include="Reports/TransactionReportsByMilesPerGallon.aspx">
+      <publishTime>09/26/2018 05:24:08</publishTime>
+    </File>
+    <File Include="Reports/TransactionReportsByMilesPerGallonReport.aspx">
+      <publishTime>09/26/2018 05:24:09</publishTime>
+    </File>
+    <File Include="Reports/TransReportByMPGPerK.rdlc">
+      <publishTime>09/26/2018 05:24:11</publishTime>
+    </File>
+    <File Include="Reports/VehiclePerformance.aspx">
+      <publishTime>09/26/2018 05:24:11</publishTime>
+    </File>
+    <File Include="Reports/VehiclePerformanceReport.aspx">
+      <publishTime>09/26/2018 05:24:13</publishTime>
+    </File>
+    <File Include="Reports/VehicleReport.aspx">
+      <publishTime>09/26/2018 05:24:16</publishTime>
+    </File>
+    <File Include="Reports/VehicleReport.rdlc">
+      <publishTime>09/26/2018 05:24:17</publishTime>
+    </File>
+    <File Include="Reports/VehicleReportRPT.aspx">
+      <publishTime>09/26/2018 05:24:18</publishTime>
+    </File>
+    <File Include="Scripts/bootstrap-multiselect.css">
+      <publishTime>09/26/2018 05:24:19</publishTime>
+    </File>
+    <File Include="Scripts/bootstrap-multiselect.js">
+      <publishTime>09/26/2018 05:24:19</publishTime>
+    </File>
+    <File Include="Scripts/bootstrap.js">
+      <publishTime>09/26/2018 05:24:19</publishTime>
+    </File>
+    <File Include="Scripts/bootstrap.min.js">
+      <publishTime>09/26/2018 05:24:20</publishTime>
+    </File>
+    <File Include="Scripts/jquery-1.10.2.js">
+      <publishTime>09/26/2018 05:24:20</publishTime>
+    </File>
+    <File Include="Scripts/jquery-1.10.2.min.js">
+      <publishTime>09/26/2018 05:24:20</publishTime>
+    </File>
+    <File Include="Scripts/jquery-1.10.2.min.map">
+      <publishTime>09/26/2018 05:24:21</publishTime>
+    </File>
+    <File Include="Scripts/jquery-migrate-1.2.1.js">
+      <publishTime>09/26/2018 05:24:21</publishTime>
+    </File>
+    <File Include="Scripts/jquery-ui.min.js">
+      <publishTime>09/26/2018 05:24:21</publishTime>
+    </File>
+    <File Include="Scripts/jquery.maskedinput.js">
+      <publishTime>09/26/2018 05:24:21</publishTime>
+    </File>
+    <File Include="Scripts/jquery.quicksearch.js">
+      <publishTime>09/26/2018 05:24:21</publishTime>
+    </File>
+    <File Include="Scripts/jquery.searchabledropdown-1.0.8.min.js">
+      <publishTime>09/26/2018 05:24:22</publishTime>
+    </File>
+    <File Include="Scripts/jquery.searchabledropdown-1.0.8.src.js">
+      <publishTime>09/26/2018 05:24:22</publishTime>
+    </File>
+    <File Include="Scripts/jquery.timepicker.min.js">
+      <publishTime>09/26/2018 05:24:22</publishTime>
+    </File>
+    <File Include="Scripts/modernizr-2.6.2.js">
+      <publishTime>09/26/2018 05:24:22</publishTime>
+    </File>
+    <File Include="Scripts/respond.js">
+      <publishTime>09/26/2018 05:24:22</publishTime>
+    </File>
+    <File Include="Scripts/respond.min.js">
+      <publishTime>09/26/2018 05:24:22</publishTime>
+    </File>
+    <File Include="Scripts/validations.js">
+      <publishTime>09/26/2018 05:24:23</publishTime>
+    </File>
+    <File Include="Scripts/WebForms/DetailsView.js">
+      <publishTime>09/26/2018 05:24:23</publishTime>
+    </File>
+    <File Include="Scripts/WebForms/Focus.js">
+      <publishTime>09/26/2018 05:24:23</publishTime>
+    </File>
+    <File Include="Scripts/WebForms/GridView.js">
+      <publishTime>09/26/2018 05:24:23</publishTime>
+    </File>
+    <File Include="Scripts/WebForms/Menu.js">
+      <publishTime>09/26/2018 05:24:23</publishTime>
+    </File>
+    <File Include="Scripts/WebForms/MenuStandards.js">
+      <publishTime>09/26/2018 05:24:23</publishTime>
+    </File>
+    <File Include="Scripts/WebForms/MSAjax/MicrosoftAjax.js">
+      <publishTime>09/26/2018 05:24:24</publishTime>
+    </File>
+    <File Include="Scripts/WebForms/MSAjax/MicrosoftAjaxApplicationServices.js">
+      <publishTime>09/26/2018 05:24:24</publishTime>
+    </File>
+    <File Include="Scripts/WebForms/MSAjax/MicrosoftAjaxComponentModel.js">
+      <publishTime>09/26/2018 05:24:24</publishTime>
+    </File>
+    <File Include="Scripts/WebForms/MSAjax/MicrosoftAjaxCore.js">
+      <publishTime>09/26/2018 05:24:24</publishTime>
+    </File>
+    <File Include="Scripts/WebForms/MSAjax/MicrosoftAjaxGlobalization.js">
+      <publishTime>09/26/2018 05:24:24</publishTime>
+    </File>
+    <File Include="Scripts/WebForms/MSAjax/MicrosoftAjaxHistory.js">
+      <publishTime>09/26/2018 05:24:24</publishTime>
+    </File>
+    <File Include="Scripts/WebForms/MSAjax/MicrosoftAjaxNetwork.js">
+      <publishTime>09/26/2018 05:24:25</publishTime>
+    </File>
+    <File Include="Scripts/WebForms/MSAjax/MicrosoftAjaxSerialization.js">
+      <publishTime>09/26/2018 05:24:25</publishTime>
+    </File>
+    <File Include="Scripts/WebForms/MSAjax/MicrosoftAjaxTimer.js">
+      <publishTime>09/26/2018 05:24:25</publishTime>
+    </File>
+    <File Include="Scripts/WebForms/MSAjax/MicrosoftAjaxWebForms.js">
+      <publishTime>09/26/2018 05:24:25</publishTime>
+    </File>
+    <File Include="Scripts/WebForms/MSAjax/MicrosoftAjaxWebServices.js">
+      <publishTime>09/26/2018 05:24:25</publishTime>
+    </File>
+    <File Include="Scripts/WebForms/SmartNav.js">
+      <publishTime>09/26/2018 05:24:25</publishTime>
+    </File>
+    <File Include="Scripts/WebForms/TreeView.js">
+      <publishTime>09/26/2018 05:24:25</publishTime>
+    </File>
+    <File Include="Scripts/WebForms/WebForms.js">
+      <publishTime>09/26/2018 05:24:25</publishTime>
+    </File>
+    <File Include="Scripts/WebForms/WebParts.js">
+      <publishTime>09/26/2018 05:24:26</publishTime>
+    </File>
+    <File Include="Scripts/WebForms/WebUIValidation.js">
+      <publishTime>09/26/2018 05:24:26</publishTime>
+    </File>
+    <File Include="Scripts/_references.js">
+      <publishTime>09/26/2018 05:24:26</publishTime>
+    </File>
+    <File Include="Site.Master">
+      <publishTime>10/05/2018 06:33:41</publishTime>
+    </File>
+    <File Include="Site.Mobile.Master">
+      <publishTime>10/05/2018 06:33:27</publishTime>
+    </File>
+    <File Include="SiteRedirect.html">
+      <publishTime>09/26/2018 05:24:28</publishTime>
+    </File>
+    <File Include="SuccessfulRe-RegistrationEmailToAdmin.txt">
+      <publishTime>09/26/2018 05:24:29</publishTime>
+    </File>
+    <File Include="SuccessfulRegistrationEmailToAdmin.txt">
+      <publishTime>09/26/2018 05:24:29</publishTime>
+    </File>
+    <File Include="TermsAndConditions/FluidSecure Terms and Conditions.pdf">
+      <publishTime>09/26/2018 05:24:29</publishTime>
+    </File>
+    <File Include="TransactionEmail.txt">
+      <publishTime>09/26/2018 05:24:30</publishTime>
+    </File>
+    <File Include="transactionFailedLog.txt">
+      <publishTime>09/26/2018 05:24:30</publishTime>
+    </File>
+    <File Include="ViewSwitcher.ascx">
+      <publishTime>09/26/2018 05:24:31</publishTime>
+    </File>
+    <File Include="Web.config">
+      <publishTime>10/08/2018 05:07:42</publishTime>
+    </File>
+    <File Include="WebForm1.aspx">
+      <publishTime>09/26/2018 05:24:32</publishTime>
+    </File>
+  </ItemGroup>
+</Project>

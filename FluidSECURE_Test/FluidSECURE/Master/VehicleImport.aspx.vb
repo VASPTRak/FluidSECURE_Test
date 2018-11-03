@@ -53,19 +53,22 @@ Public Class VehicleImport
 			ddlCustomer.DataBind()
 			ddlCustomer.Items.Insert(0, New ListItem("Select Company", "0"))
 
-			If (Not Session("RoleName") = "SuperAdmin") Then
-				ddlCustomer.SelectedIndex = 1
-				ddlCustomer.Enabled = False
-				ddlCustomer.Visible = False
-				divCompany.Visible = False
-			End If
+            If (Not Session("RoleName") = "SuperAdmin" And Not Session("RoleName") = "GroupAdmin") Then
+                ddlCustomer.SelectedIndex = 1
+                ddlCustomer.Enabled = False
+                ddlCustomer.Visible = False
+                divCompany.Visible = False
+            End If
 
-			If (Session("CustomerId") <> 0 And Not Session("CustomerId") Is Nothing) Then
-				ddlCustomer.SelectedIndex = 1
+            If (Session("CustomerId") <> 0 And Not Session("CustomerId") Is Nothing) Then
+                If (Session("RoleName") = "GroupAdmin") Then
+                    ddlCustomer.SelectedValue = Session("CustomerId")
+                Else
+                    ddlCustomer.SelectedIndex = 1
+                End If
+            End If
 
-			End If
-
-		Catch ex As Exception
+        Catch ex As Exception
 
 			log.Error("Error occurred in GetCustomers Exception is :" + ex.Message)
 			ErrorMessage.Visible = True
@@ -167,43 +170,47 @@ Public Class VehicleImport
 			dt.Columns.Add("RowIndex", GetType(Integer))
 
 			Dim Row As DataRow
-			For i As Integer = 4 To Lines.GetLength(0) - 1
-				Fields = Lines(i).Split(New Char() {","c})
+            For i As Integer = 4 To Lines.GetLength(0) - 1
+                Try
+                    Fields = Lines(i).Split(New Char() {","c})
+
+                    If (Fields.Length = dt.Columns.Count - 1) Then
+                        Row = dt.NewRow()
+                        For f As Integer = 0 To Cols - 1
+                            Row(f) = Fields(f).ToString().Replace("'", "").Trim()
+                        Next
+                        Row(18) = i + 1
+                        dt.Rows.Add(Row)
+                    ElseIf (Fields.Length < 18 And Fields.Length > 1) Then
+
+                        Row = dt.NewRow()
+                        For f As Integer = 0 To Fields.Length - 1
+                            Row(f) = Fields(f).ToString().Replace("'", "").Trim()
+                        Next
+
+                        For f As Integer = Fields.Length To 18
+                            Row(f) = ""
+                        Next
+
+                        Row(18) = i + 1
+                        dt.Rows.Add(Row)
+
+                    ElseIf (Fields.Length > 3) Then
+                        strLog = strLog & Environment.NewLine & currentDateTime & "--" & " Invalid input format. Incorrect number of columns for the row number " & (i + 1) & ". Please correct the data and retry!"
+                        ErrorCnt = ErrorCnt + 1
+                    End If
+                Catch ex As Exception
+                    strLog = strLog & Environment.NewLine & currentDateTime & "--" & " Invalid input format. Incorrect number of columns for the row number " & (i + 1) & ". Please correct the data and retry!"
+                    ErrorCnt = ErrorCnt + 1
+                    Continue For
+                End Try
+            Next
 
 
 
-				If (Fields.Length = dt.Columns.Count - 1) Then
-					Row = dt.NewRow()
-					For f As Integer = 0 To Cols - 1
-						Row(f) = Fields(f).ToString().Replace("'", "").Trim()
-					Next
-					Row(18) = i + 1
-					dt.Rows.Add(Row)
-				ElseIf (Fields.Length < 18 And Fields.Length > 1) Then
-
-					Row = dt.NewRow()
-					For f As Integer = 0 To Fields.Length - 1
-						Row(f) = Fields(f).ToString().Replace("'", "").Trim()
-					Next
-
-					For f As Integer = Fields.Length To 18
-						Row(f) = ""
-					Next
-
-					Row(18) = i + 1
-					dt.Rows.Add(Row)
-
-				ElseIf (Fields.Length > 3) Then
-					strLog = strLog & Environment.NewLine & currentDateTime & "--" & " Invalid input format. Incorrect number of columns for the row number " & (i + 1) & ". Please correct the data and retry!"
-					ErrorCnt = ErrorCnt + 1
-				End If
-			Next
-
-
-
-			'insertDt = dt.Copy()
-			'insertDt.Clear()
-			Dim CheckVehicleNumberExist As Boolean = False
+            'insertDt = dt.Copy()
+            'insertDt.Clear()
+            Dim CheckVehicleNumberExist As Boolean = False
 			OBJMaster = New MasterBAL()
 			Dim dtDept As DataTable = New DataTable()
 
@@ -345,7 +352,7 @@ Public Class VehicleImport
 
 				End If
 
-				If (dr("LicensePlateNumber").ToString().Length > 8) Then
+				If (dr("LicensePlateNumber").ToString().Length > 9) Then
 					strLog = strLog & Environment.NewLine & currentDateTime & "--" & "Vehicle License Plate Number (" & dr("LicensePlateNumber") & ") is must be less than equal to 9 characters. Check Row  " & rowIndex & " & column 11 in uploaded file."
 					isDirty = True
 				End If
@@ -482,7 +489,7 @@ Public Class VehicleImport
                                                             0, 0, dr("RequireOdometerEntry"), dr("CheckOdometerReasonable"), IIf(dr("OdoLimit") = "", "-1", dr("OdoLimit")), dr("VehicleNumber"), dr("Acc_Id"), "", Convert.ToInt32(Session("PersonId")), ddlCustomer.SelectedValue,
                                                             "-1", dr("Hours"), 1, dr("LicenseState"), 1, "", True, "", 0, 0, "")
 
-            Dim dtFuelTpes As DataTable = New DataTable()
+			Dim dtFuelTpes As DataTable = New DataTable()
 			OBJMaster = New MasterBAL()
 
 			Dim dtFuelVehicle As DataTable = New DataTable("dtFuelTypeAndVehicle")

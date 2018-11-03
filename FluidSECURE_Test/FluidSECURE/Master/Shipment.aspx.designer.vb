@@ -12,7 +12,7 @@ Option Explicit On
 
 
 Partial Public Class Shipment
-    
+
     '''<summary>
     '''up_Main control.
     '''</summary>
@@ -21,7 +21,7 @@ Partial Public Class Shipment
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents up_Main As Global.System.Web.UI.UpdatePanel
-    
+
     '''<summary>
     '''lblHeader control.
     '''</summary>
@@ -30,7 +30,7 @@ Partial Public Class Shipment
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents lblHeader As Global.System.Web.UI.WebControls.Label
-    
+
     '''<summary>
     '''message control.
     '''</summary>
@@ -39,7 +39,7 @@ Partial Public Class Shipment
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents message As Global.System.Web.UI.HtmlControls.HtmlGenericControl
-    
+
     '''<summary>
     '''ErrorMessage control.
     '''</summary>
@@ -48,7 +48,7 @@ Partial Public Class Shipment
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents ErrorMessage As Global.System.Web.UI.HtmlControls.HtmlGenericControl
-    
+
     '''<summary>
     '''RBL_Options control.
     '''</summary>
@@ -57,7 +57,7 @@ Partial Public Class Shipment
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents RBL_Options As Global.System.Web.UI.WebControls.RadioButtonList
-    
+
     '''<summary>
     '''ShipmentForLinkName control.
     '''</summary>
@@ -66,7 +66,7 @@ Partial Public Class Shipment
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents ShipmentForLinkName As Global.System.Web.UI.HtmlControls.HtmlGenericControl
-    
+
     '''<summary>
     '''txtFluidSecureUnitName control.
     '''</summary>
@@ -75,7 +75,7 @@ Partial Public Class Shipment
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents txtFluidSecureUnitName As Global.System.Web.UI.WebControls.TextBox
-    
+
     '''<summary>
     '''RFDFluidSecureUnitName control.
     '''</summary>
@@ -84,7 +84,7 @@ Partial Public Class Shipment
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents RFDFluidSecureUnitName As Global.System.Web.UI.WebControls.RequiredFieldValidator
-    
+
     '''<summary>
     '''HDF_ShipmentId control.
     '''</summary>
@@ -93,7 +93,7 @@ Partial Public Class Shipment
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents HDF_ShipmentId As Global.System.Web.UI.WebControls.HiddenField
-    
+
     '''<summary>
     '''HDF_TotalShipments control.
     '''</summary>
@@ -102,7 +102,7 @@ Partial Public Class Shipment
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents HDF_TotalShipments As Global.System.Web.UI.WebControls.HiddenField
-    
+
     '''<summary>
     '''ShipmentForHubName control.
     '''</summary>
@@ -111,7 +111,7 @@ Partial Public Class Shipment
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents ShipmentForHubName As Global.System.Web.UI.HtmlControls.HtmlGenericControl
-    
+
     '''<summary>
     '''txtHubName control.
     '''</summary>
@@ -120,7 +120,7 @@ Partial Public Class Shipment
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents txtHubName As Global.System.Web.UI.WebControls.TextBox
-    
+
     '''<summary>
     '''RFD_HubName control.
     '''</summary>
@@ -129,7 +129,34 @@ Partial Public Class Shipment
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents RFD_HubName As Global.System.Web.UI.WebControls.RequiredFieldValidator
-    
+
+    '''<summary>
+    '''ShipmentForCardReader control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents ShipmentForCardReader As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''txtSerialNumber control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtSerialNumber As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''RFD_SerialNumber control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents RFD_SerialNumber As Global.System.Web.UI.WebControls.RequiredFieldValidator
+
     '''<summary>
     '''divCompany control.
     '''</summary>
@@ -138,7 +165,7 @@ Partial Public Class Shipment
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents divCompany As Global.System.Web.UI.HtmlControls.HtmlGenericControl
-    
+
     '''<summary>
     '''DDL_Customer control.
     '''</summary>
@@ -147,7 +174,7 @@ Partial Public Class Shipment
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents DDL_Customer As Global.System.Web.UI.WebControls.DropDownList
-    
+
     '''<summary>
     '''lblCustomer control.
     '''</summary>
@@ -156,7 +183,7 @@ Partial Public Class Shipment
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents lblCustomer As Global.System.Web.UI.WebControls.Label
-    
+
     '''<summary>
     '''RFV_Cust control.
     '''</summary>
@@ -165,7 +192,7 @@ Partial Public Class Shipment
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents RFV_Cust As Global.System.Web.UI.WebControls.RequiredFieldValidator
-    
+
     '''<summary>
     '''txtAddress control.
     '''</summary>
@@ -174,7 +201,133 @@ Partial Public Class Shipment
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents txtAddress As Global.System.Web.UI.WebControls.TextBox
-    
+
+    '''<summary>
+    '''PhoneNumberForHub control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents PhoneNumberForHub As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''txtPhoneNumber control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtPhoneNumber As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''lblPhoneErrorMsg control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblPhoneErrorMsg As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''FrequencyForCardReader control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents FrequencyForCardReader As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''divFrequency control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents divFrequency As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''DDL_Frequency control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents DDL_Frequency As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''lblFrequency control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblFrequency As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''RFD_Frequency control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents RFD_Frequency As Global.System.Web.UI.WebControls.RequiredFieldValidator
+
+    '''<summary>
+    '''HubForCardReader control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents HubForCardReader As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''divHubs control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents divHubs As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''DDL_HubForCardReader control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents DDL_HubForCardReader As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''lblHubs control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblHubs As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''RFD_Hubs control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents RFD_Hubs As Global.System.Web.UI.WebControls.RequiredFieldValidator
+
+    '''<summary>
+    '''ShipmentDate control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents ShipmentDate As Global.System.Web.UI.WebControls.Label
+
     '''<summary>
     '''txtShipmentDate control.
     '''</summary>
@@ -183,7 +336,7 @@ Partial Public Class Shipment
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents txtShipmentDate As Global.System.Web.UI.WebControls.TextBox
-    
+
     '''<summary>
     '''RDF_ShipmentDate control.
     '''</summary>
@@ -192,7 +345,16 @@ Partial Public Class Shipment
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents RDF_ShipmentDate As Global.System.Web.UI.WebControls.RequiredFieldValidator
-    
+
+    '''<summary>
+    '''ShipmentForReplacement control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents ShipmentForReplacement As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
     '''<summary>
     '''chkIsReplacement control.
     '''</summary>
@@ -201,7 +363,7 @@ Partial Public Class Shipment
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents chkIsReplacement As Global.System.Web.UI.WebControls.CheckBox
-    
+
     '''<summary>
     '''ReplacementForLink control.
     '''</summary>
@@ -210,7 +372,7 @@ Partial Public Class Shipment
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents ReplacementForLink As Global.System.Web.UI.HtmlControls.HtmlGenericControl
-    
+
     '''<summary>
     '''DDL_Sites control.
     '''</summary>
@@ -219,7 +381,7 @@ Partial Public Class Shipment
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents DDL_Sites As Global.System.Web.UI.WebControls.DropDownList
-    
+
     '''<summary>
     '''ReplacementForHub control.
     '''</summary>
@@ -228,7 +390,7 @@ Partial Public Class Shipment
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents ReplacementForHub As Global.System.Web.UI.HtmlControls.HtmlGenericControl
-    
+
     '''<summary>
     '''DDL_Hub control.
     '''</summary>
@@ -237,7 +399,7 @@ Partial Public Class Shipment
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents DDL_Hub As Global.System.Web.UI.WebControls.DropDownList
-    
+
     '''<summary>
     '''CHK_Returned control.
     '''</summary>
@@ -246,7 +408,7 @@ Partial Public Class Shipment
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents CHK_Returned As Global.System.Web.UI.WebControls.CheckBox
-    
+
     '''<summary>
     '''ReturnedDate control.
     '''</summary>
@@ -255,7 +417,7 @@ Partial Public Class Shipment
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents ReturnedDate As Global.System.Web.UI.HtmlControls.HtmlGenericControl
-    
+
     '''<summary>
     '''txtReturnedDate control.
     '''</summary>
@@ -264,7 +426,7 @@ Partial Public Class Shipment
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents txtReturnedDate As Global.System.Web.UI.WebControls.TextBox
-    
+
     '''<summary>
     '''btnSave control.
     '''</summary>
@@ -273,7 +435,7 @@ Partial Public Class Shipment
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents btnSave As Global.System.Web.UI.WebControls.Button
-    
+
     '''<summary>
     '''btnCancel control.
     '''</summary>
@@ -282,7 +444,7 @@ Partial Public Class Shipment
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents btnCancel As Global.System.Web.UI.WebControls.Button
-    
+
     '''<summary>
     '''btnSaveAndAddNew control.
     '''</summary>
@@ -291,7 +453,7 @@ Partial Public Class Shipment
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents btnSaveAndAddNew As Global.System.Web.UI.WebControls.Button
-    
+
     '''<summary>
     '''btnFirst control.
     '''</summary>
@@ -300,7 +462,7 @@ Partial Public Class Shipment
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents btnFirst As Global.System.Web.UI.WebControls.Button
-    
+
     '''<summary>
     '''btnprevious control.
     '''</summary>
@@ -309,7 +471,7 @@ Partial Public Class Shipment
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents btnprevious As Global.System.Web.UI.WebControls.Button
-    
+
     '''<summary>
     '''lblof control.
     '''</summary>
@@ -318,7 +480,7 @@ Partial Public Class Shipment
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents lblof As Global.System.Web.UI.WebControls.Label
-    
+
     '''<summary>
     '''btnNext control.
     '''</summary>
@@ -327,7 +489,7 @@ Partial Public Class Shipment
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents btnNext As Global.System.Web.UI.WebControls.Button
-    
+
     '''<summary>
     '''btnLast control.
     '''</summary>

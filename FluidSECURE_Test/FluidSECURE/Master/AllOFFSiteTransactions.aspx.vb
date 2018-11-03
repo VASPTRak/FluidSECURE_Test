@@ -38,7 +38,7 @@ Public Class AllOFFSiteTransactions
                     BindColumns()
                     BindCustomer()
                     BindAllFuelType()
-                    BindAllPersonnels()
+                    'BindAllPersonnels()
                     BindAllHubs()
                     BindAllFluidSecureLink()
 
@@ -213,33 +213,33 @@ Public Class AllOFFSiteTransactions
 
     End Sub
 
-    Private Sub BindAllPersonnels()
-        Try
-            Dim dtPersonnel As DataTable = New DataTable()
-            Dim strConditions As String = ""
-            If (Session("CustomerId") <> 0 And Not Session("CustomerId") Is Nothing) Then
-                strConditions = " and T.CompanyId= " & Session("CustomerId") + " "
-            End If
+    'Private Sub BindAllPersonnels()
+    '    Try
+    '        Dim dtPersonnel As DataTable = New DataTable()
+    '        Dim strConditions As String = ""
+    '        If (Session("CustomerId") <> 0 And Not Session("CustomerId") Is Nothing) Then
+    '            strConditions = " and T.CompanyId= " & Session("CustomerId") + " "
+    '        End If
 
-            dtPersonnel = OBJMaster.GetTransactionsByCondition(strConditions, Convert.ToInt32(Session("PersonId").ToString()), Session("RoleId").ToString(), False)
-            Dim distinctDT As DataTable = dtPersonnel.DefaultView.ToTable(True, "PersonId", "PersonName")
+    '        dtPersonnel = OBJMaster.GetTransactionsByCondition(strConditions, Convert.ToInt32(Session("PersonId").ToString()), Session("RoleId").ToString(), False, 0, 0, False)
+    '        Dim distinctDT As DataTable = dtPersonnel.DefaultView.ToTable(True, "PersonId", "PersonName")
 
-            'DDL_users.DataSource = distinctDT
+    '        'DDL_users.DataSource = distinctDT
 
-            'DDL_users.DataValueField = "PersonId"
-            'DDL_users.DataTextField = "PersonName"
-            'DDL_users.DataBind()
+    '        'DDL_users.DataValueField = "PersonId"
+    '        'DDL_users.DataTextField = "PersonName"
+    '        'DDL_users.DataBind()
 
-            'DDL_users.Items.Insert(0, New ListItem("Select Personnel", "0"))
+    '        'DDL_users.Items.Insert(0, New ListItem("Select Personnel", "0"))
 
-        Catch ex As Exception
+    '    Catch ex As Exception
 
-            log.Error("Error occurred in BindAllPersonnels Exception is :" + ex.Message)
-            ErrorMessage.Visible = True
-            ErrorMessage.InnerText = "Error occurred while getting Personnels, please try again later."
+    '        log.Error("Error occurred in BindAllPersonnels Exception is :" + ex.Message)
+    '        ErrorMessage.Visible = True
+    '        ErrorMessage.InnerText = "Error occurred while getting Personnels, please try again later."
 
-        End Try
-    End Sub
+    '    End Try
+    'End Sub
 
     Private Sub BindAllHubs()
         Try
@@ -369,7 +369,9 @@ Public Class AllOFFSiteTransactions
 
             Dim dtTransactions As DataTable = New DataTable()
             Session("TranConditions") = strConditions
-            dtTransactions = OBJMaster.GetTransactionsByCondition(strConditions, Session("PersonId").ToString(), Session("RoleId").ToString(), False)
+            Dim dsT As DataSet = New DataSet()
+            dsT = OBJMaster.GetTransactionsByCondition(strConditions, Session("PersonId").ToString(), Session("RoleId").ToString(), False, 0, 0, False, "", "")
+            dtTransactions = dsT.Tables(0)
 
             Session("dtTransactions") = dtTransactions
 

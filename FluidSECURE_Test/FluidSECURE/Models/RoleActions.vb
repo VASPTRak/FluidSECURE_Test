@@ -137,6 +137,12 @@ Public Class RoleActions
 
         End If
 
+        If (Not roleMgr.RoleExists("GroupAdmin")) Then
+            IdRoleResult = roleMgr.Create(New IdentityRole() With {
+                             .Name = "GroupAdmin"
+                         })
+        End If
+
     End Sub
 
 End Class

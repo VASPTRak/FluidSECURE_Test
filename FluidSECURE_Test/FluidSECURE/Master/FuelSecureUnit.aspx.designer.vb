@@ -212,6 +212,24 @@ Partial Public Class FuelSecureUnit
     Protected WithEvents CHK_DisableGeoLocation As Global.System.Web.UI.WebControls.CheckBox
     
     '''<summary>
+    '''divShowHideReplacingLink control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents divShowHideReplacingLink As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+    
+    '''<summary>
+    '''chk_EnableDisableLinkName control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents chk_EnableDisableLinkName As Global.System.Web.UI.WebControls.CheckBox
+    
+    '''<summary>
     '''txt_ReplaceableHoseName control.
     '''</summary>
     '''<remarks>

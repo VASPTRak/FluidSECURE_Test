@@ -134,6 +134,18 @@ Public Class AllVehicles
             DDL_Customer.DataBind()
             DDL_Customer.Items.Insert(0, New ListItem("Select Company", "0"))
 
+            If (Not Session("RoleName") = "SuperAdmin" And Not Session("RoleName") = "GroupAdmin") Then
+                DDL_Customer.SelectedIndex = 1
+            End If
+
+            If (Session("CustomerId") <> 0 And Not Session("CustomerId") Is Nothing) Then
+                If (Session("RoleName") = "GroupAdmin") Then
+                    DDL_Customer.SelectedValue = Session("CustomerId")
+                Else
+                    DDL_Customer.SelectedIndex = 1
+                End If
+            End If
+
         Catch ex As Exception
 
             log.Error("Error occurred in BindCustomer Exception is :" + ex.Message)

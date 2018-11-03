@@ -203,33 +203,6 @@ Partial Public Class FluidSecureHub
     Protected WithEvents txtHUB_Address As Global.System.Web.UI.WebControls.TextBox
     
     '''<summary>
-    '''txtPhoneNumber control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents txtPhoneNumber As Global.System.Web.UI.WebControls.TextBox
-    
-    '''<summary>
-    '''RFD_PhoneNumber control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents RFD_PhoneNumber As Global.System.Web.UI.WebControls.RequiredFieldValidator
-    
-    '''<summary>
-    '''lblErrorMsg control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents lblErrorMsg As Global.System.Web.UI.WebControls.Label
-    
-    '''<summary>
     '''txtIMEINumber control.
     '''</summary>
     '''<remarks>
@@ -462,6 +435,78 @@ Partial Public Class FluidSecureHub
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents lblIsVehicleHasFob As Global.System.Web.UI.WebControls.Label
+    
+    '''<summary>
+    '''chk_IsLogging control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents chk_IsLogging As Global.System.Web.UI.WebControls.CheckBox
+    
+    '''<summary>
+    '''txtContactName control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtContactName As Global.System.Web.UI.WebControls.TextBox
+    
+    '''<summary>
+    '''txtPhoneNumber control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtPhoneNumber As Global.System.Web.UI.WebControls.TextBox
+    
+    '''<summary>
+    '''lblErrorMsg control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblErrorMsg As Global.System.Web.UI.WebControls.Label
+    
+    '''<summary>
+    '''txtContactEmail control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtContactEmail As Global.System.Web.UI.WebControls.TextBox
+    
+    '''<summary>
+    '''RDFContactEmail control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents RDFContactEmail As Global.System.Web.UI.WebControls.RegularExpressionValidator
+    
+    '''<summary>
+    '''WifiChannelToUse control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents WifiChannelToUse As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+    
+    '''<summary>
+    '''DDL_WifiChannelToUse control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents DDL_WifiChannelToUse As Global.System.Web.UI.WebControls.DropDownList
     
     '''<summary>
     '''btnSave control.

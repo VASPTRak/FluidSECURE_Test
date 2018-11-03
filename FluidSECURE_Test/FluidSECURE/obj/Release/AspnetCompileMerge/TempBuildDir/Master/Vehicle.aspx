@@ -144,7 +144,7 @@
                         </div>
                         <div class="modal-footer nextButton">
                             <input type="button" id="btnVehiclePersonMappingSuccessAddNew" class="btn btn-success" onclick="AddNewMapping();" value="Yes" />
-                            <input type="button" id="btnCloseMappingAddNewClose" style="display:none;" class="btn btn-default" data-dismiss="modal" value="No" />
+                            <input type="button" id="btnCloseMappingAddNewClose" style="display: none;" class="btn btn-default" data-dismiss="modal" value="No" />
                             <input type="button" id="btnCloseMappingAddNew" class="btn btn-default" data-dismiss="modal" value="No" onclick="window.location.href = '/Master/Vehicle'" />
                         </div>
                     </div>
@@ -174,7 +174,7 @@
                         <label class="text-danger font-required">[required]</label>:</label>
                         </div>
                         <div class="form-group col-md-3 col-sm-3 col-xs-12">
-                            <asp:TextBox ID="txtVehicleNumber" CssClass="form-control input-sm" TabIndex="1" runat="server" MaxLength="20" Width="200"></asp:TextBox>
+                            <asp:TextBox ID="txtVehicleNumber" CssClass="form-control input-sm" TabIndex="1" runat="server" MaxLength="10" Width="200"></asp:TextBox>
                             <asp:RequiredFieldValidator ID="RFD_VehicleNumber" runat="server" ControlToValidate="txtVehicleNumber" Display="Dynamic" ErrorMessage="Please enter vehicle number." ForeColor="Red" SetFocusOnError="True" ValidationGroup="VehicleValidation"></asp:RequiredFieldValidator>
                         </div>
                         <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
@@ -248,7 +248,7 @@
                         </div>
                         <div class="form-group col-md-3 col-sm-3 col-xs-12">
                             <asp:TextBox ID="txtCurrentHrs" runat="server" CssClass="form-control input-sm" MaxLength="7" Width="70" TabIndex="18" onkeypress="return onlyNumbers(event);"></asp:TextBox>
-                            <asp:CompareValidator ID="CVCurrentHrs" runat="server" Display="Dynamic" ErrorMessage="Please enter current hours in integer format." 
+                            <asp:CompareValidator ID="CVCurrentHrs" runat="server" Display="Dynamic" ErrorMessage="Please enter current hours in integer format."
                                 ForeColor="Red" Operator="DataTypeCheck" SetFocusOnError="True" Type="Integer" ValidationGroup="VehicleValidation" ControlToValidate="txtCurrentHrs"></asp:CompareValidator>
                         </div>
                     </div>
@@ -262,7 +262,7 @@
                         </div>
                         <div class="form-group col-md-3 col-sm-3 col-xs-12">
                             <asp:TextBox ID="txtPreviousHours" runat="server" CssClass="form-control input-sm" MaxLength="7" Width="70" TabIndex="18" onkeypress="return onlyNumbers(event);" ReadOnly="True" data-toggle="tooltip" title="not editable from this screen!"></asp:TextBox>
-                            <asp:CompareValidator ID="CVPreviousHours" runat="server" Display="Dynamic" ErrorMessage="Please enter Previous hours in integer format." 
+                            <asp:CompareValidator ID="CVPreviousHours" runat="server" Display="Dynamic" ErrorMessage="Please enter Previous hours in integer format."
                                 ForeColor="Red" Operator="DataTypeCheck" SetFocusOnError="True" Type="Integer" ValidationGroup="VehicleValidation" ControlToValidate="txtPreviousHours"></asp:CompareValidator>
                         </div>
                     </div>
@@ -348,7 +348,7 @@
                                     Total Hours allowed between Fueling:</label>
                             </div>
                             <div class="form-group col-md-3 col-sm-3 col-xs-12">
-                                <asp:TextBox ID="txtHoursLimit" runat="server" CssClass="form-control input-sm" MaxLength="6" Width="70" TabIndex="20" 
+                                <asp:TextBox ID="txtHoursLimit" runat="server" CssClass="form-control input-sm" MaxLength="6" Width="70" TabIndex="20"
                                     onkeypress="return onlyNumbers(event);" data-toggle="tooltip" title='"Total Hours allowed between Fueling" represents the maximum hours the vehicle is allowed to run between fueling. Example: if a vehicle current hours is 10 and the total hours between fueling is set to 50, the only hours that will be accepted is between 10 – 60. NOTE: If choosing this option, the check odometer/hours reasonability must be checked.'></asp:TextBox>
                             </div>
                         </div>
@@ -359,7 +359,7 @@
                                 License Plate Number:</label>
                         </div>
                         <div class="form-group col-md-3 col-sm-3 col-xs-12">
-                            <asp:TextBox ID="txtLicensePlateNumber" runat="server" CssClass="form-control input-sm" MaxLength="8" Width="80" TabIndex="10"></asp:TextBox>
+                            <asp:TextBox ID="txtLicensePlateNumber" runat="server" CssClass="form-control input-sm" MaxLength="9" Width="165" TabIndex="10"></asp:TextBox>
                         </div>
 
                         <div id="hideShowOdometerReasonabilityeither" runat="server">
@@ -436,7 +436,7 @@
                         </div>
                         <div class="form-group col-md-3 col-sm-3 col-xs-12">
                             <input type="button" id="BTN_FuelType" onclick="OpenFuelTypeBox();" tabindex="21" value="Click to add products" />
-                        </div>                     
+                        </div>
                         <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
                             <label>Export Code:</label>
                         </div>
@@ -465,7 +465,7 @@
                             <label>Active:</label>
                         </div>
                         <div class="form-group col-md-3 col-sm-3 col-xs-12">
-                            <asp:CheckBox ID="CHK_Active" runat="server" />
+                            <asp:CheckBox ID="CHK_Active" runat="server" Checked="true"/>
                         </div>
                         <div id="divCompany" runat="server" class="form-group col-md-3 col-sm-3 textright col-xs-12">
                             <label>
@@ -479,19 +479,24 @@
                     </div>
                     <div class="row col-md-12 col-sm-12 col-xs-12">
                         <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
-							<label>
-								FSTag Mac Address:</label>
-						</div>
-						<div class="form-group col-md-3 col-sm-3 col-xs-12">
-							<asp:TextBox ID="txtFSTagMacAddress" runat="server" CssClass="form-control input-sm" MaxLength="50" TabIndex="13"></asp:TextBox>
-						</div>
+                            <label>
+                                FSTag Mac Address:</label>
+                        </div>
+                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                            <asp:TextBox ID="txtFSTagMacAddress" runat="server" CssClass="form-control input-sm" MaxLength="50" TabIndex="13"></asp:TextBox>
+                        </div>
+                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                            <asp:Button ID="btnClearFSTagMacAddress" CssClass="btn btn-default" runat="server" OnClick="btnClearFSTagMacAddress_Click" Text="Clear FSTag" Width="100px" />
+                        </div>
+                    </div>
+                    <div class="row col-md-12 col-sm-12 col-xs-12">
                         <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
-							<label>
-								Current Firmware Version:</label>
-						</div>
-						<div class="form-group col-md-3 col-sm-3 col-xs-12">
-							<asp:TextBox ID="txt_FirmwareVer" runat="server" CssClass="form-control input-sm" MaxLength="50" TabIndex="28"></asp:TextBox>
-						</div>
+                            <label>
+                                Current Firmware Version:</label>
+                        </div>
+                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                            <asp:TextBox ID="txt_FirmwareVer" runat="server" CssClass="form-control input-sm" MaxLength="50" TabIndex="14"></asp:TextBox>
+                        </div>
                     </div>
                     <div class="row col-md-12 col-sm-12 text-center col-xs-12">
                         <asp:Button ID="btnSave" CssClass="btn btn-primary" runat="server" OnClick="btnSave_Click" Text="Save" Width="100px"

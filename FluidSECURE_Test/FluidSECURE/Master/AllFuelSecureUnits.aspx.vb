@@ -55,8 +55,15 @@ Public Class AllFuelSecureUnits
 					End If
 
 					btnSearch_Click(Nothing, Nothing)
-					DDL_ColumnName.Focus()
-				End If
+                    DDL_ColumnName.Focus()
+
+                    If Session("RoleName") = "SuperAdmin" Then
+                        btn_New.Visible = True
+                    Else
+                        btn_New.Visible = False
+                    End If
+
+                End If
 			End If
 
 

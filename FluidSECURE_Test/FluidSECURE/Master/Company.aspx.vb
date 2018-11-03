@@ -47,14 +47,14 @@ Public Class Company
                         End If
                         divCompanyNumber.Visible = True
                         hdrCompanyNumber.InnerText = "FS" & Request.QueryString("CustId").ToString()
-                        If Session("RoleName") <> "SuperAdmin" Then
-                            txtCustName.Enabled = False
-                        End If
-                    Else
-                        If Session("RoleName") <> "SuperAdmin" Then
-                            ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "NotValidUser();", True)
-                            Return
-                        End If
+						If Session("RoleName") <> "SuperAdmin" And Session("RoleName") <> "GroupAdmin" Then
+							txtCustName.Enabled = False
+						End If
+					Else
+						If Session("RoleName") <> "SuperAdmin" And Session("RoleName") <> "GroupAdmin" Then
+							ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "NotValidUser();", True)
+							Return
+						End If
                         trLabel.Visible = False
                         btnFirst.Visible = False
                         btnNext.Visible = False
@@ -125,12 +125,25 @@ Public Class Company
             End If
 
 
-            Dim cnt As Integer = 0
-            If (dtCust.Rows.Count > 0) Then
+			Dim cnt As Integer = 0
+			If (dtCust.Rows.Count > 0) Then
+				Dim isValid As Boolean = False
+				If (Session("RoleName") = "GroupAdmin") Then
+					Dim dtCustOld As DataTable = New DataTable()
 
-                If (Not Session("RoleName") = "SuperAdmin") Then
+					dtCustOld = OBJMaster.GetCustomerDetailsByPersonID(Convert.ToInt32(Session("PersonId").ToString()), Session("RoleId").ToString(), Session("CustomerId").ToString())
+					For Each drCusts As DataRow In dtCustOld.Rows
+						If (drCusts("CustomerId") = dtCust.Rows(0)("CustomerId").ToString()) Then
+							isValid = True
+							Exit For
+						End If
 
-                    Dim dtCustOld As DataTable = New DataTable()
+					Next
+				End If
+
+				If (Not Session("RoleName") = "SuperAdmin" And Not isValid = True) Then
+
+					Dim dtCustOld As DataTable = New DataTable()
 
                     dtCustOld = OBJMaster.GetCustomerDetailsByPersonID(Convert.ToInt32(Session("PersonId").ToString()), Session("RoleId").ToString(), Session("CustomerId").ToString())
 
@@ -146,7 +159,7 @@ Public Class Company
                 txtCustName.Text = dtCust.Rows(0)("CustomerName").ToString()
                 txtContactName.Text = dtCust.Rows(0)("ContactName").ToString()
                 txtContactNumber.Text = dtCust.Rows(0)("ContactNumber").ToString()
-                txtContactAddress.Text = dtCust.Rows(0)("ContactAddress").ToString()
+                ' txtContactAddress.Text = dtCust.Rows(0)("ContactAddress").ToString()
                 txtExportCode.Text = dtCust.Rows(0)("ExportCode").ToString()
                 CHK_RequireLogin.Checked = Convert.ToBoolean(dtCust.Rows(0)("IsLoginRequire").ToString())
                 'CHK_RequireOdometer.Checked = Convert.ToBoolean(dtCust.Rows(0)("IsOdometerRequire").ToString())
@@ -156,6 +169,12 @@ Public Class Company
                 chk_VehicleNumberRequire.Checked = Convert.ToBoolean(dtCust.Rows(0)("IsVehicleNumberRequire").ToString())
                 chkIsActive.Checked = Convert.ToBoolean(dtCust.Rows(0)("IsCustomerActive").ToString())
                 txtOtherLabel.Text = dtCust.Rows(0)("OtherLabel").ToString()
+                txtStreetAddress.Text = dtCust.Rows(0)("StreetAddress").ToString()
+                txtCity.Text = dtCust.Rows(0)("City").ToString()
+                txtState.Text = dtCust.Rows(0)("State").ToString()
+                txtZip.Text = dtCust.Rows(0)("Zip").ToString()
+                txtCountry.Text = dtCust.Rows(0)("Country").ToString()
+
 
                 DDL_Costing.SelectedValue = dtCust.Rows(0)("CostingMethod").ToString()
                 Session("CostingMethod") = dtCust.Rows(0)("CostingMethod").ToString()
@@ -188,7 +207,12 @@ Public Class Company
                     cnt = dtAllCust.Rows.IndexOf(dr) + 1
 
                 End If
-                If (cnt >= HDF_TotalCust.Value) Then
+                If (HDF_TotalCust.Value = 1) Then
+                    btnNext.Enabled = False
+                    btnLast.Enabled = False
+                    btnFirst.Enabled = False
+                    btnprevious.Enabled = False
+                ElseIf (cnt >= HDF_TotalCust.Value) Then
                     btnNext.Enabled = False
                     btnLast.Enabled = False
                     btnFirst.Enabled = True
@@ -443,8 +467,8 @@ Public Class Company
             End If
 
             'save company
-            result = OBJMaster.SaveUpdateCustomer(CustId, txtCustName.Text, txtContactName.Text, txtContactNumber.Text, txtContactAddress.Text, txtExportCode.Text, Convert.ToInt32(Session("PersonId")), CHK_RequireLogin.Checked, False,
-                                                  chk_RequireDepartment.Checked, chk_RequirePersonnelPIN.Checked, chk_RequireOther.Checked, otherLabel, chkIsActive.Checked, chk_VehicleNumberRequire.Checked, Convert.ToInt32(DDL_Costing.SelectedValue),
+            result = OBJMaster.SaveUpdateCustomer(CustId, txtCustName.Text, txtContactName.Text, txtContactNumber.Text, "", txtExportCode.Text, Convert.ToInt32(Session("PersonId")), CHK_RequireLogin.Checked, False,
+                                                  chk_RequireDepartment.Checked, chk_RequirePersonnelPIN.Checked, chk_RequireOther.Checked, otherLabel, chkIsActive.Checked, chk_VehicleNumberRequire.Checked, txtStreetAddress.Text, txtCity.Text, txtState.Text, txtZip.Text, txtCountry.Text, Convert.ToInt32(DDL_Costing.SelectedValue),
                                                   BeginningHostingDate, EndingHostingDate)
 
             'Save Personal Vehicle Mapping
@@ -508,7 +532,8 @@ Public Class Company
        .DateTimeTermConditionAccepted = Nothing,
            .IsGateHub = False,
            .IsVehicleNumberRequire = False,
-           .HubAddress = ""
+           .HubAddress = "",
+           .IsLogging = 0
                    }
 
                         identityResult = New IdentityResult()
@@ -614,7 +639,8 @@ Public Class Company
        .DateTimeTermConditionAccepted = Nothing,
          .IsGateHub = False,
          .IsVehicleNumberRequire = False,
-         .HubAddress = ""
+         .HubAddress = "",
+           .IsLogging = 0
               }
                         identityResult = New IdentityResult()
                         identityResult = manager.Create(user, txtAdminPassword.Text)
@@ -942,7 +968,6 @@ Public Class Company
             data = "CompanyId = " & CompanyId & " ; " &
                 "Company Name = " & txtCustName.Text.Replace(",", " ") & " ; " &
                         "Contact Name = " & txtContactNumber.Text.Replace(",", " ") & " ; " &
-                        "Contact Address = " & txtContactAddress.Text.Replace(",", " ") & " ; " &
                         "Export Code = " & txtExportCode.Text.Replace(",", " ") & " ; " &
                         "Require Login = " & IIf(CHK_RequireLogin.Checked = True, "Yes", "No") & " ; " &
                         "Require Department = " & IIf(chk_RequireDepartment.Checked = True, "Yes", "No") & " ; " &
@@ -956,7 +981,12 @@ Public Class Company
                         "Costing Method = " & DDL_Costing.SelectedItem.ToString().Replace(",", " ") & " ; " &
                         "Start Date = " & lblStartDate.Text & " ; " &
                         "Beginning Hosting Date = " & BeginningHostingDate & " ; " &
-                        "Ending Hosting Date = " & EndingHostingDate & "  "
+                        "Ending Hosting Date = " & EndingHostingDate & " ; " &
+                        "Street Address = " & txtStreetAddress.Text.Replace(",", " ") & " ; " &
+                        "City = " & txtCity.Text.Replace(",", " ") & " ; " &
+                        "State = " & txtState.Text.Replace(",", " ") & " ; " &
+                        "Zip = " & txtZip.Text.Replace(",", " ") & " ; " &
+                        "Country = " & txtCountry.Text.Replace(",", " ") & "  "
 
             Return data
         Catch ex As Exception
@@ -976,6 +1006,61 @@ Public Class Company
             End If
         Catch ex As Exception
             log.Error("Error occurred in DDL_Costing_SelectedIndexChanged Exception is :" + ex.Message)
+            ErrorMessage.Visible = True
+            ErrorMessage.InnerText = "Error occurred while getting data, please try again later."
+        End Try
+    End Sub
+
+    Protected Sub btn_EnableAllVehOdo_Click(sender As Object, e As EventArgs)
+        Try
+            hdfEnableDisable.Value = "1"
+            'lblVehodo.Text = "Are you sure you want to Enable odometer for all vehicles in this Company ?"
+            ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "OpenVehOdoModelBox();", True)
+        Catch ex As Exception
+            log.Error("Error occurred in btn_EnableAllVehOdo_Click Exception is :" + ex.Message)
+            ErrorMessage.Visible = True
+            ErrorMessage.InnerText = "Error occurred while getting data, please try again later."
+        End Try
+    End Sub
+
+    Protected Sub btn_DisableAllVehOdo_Click(sender As Object, e As EventArgs)
+        Try
+            hdfEnableDisable.Value = "2"
+            'lblVehodo.Text = "Are you sure you want to Disable odometer for all vehicles in this Company ?"
+            ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "OpenVehOdoModelBox();", True)
+        Catch ex As Exception
+            log.Error("Error occurred in btn_DisableAllVehOdo_Click Exception is :" + ex.Message)
+            ErrorMessage.Visible = True
+            ErrorMessage.InnerText = "Error occurred while getting data, please try again later."
+        End Try
+    End Sub
+
+    Protected Sub btnVehOdoOk_Click(sender As Object, e As EventArgs)
+        Try
+            Dim flagEnableDisable As Boolean = True
+            If hdfEnableDisable.Value = "2" Then
+                flagEnableDisable = False
+                hdfEnableDisable.Value = "0"
+            ElseIf hdfEnableDisable.Value = "1" Then
+                flagEnableDisable = True
+                hdfEnableDisable.Value = "0"
+            Else
+                Return
+            End If
+
+            OBJMaster = New MasterBAL()
+            Dim result As Integer = OBJMaster.SetEnableDisableVehOdoByCustID(flagEnableDisable, HDF_Custd.Value)
+
+            If result = 1 Then
+                message.Visible = True
+                message.InnerText = "Record Saved."
+            Else
+                ErrorMessage.Visible = True
+                ErrorMessage.InnerText = "Error occurred while updating data, please try again later."
+            End If
+
+        Catch ex As Exception
+            log.Error("Error occurred in btnVehOdoOk_Click Exception is :" + ex.Message)
             ErrorMessage.Visible = True
             ErrorMessage.InnerText = "Error occurred while getting data, please try again later."
         End Try

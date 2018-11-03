@@ -500,6 +500,18 @@ Public Class ApplicationUser
     End Property
 
     Private m_HubAddress As String
+
+    Public Property IsLogging() As Boolean
+        Get
+            Return m_IsLogging
+        End Get
+        Set(value As Boolean)
+            m_IsLogging = value
+        End Set
+    End Property
+
+    Private m_IsLogging As Boolean
+
     'End Add new properties
 
     Public Function GenerateUserIdentity(manager As ApplicationUserManager) As ClaimsIdentity

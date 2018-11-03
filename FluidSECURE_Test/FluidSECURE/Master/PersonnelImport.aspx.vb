@@ -58,18 +58,21 @@ Public Class PersonnelImport
 			ddlCustomer.DataBind()
 			ddlCustomer.Items.Insert(0, New ListItem("Select Company", "0"))
 
-			If (Not Session("RoleName") = "SuperAdmin") Then
-				ddlCustomer.SelectedIndex = 1
-				ddlCustomer.Enabled = False
-				ddlCustomer.Visible = False
-				divCompany.Visible = False
-			End If
+            If (Not Session("RoleName") = "SuperAdmin" And Not Session("RoleName") = "GroupAdmin") Then
+                ddlCustomer.SelectedIndex = 1
+                ddlCustomer.Enabled = False
+                ddlCustomer.Visible = False
+                divCompany.Visible = False
+            End If
 
-			If (Session("CustomerId") <> 0 And Not Session("CustomerId") Is Nothing) Then
-				ddlCustomer.SelectedIndex = 1
-
-			End If
-			BindVehicles(Convert.ToInt32(ddlCustomer.SelectedValue))
+            If (Session("CustomerId") <> 0 And Not Session("CustomerId") Is Nothing) Then
+                If (Session("RoleName") = "GroupAdmin") Then
+                    ddlCustomer.SelectedValue = Session("CustomerId")
+                Else
+                    ddlCustomer.SelectedIndex = 1
+                End If
+            End If
+            BindVehicles(Convert.ToInt32(ddlCustomer.SelectedValue))
 
 		Catch ex As Exception
 
@@ -477,7 +480,8 @@ Public Class PersonnelImport
        .DateTimeTermConditionAccepted = Nothing,
       .IsGateHub = False,
       .IsVehicleNumberRequire = False,
-      .HubAddress = ""
+      .HubAddress = "",
+               .IsLogging = 0
        }
             If (dr("FluidLimitpertransaction") = "") Then
 				user.FuelLimitPerTxn = Nothing

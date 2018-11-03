@@ -358,17 +358,23 @@ Public Class Transaction
                 txtGuestVehicleNumber.Text = IIf(Convert.ToString(dtTransaction.Rows(0)("VehicleName")).Contains("guest"), dtTransaction.Rows(0)("VehicleNumber"), "")
                 txtDeptNo.Text = dtTransaction.Rows(0)("DepartmentNumber")
                 Try
-                    DDL_Dept.SelectedItem.Text = dtTransaction.Rows(0)("DepartmentName")
+                    If dtTransaction.Rows(0)("DepartmentName") IsNot Nothing Then
+                        DDL_Dept.SelectedItem.Text = dtTransaction.Rows(0)("DepartmentName")
+                    End If
+
+                    If txtDeptNo.Text = "" Then
+                        Dim dtVehicle As DataTable = New DataTable()
+                        OBJMaster = New MasterBAL()
+                        dtVehicle = OBJMaster.GetVehiclebyId(dtTransaction.Rows(0)("VehicleId"))
+                        txtDeptNo.Text = dtVehicle.Rows(0)("DepartmentNumber")
+                        If dtTransaction.Rows(0)("DeptId") IsNot Nothing Then
+                            DDL_Dept.SelectedValue = dtTransaction.Rows(0)("DeptId")
+                        End If
+                    End If
                 Catch
                 End Try
 
-                If txtDeptNo.Text = "" Then
-                    Dim dtVehicle As DataTable = New DataTable()
-                    OBJMaster = New MasterBAL()
-                    dtVehicle = OBJMaster.GetVehiclebyId(dtTransaction.Rows(0)("VehicleId"))
-                    txtDeptNo.Text = dtVehicle.Rows(0)("DepartmentNumber")
-                    DDL_Dept.SelectedValue = dtTransaction.Rows(0)("DeptId")
-                End If
+
                 txtPinNumber.Text = IIf(IsDBNull(dtTransaction.Rows(0)("PersonPin")), "", dtTransaction.Rows(0)("PersonPin"))
                 txtOther.Text = dtTransaction.Rows(0)("Other")
                 txtHours.Text = IIf(IsDBNull(dtTransaction.Rows(0)("Hours")), "", dtTransaction.Rows(0)("Hours"))
@@ -409,7 +415,9 @@ Public Class Transaction
 
 
                 strConditions = IIf(strConditions = "", " and ISNULL(T.OFFSite,0) = 0  and (((ISNULL(T.TransactionStatus,0) = 1  And ISNULL(T.IsMissed,0)= 1) and datediff(minute, T.[CreatedDate] ,getdate()) > 15) Or ISNULL(T.TransactionStatus,0) = 2) ", strConditions + " and ISNULL(T.OFFSite,0) = 0 and (((ISNULL(T.TransactionStatus,0) = 1  And ISNULL(T.IsMissed,0)= 1) and datediff(minute, T.[CreatedDate] ,getdate()) > 15) Or ISNULL(T.TransactionStatus,0) = 2) ")
-                dtAllTransactions = OBJMaster.GetTransactionsByCondition(strConditions, Convert.ToInt32(Session("PersonId").ToString()), Session("RoleId").ToString(), False)
+                Dim dsT As DataSet = New DataSet()
+                dsT = OBJMaster.GetTransactionsByCondition(strConditions, Convert.ToInt32(Session("PersonId").ToString()), Session("RoleId").ToString(), False, 0, 0, False, "", "")
+                dtAllTransactions = dsT.Tables(0)
 
                 dtAllTransactions.PrimaryKey = New DataColumn() {dtAllTransactions.Columns(0)}
                 Dim dr As DataRow = dtAllTransactions.Rows.Find(TransactionId)
@@ -730,7 +738,7 @@ Public Class Transaction
             result = OBJMaster.InsertUpdateTransaction(HDF_VehicleId.Value, Site, PersonId, CurrentOdometer, FQunty, Fuel, 0, Nothing,
                                                      transactionDatetime, TransactionId, Convert.ToInt32(Session("PersonId")), "W", PreviousOdometer, "", "", "", vehicleNumber, txtDeptNo.Text,
                                                      txtPinNumber.Text, txtOther.Text, IIf(txtHours.Text = "", -1, txtHours.Text), IsMissed, False, TransactionStatus, HubId, -1,
-                                                        VehicleName, DepartmentName, FuelTypeName, Email, PersonName, CompanyName, False, Convert.ToInt32(DDL_Customer.SelectedValue), IIf(txtPreviousHours.Text = "", -1, txtPreviousHours.Text), 0)
+                                                        VehicleName, DepartmentName, FuelTypeName, Email, PersonName, CompanyName, False, Convert.ToInt32(DDL_Customer.SelectedValue), IIf(txtPreviousHours.Text = "", -1, txtPreviousHours.Text), 0, 0)
 
             'result = OBJMaster.InsertUpdateTransaction(HDF_VehicleId.Value, DDL_Site.SelectedValue, hdf_PersonId.Value, txtCurrentOdometer.Text, txtFuelQuantity.Text, DDL_Fuel.SelectedValue, 0, Nothing,
             '                                         transactionDatetime, TransactionId, Convert.ToInt32(Session("PersonId")), "W", txtPreviousOdometer.Text, "", "", "", vehicleNumber, txtDeptNo.Text,

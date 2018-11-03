@@ -100,9 +100,9 @@ Public Class ShipmentDetailReport
 
 			strConditions += " "
 
-			'get data from server
-			dtShipment = OBJMaster.GetShipmentDetails(strConditions)
-			If (Not dtShipment Is Nothing) Then
+            'get data from server
+            dtShipment = OBJMaster.GetShipmentDetails(strConditions, DDL_ShipmentFor.SelectedValue)
+            If (Not dtShipment Is Nothing) Then
 
 				If (dtShipment.Rows.Count <= 0) Then
 					If (ConfigurationManager.AppSettings("AllowActivityLogin").ToString().ToLower() = "yes") Then

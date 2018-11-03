@@ -395,4 +395,48 @@ Public Class WebServiceBAL
 		End Try
 	End Function
 
+    Public Function CheckDefectiveBluetoothInfoEmail(ByVal HubName As String) As DataTable
+        Dim dal = New GeneralizedDAL()
+        Dim result As DataSet
+        Try
+            Dim parcollection(0) As SqlParameter
+
+            Dim ParHubName = New SqlParameter("@HubName", SqlDbType.NVarChar, 100)
+            ParHubName.Direction = ParameterDirection.Input
+            ParHubName.Value = HubName
+            parcollection(0) = ParHubName
+
+            result = dal.ExecuteStoredProcedureGetDataSet("usp_tt_service_CheckDefectiveBluetoothInfoEmail", parcollection)
+
+            Return result.Tables(0)
+
+        Catch ex As Exception
+            log.Error("Error occurred in CheckDefectiveBluetoothInfoEmail Exception is :" + ex.Message)
+            Return Nothing
+        Finally
+        End Try
+    End Function
+
+    Public Function InsertUpdateDefectiveBluetoothInfoEmailRecord(ByVal HubName As String) As Integer
+        Dim dal = New GeneralizedDAL()
+        Dim result As Integer
+        Try
+            Dim parcollection(0) As SqlParameter
+
+            Dim ParHubName = New SqlParameter("@HubName", SqlDbType.NVarChar, 100)
+            ParHubName.Direction = ParameterDirection.Input
+            ParHubName.Value = HubName
+            parcollection(0) = ParHubName
+
+            result = dal.ExecuteStoredProcedureGetInteger("usp_tt_service_InsertUpdateDefectiveBluetoothInfoEmailRecord", parcollection)
+
+            Return result
+
+        Catch ex As Exception
+            log.Error("Error occurred in InsertUpdateDefectiveBluetoothInfoEmailRecord Exception is :" + ex.Message)
+            Return Nothing
+        Finally
+        End Try
+    End Function
+
 End Class

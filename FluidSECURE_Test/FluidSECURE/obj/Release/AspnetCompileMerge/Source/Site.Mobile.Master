@@ -166,6 +166,8 @@
 											<li><a href="/Reports/TransactionReportByPersonnel.aspx">Transaction Report by Personnel</a></li>
 											<li><a href="/Reports/TransactionReportsByMilesPerGallon.aspx">Transaction Report by  Miles Per Gallon or Liters/100KM</a></li>
 											<li><a href="/Reports/TransactionReportByLocation.aspx">Transaction Report by Location</a></li>
+                                            <li><a href="/Reports/InactiveVehicleByTransaction.aspx">Inactive vehicle report</a></li>
+                                            <li id="TotalFuelUsageByHubPerVehicle" runat="server"><a href="/Reports/TotalFuelUsageByHubPerVehicle.aspx">Total Fuel Usage By Hub Per Vehicle</a></li>
 										</ul>
 									</li>
 									<li class="dropdown-submenu">
@@ -223,6 +225,7 @@
 									<li><a href="/Reports/TankInventoryDataEntered.aspx">Tank Inventory Data Entered</a></li>
 									<li><a href="/Reports/FluidsecureLinkTotalizerDataEntered.aspx">FluidSecure LINK Totalizer/Meter Data Entered</a></li>
 									<li><a href="/Reports/TankBalance">Tank Balance Report</a></li>
+                                    <li><a href="/Reports/InventoryForecast">Inventory Forecast Report</a></li>
 								</ul>
 							</li>
 							<li class="dropdown" id="Import" runat="server">
@@ -245,6 +248,7 @@
 									<li id="CustomizedExport" runat="server"><a href="/Master/AllCustomizedExportTemplates.aspx">Customized Export</a></li>
 									<li id="TransactionExportSetting" runat="server"><a href="/Master/AllAutoTransactionExportSettings.aspx">Customized Export Settings</a></li>
 									<li id="StandardExport" runat="server"><a href="/Master/ExportTransactions.aspx">Standard Export</a></li>
+                                    <li id="SpecializedExport" runat="server"></li>
 									<li id="Export_WINCC" runat="server"><a href="/Master/ExportToWINCC.aspx">Export to WINCC</a></li>
 								</ul>
 							</li>
@@ -256,7 +260,9 @@
                                     <li id="UploadedFSVMFirmware" runat="server"><a href="/Master/AllFSVMFirmwareUpgrades.aspx">FSVM Firmware Upgrades</a></li>
                                     <li id="UploadedFSNPFirmware" runat="server"><a href="/Master/AllFSNPFirmwareUpgrades.aspx">FSNP Firmware Upgrades</a></li>
                                     <li id="CompanyHostingReport" runat ="server"><a href="/Reports/CompanyHostingDateReport.aspx">Company Hosting Date Report</a></li>
+                                    <li id="CustomerDetailsByStateCountryReport" runat ="server"><a href="/Reports/CustomerDetailsByStateCountry.aspx">Customer Report By State and Country</a></li>
                                     <li id="ShipmentReport" runat ="server"><a href="/Reports/ShipmentDetailReport.aspx">Shipment Report</a></li>
+                                    <li id="SpecializedFeature" runat="server"><a href="/Master/AllSpecializedFeature.aspx">Specialized Feature</a></li>
                                     <li id="CustomerWiseTransactionDetails" runat ="server"><a href="/Reports/CustomerWiseTransactionDetails.aspx">Customer Wise Transaction Details Report</a></li>
                                     <li id="ResetTermsPrivacyPolicys" runat ="server"><a href="/Master/ResetTermAndPrivacy.aspx">Reset Terms and Privacy Policys</a></li>
 								</ul>

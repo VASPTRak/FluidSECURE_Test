@@ -68,7 +68,7 @@ Public Class Global_asax
             End If
             Dim log As log4net.ILog = log4net.LogManager.GetLogger(GetType(Global_asax))
             log4net.Config.XmlConfigurator.Configure()
-            log.Error("Unhandled exception occured. Exception is : " & IIf(exc.InnerException Is Nothing, exc.Message.ToString(), exc.InnerException))
+            log.Error("Unhandled exception occured. Exception is : " & IIf(exc.InnerException Is Nothing, exc.Message.ToString(), exc.InnerException.ToString()))
             ' For other kinds of errors give the user some information
             ' but stay on the default page
             'Response.Write("<h2>Global Page Error</h2>" & vbLf)

@@ -84,8 +84,21 @@ Public Class Tank
 			dtTank = OBJMaster.GetTankbyId(TankId)
 			Dim cnt As Integer = 0
 			If (dtTank.Rows.Count > 0) Then
+				Dim isValid As Boolean = False
+				If (Session("RoleName") = "GroupAdmin") Then
+					Dim dtCustOld As DataTable = New DataTable()
 
-				If (Not Session("RoleName") = "SuperAdmin") Then
+					dtCustOld = OBJMaster.GetCustomerDetailsByPersonID(Convert.ToInt32(Session("PersonId").ToString()), Session("RoleId").ToString(), Session("CustomerId").ToString())
+					For Each drCusts As DataRow In dtCustOld.Rows
+						If (drCusts("CustomerId") = dtTank.Rows(0)("CustomerId").ToString()) Then
+							isValid = True
+							Exit For
+						End If
+
+					Next
+				End If
+
+				If (Not Session("RoleName") = "SuperAdmin" And Not isValid = True) Then
 
 					Dim dtCustOld As DataTable = New DataTable()
 
@@ -93,9 +106,9 @@ Public Class Tank
 
 					If (dtCustOld.Rows(0)("CustomerId").ToString() <> dtTank.Rows(0)("CustomerId").ToString()) Then
 
-                        ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "NotValidUser();", True)
+						ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "NotValidUser();", True)
 
-                        Return
+						Return
 					End If
 
 				End If
@@ -153,10 +166,17 @@ Public Class Tank
 
 				End If
 				If (cnt >= HDF_TotalTank.Value) Then
-					btnNext.Enabled = False
-					btnLast.Enabled = False
-					btnFirst.Enabled = True
-					btnprevious.Enabled = True
+					If (cnt = 1) Then
+						btnNext.Enabled = False
+						btnLast.Enabled = False
+						btnFirst.Enabled = False
+						btnprevious.Enabled = False
+					Else
+						btnNext.Enabled = False
+						btnLast.Enabled = False
+						btnFirst.Enabled = True
+						btnprevious.Enabled = True
+					End If
 				ElseIf (cnt <= 1) Then
 					btnNext.Enabled = True
 					btnLast.Enabled = True
@@ -202,7 +222,7 @@ Public Class Tank
 			DDL_Customer.DataBind()
 			DDL_Customer.Items.Insert(0, New ListItem("Select Company", "0"))
 
-			If (Not Session("RoleName") = "SuperAdmin") Then
+			If (Not Session("RoleName") = "SuperAdmin" And Not Session("RoleName") = "GroupAdmin") Then
 				DDL_Customer.SelectedIndex = 1
 				DDL_Customer.Enabled = False
 				DDL_Customer.Visible = False
@@ -210,7 +230,11 @@ Public Class Tank
 			End If
 
 			If (Session("CustomerId") <> 0 And Not Session("CustomerId") Is Nothing) Then
-				DDL_Customer.SelectedIndex = 1
+				If (Session("RoleName") = "GroupAdmin") Then
+					DDL_Customer.SelectedValue = Session("CustomerId")
+				Else
+					DDL_Customer.SelectedIndex = 1
+				End If
 
 			End If
 			DDL_Customer_SelectedIndexChanged(Nothing, Nothing)

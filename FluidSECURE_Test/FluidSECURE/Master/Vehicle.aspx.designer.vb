@@ -563,6 +563,15 @@ Partial Public Class Vehicle
     Protected WithEvents txtFSTagMacAddress As Global.System.Web.UI.WebControls.TextBox
     
     '''<summary>
+    '''btnClearFSTagMacAddress control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnClearFSTagMacAddress As Global.System.Web.UI.WebControls.Button
+    
+    '''<summary>
     '''txt_FirmwareVer control.
     '''</summary>
     '''<remarks>

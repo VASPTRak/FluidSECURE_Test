@@ -159,10 +159,12 @@ Public Class UserData
 	Public IsAccessForFOBApp As String
 	Public LFBluetoothCardReader As String
 	Public LFBluetoothCardReaderMacAddress As String
-    Public VeederRootMacAddress As String
-    Public CollectDiagnosticLogs As String
+        Public VeederRootMacAddress As String
+        Public CollectDiagnosticLogs As String
 	Public IsGateHub As String
-	Public IsVehicleNumberRequire As String
+    Public IsVehicleNumberRequire As String
+    Public IsLogging As String
+    Public WifiChannelToUse As String
 End Class
 
 Public Class ArrayData
@@ -243,7 +245,8 @@ Public Class SSIDData
 	Public VeederRootMacAddress As String
 	Public FSNPMacAddress As String
 	Public IsDefective As String
-	Public ReconfigureLink As String
+    Public ReconfigureLink As String
+    Public IsTLDCall As String
 End Class
 
 Public Class HoseNameReplaced

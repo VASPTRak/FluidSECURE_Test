@@ -264,7 +264,7 @@
                         <div class="form-group col-md-6 col-sm-6 textright col-xs-12">
                         </div>
                         <div class="form-group col-md-3 col-sm-3 col-xs-12">
-                            <asp:Button runat="server" ID="btnMainCancel" CssClass="btn btn-success" TabIndex="21" Text="Cancel" OnClick="btnMainCancel_Click"></asp:Button>
+                            <asp:Button runat="server" ID="btnMainCancel" CssClass="btn btn-default" TabIndex="21" Text="Cancel" OnClick="btnMainCancel_Click"></asp:Button>
                         </div>
                     </div>
                 </div>

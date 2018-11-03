@@ -996,6 +996,7 @@ Public Class HandlerTrak
                 objUserData.LFBluetoothCardReaderMacAddress = row("LFBluetoothCardReaderMacAddress").ToString().ToUpper()
                 objUserData.VeederRootMacAddress = row("VeederRootMacAddress").ToString()
                 objUserData.CollectDiagnosticLogs = row("CollectDiagnosticLogs").ToString()
+                objUserData.IsLogging = row("Islogging").ToString()
                 log.Debug("IsGateHub : " & row("IsGateHub").ToString())
                 objUserData.IsGateHub = row("IsGateHub").ToString()
                 log.Debug("IsFluidSecureHub - " & row("IsFluidSecureHub").ToString())
@@ -1005,6 +1006,7 @@ Public Class HandlerTrak
                     objUserData.IsVehicleNumberRequire = ds.Tables(1).Rows(0)(0).ToString()
                 End If
 
+                objUserData.WifiChannelToUse = row("WifiChannelToUse").ToString()
 
                 'Dim seri As New JavaScriptSerializer()
                 'Dim jStr As String = seri.Serialize(objUserData)
@@ -1086,7 +1088,8 @@ Public Class HandlerTrak
        .DateTimeTermConditionAccepted = Nothing,
     .IsGateHub = False,
     .IsVehicleNumberRequire = False,
-    .HubAddress = ""
+    .HubAddress = "",
+    .IsLogging = 0
  }
             Dim result As IdentityResult = manager.Create(user, "FluidSecure*123")
 
@@ -1171,7 +1174,8 @@ Public Class HandlerTrak
             .DateTimeTermConditionAccepted = Nothing,
     .IsGateHub = False,
     .IsVehicleNumberRequire = False,
-    .HubAddress = ""
+    .HubAddress = "",
+    .IsLogging = 0
  }
 
             Dim result As IdentityResult = manager.Create(user, "Fuel@123")
@@ -1245,6 +1249,8 @@ Public Class HandlerTrak
         rootOject.objUserData.VeederRootMacAddress = Data.VeederRootMacAddress.ToString()
         rootOject.objUserData.IsAccessForFOBApp = Data.IsAccessForFOBApp
         rootOject.objUserData.CollectDiagnosticLogs = Data.CollectDiagnosticLogs
+        rootOject.objUserData.IsLogging = Data.IsLogging
+        rootOject.objUserData.WifiChannelToUse = Data.WifiChannelToUse
         rootOject.objUserData.IsGateHub = Data.IsGateHub
         rootOject.objUserData.IsVehicleNumberRequire = Data.IsVehicleNumberRequire
 
@@ -1372,7 +1378,7 @@ Public Class HandlerTrak
                     If (Not dtFirmwares Is Nothing) Then
                         If (dtFirmwares.Rows.Count > 0) Then
                             FirmwareVersion = dtFirmwares.Rows(0)("Version")
-                            FilePath = "http://" + HttpContext.Current.Request.Url.Authority & dtFirmwares.Rows(0)("FirmwareFilePath")
+                            FilePath = "" + HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Authority & dtFirmwares.Rows(0)("FirmwareFilePath")
                         End If
                     End If
                     objSSIDData.FilePath = FilePath
@@ -1384,6 +1390,7 @@ Public Class HandlerTrak
                     objSSIDData.VeederRootMacAddress = Data.VeederRootMacAddress
                     objSSIDData.FSNPMacAddress = row("FSNPMacAddress").ToString()
                     objSSIDData.ReconfigureLink = IIf(row("ReconfigureLink").ToString(), "True", "False")
+                    objSSIDData.IsTLDCall = IIf(row("PROBEMacAddress").ToString() = "", "False", "True")
                     rootOject.SSIDDataObj.Add(objSSIDData)
                 Next
 
@@ -1450,7 +1457,6 @@ Public Class HandlerTrak
                                 json = javaScriptSerializer.Serialize(DefectiveBluetoothInfoEmailResponceObj)
                                 context.Response.Write(json)
                                 Return
-
                             End If
 
 
@@ -1459,61 +1465,125 @@ Public Class HandlerTrak
                             Dim SiteName As String = DirectCast(serJsonDetails, DefectiveBluetoothInfoEmailMaser).SiteName
                             Dim LinkDefectiveTrakEmail As String() = ConfigurationManager.AppSettings("LinkDefectiveTrakEmail").Split(";")
 
-                            For index = 0 To LinkDefectiveTrakEmail.Length - 1
-                                If (LinkDefectiveTrakEmail(index) = "") Then
-                                    Continue For
-                                End If
-                                Dim body As String = String.Empty
+                            Dim objWebServiceBAL As WebServiceBAL = New WebServiceBAL()
+                            Dim dtDefectiveBluetoothInfo As DataTable = objWebServiceBAL.CheckDefectiveBluetoothInfoEmail(HubName)
 
-                                Using sr As New StreamReader(System.Web.Hosting.HostingEnvironment.MapPath("~/DefectiveBluetoothInfoEmail.txt"))
-                                    body = sr.ReadToEnd()
-                                End Using
+                            If dtDefectiveBluetoothInfo IsNot Nothing Then
+                                If dtDefectiveBluetoothInfo.Rows.Count > 0 Then
+                                    log.Debug("IsInProgress: " & dtDefectiveBluetoothInfo.Rows(0)("IsInProgress").ToString())
+                                    log.Debug("cntEntry: " & dtDefectiveBluetoothInfo.Rows(0)("cntEntry").ToString())
+                                    If dtDefectiveBluetoothInfo.Rows(0)("IsInProgress").ToString() = "0" Then
+                                        If dtDefectiveBluetoothInfo.Rows(0)("cntEntry").ToString() = "0" Then
+                                            For index = 0 To LinkDefectiveTrakEmail.Length - 1
+                                                log.Debug("LinkDefectiveTrakEmail:" & LinkDefectiveTrakEmail(index))
+                                                If (LinkDefectiveTrakEmail(index) = "") Then
+                                                    Continue For
+                                                End If
+                                                Dim body As String = String.Empty
 
-                                '------------------
-                                body = body.Replace("CustomerEmail", LinkDefectiveTrakEmail(index))
-                                body = body.Replace("HubName", HubName)
-                                body = body.Replace("CompanyName", dsIMEI.Tables(0).Rows(0)("CustomerName").ToString())
+                                                Using sr As New StreamReader(System.Web.Hosting.HostingEnvironment.MapPath("~/DefectiveBluetoothInfoEmail.txt"))
+                                                    body = sr.ReadToEnd()
+                                                End Using
 
-                                If SiteName IsNot Nothing Then
-                                    If SiteName <> "" Then
-                                        body = body.Replace("SiteName", SiteName)
+                                                '------------------
+                                                body = body.Replace("CustomerEmail", LinkDefectiveTrakEmail(index))
+                                                body = body.Replace("HubName", HubName)
+                                                body = body.Replace("CompanyName", dsIMEI.Tables(0).Rows(0)("CustomerName").ToString())
+
+                                                If SiteName IsNot Nothing Then
+                                                    If SiteName <> "" Then
+                                                        body = body.Replace("SiteName", SiteName)
+                                                    Else
+                                                        body = body.Replace("Site name : <b>SiteName</b> <br />", "")
+                                                    End If
+                                                End If
+
+                                                Dim e As New EmailService()
+
+
+                                                Dim mailClient As New SmtpClient(ConfigurationManager.AppSettings("smtpServer"))
+
+
+                                                mailClient.Credentials = New NetworkCredential(ConfigurationManager.AppSettings("emailAccount"), ConfigurationManager.AppSettings("emailPassword"))
+                                                mailClient.Port = Convert.ToInt32(ConfigurationManager.AppSettings("smtpPort"))
+
+                                                Dim messageSend As New MailMessage()
+                                                messageSend.From = New MailAddress(ConfigurationManager.AppSettings("FromEmail"))
+                                                messageSend.[To].Add(New MailAddress(LinkDefectiveTrakEmail(index)))
+
+                                                messageSend.Subject = "Attention required - " & dsIMEI.Tables(0).Rows(0)("CustomerName").ToString() & " -> " & HubName & "'s BT reader connection broken" & " "
+
+                                                messageSend.Body = body
+
+                                                messageSend.IsBodyHtml = True
+                                                mailClient.EnableSsl = Convert.ToBoolean(ConfigurationManager.AppSettings("EnableSsl"))
+
+                                                'log.Debug("body:  " & body)
+
+                                                Try
+                                                    mailClient.Send(messageSend)
+                                                    log.Debug("Mail sent to: " & LinkDefectiveTrakEmail(index))
+                                                    sendResponse = 1
+                                                Catch ex As Exception
+                                                    log.Debug("Exception occurred in sending Link Defective emails to EmailId : " & LinkDefectiveTrakEmail(index) & ". ex is :" & ex.Message)
+                                                    'ErrorInAuthontication(context, "fail", "Defective Bluetooth Info Email Send failed.")
+                                                End Try
+
+                                            Next
+
+
+                                            If (sendResponse = 1) Then
+                                                Try
+                                                    objWebServiceBAL = New WebServiceBAL()
+                                                    objWebServiceBAL.InsertUpdateDefectiveBluetoothInfoEmailRecord(HubName)
+                                                    log.Debug("Update: " & HubName)
+                                                Catch ex As Exception
+                                                    log.Debug("Exception occurred in InsertUpdateDefectiveBluetoothInfoEmailRecord fot HubName : " & HubName & ". ex Is : " & ex.Message)
+                                                End Try
+
+                                                DefectiveBluetoothInfoEmailResponceObj.ResponceMessage = "success"
+                                                DefectiveBluetoothInfoEmailResponceObj.ResponceText = "Defective Bluetooth Info Email Send successfully!"
+
+                                                json = javaScriptSerializer.Serialize(DefectiveBluetoothInfoEmailResponceObj)
+                                                context.Response.Write(json)
+                                                Return
+                                            Else
+                                                log.Debug("ProcessRequest: DefectiveBluetoothInfoEmail- Email not sent to anyone.")
+                                                ErrorInAuthontication(context, "fail", "Defective Bluetooth Info Email Send failed.")
+                                            End If
+                                        Else
+
+                                            DefectiveBluetoothInfoEmailResponceObj.ResponceMessage = "success"
+                                            DefectiveBluetoothInfoEmailResponceObj.ResponceText = "Already sent Defective Bluetooth Info Email so Skipped!"
+
+                                            json = javaScriptSerializer.Serialize(DefectiveBluetoothInfoEmailResponceObj)
+                                            context.Response.Write(json)
+                                            Return
+                                        End If
                                     Else
-                                        body = body.Replace("Site name : <b>SiteName</b> <br />", "")
+                                        DefectiveBluetoothInfoEmailResponceObj.ResponceMessage = "success"
+                                        DefectiveBluetoothInfoEmailResponceObj.ResponceText = "Already sent Defective Bluetooth Info Email so Skipped!"
+
+                                        json = javaScriptSerializer.Serialize(DefectiveBluetoothInfoEmailResponceObj)
+                                        context.Response.Write(json)
+                                        Return
                                     End If
+                                Else
+                                    DefectiveBluetoothInfoEmailResponceObj.ResponceMessage = "success"
+                                    DefectiveBluetoothInfoEmailResponceObj.ResponceText = "Already sent Defective Bluetooth Info Email so Skipped!"
+
+                                    json = javaScriptSerializer.Serialize(DefectiveBluetoothInfoEmailResponceObj)
+                                    context.Response.Write(json)
+                                    Return
                                 End If
+                            Else
+                                DefectiveBluetoothInfoEmailResponceObj.ResponceMessage = "success"
+                                DefectiveBluetoothInfoEmailResponceObj.ResponceText = "Already sent Defective Bluetooth Info Email so Skipped!"
 
-                                Dim e As New EmailService()
-
-
-                                Dim mailClient As New SmtpClient(ConfigurationManager.AppSettings("smtpServer"))
-
-
-                                mailClient.Credentials = New NetworkCredential(ConfigurationManager.AppSettings("emailAccount"), ConfigurationManager.AppSettings("emailPassword"))
-                                mailClient.Port = Convert.ToInt32(ConfigurationManager.AppSettings("smtpPort"))
-
-                                Dim messageSend As New MailMessage()
-                                messageSend.From = New MailAddress(ConfigurationManager.AppSettings("FromEmail"))
-                                messageSend.[To].Add(New MailAddress(LinkDefectiveTrakEmail(index)))
-
-                                messageSend.Subject = "Attention required - " & dsIMEI.Tables(0).Rows(0)("CustomerName").ToString() & " -> " & HubName & "'s BT reader connection broken" & " "
-
-                                messageSend.Body = body
-
-                                messageSend.IsBodyHtml = True
-                                mailClient.EnableSsl = Convert.ToBoolean(ConfigurationManager.AppSettings("EnableSsl"))
-
-                                'log.Debug("body:  " & body)
-
-                                Try
-                                    mailClient.Send(messageSend)
-                                    sendResponse = 1
-                                Catch ex As Exception
-                                    log.Debug("Exception occurred in sending Link Defective emails to EmailId : " & LinkDefectiveTrakEmail(index) & ". ex is :" & ex.Message)
-                                    'ErrorInAuthontication(context, "fail", "Defective Bluetooth Info Email Send failed.")
-                                End Try
-                            Next
-
-
+                                json = javaScriptSerializer.Serialize(DefectiveBluetoothInfoEmailResponceObj)
+                                context.Response.Write(json)
+                                Return
+                            End If
                         Else
                             log.Debug("ProcessRequest: DefectiveBluetoothInfoEmail- Your registration request not approved. Please contact administrator. IMEI_UDID=" & IMEI_UDID)
                             ErrorInAuthontication(context, "fail", resourceManager.GetString("HandlerMsg28"))
@@ -1525,16 +1595,6 @@ Public Class HandlerTrak
                 Else
                     log.Debug("ProcessRequest: DefectiveBluetoothInfoEmail- IMEI_UDID does not exist for IMEI_UDID=" & IMEI_UDID)
                     ErrorInAuthontication(context, "fail", resourceManager.GetString("HandlerMsg29"))
-                End If
-                If (sendResponse = 1) Then
-                    DefectiveBluetoothInfoEmailResponceObj.ResponceMessage = "success"
-                    DefectiveBluetoothInfoEmailResponceObj.ResponceText = "Defective Bluetooth Info Email Send successfully!"
-
-                    json = javaScriptSerializer.Serialize(DefectiveBluetoothInfoEmailResponceObj)
-                    context.Response.Write(json)
-                Else
-                    log.Debug("ProcessRequest: DefectiveBluetoothInfoEmail- Email not sent to anyone.")
-                    ErrorInAuthontication(context, "fail", "Defective Bluetooth Info Email Send failed.")
                 End If
                 steps = "3"
             End Using
@@ -2163,6 +2223,7 @@ Public Class HandlerTrak
                                         rootOject.ResponceData.ServerDate = transactionDate
                                         rootOject.ResponceData.PumpOnTime = dtHose.Rows(0)("PumpOnTime")
                                         rootOject.ResponceData.PumpOffTime = dtHose.Rows(0)("PumpOffTime")
+                                        rootOject.ResponceData.IsTLDCall = IIf(dtHose.Rows(0)("PROBEMacAddress").ToString() = "", "False", "True")
                                         rootOject.ResponceData.PulserStopTime = ConfigurationManager.AppSettings("PulserStopTime").ToString()
 
 
@@ -2241,8 +2302,14 @@ Public Class HandlerTrak
                                         TransactionId = OBJMasterBAL.InsertUpdateTransaction(VehicleId, SiteId, PersonId, OdoMeter, 0, fuelTypeOfHose, phoneNumber, WifiSSId.ToString().Trim(), transactionDate,
                                                                 0, 0, TransactionFrom, 0, Convert.ToDouble(CurrentLat).ToString("0.00000"), Convert.ToDouble(CurrentLng).ToString("0.00000"), CurrentLocationAddress,
                                                               IIf(VehicleNumber.Trim().ToLower().Contains("guest"), VehicleNumber.Trim(), dtVehicle.Rows(0)("VehicleNumber").ToString().Trim()), DepartmentNumber, PersonnelPIN.Trim(), Other, IIf(Hours = "", -1, Hours), True, False, 0, HubId, 0,
-                                                                dtVehicle.Rows(0)("VehicleName").ToString(), DepartmentName, FuelTypeName, Email, PersonName, CompanyName, 0, Convert.ToInt32(dsTransactionValuesData.Tables(3).Rows(0)("CustomerId")), 0, 0) '
+                                                                 dtVehicle.Rows(0)("VehicleName").ToString(), DepartmentName, FuelTypeName, Email, PersonName, CompanyName, 0, Convert.ToInt32(dsTransactionValuesData.Tables(3).Rows(0)("CustomerId")), 0, 0, 0) '
 
+                                        If (TransactionId = 0) Then
+                                            log.Debug("ProcessRequest: AuthorizationSequence- Error occcured in saving transactions.")
+
+                                            ErrorInAuthontication(context, "fail", resourceManager.GetString("HandlerMsg15"))
+                                            Return
+                                        End If
 
                                         Dim dtSingleTransacton As DataTable = New DataTable()
                                         dtSingleTransacton = OBJMasterBAL.GetTransactionById(TransactionId, False)
@@ -2279,7 +2346,7 @@ Public Class HandlerTrak
                                         If (Not dtFirmwares Is Nothing) Then
                                             If (dtFirmwares.Rows.Count > 0) Then
                                                 FirmwareVersion = dtFirmwares.Rows(0)("Version")
-                                                FilePath = "http://" + HttpContext.Current.Request.Url.Authority & dtFirmwares.Rows(0)("FirmwareFilePath")
+                                                FilePath = "" + HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Authority & dtFirmwares.Rows(0)("FirmwareFilePath")
                                             End If
                                         End If
                                         steps = "CheckFuelType 7_9"
@@ -2428,6 +2495,8 @@ Public Class HandlerTrak
         rootOject.objUserData.VeederRootMacAddress = data.VeederRootMacAddress
         rootOject.objUserData.IsAccessForFOBApp = data.IsAccessForFOBApp
         rootOject.objUserData.CollectDiagnosticLogs = data.CollectDiagnosticLogs
+        rootOject.objUserData.IsLogging = data.IsLogging
+        rootOject.objUserData.WifiChannelToUse = data.WifiChannelToUse
         rootOject.objUserData.IsGateHub = data.IsGateHub
         rootOject.objUserData.IsVehicleNumberRequire = data.IsVehicleNumberRequire
 
@@ -2626,7 +2695,7 @@ Public Class HandlerTrak
                         Dim Beforedata = CreateData(TransactionId, CreateDataFor)
 
                         TransactionId = OBJMasterBAL.InsertUpdateTransaction(dtSingleTransacton.Rows(0)("VehicleId"), 0, 0, dtSingleTransacton.Rows(0)("CurrentOdometer"), FuelQuantity, 0, "", "", DateTime.Now, TransactionId, dtSingleTransacton.Rows(0)("PersonId"),
-                                                                            "", dtSingleTransacton.Rows(0)("PreviousOdometer"), "", "", "", "", "", "", "", 0, False, True, 0, 0, Pulses, "", "", "", "", "", "", 0, 0, 0, 0) '
+                                                                            "", dtSingleTransacton.Rows(0)("PreviousOdometer"), "", "", "", "", "", "", "", 0, False, True, 0, 0, Pulses, "", "", "", "", "", "", 0, 0, 0, 0, 0) '
 
                         If TransactionId <> 0 Then 'success
                             Try
@@ -2878,7 +2947,7 @@ Public Class HandlerTrak
                 Dim Beforedata = CreateData(TransactionId, CreateDataFor)
                 log.Error("UpdateTenTransactions Step 8 ")
                 TransactionId = OBJMasterBAL.InsertUpdateTransaction(dtSingleTransacton.Rows(0)("VehicleId"), 0, 0, dtSingleTransacton.Rows(0)("CurrentOdometer"), FuelQuantity, 0, "", "", DateTime.Now, TransactionId, dtSingleTransacton.Rows(0)("PersonId"),
-                                                                        "", dtSingleTransacton.Rows(0)("PreviousOdometer"), "", "", "", "", "", "", "", 0, False, True, 0, 0, Pulses, "", "", "", "", "", "", 0, 0, 0, 0) '
+                                                                        "", dtSingleTransacton.Rows(0)("PreviousOdometer"), "", "", "", "", "", "", "", 0, False, True, 0, 0, Pulses, "", "", "", "", "", "", 0, 0, 0, 0, 0) '
                 log.Error("UpdateTenTransactions Step 9 ")
                 If TransactionId <> 0 Then 'success
 
@@ -3070,6 +3139,8 @@ Public Class HandlerTrak
         rootOject.objUserData.LFBluetoothCardReaderMacAddress = userObj.LFBluetoothCardReaderMacAddress
         rootOject.objUserData.VeederRootMacAddress = userObj.VeederRootMacAddress
         rootOject.objUserData.CollectDiagnosticLogs = userObj.CollectDiagnosticLogs
+        rootOject.objUserData.IsLogging = userObj.IsLogging
+        rootOject.objUserData.WifiChannelToUse = userObj.WifiChannelToUse
         rootOject.objUserData.IsGateHub = userObj.IsGateHub
         rootOject.objUserData.IsVehicleNumberRequire = userObj.IsVehicleNumberRequire
 
@@ -3760,6 +3831,18 @@ Public Class HandlerTrak
 
                                         If (FOBNumber <> "" And PersonnelPIN.Trim() = "") Then
                                             OBJMasterBAL.AssignedFOBNumberToVehicle(VehicleId, FOBNumber.Replace(" ", ""))
+
+                                            Try
+                                                If (ConfigurationManager.AppSettings("AllowActivityLogin").ToString().ToLower() = "yes") Then
+                                                    Dim writtenData As String = "VehicleId = " & VehicleId & " ; " & "FOBNumber= " & FOBNumber.Replace(" ", "") & ";"
+                                                    OBJServiceBAL = New WebServiceBAL()
+                                                    Dim dsIMEI As DataSet = OBJServiceBAL.IsIMEIExists(IMEI_UDID)
+                                                    CSCommonHelper.WriteLog("Added", "AssignedFOBNumberToVehicle", "", writtenData, dsIMEI.Tables(0).Rows(0)("PersonName") & "(" & dsIMEI.Tables(0).Rows(0)("Email") & ")", IPAddress, "success", "")
+                                                End If
+                                            Catch ex As Exception
+
+                                            End Try
+
                                         End If
 
 
@@ -4055,7 +4138,7 @@ Public Class HandlerTrak
             TransactionId = OBJMasterBAL.InsertUpdateTransaction(VehicleId, SiteId, PersonId, CurrentOdometer, FuelQuantity, FuelTypeId, PhoneNumber, WifiSSId.ToString().Trim(), TransactionDate,
                                                               0, 0, TransactionFrom, 0, Convert.ToDouble(CurrentLat).ToString("0.00000"), Convert.ToDouble(CurrentLng).ToString("0.00000"), CurrentLocationAddress,
                                                               VehicleNumber.Trim(), DepartmentNumber, PersonnelPIN.Trim(), Other, IIf(Hours = "", -1, Hours), False, False, 2, 0, 0,
-                                                                 VehicleName, DepartmentName, FuelTypeName, Email, PersonName, CompanyName, 0, Convert.ToInt32(dsTransactionValuesData.Tables(3).Rows(0)("CustomerId")), 0, 0) '
+                                                                 VehicleName, DepartmentName, FuelTypeName, Email, PersonName, CompanyName, 0, Convert.ToInt32(dsTransactionValuesData.Tables(3).Rows(0)("CustomerId")), 0, 0, 0) '
 
             If TransactionId <> 0 Then 'success
                 Try
@@ -4545,6 +4628,7 @@ Public Class HandlerTrak
         End Try
         Return ""
     End Function
+
     Private Function UpgradeTransactionStatus(context As HttpContext)
         Dim requestJson As String = ""
         Try
@@ -4821,6 +4905,15 @@ Public Class HandlerTrak
                                         Else
                                             log.Info("CheckValidPersonPinOrFOBNUmber : 6_2")
                                             OBJMasterBAL.AssignedFOBNumberToPerson(PersonPIN.Trim(), PersonFOBNumber.Replace(" ", ""), customerId)
+                                            Try
+                                                If (ConfigurationManager.AppSettings("AllowActivityLogin").ToString().ToLower() = "yes") Then
+                                                    Dim writtenData As String = "PersonnelPIN = " & PersonPIN.Trim() & " ; " & "FOBNumber= " & PersonFOBNumber.Replace(" ", "") & ";" & "CustomerId=" & customerId
+                                                    OBJServiceBAL = New WebServiceBAL()
+                                                    CSCommonHelper.WriteLog("Added", "AssignedFOBNumberToPerson", "", writtenData, dsIMEI.Tables(0).Rows(0)("PersonName") & "(" & dsIMEI.Tables(0).Rows(0)("Email") & ")", IPAddress, "success", "")
+                                                End If
+                                            Catch ex As Exception
+                                                log.Error("Error occured in AssignedFOBNumberToPerson. Exception is : " & ex.Message)
+                                            End Try
                                             CheckValidPersonPinOrFOBNUmberResponse.ResponceMessage = "success"
                                             CheckValidPersonPinOrFOBNUmberResponse.ResponceText = "success"
                                             CheckValidPersonPinOrFOBNUmberResponse.PersonFOBNumber = PersonFOBNumber.Replace(" ", "")
@@ -4830,6 +4923,15 @@ Public Class HandlerTrak
                                     Else
                                         log.Info("CheckValidPersonPinOrFOBNUmber : 7")
                                         OBJMasterBAL.AssignedFOBNumberToPerson(PersonPIN.Trim(), PersonFOBNumber.Replace(" ", ""), customerId)
+                                        Try
+                                            If (ConfigurationManager.AppSettings("AllowActivityLogin").ToString().ToLower() = "yes") Then
+                                                Dim writtenData As String = "PersonnelPIN = " & PersonPIN.Trim() & " ; " & "FOBNumber= " & PersonFOBNumber.Replace(" ", "") & ";" & "CustomerId=" & customerId
+                                                OBJServiceBAL = New WebServiceBAL()
+                                                CSCommonHelper.WriteLog("Added", "AssignedFOBNumberToPerson", "", writtenData, dsIMEI.Tables(0).Rows(0)("PersonName") & "(" & dsIMEI.Tables(0).Rows(0)("Email") & ")", IPAddress, "success", "")
+                                            End If
+                                        Catch ex As Exception
+                                            log.Error("Error occured in AssignedFOBNumberToPerson. Exception is : " & ex.Message)
+                                        End Try
                                         CheckValidPersonPinOrFOBNUmberResponse.ResponceMessage = "success"
                                         CheckValidPersonPinOrFOBNUmberResponse.ResponceText = "success"
                                         CheckValidPersonPinOrFOBNUmberResponse.PersonFOBNumber = PersonFOBNumber.Replace(" ", "")
@@ -4988,6 +5090,15 @@ Public Class HandlerTrak
 
                                     If (FOBNumber <> "") Then
                                         OBJMasterBAL.AssignedFOBNumberToVehicle(vehicleId, FOBNumber.Replace(" ", ""))
+                                        Try
+                                            If (ConfigurationManager.AppSettings("AllowActivityLogin").ToString().ToLower() = "yes") Then
+                                                Dim writtenData As String = "VehicleId = " & vehicleId & " ; " & "FOBNumber= " & FOBNumber.Replace(" ", "") & ";"
+                                                OBJServiceBAL = New WebServiceBAL()
+                                                CSCommonHelper.WriteLog("Added", "AssignedFOBNumberToVehicle", "", writtenData, dsIMEI.Tables(0).Rows(0)("PersonName") & "(" & dsIMEI.Tables(0).Rows(0)("Email") & ")", IPAddress, "success", "")
+                                            End If
+                                        Catch ex As Exception
+                                            log.Error("Error occured in AssignedFOBNumberToVehicle. Exception is : " & ex.Message)
+                                        End Try
                                     End If
 
                                     Dim json As String
@@ -5049,6 +5160,20 @@ Public Class HandlerTrak
                 ProbeReading = CalculateProbeReading(LSB, MSB, Response_code)
             End If
 
+            log.Info("ProbeReading==>" & ProbeReading)
+
+            If (ProbeReading Is Nothing Or ProbeReading = "") Then
+                Dim tankMonitorReadingResponse = New TankMonitorReadingResponse()
+                tankMonitorReadingResponse.ResponceMessage = "success"
+                tankMonitorReadingResponse.ResponceText = "Probe Reading not found."
+                log.Debug("ProcessRequest: SaveTankMonitorReading- Probe Reading not found. ProbeReading = " & ProbeReading & " IMEI_UDID=" & IMEI_UDID)
+                Dim json As String
+                json = javaScriptSerializer.Serialize(tankMonitorReadingResponse)
+
+                context.Response.Write(json)
+                Return
+            End If
+
             If (ProbeReading <= 0) Then
                 Dim tankMonitorReadingResponse = New TankMonitorReadingResponse()
                 tankMonitorReadingResponse.ResponceMessage = "success"
@@ -5062,27 +5187,10 @@ Public Class HandlerTrak
             End If
 
             Dim calculatedTempareture As Decimal = 0
-            'If (Response_code <> "159") Then
             If (TLDTemperature Is Nothing) Then
                 calculatedTempareture = "20"
             Else
                 calculatedTempareture = (TLDTemperature * 0.48876) - 50
-            End If
-
-            'End If
-
-            log.Info("ProbeReading==>" & ProbeReading)
-
-            If (ProbeReading Is Nothing Or ProbeReading = "") Then
-                Dim tankMonitorReadingResponse = New TankMonitorReadingResponse()
-                tankMonitorReadingResponse.ResponceMessage = "success"
-                tankMonitorReadingResponse.ResponceText = "Probe Reading not found."
-                log.Debug("ProcessRequest: SaveTankMonitorReading- Probe Reading not found. ProbeReading = " & ProbeReading & " IMEI_UDID=" & IMEI_UDID)
-                Dim json As String
-                json = javaScriptSerializer.Serialize(tankMonitorReadingResponse)
-
-                context.Response.Write(json)
-                Return
             End If
 
             If (TLD Is Nothing Or TLD = "") Then
@@ -5485,6 +5593,10 @@ Public Class HandlerTrak
                 'Dim CurrentLat = context.Request("CurrentLat")
                 'Dim CurrentLng = context.Request("CurrentLng")
 
+                If CurrentFSVMFirmwareVersion Is Nothing Then
+                    CurrentFSVMFirmwareVersion = ""
+                End If
+
                 Dim FAVehicleAuthorizationMasterResponseObj = New FAVehicleAuthorizationMasterResponse()
                 Dim json As String
 
@@ -5711,8 +5823,11 @@ Public Class HandlerTrak
                             Dim insertFlag As Boolean = False
 
                             Try
-                                Dim dtTransactionVehicleInfo As DataTable
-                                dtTransactionVehicleInfo = OBJMasterBAL.GetTransactionsByCondition(" and T.CompanyId = " & customerId & " and (((ISNULL(T.TransactionStatus,0) = 1  or ISNULL(T.IsMissed,0)= 1) or ISNULL(T.TransactionStatus,0) = 0) and datediff(minute, T.[CreatedDate] ,getdate()) <= 15) and LTRIM(RTRIM(T.VehicleNumber)) = '" & VehicleNumber.Trim() & "'", personId, RoleId, 0)
+                                Dim dtTransactionVehicleInfo As DataTable = New DataTable()
+                                Dim dsT As DataSet = New DataSet()
+                                dsT = OBJMasterBAL.GetTransactionsByCondition(" and T.CompanyId = " & customerId & " and (((ISNULL(T.TransactionStatus,0) = 1  or ISNULL(T.IsMissed,0)= 1) or ISNULL(T.TransactionStatus,0) = 0) and datediff(minute, T.[CreatedDate] ,getdate()) <= 15) and LTRIM(RTRIM(T.VehicleNumber)) = '" & VehicleNumber.Trim() & "'", personId, RoleId, 0, 0, 0, False, "", "")
+                                dtTransactionVehicleInfo = dsT.Tables(0)
+
                                 If dtTransactionVehicleInfo IsNot Nothing Then
                                     If dtTransactionVehicleInfo.Rows.Count = 0 Then
                                         insertFlag = True
@@ -5728,6 +5843,22 @@ Public Class HandlerTrak
                                 log.Debug("Error VIN + steps - " & steps & ". Error is " + ex.Message)
                             End Try
 
+                            steps = "VehicleRecurringMSG 3 - 2 -0"
+
+                            Dim resultUpgradable As String = ""
+                            resultUpgradable = IsUpgradeCurrentVersionWithUgradableVersionFSVM(dsVehicleValuesData.Rows(0)("VehicleId"), personId, CurrentFSVMFirmwareVersion)
+
+                            If resultUpgradable = "" Then
+                                resultUpgradable = "N"
+                            End If
+
+                            log.Debug("resultUpgradable: " & resultUpgradable & " VehicleId: " & dsVehicleValuesData.Rows(0)("VehicleId") & " personId: " & personId)
+
+                            If resultUpgradable.ToUpper() = "Y" Then
+                                FAVehicleAuthorizationMasterResponseObj = GetLaunchedFSVMFirmwareDetails(FAVehicleAuthorizationMasterResponseObj)
+                            End If
+
+                            FAVehicleAuthorizationMasterResponseObj.IsFSVMUpgradable = resultUpgradable
 
                             ' 1 km = 0.621371 miles
 
@@ -5736,7 +5867,7 @@ Public Class HandlerTrak
                                 TransactionId = OBJMasterBAL.InsertUpdateTransaction(VehicleId, 0, personId, (Odometer * KilometerTOMiles) - DiffRawOdoAndManualOdo, 0, 0, Phonenumber, "", TransactionDate,
                                                                 0, 0, TransactionFrom, 0, CurrentLat, CurrentLng, "",
                                                               VehicleNumber.Trim(), DepartmentNumber, PinNumber.Trim(), "", -1, True, False, 0, personId, 0,
-                                                                VehicleName, DepartmentName, FuelTypeName, Email, PersonName, CompanyName, 0, customerId, 0, Odometer)
+                                                                VehicleName, DepartmentName, FuelTypeName, Email, PersonName, CompanyName, 0, customerId, 0, Odometer, 1)
                                 log.Debug("In Insert Transaction ODOK - " & Odometer)
                             Else
                                 steps = "VehicleRecurringMSG 3 - 2 -1"
@@ -5745,7 +5876,7 @@ Public Class HandlerTrak
                                     TransactionId = OBJMasterBAL.InsertUpdateTransaction(VehicleId, 0, personId, (Odometer * KilometerTOMiles) - DiffRawOdoAndManualOdo, 0, 0, Phonenumber, "", TransactionDate,
                                                                 TransactionId, 0, TransactionFrom, 0, CurrentLat, CurrentLng, "",
                                                               VehicleNumber.Trim(), DepartmentNumber, PinNumber.Trim(), "", -1, True, False, 0, personId, 0,
-                                                                VehicleName, DepartmentName, FuelTypeName, Email, PersonName, CompanyName, 0, customerId, 0, Odometer)
+                                                                VehicleName, DepartmentName, FuelTypeName, Email, PersonName, CompanyName, 0, customerId, 0, Odometer, 1)
 
                                     log.Debug("In Update Transaction Calculated Odometer - " & (Odometer * KilometerTOMiles) + DiffRawOdoAndManualOdo)
                                     log.Debug("In Update Transaction ODOK - " & Odometer)
@@ -5762,7 +5893,7 @@ Public Class HandlerTrak
                             End If
 
 
-                                steps = "VehicleRecurringMSG 3 - 3"
+                            steps = "VehicleRecurringMSG 3 - 3"
                             Dim CreateDataFor As String = ""
                             CreateDataFor = VIN.Trim() & ";" & VehicleName & ";" & DepartmentName & ";" & DepartmentNumber & ";" & VIN.Trim() & ";" & "" & ";" & "0" & ";" &
                                         "" & ";" & CompanyName & ";" & "" & ";" & Convert.ToDateTime(TransactionDate).ToString("MM/dd/yyyy") & ";" & Convert.ToDateTime(TransactionDate).ToString("hh: mm:tt") & ";" &
@@ -5797,20 +5928,8 @@ Public Class HandlerTrak
 
                             steps = "VehicleRecurringMSG 5"
 
-                            Dim resultUpgradable As String = ""
-                            resultUpgradable = IsUpgradeCurrentVersionWithUgradableVersionFSVM(dsVehicleValuesData.Rows(0)("VehicleId"), personId, CurrentFSVMFirmwareVersion)
 
-                            If resultUpgradable = "" Then
-                                resultUpgradable = "N"
-                            End If
 
-                            log.Debug("resultUpgradable: " & resultUpgradable & " VehicleId: " & dsVehicleValuesData.Rows(0)("VehicleId") & " personId: " & personId)
-
-                            If resultUpgradable.ToUpper() = "Y" Then
-                                FAVehicleAuthorizationMasterResponseObj = GetLaunchedFSVMFirmwareDetails(FAVehicleAuthorizationMasterResponseObj)
-                            End If
-
-                            FAVehicleAuthorizationMasterResponseObj.IsFSVMUpgradable = resultUpgradable
                             FAVehicleAuthorizationMasterResponseObj.VehicleId = VehicleId
                             FAVehicleAuthorizationMasterResponseObj.ResponceMessage = "success"
                             FAVehicleAuthorizationMasterResponseObj.ResponceText = Convert.ToString(TransactionId)
@@ -5978,8 +6097,9 @@ Public Class HandlerTrak
 
                             OBJMasterBAL = New MasterBAL()
                             Dim dtTransaction As DataTable = New DataTable()
-                            dtTransaction = OBJMasterBAL.GetTransactionsByCondition(" and T.VehicleId=" & VehicleId & " and (((ISNULL(T.TransactionStatus,0) = 1  or ISNULL(T.IsMissed,0)= 1) or ISNULL(T.TransactionStatus,0) = 0) and datediff(minute, T.[CreatedDate] ,getdate()) <= 15)", personId, RoleId, False)
-
+                            Dim dsT As DataSet = New DataSet()
+                            dsT = OBJMasterBAL.GetTransactionsByCondition(" and T.VehicleId=" & VehicleId & " and (((ISNULL(T.TransactionStatus,0) = 1  or ISNULL(T.IsMissed,0)= 1) or ISNULL(T.TransactionStatus,0) = 0) and datediff(minute, T.[CreatedDate] ,getdate()) <= 15)", personId, RoleId, False, 0, 0, False, "", "")
+                            dtTransaction = dsT.Tables(0)
 
                             If (dtTransaction Is Nothing Or dtTransaction.Rows.Count = 0) Then
                                 FSNPDetailResponse(javaScriptSerializer, context, "fail", "Transaction not found")
@@ -5998,7 +6118,7 @@ Public Class HandlerTrak
                                 'dtTransactionVehicleInfo = OBJMasterBAL.GetTransactionsByCondition(" and T.TransactionStatus = 2 and T.VehicleId = " & VehicleId, personId, RoleId, 0)
                                 'If dtTransactionVehicleInfo IsNot Nothing Then
                                 'If dtTransactionVehicleInfo.Rows.Count < 1 Then
-                                FSNPDetailResponse(javaScriptSerializer, context, "success", "fail + AskOdo", VehicleId, Convert.ToString(dtVehicle.Rows(0)("VehicleNumber").ToString()), dtVehicle)
+                                FSNPDetailResponse(javaScriptSerializer, context, "success", "fail + AskOdo", VehicleId, Convert.ToString(dtVehicle.Rows(0)("VehicleNumber").ToString()), dtVehicle, SiteId, personId)
                                 log.Debug("ProcessRequest: CheckAndValidateFSNPDetails- Completed Transaction not found. Please contact administrator. IMEI_UDID=" & IMEI_UDID & " , VehicleId=" & VehicleId)
                                 Return
                                 'End If
@@ -6222,9 +6342,29 @@ Public Class HandlerTrak
                                                                                                                     rootOject.OdometerReasonabilityConditions = 2
                                                                                                                     rootOject.OdoLimit = 0
                                                                                                                 End If
+
                                                                                                                 rootOject.CheckOdometerReasonable = IIf(dtVehicle.Rows(0)("CheckOdometerReasonable") = "Y", "True", "False")
 
+                                                                                                                Try
+                                                                                                                    Dim resultUpgradable As String = ""
+                                                                                                                    resultUpgradable = IsUpgradeCurrentVersionWithUgradableVersionFSNP(SiteId, personId, "")
 
+                                                                                                                    log.Debug("resultUpgradable before: " & resultUpgradable)
+
+                                                                                                                    If resultUpgradable = "" Then
+                                                                                                                        resultUpgradable = "N"
+                                                                                                                    End If
+
+                                                                                                                    log.Debug("resultUpgradable after: " & resultUpgradable)
+
+                                                                                                                    If resultUpgradable.ToUpper() = "Y" Then
+                                                                                                                        rootOject = GetLaunchedFSNPFirmwareDetails(rootOject)
+                                                                                                                    End If
+
+                                                                                                                    rootOject.IsFSNPUpgradable = resultUpgradable
+                                                                                                                Catch ex As Exception
+                                                                                                                    log.Error(String.Format("Error Occurred while CheckAndValidateFSNPDetails -  Success - FSNP Firmware. Error is {0}.", ex.Message))
+                                                                                                                End Try
 
                                                                                                                 json = javaScriptSerializer.Serialize(rootOject)
                                                                                                                 log.Debug("FSNP Check Response: " & json)
@@ -6337,7 +6477,7 @@ Public Class HandlerTrak
     End Sub
 
     Private Sub FSNPDetailResponse(javaScriptSerializer As JavaScriptSerializer, context As HttpContext,
-                                   ResponseMessage As String, ResponseText As String, Optional vehicleId As String = "", Optional VehicleNumber As String = "", Optional dtVehicle As DataTable = Nothing)
+                                   ResponseMessage As String, ResponseText As String, Optional vehicleId As String = "", Optional VehicleNumber As String = "", Optional dtVehicle As DataTable = Nothing, Optional SiteId As Integer = 0, Optional personId As Integer = 0)
         Dim rootOject As CheckAndValidateFSNPDetailResponse = New CheckAndValidateFSNPDetailResponse()
         Dim json As String = ""
         rootOject.ResponceMessage = ResponseMessage
@@ -6362,7 +6502,22 @@ Public Class HandlerTrak
         Else
             rootOject.RequireManualOdo = "n"
         End If
+        If SiteId <> 0 Then
+            Dim resultUpgradable As String = ""
+            resultUpgradable = IsUpgradeCurrentVersionWithUgradableVersionFSNP(SiteId, personId, "")
 
+            If resultUpgradable = "" Then
+                resultUpgradable = "N"
+            End If
+
+
+            If resultUpgradable.ToUpper() = "Y" Then
+                rootOject = GetLaunchedFSNPFirmwareDetails(rootOject)
+            End If
+
+            rootOject.IsFSNPUpgradable = resultUpgradable
+
+        End If
         json = javaScriptSerializer.Serialize(rootOject)
         context.Response.Write(json)
     End Sub
@@ -6625,11 +6780,20 @@ Public Class HandlerTrak
             dtFSVMFirmwares = OBJMasterBAL.GetLaunchedFSVMFirmwareDetails()
             Dim FSVMFirmwareVersion As String = ""
             Dim FilePath As String = ""
+            Dim PIC As String = ""
+            Dim ESP32 As String = ""
 
             If (Not dtFSVMFirmwares Is Nothing) Then
                 If (dtFSVMFirmwares.Rows.Count > 0) Then
                     FSVMFirmwareVersion = dtFSVMFirmwares.Rows(0)("Version")
-                    FilePath = "http://" + HttpContext.Current.Request.Url.Authority & dtFSVMFirmwares.Rows(0)("FSVMFirmwareFilePath")
+                    FilePath = "" + HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Authority & dtFSVMFirmwares.Rows(0)("FSVMFirmwareFilePath")
+                    If dtFSVMFirmwares.Rows(0)("FSVMFileType").ToString() = "1" Then
+                        PIC = "Y"
+                        ESP32 = "N"
+                    Else
+                        PIC = "N"
+                        ESP32 = "Y"
+                    End If
                 End If
             End If
 
@@ -6642,6 +6806,8 @@ Public Class HandlerTrak
                 'rootOject.ResponceText = ""
                 FAVehicleAuthorizationMasterResponseObj.FilePath = FilePath
                 FAVehicleAuthorizationMasterResponseObj.FSVMFirmwareVersion = FSVMFirmwareVersion
+                FAVehicleAuthorizationMasterResponseObj.PIC = PIC
+                FAVehicleAuthorizationMasterResponseObj.ESP32 = ESP32
             Else
                 'rootOject.ResponceData.FilePath = FilePath
                 'rootOject.ResponceData.FSVMFirmwareVersion = FSVMFirmwareVersion
@@ -6649,6 +6815,8 @@ Public Class HandlerTrak
                 'rootOject.ResponceText = "Error occurred during geting File."
                 FAVehicleAuthorizationMasterResponseObj.FilePath = ""
                 FAVehicleAuthorizationMasterResponseObj.FSVMFirmwareVersion = ""
+                FAVehicleAuthorizationMasterResponseObj.PIC = ""
+                FAVehicleAuthorizationMasterResponseObj.ESP32 = ""
             End If
 
 
@@ -6672,7 +6840,87 @@ Public Class HandlerTrak
         Return FAVehicleAuthorizationMasterResponseObj
     End Function
 
+    Private Function IsUpgradeCurrentVersionWithUgradableVersionFSNP(SiteId As String, PersonId As String, CurrentFSVMFirmwareVersion As String)
+        Dim requestJson As String = ""
+        Dim resultUpgradable As String = ""
+        Try
 
+            log.Debug("SiteId : " & SiteId)
+            log.Debug("With PersonId : " & PersonId)
+            log.Debug("CurrentFSVMFirmwareVersion: " & CurrentFSVMFirmwareVersion)
+            OBJMasterBAL = New MasterBAL()
+            If (SiteId <> "") Then
+                If (PersonId <> "") Then
+                    'check is upgradable or not
+                    OBJMasterBAL = New MasterBAL()
+                    Dim dsUpgrade As DataSet
+                    dsUpgrade = OBJMasterBAL.CheckLaunchedAndExistedFSNPVersionAndUpdate(SiteId, CurrentFSVMFirmwareVersion.Trim(), PersonId, 0)
+
+                    If dsUpgrade IsNot Nothing Then
+                        If dsUpgrade.Tables(0) IsNot Nothing Then
+                            If dsUpgrade.Tables(0).Rows.Count > 0 Then
+                                resultUpgradable = dsUpgrade.Tables(0).Rows(0)("resultUpgradable")
+                            Else
+                                resultUpgradable = "N"
+                            End If
+                        Else
+                            resultUpgradable = "N"
+                        End If
+                    Else
+                        resultUpgradable = "N"
+                    End If
+                Else
+                    resultUpgradable = "N"
+                End If
+            Else
+                resultUpgradable = "N"
+            End If
+        Catch ex As Exception
+
+            log.Error("Exception occurred while prcessing request in IsUpgradeCurrentVersionWithUgradableVersionFSNP. Exception is :" & ex.Message & " . Details : " & requestJson)
+
+            resultUpgradable = "N"
+        End Try
+        Return resultUpgradable
+    End Function
+
+    Private Function GetLaunchedFSNPFirmwareDetails(rootOject As CheckAndValidateFSNPDetailResponse)
+        Dim requestJson As String = ""
+
+        Try
+
+
+            Dim dtFSNPFirmwares As DataTable = New DataTable()
+            dtFSNPFirmwares = OBJMasterBAL.GetLaunchedFSNPFirmwareDetails()
+            Dim FSNPFirmwareVersion As String = ""
+            Dim FilePath As String = ""
+
+
+            If (Not dtFSNPFirmwares Is Nothing) Then
+                If (dtFSNPFirmwares.Rows.Count > 0) Then
+                    FSNPFirmwareVersion = dtFSNPFirmwares.Rows(0)("Version")
+                    FilePath = "" + HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Authority & dtFSNPFirmwares.Rows(0)("FSNPFirmwareFilePath")
+                End If
+            End If
+
+            If FilePath <> "" Then
+
+                rootOject.FilePath = FilePath
+                rootOject.FirmwareVersion = FSNPFirmwareVersion
+            Else
+                rootOject.FilePath = ""
+                rootOject.FirmwareVersion = ""
+            End If
+
+            log.Debug("FilePath: " & FilePath & " FSNPFirmwareVersion: " & FSNPFirmwareVersion)
+
+        Catch ex As Exception
+            log.Error("Exception occurred while prcessing request in GetLaunchedFSNPFirmwareDetails. Exception is :" & ex.Message & " . Details : " & requestJson)
+            rootOject.FilePath = ""
+            rootOject.FirmwareVersion = ""
+        End Try
+        Return rootOject
+    End Function
 
 #Region "Activity logs"
 
@@ -6967,6 +7215,15 @@ Public Class HandlerTrak
 
                                     If (FOBNumber <> "") Then
                                         OBJMasterBAL.AssignedFOBNumberToPerson(PersonnelPIN.Trim(), FOBNumber.Replace(" ", ""), customerId)
+                                        Try
+                                            If (ConfigurationManager.AppSettings("AllowActivityLogin").ToString().ToLower() = "yes") Then
+                                                Dim writtenData As String = "PersonnelPIN = " & PersonnelPIN.Trim() & " ; " & "FOBNumber= " & FOBNumber.Replace(" ", "") & ";" & "CustomerId=" & customerId
+                                                OBJServiceBAL = New WebServiceBAL()
+                                                CSCommonHelper.WriteLog("Added", "AssignedFOBNumberToPerson", "", writtenData, dsIMEI.Tables(0).Rows(0)("PersonName") & "(" & dsIMEI.Tables(0).Rows(0)("Email") & ")", IPAddress, "success", "")
+                                            End If
+                                        Catch ex As Exception
+                                            log.Error("Error occured in AssignedFOBNumberToPerson. Exception is : " & ex.Message)
+                                        End Try
                                     End If
 
                                     Dim json As String

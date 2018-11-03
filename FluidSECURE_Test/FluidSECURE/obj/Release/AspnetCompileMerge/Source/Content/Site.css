@@ -649,3 +649,14 @@ h1, h2, h3 {
 .panel-body a:hover[href*='CheckConfirm'] {
     color: red !important;
 }
+
+a.customPaging {
+    color: #56b148;
+    padding: 8px;
+    line-height: 40px;
+    vertical-align: top;
+}
+
+.aspNetDisabled {
+    color: gray !important;
+}

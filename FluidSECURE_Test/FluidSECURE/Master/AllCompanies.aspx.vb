@@ -25,11 +25,11 @@ Public Class AllCompanies
 			Else
 				If (Not IsPostBack) Then
 					BindColumns()
-					If Session("RoleName") <> "SuperAdmin" Then
-						btn_New.Visible = False
-					End If
+                    If Session("RoleName") <> "SuperAdmin" And Session("RoleName") <> "GroupAdmin" Then
+                        btn_New.Visible = False
+                    End If
 
-					If (Request.QueryString("Filter") = Nothing) Then
+                    If (Request.QueryString("Filter") = Nothing) Then
 						Session("CompanyConditions") = ""
 						Session("CompanyDDL_ColumnName") = ""
 						Session("Companytxt_valueNameValue") = ""

@@ -45,6 +45,14 @@
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ClosedXML, Version=0.69.1.0, Culture=neutral, PublicKeyToken=fd1eb21b62ae805b, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\ClosedXML.dll</HintPath>
+    </Reference>
+    <Reference Include="DocumentFormat.OpenXml, Version=2.5.5631.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\DocumentFormat.OpenXml.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
       <Private>True</Private>
@@ -287,6 +295,7 @@
     <Content Include="Master\AllOFFSiteTransactions.aspx" />
     <Content Include="Master\AllShipments.aspx" />
     <Content Include="Master\AllFirmwareUpgrade.aspx" />
+    <Content Include="Master\AllSpecializedFeature.aspx" />
     <Content Include="Master\AllTankCharts.aspx" />
     <Content Include="Master\AllTankInventoryReconciliation.aspx" />
     <Content Include="Master\AllTanks.aspx" />
@@ -308,6 +317,10 @@
     <Content Include="Master\ResetTermAndPrivacy.aspx" />
     <Content Include="Master\Shipment.aspx" />
     <Content Include="Master\FirmwareUpgrades.aspx" />
+    <Content Include="Master\SpecializedExport.aspx" />
+    <Content Include="Master\SpecializedFeature.aspx" />
+    <Content Include="Master\SpecializedPersonnelImport.aspx" />
+    <Content Include="Master\SpecializedVehicleImport.aspx" />
     <Content Include="Master\Tank.aspx" />
     <Content Include="Master\TankChart.aspx" />
     <Content Include="Master\TankChartDetails.aspx" />
@@ -327,12 +340,18 @@
     <Content Include="Reports\BillingReportByVehicleSummaryReport.aspx" />
     <Content Include="Reports\CompanyHostingDateReport.aspx" />
     <Content Include="Reports\CompanyHostingDateRpt.aspx" />
+    <Content Include="Reports\CustomerDetailsByStateCountry.aspx" />
+    <Content Include="Reports\CustomerDetailsByStateCountryReport.aspx" />
     <Content Include="Reports\CustomerWiseTransactionDetails.aspx" />
     <Content Include="Reports\CustomerWiseTransactionDetailsReport.aspx" />
     <Content Include="Reports\FluidSecureHubReport.aspx" />
     <Content Include="Reports\FluidSecureHubRPT.aspx" />
     <Content Include="Reports\FluidsecureLinkTotalizerDataEntered.aspx" />
     <Content Include="Reports\FluidsecureLinkTotalizerDataEnteredReport.aspx" />
+    <Content Include="Reports\InactiveVehicleByTransaction.aspx" />
+    <Content Include="Reports\InactiveVehicleByTransactionReport.aspx" />
+    <Content Include="Reports\InventoryForecast.aspx" />
+    <Content Include="Reports\InventoryForecastReport.aspx" />
     <Content Include="Reports\PriceHistorybyProduct.aspx" />
     <Content Include="Reports\PriceHistorybyProductReport.aspx" />
     <Content Include="Reports\ShipmentDetailReport.aspx" />
@@ -343,6 +362,8 @@
     <Content Include="Reports\TankInventoryDataEnteredReport.aspx" />
     <Content Include="Reports\TankReconciliation.aspx" />
     <Content Include="Reports\TankReconciliationReport.aspx" />
+    <Content Include="Reports\TotalFuelUsageByHubPerVehicle.aspx" />
+    <Content Include="Reports\TotalFuelUsageByHubPerVehicleReport.aspx" />
     <Content Include="Reports\TotalizerMeterReconciliationR.aspx" />
     <Content Include="Reports\TotalizerMeterReconciliationReport.aspx" />
     <Content Include="Reports\TransactionReportByLocation.aspx" />
@@ -378,7 +399,6 @@
     <Content Include="Scripts\jquery.maskedinput.js" />
     <Content Include="Scripts\jquery.timepicker.min.js" />
     <Content Include="RegistrationEmail.txt" />
-    <Content Include="slider.html" />
     <Content Include="TransactionEmail.txt" />
     <Content Include="Contact.aspx" />
     <Content Include="Content\bootstrap.css" />
@@ -442,11 +462,18 @@
     <Content Include="Content\Templates\HubUserImportTemplate.csv" />
     <Content Include="Content\Templates\PersonnelImportTemplate.csv" />
     <Content Include="Content\Templates\VehicleImportTemplate.csv" />
+    <None Include="My Project\PublishProfiles\FolderProfile.pubxml" />
+    <None Include="My Project\PublishProfiles\FolderProfile1.pubxml" />
+    <None Include="My Project\PublishProfiles\FolderProfile2.pubxml" />
+    <None Include="My Project\PublishProfiles\FolderProfile3.pubxml" />
+    <None Include="My Project\PublishProfiles\FolderProfile4.pubxml" />
     <None Include="My Project\PublishProfiles\FuelSecure.pubxml" />
     <Content Include="Reports\DS_Reports.xsc">
       <DependentUpon>DS_Reports.xsd</DependentUpon>
     </Content>
-    <Content Include="Reports\DeptReport.rdlc" />
+    <Content Include="Reports\DeptReport.rdlc">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Reports\BillingReportByDeptDetails.rdlc" />
     <Content Include="Reports\BillingReportByDeptSummary.rdlc" />
     <Content Include="Reports\BillingReportByVehicleSummary.rdlc" />
@@ -805,6 +832,13 @@
       <DependentUpon>AllShipments.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
+    <Compile Include="Master\AllSpecializedFeature.aspx.designer.vb">
+      <DependentUpon>AllSpecializedFeature.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Master\AllSpecializedFeature.aspx.vb">
+      <DependentUpon>AllSpecializedFeature.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="Master\AllTankCharts.aspx.designer.vb">
       <DependentUpon>AllTankCharts.aspx</DependentUpon>
     </Compile>
@@ -1015,6 +1049,34 @@
       <DependentUpon>Shipment.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="Master\SpecializedExport.aspx.designer.vb">
+      <DependentUpon>SpecializedExport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Master\SpecializedExport.aspx.vb">
+      <DependentUpon>SpecializedExport.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="Master\SpecializedFeature.aspx.designer.vb">
+      <DependentUpon>SpecializedFeature.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Master\SpecializedFeature.aspx.vb">
+      <DependentUpon>SpecializedFeature.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Master\SpecializedPersonnelImport.aspx.designer.vb">
+      <DependentUpon>SpecializedPersonnelImport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Master\SpecializedPersonnelImport.aspx.vb">
+      <DependentUpon>SpecializedPersonnelImport.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="Master\SpecializedVehicleImport.aspx.designer.vb">
+      <DependentUpon>SpecializedVehicleImport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Master\SpecializedVehicleImport.aspx.vb">
+      <DependentUpon>SpecializedVehicleImport.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
     <Compile Include="Master\Tank.aspx.designer.vb">
       <DependentUpon>Tank.aspx</DependentUpon>
     </Compile>
@@ -1178,6 +1240,20 @@
       <DependentUpon>CompanyHostingDateRpt.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="Reports\CustomerDetailsByStateCountry.aspx.designer.vb">
+      <DependentUpon>CustomerDetailsByStateCountry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\CustomerDetailsByStateCountry.aspx.vb">
+      <DependentUpon>CustomerDetailsByStateCountry.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="Reports\CustomerDetailsByStateCountryReport.aspx.designer.vb">
+      <DependentUpon>CustomerDetailsByStateCountryReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\CustomerDetailsByStateCountryReport.aspx.vb">
+      <DependentUpon>CustomerDetailsByStateCountryReport.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
     <Compile Include="Reports\CustomerWiseTransactionDetails.aspx.designer.vb">
       <DependentUpon>CustomerWiseTransactionDetails.aspx</DependentUpon>
     </Compile>
@@ -1274,6 +1350,34 @@
       <DependentUpon>FluidSecureUnitsLocationReport.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="Reports\InactiveVehicleByTransaction.aspx.designer.vb">
+      <DependentUpon>InactiveVehicleByTransaction.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\InactiveVehicleByTransaction.aspx.vb">
+      <DependentUpon>InactiveVehicleByTransaction.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="Reports\InactiveVehicleByTransactionReport.aspx.designer.vb">
+      <DependentUpon>InactiveVehicleByTransactionReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\InactiveVehicleByTransactionReport.aspx.vb">
+      <DependentUpon>InactiveVehicleByTransactionReport.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="Reports\InventoryForecast.aspx.designer.vb">
+      <DependentUpon>InventoryForecast.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\InventoryForecast.aspx.vb">
+      <DependentUpon>InventoryForecast.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="Reports\InventoryForecastReport.aspx.designer.vb">
+      <DependentUpon>InventoryForecastReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\InventoryForecastReport.aspx.vb">
+      <DependentUpon>InventoryForecastReport.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
     <Compile Include="Reports\PersonnelReport.aspx.designer.vb">
       <DependentUpon>PersonnelReport.aspx</DependentUpon>
     </Compile>
@@ -1357,6 +1461,20 @@
     <Compile Include="Reports\TankReconciliationReport.aspx.vb">
       <DependentUpon>TankReconciliationReport.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\TotalFuelUsageByHubPerVehicle.aspx.designer.vb">
+      <DependentUpon>TotalFuelUsageByHubPerVehicle.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\TotalFuelUsageByHubPerVehicle.aspx.vb">
+      <DependentUpon>TotalFuelUsageByHubPerVehicle.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="Reports\TotalFuelUsageByHubPerVehicleReport.aspx.designer.vb">
+      <DependentUpon>TotalFuelUsageByHubPerVehicleReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\TotalFuelUsageByHubPerVehicleReport.aspx.vb">
+      <DependentUpon>TotalFuelUsageByHubPerVehicleReport.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
     </Compile>
     <Compile Include="Reports\TotalizerMeterReconciliationR.aspx.designer.vb">
       <DependentUpon>TotalizerMeterReconciliationR.aspx</DependentUpon>
@@ -1546,10 +1664,14 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <Content Include="Reports\FluidSecureHub.rdlc" />
+    <EmbeddedResource Include="Reports\CustomerDetailsByStateCountryRPT.rdlc" />
     <EmbeddedResource Include="Reports\CustomerWiseTransactionDetailsrpt.rdlc" />
+    <EmbeddedResource Include="Reports\InactiveVehicleByTransactionRPT.rdlc" />
+    <EmbeddedResource Include="Reports\InventoryForecastRPT.rdlc" />
     <EmbeddedResource Include="Reports\PriceHistorybyProduct.rdlc" />
     <EmbeddedResource Include="Reports\ShipmentsReport.rdlc" />
     <EmbeddedResource Include="Reports\TankBalancerpt.rdlc" />
+    <EmbeddedResource Include="Reports\TotalFuelUsageByHubPerVehicleRPT.rdlc" />
     <EmbeddedResource Include="Reports\TransactionReportByLocation.rdlc" />
     <EmbeddedResource Include="Reports\TransactionReportBySite.rdlc" />
     <EmbeddedResource Include="Reports\TransactionReportsByDateTimeReport.rdlc" />
@@ -1579,6 +1701,31 @@
     <Folder Include="App_Data\" />
     <Folder Include="Firmwares\" />
     <Folder Include="FSNPFirmwares\" />
+    <Folder Include="FSVMFirmwares\" />
+    <Folder Include="SpecializedImport\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="MSDAOSP">
+      <Guid>{E0E270C2-C0BE-11D0-8FE4-00A0C90A6341}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>5</VersionMinor>
+      <Lcid>1033</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="MSDASC">
+      <Guid>{2206CEB0-19C1-11D1-89E0-00C04FD7A829}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -12,6 +12,12 @@
               <Width>1in</Width>
             </TablixColumn>
             <TablixColumn>
+              <Width>1.48609in</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>1in</Width>
+            </TablixColumn>
+            <TablixColumn>
               <Width>1.39584in</Width>
             </TablixColumn>
             <TablixColumn>
@@ -19,6 +25,9 @@
             </TablixColumn>
             <TablixColumn>
               <Width>1.16667in</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>1.28125in</Width>
             </TablixColumn>
             <TablixColumn>
               <Width>1.16667in</Width>
@@ -112,6 +121,76 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
+                    <Textbox Name="Textbox2">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>Serial Number</Value>
+                              <Style>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox2</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <BackgroundColor>#dddddd</BackgroundColor>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox7">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>Frequency</Value>
+                              <Style>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox7</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <BackgroundColor>#dddddd</BackgroundColor>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
                     <Textbox Name="Textbox23">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
@@ -154,7 +233,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Shipment Date</Value>
+                              <Value>= iif(Parameters!ShipmentForLinkOrHub.Value = 3, "Packing Date","Shipment Date")</Value>
                               <Style>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
@@ -201,6 +280,41 @@
                         </Paragraph>
                       </Paragraphs>
                       <rd:DefaultName>Textbox27</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <BackgroundColor>#dddddd</BackgroundColor>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox10">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>FluidSecure Hub</Value>
+                              <Style>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox10</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -461,6 +575,70 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
+                    <Textbox Name="SerialNumber">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!SerialNumber.Value</Value>
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>SerialNumber</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Frequency">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!Frequency.Value</Value>
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Frequency</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
                     <Textbox Name="Address">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
@@ -544,6 +722,38 @@
                         </Paragraph>
                       </Paragraphs>
                       <rd:DefaultName>Company</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="ReplacementForHubCardReader">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!ReplacementForHubCardReader.Value</Value>
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>ReplacementForHubCardReader</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -732,13 +942,32 @@
             </TablixMember>
             <TablixMember>
               <Visibility>
-                <Hidden>= iif(Parameters!ShipmentForLinkOrHub.Value = 1, true,false)</Hidden>
+                <Hidden>= iif(Parameters!ShipmentForLinkOrHub.Value = 2, false,true)</Hidden>
+              </Visibility>
+            </TablixMember>
+            <TablixMember>
+              <Visibility>
+                <Hidden>= iif(Parameters!ShipmentForLinkOrHub.Value = 3, false,true)</Hidden>
+              </Visibility>
+            </TablixMember>
+            <TablixMember>
+              <Visibility>
+                <Hidden>= iif(Parameters!ShipmentForLinkOrHub.Value = 3, false,true)</Hidden>
               </Visibility>
             </TablixMember>
             <TablixMember />
             <TablixMember />
             <TablixMember />
-            <TablixMember />
+            <TablixMember>
+              <Visibility>
+                <Hidden>= iif(Parameters!ShipmentForLinkOrHub.Value = 3, false,true)</Hidden>
+              </Visibility>
+            </TablixMember>
+            <TablixMember>
+              <Visibility>
+                <Hidden>= iif(Parameters!ShipmentForLinkOrHub.Value = 3, true ,false )</Hidden>
+              </Visibility>
+            </TablixMember>
             <TablixMember>
               <Visibility>
                 <Hidden>= iif(Parameters!ShipmentForLinkOrHub.Value = 1, false, true)</Hidden>
@@ -746,7 +975,7 @@
             </TablixMember>
             <TablixMember>
               <Visibility>
-                <Hidden>= iif(Parameters!ShipmentForLinkOrHub.Value = 1, true,false)</Hidden>
+                <Hidden>= iif(Parameters!ShipmentForLinkOrHub.Value = 2, false,true)</Hidden>
               </Visibility>
             </TablixMember>
             <TablixMember />
@@ -765,9 +994,9 @@
         </TablixRowHierarchy>
         <DataSetName>ShipmentsDetails</DataSetName>
         <Top>0.20708in</Top>
-        <Left>0.34201in</Left>
+        <Left>0.375in</Left>
         <Height>0.5in</Height>
-        <Width>12.50003in</Width>
+        <Width>16.26738in</Width>
         <Style>
           <Border>
             <Style>None</Style>
@@ -778,10 +1007,10 @@
     <Height>0.80208in</Height>
     <Style />
   </Body>
-  <Width>12.84204in</Width>
+  <Width>16.64238in</Width>
   <Page>
     <PageHeader>
-      <Height>1in</Height>
+      <Height>1.02146in</Height>
       <PrintOnFirstPage>true</PrintOnFirstPage>
       <PrintOnLastPage>true</PrintOnLastPage>
       <ReportItems>
@@ -807,7 +1036,7 @@
           </Paragraphs>
           <rd:DefaultName>CompanyName</rd:DefaultName>
           <Top>0.06312in</Top>
-          <Left>3.10938in</Left>
+          <Left>1.98438in</Left>
           <Height>0.25in</Height>
           <Width>5.95833in</Width>
           <Style>
@@ -842,7 +1071,7 @@
           </Paragraphs>
           <rd:DefaultName>CompanyName</rd:DefaultName>
           <Top>0.38604in</Top>
-          <Left>3.10938in</Left>
+          <Left>1.98438in</Left>
           <Height>0.26042in</Height>
           <Width>5.95833in</Width>
           <ZIndex>1</ZIndex>
@@ -878,10 +1107,42 @@
           </Paragraphs>
           <rd:DefaultName>Textbox3</rd:DefaultName>
           <Top>0.68688in</Top>
-          <Left>7.44271in</Left>
+          <Left>6.31771in</Left>
           <Height>0.25in</Height>
           <Width>2.15972in</Width>
           <ZIndex>2</ZIndex>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+        <Textbox Name="Textbox12">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>= "Shipment: " &amp; iif(Parameters!ShipmentForLinkOrHub.Value = "1","Link Shipment",(iif(Parameters!ShipmentForLinkOrHub.Value = "2","Hub Shipment","Card Reader")))</Value>
+                  <Style>
+                    <FontWeight>Bold</FontWeight>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style />
+            </Paragraph>
+          </Paragraphs>
+          <rd:DefaultName>Textbox12</rd:DefaultName>
+          <Top>0.68813in</Top>
+          <Left>0.375in</Left>
+          <Height>0.25in</Height>
+          <Width>2.34376in</Width>
+          <ZIndex>3</ZIndex>
           <Style>
             <Border>
               <Style>None</Style>
@@ -966,6 +1227,26 @@
         </Field>
         <Field Name="ReturnedOn">
           <DataField>ReturnedOn</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="PhoneNumber">
+          <DataField>PhoneNumber</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="SerialNumber">
+          <DataField>SerialNumber</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Frequency">
+          <DataField>Frequency</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="HubForCardReader">
+          <DataField>HubForCardReader</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ReplacementForHubCardReader">
+          <DataField>ReplacementForHubCardReader</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>

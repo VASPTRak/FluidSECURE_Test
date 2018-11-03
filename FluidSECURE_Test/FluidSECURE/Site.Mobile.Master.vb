@@ -92,9 +92,15 @@
             OtherMenu.Visible = False
             CompanyHostingReport.Visible = False
             ShipmentReport.Visible = False
+            SpecializedFeature.Visible = False
+            Session("SpecializedExport") = ""
+            Session("TotalFuelUsageByHubPerVehicle") = ""
             CustomerWiseTransactionDetails.Visible = False
             ResetTermsPrivacyPolicys.Visible = False
             Export_WINCC.Visible = False
+            SpecializedExport.Visible = False
+            TotalFuelUsageByHubPerVehicle.Visible = False
+
             If Session("RoleName") = "User" Then
 
                 ItemMenu.Visible = False
@@ -148,11 +154,19 @@
                 OtherMenu.Visible = True
                 CompanyHostingReport.Visible = True
                 ShipmentReport.Visible = True
+                SpecializedFeature.Visible = True
                 CustomerWiseTransactionDetails.Visible = True
                 ResetTermsPrivacyPolicys.Visible = True
                 DayLightSavingId.Visible = True
                 TransactionExportSetting.Visible = True
                 Export_WINCC.Visible = True
+
+                ' Specilized Export
+                SpecializedExport.Visible = True
+                SpecializedExport.InnerHtml = "<a href=/Master/SpecializedExport.aspx>Specialized Export: Hawaii Telecom" & "</a>"
+
+                ' TotalFuelUsageByHubPerVehicle
+                TotalFuelUsageByHubPerVehicle.Visible = True
             Else
                 If (Session("RoleName") = "Support") Then 'If (Session("RoleName") = "CustomerAdmin" Or Session("RoleName") = "Support") Then
                     ShipmentMenu.Visible = True
@@ -168,9 +182,56 @@
                 UploadedFSNPFirmware.Visible = False
                 DayLightSavingId.Visible = False
 
-                If (Session("RoleName") = "CustomerAdmin") Then
+                If (Session("RoleName") = "CustomerAdmin") Or (Session("RoleName") = "GroupAdmin") Then
                     TransactionExportSetting.Visible = True
                     Export.Visible = True
+
+
+                    ' Specilized Export
+                    If Session("PersonId") IsNot Nothing And Session("UniqueId") IsNot Nothing Then
+                        Dim OBJMaster As MasterBAL = New MasterBAL()
+                        Dim dtPersonnel As DataTable = New DataTable()
+                        Dim cnt As Integer = 0
+
+                        dtPersonnel = OBJMaster.GetPersonnelByPersonIdAndId(Convert.ToInt32(Session("PersonId")), Session("UniqueId").ToString())
+                        If dtPersonnel IsNot Nothing And dtPersonnel.Rows.Count > 0 Then
+                            OBJMaster = New MasterBAL()
+
+                            Dim dtuspGetCustMenuMapingById As DataTable = New DataTable()
+                            dtuspGetCustMenuMapingById = OBJMaster.GetCustMenuMapingById(" and CustomerMenuLinkId = 1", dtPersonnel.Rows(0)("CustomerId").ToString())
+                            If dtuspGetCustMenuMapingById IsNot Nothing And dtuspGetCustMenuMapingById.Rows.Count > 0 Then
+                                SpecializedExport.Visible = True
+                                If Session("CompanyNameHeader").ToString() IsNot Nothing Then
+                                    Session("SpecializedExport") = "SpecializedExport"
+                                    If (Session("RoleName") = "CustomerAdmin") Then
+                                        SpecializedExport.InnerHtml = "<a href=/Master/SpecializedExport.aspx>Specialized Export : " & Session("CompanyNameHeader").ToString() & "</a>"
+                                    Else
+                                        SpecializedExport.InnerHtml = "<a href=/Master/SpecializedExport.aspx>Specialized Export: Hawaii Telecom" & "</a>"
+                                    End If
+                                Else
+                                    SpecializedExport.Visible = False
+                                End If
+                            Else
+                                SpecializedExport.Visible = False
+                            End If
+
+                            Dim dtTotalFuelUsageByHubPerVehicle As DataTable = New DataTable()
+                            dtTotalFuelUsageByHubPerVehicle = OBJMaster.GetCustMenuMapingById(" and CustomerMenuLinkId = 2 ", dtPersonnel.Rows(0)("CustomerId").ToString())
+                            If dtTotalFuelUsageByHubPerVehicle IsNot Nothing And dtTotalFuelUsageByHubPerVehicle.Rows.Count > 0 Then
+                                Session("TotalFuelUsageByHubPerVehicle") = "TotalFuelUsageByHubPerVehicle"
+                                TotalFuelUsageByHubPerVehicle.Visible = True
+                            Else
+                                TotalFuelUsageByHubPerVehicle.Visible = False
+                            End If
+                        Else
+                            SpecializedExport.Visible = False
+                            TotalFuelUsageByHubPerVehicle.Visible = False
+                        End If
+                    Else
+                        SpecializedExport.Visible = False
+                        TotalFuelUsageByHubPerVehicle.Visible = False
+                    End If
+
                 End If
             End If
         End If

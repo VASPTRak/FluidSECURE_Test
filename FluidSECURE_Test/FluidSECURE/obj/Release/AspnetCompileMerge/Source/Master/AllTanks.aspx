@@ -50,7 +50,8 @@
             var Role = '<%= Session("RoleName") %>';
 
             if (Role == "SuperAdmin") {
-                $("#lblMessage").text("Are you sure you want to delete this Tank. All mapping between assigned FluidSecure Link(s) to this Tank and Tank Inventory record(s) against This Tank also will delete.");
+                //$("#lblMessage").text("Are you sure you want to delete this Tank. All mapping between assigned FluidSecure Link(s) to this Tank and Tank Inventory record(s) against This Tank also will delete.");
+                $("#lblMessage").text("Are you sure you want to delete this Tank?");
             }
             else {
                 $("#lblMessage").text("Are you sure you want to delete this Tank?");
