@@ -127,6 +127,7 @@
                         </div>
                         <div class="form-group col-md-3 col-sm-3 col-xs-12">
                             <asp:CheckBox ID="chk_VehicleNumberRequire" runat="server" TabIndex="18" Checked="true" />
+                            <asp:Label ID="lbl_RequireVehicleNumber" runat="server" Text="(Vehicle Number screen required on mobile application)"></asp:Label>
                         </div>
                     </div>
                     <div class="row col-md-12 col-sm-12 col-xs-12">
@@ -324,7 +325,7 @@
                     <h5 class="modal-title text-center">FluidSecure</h5>
                 </div>
                 <div class="modal-body">
-                    <div class="row col-md-12 col-sm-12">
+                    <div class="row col-md-12 col-sm-12" style="padding: 0px;">
                         <asp:Label ID="lblVehodo" runat="server" Text=""></asp:Label>
                     </div>
                     <div class="modal-footer nextButton">

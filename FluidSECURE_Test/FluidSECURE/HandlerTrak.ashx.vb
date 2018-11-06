@@ -3804,11 +3804,26 @@ Public Class HandlerTrak
 
                                         checkRequireOdoResponse.IsOdoMeterRequire = IIf(dtVehicle.Rows(0)("RequireOdometerEntry") = "Y", "True", "False")
                                         checkRequireOdoResponse.IsHoursRequire = dtVehicle.Rows(0)("Hours")
-                                        checkRequireOdoResponse.CheckOdometerReasonable = IIf(dtVehicle.Rows(0)("CheckOdometerReasonable") = "Y", "True", "False")
                                         checkRequireOdoResponse.PreviousOdo = IIf(IsDBNull(dtVehicle.Rows(0)("CurrentOdometer")), 0, dtVehicle.Rows(0)("CurrentOdometer"))
                                         checkRequireOdoResponse.PreviousHours = IIf(IsDBNull(dtVehicle.Rows(0)("CurrentHours")), 0, dtVehicle.Rows(0)("CurrentHours"))
 
-                                        If (dtVehicle.Rows(0)("CheckOdometerReasonable") = "Y") Then
+                                        If IsDBNull(dtVehicle.Rows(0)("CurrentOdometer")) Then
+                                            log.Debug("In CurrentOdometer = 0 or Null")
+                                            checkRequireOdoResponse.CheckOdometerReasonable = "False"
+                                            checkRequireOdoResponse.OdometerReasonabilityConditions = 2
+                                            checkRequireOdoResponse.OdoLimit = 0
+                                            checkRequireOdoResponse.HoursLimit = 0
+                                        ElseIf dtVehicle.Rows(0)("CurrentOdometer") = "0" Then
+                                            log.Debug("In CurrentOdometer = 0 or Null")
+                                            checkRequireOdoResponse.CheckOdometerReasonable = "False"
+                                            checkRequireOdoResponse.OdometerReasonabilityConditions = 2
+                                            checkRequireOdoResponse.OdoLimit = 0
+                                            checkRequireOdoResponse.HoursLimit = 0
+                                        Else
+                                            log.Debug("In NOT CurrentOdometer = 0 or Null")
+                                            checkRequireOdoResponse.CheckOdometerReasonable = IIf(dtVehicle.Rows(0)("CheckOdometerReasonable") = "Y", "True", "False")
+
+                                            If (dtVehicle.Rows(0)("CheckOdometerReasonable") = "Y") Then
 
                                             checkRequireOdoResponse.OdometerReasonabilityConditions = IIf(Convert.ToString(dtVehicle.Rows(0)("OdometerReasonabilityConditions")) = "", 1, dtVehicle.Rows(0)("OdometerReasonabilityConditions"))
 
@@ -3819,9 +3834,11 @@ Public Class HandlerTrak
                                                                                 Integer.Parse(IIf(IsDBNull(dtVehicle.Rows(0)("HoursLimit")), 0, dtVehicle.Rows(0)("HoursLimit"))))
 
                                         Else
-                                            checkRequireOdoResponse.OdometerReasonabilityConditions = 2
-                                            checkRequireOdoResponse.OdoLimit = 0
-                                            checkRequireOdoResponse.HoursLimit = 0
+                                                checkRequireOdoResponse.OdometerReasonabilityConditions = 2
+                                                checkRequireOdoResponse.OdoLimit = 0
+                                                checkRequireOdoResponse.HoursLimit = 0
+                                            End If
+
                                         End If
 
                                         checkRequireOdoResponse.FOBNumber = dtVehicle.Rows(0)("FOBNumber").ToString().Replace(" ", "")

@@ -4708,42 +4708,6 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:Fuel_Secure.Company._txtCity">
-<summary>
-txtCity control.
-</summary>
-<remarks>
-Auto-generated field.
-To modify move field declaration from designer file to code-behind file.
-</remarks>
-</member>
-<member name="F:Fuel_Secure.Company._txtState">
-<summary>
-txtState control.
-</summary>
-<remarks>
-Auto-generated field.
-To modify move field declaration from designer file to code-behind file.
-</remarks>
-</member>
-<member name="F:Fuel_Secure.Company._txtZip">
-<summary>
-txtZip control.
-</summary>
-<remarks>
-Auto-generated field.
-To modify move field declaration from designer file to code-behind file.
-</remarks>
-</member>
-<member name="F:Fuel_Secure.Company._txtCountry">
-<summary>
-txtCountry control.
-</summary>
-<remarks>
-Auto-generated field.
-To modify move field declaration from designer file to code-behind file.
-</remarks>
-</member>
 <member name="F:Fuel_Secure.Company._chk_RequirePersonnelPIN">
 <summary>
 chk_RequirePersonnelPIN control.
@@ -4756,6 +4720,15 @@ To modify move field declaration from designer file to code-behind file.
 <member name="F:Fuel_Secure.Company._lbl_RequirePersonnelPIN">
 <summary>
 lbl_RequirePersonnelPIN control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.Company._txtCity">
+<summary>
+txtCity control.
 </summary>
 <remarks>
 Auto-generated field.
@@ -4780,9 +4753,9 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:Fuel_Secure.Company._txtExportCode">
+<member name="F:Fuel_Secure.Company._txtState">
 <summary>
-txtExportCode control.
+txtState control.
 </summary>
 <remarks>
 Auto-generated field.
@@ -4792,6 +4765,33 @@ To modify move field declaration from designer file to code-behind file.
 <member name="F:Fuel_Secure.Company._chk_VehicleNumberRequire">
 <summary>
 chk_VehicleNumberRequire control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.Company._txtZip">
+<summary>
+txtZip control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.Company._txtCountry">
+<summary>
+txtCountry control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.Company._txtExportCode">
+<summary>
+txtExportCode control.
 </summary>
 <remarks>
 Auto-generated field.

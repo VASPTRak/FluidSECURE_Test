@@ -1267,3 +1267,7 @@ DEBUG 2018-11-02 19:33:10,848 297454ms Login                  Page_Load         
 ERROR 2018-11-02 19:33:11,943 298549ms Login                  CheckAfterAccept   - Error occurred in CheckAfterAccept Exception is :Thread was being aborted.
 ERROR 2018-11-02 19:33:11,955 298561ms Login                  LogIn              - Error occurred in LogIn Exception is :Thread was being aborted.
 ERROR 2018-11-02 19:33:49,254 335860ms Shipment               ateAndSaveShipment - Error occurred in btnSave_Click Exception is :Thread was being aborted.
+DEBUG 2018-11-05 14:52:35,169  6587ms Login                  Page_Load          - IPADRESS 3 : ::1
+DEBUG 2018-11-05 14:52:43,979 15398ms Login                  Page_Load          - IPADRESS 3 : ::1
+ERROR 2018-11-05 14:52:45,152 16570ms Login                  CheckAfterAccept   - Error occurred in CheckAfterAccept Exception is :Thread was being aborted.
+ERROR 2018-11-05 14:52:45,167 16585ms Login                  LogIn              - Error occurred in LogIn Exception is :Thread was being aborted.

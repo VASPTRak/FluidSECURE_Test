@@ -1003,7 +1003,9 @@ Public Class Company
             Else
                 Page.Validate()
                 ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "LoadDateTimeControl();", True)
-            End If
+             End If
+            txtAdminPassword.Attributes("value") = txtAdminPassword.Text
+            txtConfirmPassword.Attributes("value") = txtConfirmPassword.Text
         Catch ex As Exception
             log.Error("Error occurred in DDL_Costing_SelectedIndexChanged Exception is :" + ex.Message)
             ErrorMessage.Visible = True
