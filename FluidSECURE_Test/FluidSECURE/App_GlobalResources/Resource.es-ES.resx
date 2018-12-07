@@ -313,7 +313,7 @@
     <value>El número de Fob /Card está asignado a Vehículo.</value>
   </data>
   <data name="HandlerMsg58" xml:space="preserve">
-    <value>La compañía está inactiva. Por favor contacte al administrador.</value>
+    <value>La empresa está inactiva - Por favor contactar FluidSecure  Apoyo support@fluidsecure.com</value>
   </data>
   <data name="HandlerMsg6" xml:space="preserve">
     <value>No registrado, Otros números de teléfono están registrados en la misma dirección de correo electrónico.</value>

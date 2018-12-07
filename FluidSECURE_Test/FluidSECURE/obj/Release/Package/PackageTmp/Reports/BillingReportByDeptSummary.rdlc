@@ -1284,7 +1284,7 @@
         <Top>3.20485in</Top>
         <Left>2.625in</Left>
         <Height>0.5in</Height>
-        <Width>3.7168in</Width>
+        <Width>3.71679in</Width>
         <ZIndex>1</ZIndex>
         <Style>
           <Border>
@@ -1497,6 +1497,38 @@
             <PaddingBottom>2pt</PaddingBottom>
           </Style>
         </Textbox>
+        <Textbox Name="Textbox17">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>="Transaction Type - " &amp; Parameters!TransactionType.Value</Value>
+                  <Style>
+                    <FontWeight>Bold</FontWeight>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style />
+            </Paragraph>
+          </Paragraphs>
+          <rd:DefaultName>Textbox15</rd:DefaultName>
+          <Top>1.14458in</Top>
+          <Left>0.13542in</Left>
+          <Height>0.25in</Height>
+          <Width>2.41728in</Width>
+          <ZIndex>4</ZIndex>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
       </ReportItems>
       <Style>
         <Border>
@@ -1681,10 +1713,22 @@
           <DataField>TransactionCost</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="Extension">
+          <DataField>Extension</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="VehicleNumberName">
+          <DataField>VehicleNumberName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="OFFSite">
+          <DataField>OFFSite</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
       </Fields>
       <rd:DataSetInfo>
         <rd:DataSetName>DS_Reports</rd:DataSetName>
-        <rd:SchemaPath>C:\Users\Administrator\Desktop\FluidSECURE\FluidSECURE\Reports\DS_Reports.xsd</rd:SchemaPath>
+        <rd:SchemaPath>D:\Soham_Work\FluidSECURE_Test\FluidSECURE\Reports\DS_Reports.xsd</rd:SchemaPath>
         <rd:TableName>BillingReportByDeptDetails</rd:TableName>
         <rd:TableAdapterFillMethod />
         <rd:TableAdapterGetDataMethod />
@@ -1792,6 +1836,12 @@
       <Prompt>ReportParameter1</Prompt>
     </ReportParameter>
     <ReportParameter Name="ToDate">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>ReportParameter1</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="TransactionType">
       <DataType>String</DataType>
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>

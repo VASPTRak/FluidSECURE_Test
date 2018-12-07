@@ -32,8 +32,8 @@
 	
    Link name : <b>LinkName</b> <br />
    Company name : <b>CompanyName</b> <br />
-   System has detected numberzero consecutive zero transactions from this link and hence it has been marked as defective.
-
+   Multiple zero quantity transactions (numberzero) detected.  Please check integrity of system.
+   
     <br />
 	<br />
 

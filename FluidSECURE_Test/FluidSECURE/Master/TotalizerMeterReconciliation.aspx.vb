@@ -379,7 +379,7 @@ Public Class TotalizerMeterReconciliation
     End Sub
 
     Protected Sub btnMainCancel_Click(sender As Object, e As EventArgs)
-        Response.Redirect("/Master/AllTotalizerMeterReconciliation" + "?Type=" + hdnEntryType.Value, False)
+        Response.Redirect("/Master/AllTotalizerMeterReconciliation" + "?Filter=Filter&Type=" + hdnEntryType.Value, False)
     End Sub
 
     'Protected Sub BindAllGrid()

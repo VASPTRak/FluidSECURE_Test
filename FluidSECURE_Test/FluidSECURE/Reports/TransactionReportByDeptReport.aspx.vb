@@ -4,63 +4,63 @@ Imports Microsoft.Reporting.WebForms
 
 Public Class TransactionReportByDeptReport
     Inherits System.Web.UI.Page
-	Private Shared ReadOnly log As ILog = LogManager.GetLogger(GetType(TransactionReportByDeptReport))
+    Private Shared ReadOnly log As ILog = LogManager.GetLogger(GetType(TransactionReportByDeptReport))
 
-	Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
-		Try
-			XmlConfigurator.Configure()
-			If CSCommonHelper.CheckSessionExpired() = False Then
-				'unautorized access error log
-				Response.Redirect("/Account/Login")
-			ElseIf Session("RoleName") = "User" Then
-				'Access denied 
-				Response.Redirect("/home")
-			Else
-				If (Not IsPostBack) Then
+    Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+        Try
+            XmlConfigurator.Configure()
+            If CSCommonHelper.CheckSessionExpired() = False Then
+                'unautorized access error log
+                Response.Redirect("/Account/Login")
+            ElseIf Session("RoleName") = "User" Then
+                'Access denied 
+                Response.Redirect("/home")
+            Else
+                If (Not IsPostBack) Then
 
-                Dim dSTran As DataSet = Session("TransReportByDept")
+                    Dim dSTran As DataSet = Session("TransReportByDept")
 
-                RPT_TransactionReportByDept.Visible = True
+                    RPT_TransactionReportByDept.Visible = True
 
-                RPT_TransactionReportByDept.Reset()
-                RPT_TransactionReportByDept.ProcessingMode = ProcessingMode.Local
-                Dim rep As LocalReport = RPT_TransactionReportByDept.LocalReport
-                rep.Refresh()
-                Dim TransReportByDateTimePath As String = ConfigurationManager.AppSettings("TransactionReportByDeptPath")
-                rep.ReportPath = Server.MapPath(TransReportByDateTimePath)
+                    RPT_TransactionReportByDept.Reset()
+                    RPT_TransactionReportByDept.ProcessingMode = ProcessingMode.Local
+                    Dim rep As LocalReport = RPT_TransactionReportByDept.LocalReport
+                    rep.Refresh()
+                    Dim TransReportByDateTimePath As String = ConfigurationManager.AppSettings("TransactionReportByDeptPath")
+                    rep.ReportPath = Server.MapPath(TransReportByDateTimePath)
 
-                Dim FromDate As ReportParameter = New ReportParameter("FromDate", Session("FromDate").ToString())
-                Dim ToDate As ReportParameter = New ReportParameter("ToDate", Session("ToDate").ToString())
+                    Dim FromDate As ReportParameter = New ReportParameter("FromDate", Session("FromDate").ToString())
+                    Dim ToDate As ReportParameter = New ReportParameter("ToDate", Session("ToDate").ToString())
+                    Dim TransactionType As ReportParameter = New ReportParameter("TransactionType", Session("TransactionType").ToString())
+                    RPT_TransactionReportByDept.LocalReport.SetParameters(New ReportParameter() {FromDate, ToDate, TransactionType})
 
-                RPT_TransactionReportByDept.LocalReport.SetParameters(New ReportParameter() {FromDate, ToDate})
+                    Dim rds As ReportDataSource = New ReportDataSource()
+                    rds.Name = "TransactionReportByDept"
+                    rds.Value = dSTran.Tables(0)
+                    rep.DataSources.Add(rds)
 
-                Dim rds As ReportDataSource = New ReportDataSource()
-                rds.Name = "TransactionReportByDept"
-                rds.Value = dSTran.Tables(0)
-                rep.DataSources.Add(rds)
+                    Dim rds1 As ReportDataSource = New ReportDataSource()
+                    rds1.Name = "TransactionReportsByDeptSummary"
+                    rds1.Value = dSTran.Tables(1)
+                    rep.DataSources.Add(rds1)
 
-                Dim rds1 As ReportDataSource = New ReportDataSource()
-                rds1.Name = "TransactionReportsByDeptSummary"
-                rds1.Value = dSTran.Tables(1)
-                rep.DataSources.Add(rds1)
+                    Dim rds2 As ReportDataSource = New ReportDataSource()
+                    rds2.Name = "TransactionReportsForTotalQuantity"
+                    rds2.Value = dSTran.Tables(2)
+                    rep.DataSources.Add(rds2)
 
-                Dim rds2 As ReportDataSource = New ReportDataSource()
-                rds2.Name = "TransactionReportsForTotalQuantity"
-                rds2.Value = dSTran.Tables(2)
-                rep.DataSources.Add(rds2)
+                    Me.RPT_TransactionReportByDept.LocalReport.DataSources.Add(rds)
+                    Me.RPT_TransactionReportByDept.LocalReport.DataSources.Add(rds1)
+                    Me.RPT_TransactionReportByDept.LocalReport.DataSources.Add(rds2)
 
-                Me.RPT_TransactionReportByDept.LocalReport.DataSources.Add(rds)
-                Me.RPT_TransactionReportByDept.LocalReport.DataSources.Add(rds1)
-                Me.RPT_TransactionReportByDept.LocalReport.DataSources.Add(rds2)
-
+                End If
             End If
-        End If
 
-		Catch ex As Exception
-			log.Error("Error occurred in Page_Load Exception is :" + ex.Message)
-			Response.Redirect("~/Reports/TransactionReportByDepartment")
-		End Try
-	End Sub
+        Catch ex As Exception
+            log.Error("Error occurred in Page_Load Exception is :" + ex.Message)
+            Response.Redirect("~/Reports/TransactionReportByDepartment")
+        End Try
+    End Sub
 
     Protected Sub btnBack_Click(sender As Object, e As EventArgs)
         Response.Redirect("~/Reports/TransactionReportByDepartment")

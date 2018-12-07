@@ -259,7 +259,7 @@ Public Class TotalFuelUsageByHubPerVehicle
 
 
             If (DDL_HubName.SelectedValue <> "0") Then
-                strConditions = IIf(strConditions = "", " and ISNULL(T.HubId,0) = " + DDL_HubName.SelectedValue, strConditions + " and ISNULL(T.HubId,0) = " + DDL_HubName.SelectedValue)
+                strConditions = IIf(strConditions = "", " and ISNULL(ANU.PersonId,0) = " + DDL_HubName.SelectedValue, strConditions + " and ISNULL(ANU.PersonId,0) = " + DDL_HubName.SelectedValue)
             End If
 
             dSTran = OBJMaster.GetTotalFuelUsageByHubPerVehicleRptDetails(strConditions, startDate.ToString(), endDate.ToString())

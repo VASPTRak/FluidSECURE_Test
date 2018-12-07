@@ -1199,7 +1199,7 @@
                           <Paragraph>
                             <TextRuns>
                               <TextRun>
-                                <Value>=Fields!VehicleNumberName.Value</Value>
+                                <Value>=Fields!VehicleNumber.Value</Value>
                                 <Style>
                                   <FontFamily>Open Sans</FontFamily>
                                   <FontSize>9pt</FontSize>
@@ -2067,6 +2067,38 @@
             <PaddingBottom>2pt</PaddingBottom>
           </Style>
         </Textbox>
+        <Textbox Name="Textbox16">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>="Transaction Type - " &amp; Parameters!TransactionType.Value</Value>
+                  <Style>
+                    <FontWeight>Bold</FontWeight>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style />
+            </Paragraph>
+          </Paragraphs>
+          <rd:DefaultName>Textbox15</rd:DefaultName>
+          <Top>1.27541in</Top>
+          <Left>0.09896in</Left>
+          <Height>0.25in</Height>
+          <Width>2.41728in</Width>
+          <ZIndex>4</ZIndex>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
       </ReportItems>
       <Style>
         <Border>
@@ -2259,10 +2291,14 @@
           <DataField>VehicleNumberName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="OFFSite">
+          <DataField>OFFSite</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
       </Fields>
       <rd:DataSetInfo>
         <rd:DataSetName>DS_Reports</rd:DataSetName>
-        <rd:SchemaPath>D:\Soham_Work\FluidSECURE\FluidSECURE\Reports\DS_Reports.xsd</rd:SchemaPath>
+        <rd:SchemaPath>D:\Soham_Work\FluidSECURE_Test\FluidSECURE\Reports\DS_Reports.xsd</rd:SchemaPath>
         <rd:TableName>BillingReportByDeptDetails</rd:TableName>
         <rd:TableAdapterFillMethod />
         <rd:TableAdapterGetDataMethod />
@@ -2382,6 +2418,12 @@
       <Prompt>ReportParameter1</Prompt>
     </ReportParameter>
     <ReportParameter Name="ToDate">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>ReportParameter1</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="TransactionType">
       <DataType>String</DataType>
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>

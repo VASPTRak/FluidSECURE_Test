@@ -9,9 +9,9 @@
     </style>
 
     <asp:UpdatePanel ID="UP_Main" runat="server">
-       <ContentTemplate>
+        <ContentTemplate>
             <div id="mydiv">
-                <img src="/Content/images/ajax-loader.gif" title="Please wait..." class="ajax-loader" /> 
+                <img src="/Content/images/ajax-loader.gif" title="Please wait..." class="ajax-loader" />
             </div>
             <div class="panel panel-primary" style="margin: 20px;">
                 <div class="panel-heading  text-center">
@@ -61,7 +61,7 @@
                                 Department:</label>
                         </div>
                         <div class="form-group col-md-3 col-sm-3 col-xs-12">
-                           <asp:DropDownList ID="DDL_Dept" runat="server" TabIndex="5" CssClass="form-control input-sm" Style="width: 150px; float: left; margin-right: 10px;" AutoPostBack="true" OnSelectedIndexChanged="DDL_Dept_SelectedIndexChanged"></asp:DropDownList>
+                            <asp:DropDownList ID="DDL_Dept" runat="server" TabIndex="5" CssClass="form-control input-sm" Style="width: 150px; float: left; margin-right: 10px;" AutoPostBack="true" OnSelectedIndexChanged="DDL_Dept_SelectedIndexChanged"></asp:DropDownList>
                             <img src="../Content/images/icons8-search-50.png" onclick="OpenDepartmentTypeBox();" style="width: 20px; vertical-align: -webkit-baseline-middle;" />
                         </div>
                         <div id="divCompany" runat="server" class="form-group col-md-3 col-sm-3 textright col-xs-12">
@@ -80,7 +80,7 @@
                                 Vehicle Number:</label>
                         </div>
                         <div class="form-group col-md-3 col-sm-3 col-xs-12">
-                           <asp:DropDownList ID="DDL_Vehicle" runat="server" TabIndex="6" CssClass="form-control input-sm" Style="width: 150px; float: left; margin-right: 10px;" OnSelectedIndexChanged="DDL_Vehicle_SelectedIndexChanged" AutoPostBack="true"></asp:DropDownList>
+                            <asp:DropDownList ID="DDL_Vehicle" runat="server" TabIndex="6" CssClass="form-control input-sm" Style="width: 150px; float: left; margin-right: 10px;" OnSelectedIndexChanged="DDL_Vehicle_SelectedIndexChanged" AutoPostBack="true"></asp:DropDownList>
                             <img src="../Content/images/icons8-search-50.png" onclick="OpenVehicleTypeBox();" style="width: 20px; vertical-align: -webkit-baseline-middle;" /><%--<input type="button" id="BTN_Vehicles" tabindex="15"  value="Click to add vehicle" />--%>
                             <%--<asp:Label ID="lbl_VehicleNumber" runat="server" TabIndex="2"></asp:Label>--%>
                         </div>
@@ -92,7 +92,7 @@
                             <img src="../Content/images/icons8-search-50.png" onclick="OpenPersonnelTypeBox();" style="width: 20px; vertical-align: -webkit-baseline-middle;" />
                         </div>
                     </div>
-                     <div class="row col-md-12 col-sm-12 col-xs-12">
+                    <div class="row col-md-12 col-sm-12 col-xs-12">
                         <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
                             <label>
                                 Product:</label>
@@ -102,13 +102,14 @@
                         </div>
                         <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
                             <label>
-                                Include Deleted FluidSecure Link:</label>
+                                Select Site:</label>
                         </div>
                         <div class="form-group col-md-3 col-sm-3 col-xs-12">
-                           <asp:CheckBox ID="chk_IsDeletedLinkAllow" runat="server" AutoPostBack="true" OnCheckedChanged="chk_IsDeletedLinkAllow_CheckedChanged" Checked="true" TabIndex="12"/>
+                            <asp:DropDownList ID="DDL_HubName" runat="server" TabIndex="12" Style="width: 150px; float: left; margin-right: 10px;" CssClass="form-control input-sm" OnSelectedIndexChanged="DDL_HubName_SelectedIndexChanged" AutoPostBack="true"></asp:DropDownList>
+                            <img src="../Content/images/icons8-search-50.png" onclick="OpenSiteTypeBox();" style="float: left; width: 20px; vertical-align: -webkit-baseline-middle;" />
                         </div>
                     </div>
-                     <div class="row col-md-12 col-sm-12 text-center col-xs-12">
+                    <div class="row col-md-12 col-sm-12 text-center col-xs-12">
                         <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
                             <label>
                                 Vehicle Type:</label>
@@ -117,13 +118,16 @@
                             <asp:DropDownList runat="server" ID="DDL_VehicleType" CssClass="form-control input-sm" TabIndex="8">
                             </asp:DropDownList>
                         </div>
-                         <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
+                        <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
                             <label>
-                                FluidSecure Link:</label>
+                                Select Transaction type:</label>
                         </div>
                         <div class="form-group col-md-3 col-sm-3 col-xs-12">
-                            <%-- <asp:DropDownList ID="DDL_Site" runat="server" TabIndex="5" CssClass="form-control input-sm"></asp:DropDownList>--%>
-                            <asp:ListBox ID="lstSites" runat="server" SelectionMode="Multiple" TabIndex="12" CssClass="form-control input-sm"></asp:ListBox>
+                            <asp:DropDownList ID="ddl_TransactionType" runat="server" TabIndex="13" Style="width: 150px; float: left; margin-right: 10px;" CssClass="form-control input-sm" AutoPostBack="true" OnSelectedIndexChanged="ddl_TransactionType_SelectedIndexChanged">
+                                <asp:ListItem Value="-1" Selected="True" Text="All Transactions"></asp:ListItem>
+                                <asp:ListItem Value="0" Text="All On-Site"></asp:ListItem>
+                                <asp:ListItem Value="1" Text="All Off-site"></asp:ListItem>
+                            </asp:DropDownList>
                         </div>
                     </div>
                     <div class="row col-md-12 col-sm-12 text-center col-xs-12">
@@ -135,18 +139,33 @@
                             <asp:DropDownList ID="DDL_TransactionStatus" runat="server" TabIndex="9" CssClass="form-control input-sm">
                             </asp:DropDownList>
                         </div>
-                        <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
-                            <label>
-                                Select Site:</label>
+                        <div runat="server" id="divDeletedLink">
+                            <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
+                                <label>
+                                    Include Deleted FluidSecure Link:</label>
+                            </div>
+                            <div class="form-group col-md-3 col-sm-3 col-xs-12" >
+                                <asp:CheckBox ID="chk_IsDeletedLinkAllow" runat="server" AutoPostBack="true" style="float:left" OnCheckedChanged="chk_IsDeletedLinkAllow_CheckedChanged" Checked="true" TabIndex="14" />
+                            </div>
                         </div>
-                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
-                            <asp:DropDownList ID="DDL_HubName" runat="server" TabIndex="13"   Style="width: 150px; float: left; margin-right: 10px;" CssClass="form-control input-sm" OnSelectedIndexChanged="DDL_HubName_SelectedIndexChanged" AutoPostBack="true"></asp:DropDownList>
-                             <img src="../Content/images/icons8-search-50.png" onclick="OpenSiteTypeBox();" style="float: left;width: 20px; vertical-align: -webkit-baseline-middle;" />
+                    </div>
+                    <div class="row col-md-12 col-sm-12 text-center col-xs-12">
+                        <div class="form-group col-md-6 col-sm-6 col-xs-12">
+                        </div>
+                        <div runat="server" id="divFluidSecureLink">
+                            <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
+                                <label>
+                                    FluidSecure Link:</label>
+                            </div>
+                            <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                                <%-- <asp:DropDownList ID="DDL_Site" runat="server" TabIndex="5" CssClass="form-control input-sm"></asp:DropDownList>--%>
+                                <asp:ListBox ID="lstSites" runat="server" SelectionMode="Multiple" TabIndex="15" CssClass="form-control input-sm"></asp:ListBox>
+                            </div>
                         </div>
                     </div>
                     <div class="row col-md-12 col-sm-12 text-center col-xs-12">
                         <asp:Button ID="btnGenarateReport" CssClass="btn btn-primary" runat="server" OnClick="btnGenarateReport_Click" Text="Generate Report"
-                            UseSubmitBehavior="False" TabIndex="14" ValidationGroup="TransactionValidation" />
+                            UseSubmitBehavior="False" TabIndex="16" ValidationGroup="TransactionValidation" />
                     </div>
                 </div>
             </div>
@@ -413,7 +432,7 @@
                 allSelectedText: 'All FluidSecure Link',
                 maxHeight: 200,
             }).multiselect('selectAll', false).multiselect('updateButtonText');
-			        });
+        });
 
         $(function () {
             /*

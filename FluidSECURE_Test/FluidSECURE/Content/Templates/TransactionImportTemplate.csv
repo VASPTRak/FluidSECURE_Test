@@ -1,0 +1,4 @@
+* Fields are Required,,,,,,
+,,,,,,
+Transaction Date and Time*,Vehicle Number*,Person PIN,FluidSecure Link,Fuel Quantity*,Odometer,Hours
+MM/dd/yyyy hh:mm:ss,,,,Must be Numeric,Must be Numeric,Must be Numeric

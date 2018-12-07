@@ -319,16 +319,20 @@
     <Content Include="Master\FirmwareUpgrades.aspx" />
     <Content Include="Master\SpecializedExport.aspx" />
     <Content Include="Master\SpecializedFeature.aspx" />
+    <Content Include="Master\SpecializedInActiveVehicleImport.aspx" />
     <Content Include="Master\SpecializedPersonnelImport.aspx" />
+    <Content Include="Master\SpecializedTransactionImport.aspx" />
     <Content Include="Master\SpecializedVehicleImport.aspx" />
     <Content Include="Master\Tank.aspx" />
     <Content Include="Master\TankChart.aspx" />
     <Content Include="Master\TankChartDetails.aspx" />
     <Content Include="Master\TankInventoryReconciliation.aspx" />
     <Content Include="Master\TotalizerMeterReconciliation.aspx" />
+    <Content Include="Master\TransactionImport.aspx" />
     <Content Include="Master\UpdateTransactionCost.aspx" />
     <Content Include="Master\VehicleImport.aspx" />
     <Content Include="AuthorizedEmail.txt" />
+    <Content Include="Master\VehicleOptionsScreen.aspx" />
     <Content Include="Master\VehiclePersonMapping.aspx" />
     <Content Include="Master\ViewCollectedDiagnosticLogs.aspx" />
     <Content Include="RegistrationFailedLog.txt" />
@@ -462,6 +466,7 @@
     <Content Include="Content\Templates\HubUserImportTemplate.csv" />
     <Content Include="Content\Templates\PersonnelImportTemplate.csv" />
     <Content Include="Content\Templates\VehicleImportTemplate.csv" />
+    <Content Include="FluidSecureAPI.ashx" />
     <None Include="My Project\PublishProfiles\FolderProfile.pubxml" />
     <None Include="My Project\PublishProfiles\FolderProfile1.pubxml" />
     <None Include="My Project\PublishProfiles\FolderProfile2.pubxml" />
@@ -710,6 +715,9 @@
     </Compile>
     <Compile Include="ExternalHandler.ashx.vb">
       <DependentUpon>ExternalHandler.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="FluidSecureAPI.ashx.vb">
+      <DependentUpon>FluidSecureAPI.ashx</DependentUpon>
     </Compile>
     <Compile Include="HandlerTrak.ashx.vb">
       <DependentUpon>HandlerTrak.ashx</DependentUpon>
@@ -1063,12 +1071,26 @@
       <DependentUpon>SpecializedFeature.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="Master\SpecializedInActiveVehicleImport.aspx.designer.vb">
+      <DependentUpon>SpecializedInActiveVehicleImport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Master\SpecializedInActiveVehicleImport.aspx.vb">
+      <DependentUpon>SpecializedInActiveVehicleImport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="Master\SpecializedPersonnelImport.aspx.designer.vb">
       <DependentUpon>SpecializedPersonnelImport.aspx</DependentUpon>
     </Compile>
     <Compile Include="Master\SpecializedPersonnelImport.aspx.vb">
       <DependentUpon>SpecializedPersonnelImport.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="Master\SpecializedTransactionImport.aspx.designer.vb">
+      <DependentUpon>SpecializedTransactionImport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Master\SpecializedTransactionImport.aspx.vb">
+      <DependentUpon>SpecializedTransactionImport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Master\SpecializedVehicleImport.aspx.designer.vb">
       <DependentUpon>SpecializedVehicleImport.aspx</DependentUpon>
@@ -1126,6 +1148,13 @@
       <DependentUpon>FirmwareUpgrades.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="Master\TransactionImport.aspx.designer.vb">
+      <DependentUpon>TransactionImport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Master\TransactionImport.aspx.vb">
+      <DependentUpon>TransactionImport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="Master\UpdateTransactionCost.aspx.designer.vb">
       <DependentUpon>UpdateTransactionCost.aspx</DependentUpon>
     </Compile>
@@ -1145,6 +1174,13 @@
     </Compile>
     <Compile Include="Master\VehicleImport.aspx.vb">
       <DependentUpon>VehicleImport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Master\VehicleOptionsScreen.aspx.designer.vb">
+      <DependentUpon>VehicleOptionsScreen.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Master\VehicleOptionsScreen.aspx.vb">
+      <DependentUpon>VehicleOptionsScreen.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Master\VehiclePersonMapping.aspx.designer.vb">

@@ -22,6 +22,21 @@ Public Class AllFSVMFirmwareUpgrades
         Else
             If (Not IsPostBack) Then
                 BindColumns()
+                If (Request.QueryString("Filter") = Nothing) Then
+                    Session("FSVMFirmwareConditions") = ""
+                    Session("FSVMFirmwareDDL_ColumnName") = ""
+                    Session("FSVMFirmwaretxt_valueNameValue") = ""
+                End If
+                If (Not Session("FSVMFirmwareDDL_ColumnName") Is Nothing And Not Session("FSVMFirmwareDDL_ColumnName") = "") Then
+                    DDL_Column.SelectedValue = Session("FSVMFirmwareDDL_ColumnName")
+                    If (Not Session("FSVMFirmwareDDL_ColumnName") Is Nothing And Not Session("FSVMFirmwaretxt_valueNameValue") = "") Then
+                        If (Session("FSVMFirmwaretxt_valueNameValue") <> "") Then
+                            txt_value.Text = Session("FSVMFirmwaretxt_valueNameValue")
+                        Else
+                            txt_value.Text = ""
+                        End If
+                    End If
+                End If
                 If Session("RoleName") <> "SuperAdmin" Then
                     btn_New.Visible = False
                 End If
@@ -68,7 +83,7 @@ Public Class AllFSVMFirmwareUpgrades
             Dim dtFSVMFirmwares As DataTable = New DataTable()
 
             dtFSVMFirmwares = OBJMaster.GetFSVMFirmwaresByCondition(strConditions, Convert.ToInt32(Session("PersonId").ToString()), Session("RoleId").ToString())
-
+            Session("FSVMFirmwareConditions") = strConditions
             Session("dtFSVMFirmwares") = dtFSVMFirmwares
             lblTotalNumberOfRecords.Text = "Total Records: 0"
             If dtFSVMFirmwares IsNot Nothing Then
@@ -79,6 +94,8 @@ Public Class AllFSVMFirmwareUpgrades
             gvUploadedFSVMFirmware.DataSource = dtFSVMFirmwares
             gvUploadedFSVMFirmware.DataBind()
 
+            Session("FSVMFirmwareDDL_ColumnName") = DDL_Column.SelectedValue
+            Session("FSVMFirmwaretxt_valueNameValue") = txt_value.Text
 
             ViewState("Column_Name") = "FSVMFirmwareId"
             ViewState("Sort_Order") = "desc"

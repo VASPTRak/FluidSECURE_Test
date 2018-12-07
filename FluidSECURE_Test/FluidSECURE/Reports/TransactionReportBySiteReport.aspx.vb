@@ -31,10 +31,10 @@ Public Class TransactionReportBySiteReport
 
                 Dim FromDate As ReportParameter = New ReportParameter("FromDate", Session("FromDate").ToString())
                 Dim ToDate As ReportParameter = New ReportParameter("ToDate", Session("ToDate").ToString())
+                    Dim TransactionType As ReportParameter = New ReportParameter("TransactionType", Session("TransactionType").ToString())
+                    RPT_TransactionReportBySite.LocalReport.SetParameters(New ReportParameter() {FromDate, ToDate, TransactionType})
 
-                RPT_TransactionReportBySite.LocalReport.SetParameters(New ReportParameter() {FromDate, ToDate})
-
-                Dim rds As ReportDataSource = New ReportDataSource()
+                    Dim rds As ReportDataSource = New ReportDataSource()
                 rds.Name = "TransactionReportBySite"
                 rds.Value = dSTran.Tables(0)
                 rep.DataSources.Add(rds)

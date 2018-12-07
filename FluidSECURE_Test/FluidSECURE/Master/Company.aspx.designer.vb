@@ -230,13 +230,13 @@ Partial Public Class Company
     Protected WithEvents txtState As Global.System.Web.UI.WebControls.TextBox
     
     '''<summary>
-    '''chk_VehicleNumberRequire control.
+    '''txtOtherLabel control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents chk_VehicleNumberRequire As Global.System.Web.UI.WebControls.CheckBox
+    Protected WithEvents txtOtherLabel As Global.System.Web.UI.WebControls.TextBox
     
     '''<summary>
     '''txtZip control.
@@ -246,6 +246,24 @@ Partial Public Class Company
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents txtZip As Global.System.Web.UI.WebControls.TextBox
+    
+    '''<summary>
+    '''chk_VehicleNumberRequire control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents chk_VehicleNumberRequire As Global.System.Web.UI.WebControls.CheckBox
+    
+    '''<summary>
+    '''lbl_RequireVehicleNumber control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lbl_RequireVehicleNumber As Global.System.Web.UI.WebControls.Label
     
     '''<summary>
     '''txtCountry control.
@@ -365,33 +383,6 @@ Partial Public Class Company
     Protected WithEvents RequiredFieldValidator3 As Global.System.Web.UI.WebControls.CompareValidator
     
     '''<summary>
-    '''Div1 control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents Div1 As Global.System.Web.UI.HtmlControls.HtmlGenericControl
-    
-    '''<summary>
-    '''chkAssignPerToVeh control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents chkAssignPerToVeh As Global.System.Web.UI.WebControls.CheckBox
-    
-    '''<summary>
-    '''txtOtherLabel control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents txtOtherLabel As Global.System.Web.UI.WebControls.TextBox
-    
-    '''<summary>
     '''divPricing control.
     '''</summary>
     '''<remarks>
@@ -500,33 +491,6 @@ Partial Public Class Company
     Protected WithEvents RDF_EndingHostingDate As Global.System.Web.UI.WebControls.RequiredFieldValidator
     
     '''<summary>
-    '''Div2 control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents Div2 As Global.System.Web.UI.HtmlControls.HtmlGenericControl
-    
-    '''<summary>
-    '''btn_EnableAllVehOdo control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents btn_EnableAllVehOdo As Global.System.Web.UI.WebControls.Button
-    
-    '''<summary>
-    '''btn_DisableAllVehOdo control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents btn_DisableAllVehOdo As Global.System.Web.UI.WebControls.Button
-    
-    '''<summary>
     '''trLabel control.
     '''</summary>
     '''<remarks>
@@ -606,6 +570,15 @@ Partial Public Class Company
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents hdfEnableDisable As Global.System.Web.UI.WebControls.HiddenField
+    
+    '''<summary>
+    '''hdfCostingMethodValue control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents hdfCostingMethodValue As Global.System.Web.UI.WebControls.HiddenField
     
     '''<summary>
     '''lblVehodo control.

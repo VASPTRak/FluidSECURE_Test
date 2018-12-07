@@ -92,7 +92,16 @@ Partial Public Class AllVehicles
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents lblTotalNumberOfRecords As Global.System.Web.UI.WebControls.Label
+   Protected WithEvents lblTotalNumberOfRecords As Global.System.Web.UI.WebControls.Label
+    
+    '''<summary>
+    '''btn_Options control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btn_Options As Global.System.Web.UI.WebControls.Button
     
     '''<summary>
     '''btn_New control.

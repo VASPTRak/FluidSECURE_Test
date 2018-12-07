@@ -513,6 +513,26 @@ Public Class ResponceData
     End Property
     Private m_IsTLDCall As String
 
+    Public Property EnbDisHubForFA() As String
+        Get
+            Return m_EnbDisHubForFA
+        End Get
+        Set(value As String)
+            m_EnbDisHubForFA = value
+        End Set
+    End Property
+    Private m_EnbDisHubForFA As String
+
+    Public Property StayOpenGate() As Boolean
+        Get
+            Return m_StayOpenGate
+        End Get
+        Set(value As Boolean)
+            m_StayOpenGate = value
+        End Set
+    End Property
+    Private m_StayOpenGate As Boolean
+
 End Class
 
 Public Class RootObject
@@ -822,12 +842,12 @@ Public Class TransactionComplete
         End Set
     End Property
 
-    Private _Pulses As Integer
-    Public Property Pulses() As Integer
+    Private _Pulses As Decimal
+    Public Property Pulses() As Decimal
         Get
             Return _Pulses
         End Get
-        Set(ByVal value As Integer)
+        Set(ByVal value As Decimal)
             _Pulses = value
         End Set
     End Property
@@ -1444,4 +1464,285 @@ End Class
 Public Class DefectiveBluetoothInfoEmailMaser
     Public Property HubName As String
     Public Property SiteName As String
+End Class
+
+Public Class TransactionsExportAPI
+    Public Property TransactionFromDate() As String
+        Get
+            Return m_FromTransactionFromDate
+        End Get
+        Set(value As String)
+            m_FromTransactionFromDate = value
+        End Set
+    End Property
+    Private m_FromTransactionFromDate As String
+
+    Public Property TransactionToDate() As String
+        Get
+            Return m_TransactionToDate
+        End Get
+        Set(value As String)
+            m_TransactionToDate = value
+        End Set
+    End Property
+    Private m_TransactionToDate As String
+
+    Public Property CompanyName() As String
+        Get
+            Return m_CompanyName
+        End Get
+        Set(value As String)
+            m_CompanyName = value
+        End Set
+    End Property
+    Private m_CompanyName As String
+
+End Class
+
+Public Class TransactionsExportDATA
+    Public Property CompanyName() As String
+        Get
+            Return m_CompanyName
+        End Get
+        Set(value As String)
+            m_CompanyName = value
+        End Set
+    End Property
+    Private m_CompanyName As String
+
+    Public Property CurrentOdometer() As String
+        Get
+            Return m_CurrentOdometer
+        End Get
+        Set(value As String)
+            m_CurrentOdometer = value
+        End Set
+    End Property
+    Private m_CurrentOdometer As String
+
+    Public Property DepartmentNumber() As String
+        Get
+            Return m_DepartmentNumber
+        End Get
+        Set(value As String)
+            m_DepartmentNumber = value
+        End Set
+    End Property
+    Private m_DepartmentNumber As String
+
+    Public Property FuelQuantity() As String
+        Get
+            Return m_FuelQuantity
+        End Get
+        Set(value As String)
+            m_FuelQuantity = value
+        End Set
+    End Property
+    Private m_FuelQuantity As String
+
+    Public Property FuelType() As String
+        Get
+            Return m_FuelType
+        End Get
+        Set(value As String)
+            m_FuelType = value
+        End Set
+    End Property
+    Private m_FuelType As String
+
+    Public Property TransactionDateTime() As String
+        Get
+            Return m_TransactionDateTime
+        End Get
+        Set(value As String)
+            m_TransactionDateTime = value
+        End Set
+    End Property
+    Private m_TransactionDateTime As String
+
+    Public Property VehicleNumber() As String
+        Get
+            Return m_VehicleNumber
+        End Get
+        Set(value As String)
+            m_VehicleNumber = value
+        End Set
+    End Property
+    Private m_VehicleNumber As String
+
+    Public Property SiteNumber() As String
+        Get
+            Return m_SiteNumber
+        End Get
+        Set(value As String)
+            m_SiteNumber = value
+        End Set
+    End Property
+    Private m_SiteNumber As String
+
+    Public Property TankNumber() As String
+        Get
+            Return m_TankNumber
+        End Get
+        Set(value As String)
+            m_TankNumber = value
+        End Set
+    End Property
+    Private m_TankNumber As String
+
+    Public Property PulserRatio() As String
+        Get
+            Return m_PulserRatio
+        End Get
+        Set(value As String)
+            m_PulserRatio = value
+        End Set
+    End Property
+    Private m_PulserRatio As String
+
+    Public Property WifiSSId() As String
+        Get
+            Return m_WifiSSId
+        End Get
+        Set(value As String)
+            m_WifiSSId = value
+        End Set
+    End Property
+    Private m_WifiSSId As String
+
+    Public Property PumpOffTime() As String
+        Get
+            Return m_PumpOffTime
+        End Get
+        Set(value As String)
+            m_PumpOffTime = value
+        End Set
+    End Property
+    Private m_PumpOffTime As String
+
+    Public Property PumpOnTime() As String
+        Get
+            Return m_PumpOnTime
+        End Get
+        Set(value As String)
+            m_PumpOnTime = value
+        End Set
+    End Property
+    Private m_PumpOnTime As String
+
+    Public Property Other() As String
+        Get
+            Return m_Other
+        End Get
+        Set(value As String)
+            m_Other = value
+        End Set
+    End Property
+    Private m_Other As String
+
+    Public Property Hours() As String
+        Get
+            Return m_Hours
+        End Get
+        Set(value As String)
+            m_Hours = value
+        End Set
+    End Property
+    Private m_Hours As String
+
+    Public Property TransactionNumber() As String
+        Get
+            Return m_TransactionNumber
+        End Get
+        Set(value As String)
+            m_TransactionNumber = value
+        End Set
+    End Property
+    Private m_TransactionNumber As String
+
+    Public Property Pulses() As String
+        Get
+            Return m_Pulses
+        End Get
+        Set(value As String)
+            m_Pulses = value
+        End Set
+    End Property
+    Private m_Pulses As String
+
+    Public Property PersonPin() As String
+        Get
+            Return m_PersonPin
+        End Get
+        Set(value As String)
+            m_PersonPin = value
+        End Set
+    End Property
+    Private m_PersonPin As String
+
+    Public Property TransactionCost() As String
+        Get
+            Return m_TransactionCost
+        End Get
+        Set(value As String)
+            m_TransactionCost = value
+        End Set
+    End Property
+    Private m_TransactionCost As String
+
+    Public Property OtherLabel() As String
+        Get
+            Return m_OtherLabel
+        End Get
+        Set(value As String)
+            m_OtherLabel = value
+        End Set
+    End Property
+    Private m_OtherLabel As String
+
+
+End Class
+
+Public Class RootTransactionObject
+    Public Property ResponceMessage() As String
+        Get
+            Return m_ResponceMessage
+        End Get
+        Set(value As String)
+            m_ResponceMessage = value
+        End Set
+    End Property
+    Private m_ResponceMessage As String
+    Public Property ResponceText() As String
+        Get
+            Return m_ResponceText
+        End Get
+        Set(value As String)
+            m_ResponceText = value
+        End Set
+    End Property
+    Private m_ResponceText As String
+
+    Public Property TransactionsExportDataObj() As List(Of TransactionsExportDATA)
+        Get
+            Return m_TransactionsExportDataObj
+        End Get
+        Set(value As List(Of TransactionsExportDATA))
+            m_TransactionsExportDataObj = value
+        End Set
+    End Property
+    Private m_TransactionsExportDataObj As List(Of TransactionsExportDATA)
+
+End Class
+
+Public Class RootObjectTable
+    Public Property TransactionDateTime As String
+    Public Property VehicleNumber As String
+    Public Property PersonPIN As String
+    Public Property FluidSecureLink As String
+    Public Property FuelQuantity As String
+    Public Property Odometer As String
+    Public Property Hours As String
+    Public Property CompanyName As String
+
 End Class

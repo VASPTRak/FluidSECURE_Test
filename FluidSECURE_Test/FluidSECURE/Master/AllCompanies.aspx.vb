@@ -29,7 +29,7 @@ Public Class AllCompanies
                         btn_New.Visible = False
                     End If
 
-                    If (Request.QueryString("Filter") = Nothing) Then
+					If (Request.QueryString("Filter") = Nothing) Then
 						Session("CompanyConditions") = ""
 						Session("CompanyDDL_ColumnName") = ""
 						Session("Companytxt_valueNameValue") = ""

@@ -107,7 +107,7 @@ Public Class Fuel
 			Dim dtFuel As DataTable = New DataTable()
 			dtFuel = OBJMaster.GetFuelByTypeId(FuelTypeID)
 			Dim cnt As Integer = 0
-			If (dtFuel.Rows.Count > 0) Then
+		If (dtFuel.Rows.Count > 0) Then
 
 				Dim isValid As Boolean = False
 				If (Session("RoleName") = "GroupAdmin") Then
@@ -207,17 +207,17 @@ Public Class Fuel
                     btnFirst.Enabled = False
                     btnprevious.Enabled = False
                 ElseIf (cnt >= HDF_TotalFuelType.Value) Then
-                    btnNext.Enabled = False
-                    btnLast.Enabled = False
-                    btnFirst.Enabled = True
-                    btnprevious.Enabled = True
-                ElseIf (cnt <= 1) Then
-                    btnNext.Enabled = True
-                    btnLast.Enabled = True
-                    btnFirst.Enabled = False
-                    btnprevious.Enabled = False
-                ElseIf (cnt > 1 And cnt < HDF_TotalFuelType.Value) Then
-                    btnNext.Enabled = True
+					btnNext.Enabled = False
+					btnLast.Enabled = False
+					btnFirst.Enabled = True
+					btnprevious.Enabled = True
+				ElseIf (cnt <= 1) Then
+					btnNext.Enabled = True
+					btnLast.Enabled = True
+					btnFirst.Enabled = False
+					btnprevious.Enabled = False
+				ElseIf (cnt > 1 And cnt < HDF_TotalFuelType.Value) Then
+					btnNext.Enabled = True
 					btnLast.Enabled = True
 					btnFirst.Enabled = True
 					btnprevious.Enabled = True
@@ -449,21 +449,22 @@ Public Class Fuel
 
 			End If
 
-			If txtFuelType.Text = "" Then
-				ErrorMessage.Visible = True
-				ErrorMessage.InnerText = "Please enter Fuel Type and try again."
-				txtFuelType.Focus()
-				Return
-			End If
 
-			If DDL_Customer.SelectedIndex = 0 Then
-				ErrorMessage.Visible = True
-				ErrorMessage.InnerText = "Please select Company and try again."
-				DDL_Customer.Focus()
-				Return
-			End If
+            If txtFuelType.Text = "" Then
+                ErrorMessage.Visible = True
+                ErrorMessage.InnerText = "Please enter Fuel Type and try again."
+                txtFuelType.Focus()
+                Return
+            End If
 
-			Dim resultDecimal As Decimal = 0
+            If DDL_Customer.SelectedIndex = 0 Then
+                ErrorMessage.Visible = True
+                ErrorMessage.InnerText = "Please select Company and try again."
+                DDL_Customer.Focus()
+                Return
+            End If
+
+            Dim resultDecimal As Decimal = 0
 
 			If (txtProductPrice.Text <> "" And Not (Decimal.TryParse(txtProductPrice.Text, resultDecimal))) Then
 				ErrorMessage.Visible = True

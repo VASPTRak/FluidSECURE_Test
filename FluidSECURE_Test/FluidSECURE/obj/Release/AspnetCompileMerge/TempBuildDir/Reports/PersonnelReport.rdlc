@@ -48,7 +48,7 @@
               <Width>0.71875in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>0.89583in</Width>
+              <Width>1.14583in</Width>
             </TablixColumn>
             <TablixColumn>
               <Width>0.59375in</Width>
@@ -2105,9 +2105,9 @@
         <KeepTogether>true</KeepTogether>
         <DataSetName>PersonnelDetails</DataSetName>
         <Top>0.155in</Top>
-        <Left>0.48833in</Left>
+        <Left>0.23833in</Left>
         <Height>0.5in</Height>
-        <Width>16.30209in</Width>
+        <Width>16.55209in</Width>
         <Style>
           <Border>
             <Style>None</Style>

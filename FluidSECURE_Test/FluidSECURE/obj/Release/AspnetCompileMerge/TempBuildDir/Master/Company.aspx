@@ -1,6 +1,11 @@
 ﻿<%@ Page Title="Company" Language="vb" AutoEventWireup="false" MasterPageFile="~/Site.Master" CodeBehind="Company.aspx.vb" Inherits="Fuel_Secure.Company" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
+    <style type="text/css">
+        .OtherLabel {
+            cursor: help ;
+        }
+    </style>
     <asp:UpdatePanel ID="up_Main" runat="server">
         <ContentTemplate>
             <asp:HiddenField ID="HDF_UniqueUserId" runat="server"></asp:HiddenField>
@@ -115,7 +120,7 @@
                         </div>
                     </div>
                     <div class="row col-md-12 col-sm-12 col-xs-12">
-                       <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
+                        <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
                             <label>
                                 State:</label>
                         </div>
@@ -123,11 +128,11 @@
                             <asp:TextBox ID="txtState" runat="server" CssClass="form-control input-sm" TabIndex="5"></asp:TextBox>
                         </div>
                         <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
-                            <label>Vehicle Number Require:</label>
+                            <label>Other label:</label>
                         </div>
                         <div class="form-group col-md-3 col-sm-3 col-xs-12">
-                            <asp:CheckBox ID="chk_VehicleNumberRequire" runat="server" TabIndex="18" Checked="true" />
-                            <asp:Label ID="lbl_RequireVehicleNumber" runat="server" Text="(Vehicle Number screen required on mobile application)"></asp:Label>
+                            <asp:TextBox ID="txtOtherLabel" runat="server" CssClass="form-control input-sm" MaxLength="25" Style="width: 150px; float: left; margin-right: 10px;" TabIndex="18"></asp:TextBox>
+                            <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" title="This is an additional optional screen that can be used at the HUB. You can customize this screen to be whatever you choose. This information is not validated"></span>
                         </div>
                     </div>
                     <div class="row col-md-12 col-sm-12 col-xs-12">
@@ -138,9 +143,16 @@
                         <div class="form-group col-md-3 col-sm-3 col-xs-12">
                             <asp:TextBox ID="txtZip" runat="server" CssClass="form-control input-sm" TabIndex="6"></asp:TextBox>
                         </div>
+                        <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
+                            <label>Vehicle Number Require:</label>
+                        </div>
+                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                            <asp:CheckBox ID="chk_VehicleNumberRequire" runat="server" TabIndex="19" Checked="true" />
+                            <asp:Label ID="lbl_RequireVehicleNumber" runat="server" Text="(Vehicle Number screen required on mobile application)"></asp:Label>
+                        </div>
                     </div>
                     <div class="row col-md-12 col-sm-12 col-xs-12">
-                         <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
+                        <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
                             <label>
                                 Country:</label>
                         </div>
@@ -151,9 +163,9 @@
                             <label>Export Code:</label>
                         </div>
                         <div class="form-group col-md-3 col-sm-3 col-xs-12">
-                            <asp:TextBox ID="txtExportCode" runat="server" CssClass="form-control input-sm" MaxLength="25" Width="210" TabIndex="19"></asp:TextBox>
+                            <asp:TextBox ID="txtExportCode" runat="server" CssClass="form-control input-sm" MaxLength="25" Width="210" TabIndex="20"></asp:TextBox>
                         </div>
-                        
+
                     </div>
                     <div class="row col-md-12 col-sm-12 col-xs-12">
 
@@ -175,7 +187,7 @@
                                <label class="text-danger font-required">[required]</label>:</label>
                         </div>
                         <div class="form-group col-md-3 col-sm-3 col-xs-12">
-                            <asp:TextBox ID="txtAdminUsername" runat="server" CssClass="form-control input-sm" MaxLength="50" TabIndex="20" Width="300" TextMode="Email"></asp:TextBox>
+                            <asp:TextBox ID="txtAdminUsername" runat="server" CssClass="form-control input-sm" MaxLength="50" TabIndex="21" Width="300" TextMode="Email"></asp:TextBox>
                             <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" Font-Size="Small"
                                 Font-Bold="False" Font-Names="arial" ErrorMessage="Please Enter Admin Username."
                                 ControlToValidate="txtAdminUsername" Display="Dynamic" ForeColor="Red" SetFocusOnError="True" ValidationGroup="CustValidation"></asp:RequiredFieldValidator>
@@ -200,25 +212,10 @@
                         <label class="text-danger font-required">[required]</label>:</label>
                         </div>
                         <div class="form-group col-md-3 col-sm-3 col-xs-12">
-                            <asp:TextBox ID="txtConfirmPassword" runat="server" CssClass="form-control input-sm" TextMode="Password" MaxLength="50" Width="300" TabIndex="21"></asp:TextBox>
+                            <asp:TextBox ID="txtConfirmPassword" runat="server" CssClass="form-control input-sm" TextMode="Password" MaxLength="50" Width="300" TabIndex="22"></asp:TextBox>
                             <asp:CompareValidator ID="RequiredFieldValidator3" runat="server" Font-Size="Small"
                                 Font-Bold="False" Font-Names="arial" ErrorMessage="Password and confirm password not matched."
                                 ControlToValidate="txtConfirmPassword" ControlToCompare="txtAdminPassword" Display="Dynamic" ForeColor="Red" SetFocusOnError="True" ValidationGroup="CustValidation"></asp:CompareValidator>
-                        </div>
-                    </div>
-                    <div class="row col-md-12 col-sm-12 col-xs-12" id="Div1" runat="server">
-                        <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
-                            <label>
-                                Assign all personnel to all vehicles:</label>
-                        </div>
-                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
-                            <asp:CheckBox runat="server" ID="chkAssignPerToVeh" TabIndex="10" />
-                        </div>
-                        <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
-                            <label>Other label:</label>
-                        </div>
-                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
-                            <asp:TextBox ID="txtOtherLabel" runat="server" CssClass="form-control input-sm" MaxLength="50" TabIndex="22"></asp:TextBox>
                         </div>
                     </div>
                     <div class="row col-md-12 col-sm-12 col-xs-12" id="divPricing" runat="server">
@@ -283,7 +280,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row col-md-12 col-sm-12 col-xs-12" runat="server" id="Div2">
+                    <%--<div class="row col-md-12 col-sm-12 col-xs-12" runat="server" id="Div2">
                         <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
                             <label>Click to Enable/Disable All Vehicle's Odometer</label>
                         </div>
@@ -291,7 +288,7 @@
                             <asp:Button ID="btn_EnableAllVehOdo" runat="server" Text="Enable" OnClientClick="setValueLable(1)" OnClick="btn_EnableAllVehOdo_Click" TabIndex="12"  />
                             <asp:Button ID="btn_DisableAllVehOdo" runat="server" Text="Disable" OnClientClick="setValueLable(2)" OnClick="btn_DisableAllVehOdo_Click" TabIndex="13"  />
                         </div>
-                    </div>
+                    </div>--%>
                     <div class="row col-md-12 col-sm-12 col-xs-12" id="trLabel" runat="server">
                         <p class="green" style="text-align: center">You can reset  Contact Email password from Personnel screen. </p>
                     </div>
@@ -313,6 +310,7 @@
             </div>
 
             <asp:HiddenField runat="server" ID="hdfEnableDisable" Value="0" />
+            <asp:HiddenField runat="server" ID="hdfCostingMethodValue" Value="0" />
 
         </ContentTemplate>
     </asp:UpdatePanel>
@@ -394,22 +392,22 @@
             //phone number accept all number with only (-)+space symbols.
             if (phoneNumber.match(/^[- +()]*[0-9][- +()0-9]*$/)) {
                 document.getElementById('<%=lblErrorMsg.ClientID%>').style.display = "none";
-                    //return true;
-                    if (Page_ClientValidate("CustValidation"))
-                        return true;
-                    else
-                        return false;
-                }
-                else {
-                    document.getElementById('<%=lblErrorMsg.ClientID%>').style.display = "";
+                //return true;
+                if (Page_ClientValidate("CustValidation"))
+                    return true;
+                else
                     return false;
-                }
-
             }
-            function loadFunction() {
-                $('[data-toggle="tooltip"]').tooltip();
-                //$("#<%=txtContactNumber.ClientID%>").mask("999-999-9999");
+            else {
+                document.getElementById('<%=lblErrorMsg.ClientID%>').style.display = "";
+                return false;
+            }
+
         }
+        function loadFunction() {
+            $('[data-toggle="tooltip"]').tooltip();
+            //$("#<%=txtContactNumber.ClientID%>").mask("999-999-9999");
+            }
         $(function () {
             loadFunction();
         });
@@ -461,12 +459,12 @@
             debugger;
             if (value == 1) {
                 document.getElementById('<%=lblVehodo.ClientID %>').innerText = "Are you sure you want to Enable odometer entry for all vehicles in this Company ?";
-                }
-                else {
-                    document.getElementById('<%=lblVehodo.ClientID %>').innerText = "Are you sure you want to Disable odometer entry for all vehicles in this Company ?";
-                }
-
             }
+            else {
+                document.getElementById('<%=lblVehodo.ClientID %>').innerText = "Are you sure you want to Disable odometer entry for all vehicles in this Company ?";
+            }
+
+        }
     </script>
     <style>
         .ui-tooltip {
@@ -487,8 +485,6 @@
                         </div>
                         <div class="modal-body">
                             <div class="row col-md-12 col-sm-12">
-                                <h4 class="modal-title text-center" style="color: red">Warning</h4>
-                                <br />
                                 <asp:Label ID="lblErrorMessage" runat="server" Text=""></asp:Label>
                             </div>
                         </div>
@@ -509,11 +505,11 @@
                         <div class="modal-header">
                             <h3 class="modal-title text-center">FluidSecure</h3>
                         </div>
-                        <div class="modal-body">
-                            <div class="row col-md-12 col-sm-12">
+                        <div class="modal-body" style="padding:7px;">
+                            <div class="row col-md-12 col-sm-12" style="padding-left:0px;margin:0px">
                                 <h4 class="modal-title text-center" style="color: red">Warning</h4>
                                 <br />
-                                <asp:Label ID="lblWarningMessage" runat="server" Text="You have change Costing Method. This could result in unexpected consequences and that all data needs to be reset to a zero starting point if you wish to continue."></asp:Label>
+                                <asp:Label ID="lblWarningMessage" runat="server" style="float:left" Text="You have change Costing Method. This could result in unexpected consequences and that all data needs to be reset to a zero starting point if you wish to continue."></asp:Label>
                             </div>
                         </div>
                         <div class="modal-footer nextButton">

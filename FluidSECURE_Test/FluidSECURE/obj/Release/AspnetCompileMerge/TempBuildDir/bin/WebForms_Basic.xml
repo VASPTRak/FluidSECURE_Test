@@ -380,7 +380,7 @@ Fuel Secure
 </member>
 <member name="P:Fuel_Secure.My.Resources.Resource.HandlerMsg58">
 <summary>
-  Looks up a localized string similar to Company is inactive. Please contact administrator..
+  Looks up a localized string similar to Company is Inactive - Please contact FluidSecure Support support@fluidsecure.com.
 </summary>
 </member>
 <member name="P:Fuel_Secure.My.Resources.Resource.HandlerMsg6">
@@ -4168,6 +4168,15 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
+<member name="F:Fuel_Secure.AllVehicles._btn_Options">
+<summary>
+btn_Options control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
 <member name="F:Fuel_Secure.AllVehicles._btn_New">
 <summary>
 btn_New control.
@@ -4762,9 +4771,9 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:Fuel_Secure.Company._chk_VehicleNumberRequire">
+<member name="F:Fuel_Secure.Company._txtOtherLabel">
 <summary>
-chk_VehicleNumberRequire control.
+txtOtherLabel control.
 </summary>
 <remarks>
 Auto-generated field.
@@ -4774,6 +4783,24 @@ To modify move field declaration from designer file to code-behind file.
 <member name="F:Fuel_Secure.Company._txtZip">
 <summary>
 txtZip control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.Company._chk_VehicleNumberRequire">
+<summary>
+chk_VehicleNumberRequire control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.Company._lbl_RequireVehicleNumber">
+<summary>
+lbl_RequireVehicleNumber control.
 </summary>
 <remarks>
 Auto-generated field.
@@ -4897,33 +4924,6 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:Fuel_Secure.Company._Div1">
-<summary>
-Div1 control.
-</summary>
-<remarks>
-Auto-generated field.
-To modify move field declaration from designer file to code-behind file.
-</remarks>
-</member>
-<member name="F:Fuel_Secure.Company._chkAssignPerToVeh">
-<summary>
-chkAssignPerToVeh control.
-</summary>
-<remarks>
-Auto-generated field.
-To modify move field declaration from designer file to code-behind file.
-</remarks>
-</member>
-<member name="F:Fuel_Secure.Company._txtOtherLabel">
-<summary>
-txtOtherLabel control.
-</summary>
-<remarks>
-Auto-generated field.
-To modify move field declaration from designer file to code-behind file.
-</remarks>
-</member>
 <member name="F:Fuel_Secure.Company._divPricing">
 <summary>
 divPricing control.
@@ -5032,33 +5032,6 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:Fuel_Secure.Company._Div2">
-<summary>
-Div2 control.
-</summary>
-<remarks>
-Auto-generated field.
-To modify move field declaration from designer file to code-behind file.
-</remarks>
-</member>
-<member name="F:Fuel_Secure.Company._btn_EnableAllVehOdo">
-<summary>
-btn_EnableAllVehOdo control.
-</summary>
-<remarks>
-Auto-generated field.
-To modify move field declaration from designer file to code-behind file.
-</remarks>
-</member>
-<member name="F:Fuel_Secure.Company._btn_DisableAllVehOdo">
-<summary>
-btn_DisableAllVehOdo control.
-</summary>
-<remarks>
-Auto-generated field.
-To modify move field declaration from designer file to code-behind file.
-</remarks>
-</member>
 <member name="F:Fuel_Secure.Company._trLabel">
 <summary>
 trLabel control.
@@ -5134,6 +5107,15 @@ To modify move field declaration from designer file to code-behind file.
 <member name="F:Fuel_Secure.Company._hdfEnableDisable">
 <summary>
 hdfEnableDisable control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.Company._hdfCostingMethodValue">
+<summary>
+hdfCostingMethodValue control.
 </summary>
 <remarks>
 Auto-generated field.
@@ -7336,6 +7318,15 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
+<member name="F:Fuel_Secure.FluidSecureHub._chk_HubForFA">
+<summary>
+chk_HubForFA control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
 <member name="F:Fuel_Secure.FluidSecureHub._btnSave">
 <summary>
 btnSave control.
@@ -8011,6 +8002,69 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
+<member name="F:Fuel_Secure.FuelSecureUnit._LBL_LinkHistory">
+<summary>
+LBL_LinkHistory control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.FuelSecureUnit._UP_FSHistory">
+<summary>
+UP_FSHistory control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.FuelSecureUnit._gv_HistoryView">
+<summary>
+gv_HistoryView control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.FuelSecureUnit._btnFSHistoryOk">
+<summary>
+btnFSHistoryOk control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.FuelSecureUnit._btnCancelFSHistoryBox">
+<summary>
+btnCancelFSHistoryBox control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.FuelSecureUnit._HDF_FSCurrentName">
+<summary>
+HDF_FSCurrentName control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.FuelSecureUnit._HDF_FSNameHistory">
+<summary>
+HDF_FSNameHistory control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
 <member name="F:Fuel_Secure.FuelSecureUnit._lblHeader">
 <summary>
 lblHeader control.
@@ -8113,6 +8167,15 @@ To modify move field declaration from designer file to code-behind file.
 <member name="F:Fuel_Secure.FuelSecureUnit._CHK_DisableGeoLocation">
 <summary>
 CHK_DisableGeoLocation control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.FuelSecureUnit._btn_ViewHistory">
+<summary>
+btn_ViewHistory control.
 </summary>
 <remarks>
 Auto-generated field.
@@ -11881,6 +11944,96 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
+<member name="F:Fuel_Secure.SpecializedInActiveVehicleImport._lblHeader">
+<summary>
+lblHeader control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.SpecializedInActiveVehicleImport._message">
+<summary>
+message control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.SpecializedInActiveVehicleImport._ErrorMessage">
+<summary>
+ErrorMessage control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.SpecializedInActiveVehicleImport._HDF_CurrentDate">
+<summary>
+HDF_CurrentDate control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.SpecializedInActiveVehicleImport._LB_Error">
+<summary>
+LB_Error control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.SpecializedInActiveVehicleImport._divCompany">
+<summary>
+divCompany control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.SpecializedInActiveVehicleImport._ddlCustomer">
+<summary>
+ddlCustomer control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.SpecializedInActiveVehicleImport._RFV_Cust">
+<summary>
+RFV_Cust control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.SpecializedInActiveVehicleImport._FU_Persons">
+<summary>
+FU_Persons control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.SpecializedInActiveVehicleImport._btnUpload">
+<summary>
+btnUpload control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
 <member name="F:Fuel_Secure.SpecializedPersonnelImport._lblHeader">
 <summary>
 lblHeader control.
@@ -11963,6 +12116,96 @@ To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
 <member name="F:Fuel_Secure.SpecializedPersonnelImport._btnUpload">
+<summary>
+btnUpload control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.SpecializedTransactionImport._lblHeader">
+<summary>
+lblHeader control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.SpecializedTransactionImport._message">
+<summary>
+message control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.SpecializedTransactionImport._ErrorMessage">
+<summary>
+ErrorMessage control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.SpecializedTransactionImport._HDF_CurrentDate">
+<summary>
+HDF_CurrentDate control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.SpecializedTransactionImport._LB_Error">
+<summary>
+LB_Error control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.SpecializedTransactionImport._divCompany">
+<summary>
+divCompany control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.SpecializedTransactionImport._ddlCustomer">
+<summary>
+ddlCustomer control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.SpecializedTransactionImport._RFV_Cust">
+<summary>
+RFV_Cust control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.SpecializedTransactionImport._FU_Transactions">
+<summary>
+FU_Transactions control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.SpecializedTransactionImport._btnUpload">
 <summary>
 btnUpload control.
 </summary>
@@ -12091,6 +12334,24 @@ To modify move field declaration from designer file to code-behind file.
 <member name="F:Fuel_Secure.Tank._ErrorMessage">
 <summary>
 ErrorMessage control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.Tank._WarningMessage">
+<summary>
+WarningMessage control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.Tank._lblCostingMethod">
+<summary>
+lblCostingMethod control.
 </summary>
 <remarks>
 Auto-generated field.
@@ -12784,6 +13045,15 @@ To modify move field declaration from designer file to code-behind file.
 <member name="F:Fuel_Secure.TankChartDetails._gv_TankChartDetails">
 <summary>
 gv_TankChartDetails control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.TankChartDetails._btnSave">
+<summary>
+btnSave control.
 </summary>
 <remarks>
 Auto-generated field.
@@ -13555,9 +13825,9 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:Fuel_Secure.Transaction._LBL_SelectedPerson">
+<member name="F:Fuel_Secure.Transaction._divDepartmentNumber">
 <summary>
-LBL_SelectedPerson control.
+divDepartmentNumber control.
 </summary>
 <remarks>
 Auto-generated field.
@@ -13582,54 +13852,18 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
+<member name="F:Fuel_Secure.Transaction._divPersonnel">
+<summary>
+divPersonnel control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
 <member name="F:Fuel_Secure.Transaction._txtPinNumber">
 <summary>
 txtPinNumber control.
-</summary>
-<remarks>
-Auto-generated field.
-To modify move field declaration from designer file to code-behind file.
-</remarks>
-</member>
-<member name="F:Fuel_Secure.Transaction._txtGuestVehicleNumber">
-<summary>
-txtGuestVehicleNumber control.
-</summary>
-<remarks>
-Auto-generated field.
-To modify move field declaration from designer file to code-behind file.
-</remarks>
-</member>
-<member name="F:Fuel_Secure.Transaction._txtCurrentOdometer">
-<summary>
-txtCurrentOdometer control.
-</summary>
-<remarks>
-Auto-generated field.
-To modify move field declaration from designer file to code-behind file.
-</remarks>
-</member>
-<member name="F:Fuel_Secure.Transaction._lblcurrODO">
-<summary>
-lblcurrODO control.
-</summary>
-<remarks>
-Auto-generated field.
-To modify move field declaration from designer file to code-behind file.
-</remarks>
-</member>
-<member name="F:Fuel_Secure.Transaction._RFD_CurrOdo">
-<summary>
-RFD_CurrOdo control.
-</summary>
-<remarks>
-Auto-generated field.
-To modify move field declaration from designer file to code-behind file.
-</remarks>
-</member>
-<member name="F:Fuel_Secure.Transaction._CV_CurrOdo">
-<summary>
-CV_CurrOdo control.
 </summary>
 <remarks>
 Auto-generated field.
@@ -13645,18 +13879,63 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:Fuel_Secure.Transaction._lblSite">
+<member name="F:Fuel_Secure.Transaction._RDF_Site">
 <summary>
-lblSite control.
+RDF_Site control.
 </summary>
 <remarks>
 Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:Fuel_Secure.Transaction._RDF_Site">
+<member name="F:Fuel_Secure.Transaction._LBL_SelectedPerson">
 <summary>
-RDF_Site control.
+LBL_SelectedPerson control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.Transaction._DDL_Fuel">
+<summary>
+DDL_Fuel control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.Transaction._RDF_Fuel">
+<summary>
+RDF_Fuel control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.Transaction._hdfTransactionId">
+<summary>
+hdfTransactionId control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.Transaction._HDF_TotalTransactions">
+<summary>
+HDF_TotalTransactions control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.Transaction._txtCurrentOdometer">
+<summary>
+txtCurrentOdometer control.
 </summary>
 <remarks>
 Auto-generated field.
@@ -13681,45 +13960,9 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:Fuel_Secure.Transaction._lblprevODO">
-<summary>
-lblprevODO control.
-</summary>
-<remarks>
-Auto-generated field.
-To modify move field declaration from designer file to code-behind file.
-</remarks>
-</member>
-<member name="F:Fuel_Secure.Transaction._RDF_PreviousOdometer">
-<summary>
-RDF_PreviousOdometer control.
-</summary>
-<remarks>
-Auto-generated field.
-To modify move field declaration from designer file to code-behind file.
-</remarks>
-</member>
-<member name="F:Fuel_Secure.Transaction._CV_PreviousOdometer">
-<summary>
-CV_PreviousOdometer control.
-</summary>
-<remarks>
-Auto-generated field.
-To modify move field declaration from designer file to code-behind file.
-</remarks>
-</member>
 <member name="F:Fuel_Secure.Transaction._txtFuelQuantity">
 <summary>
 txtFuelQuantity control.
-</summary>
-<remarks>
-Auto-generated field.
-To modify move field declaration from designer file to code-behind file.
-</remarks>
-</member>
-<member name="F:Fuel_Secure.Transaction._lblFQnty">
-<summary>
-lblFQnty control.
 </summary>
 <remarks>
 Auto-generated field.
@@ -13762,9 +14005,27 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:Fuel_Secure.Transaction._txtOther">
+<member name="F:Fuel_Secure.Transaction._divTransactionStatus">
 <summary>
-txtOther control.
+divTransactionStatus control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.Transaction._DDL_TransactionStatus">
+<summary>
+DDL_TransactionStatus control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.Transaction._RDF_TransactionStatus">
+<summary>
+RDF_TransactionStatus control.
 </summary>
 <remarks>
 Auto-generated field.
@@ -13789,15 +14050,6 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:Fuel_Secure.Transaction._lblPreviousHours">
-<summary>
-lblPreviousHours control.
-</summary>
-<remarks>
-Auto-generated field.
-To modify move field declaration from designer file to code-behind file.
-</remarks>
-</member>
 <member name="F:Fuel_Secure.Transaction._CVPreviousHours">
 <summary>
 CVPreviousHours control.
@@ -13807,81 +14059,9 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:Fuel_Secure.Transaction._DDL_TransactionStatus">
+<member name="F:Fuel_Secure.Transaction._txtOther">
 <summary>
-DDL_TransactionStatus control.
-</summary>
-<remarks>
-Auto-generated field.
-To modify move field declaration from designer file to code-behind file.
-</remarks>
-</member>
-<member name="F:Fuel_Secure.Transaction._lbltranStatus">
-<summary>
-lbltranStatus control.
-</summary>
-<remarks>
-Auto-generated field.
-To modify move field declaration from designer file to code-behind file.
-</remarks>
-</member>
-<member name="F:Fuel_Secure.Transaction._RDF_TransactionStatus">
-<summary>
-RDF_TransactionStatus control.
-</summary>
-<remarks>
-Auto-generated field.
-To modify move field declaration from designer file to code-behind file.
-</remarks>
-</member>
-<member name="F:Fuel_Secure.Transaction._DDL_Fuel">
-<summary>
-DDL_Fuel control.
-</summary>
-<remarks>
-Auto-generated field.
-To modify move field declaration from designer file to code-behind file.
-</remarks>
-</member>
-<member name="F:Fuel_Secure.Transaction._lblFuel">
-<summary>
-lblFuel control.
-</summary>
-<remarks>
-Auto-generated field.
-To modify move field declaration from designer file to code-behind file.
-</remarks>
-</member>
-<member name="F:Fuel_Secure.Transaction._RDF_Fuel">
-<summary>
-RDF_Fuel control.
-</summary>
-<remarks>
-Auto-generated field.
-To modify move field declaration from designer file to code-behind file.
-</remarks>
-</member>
-<member name="F:Fuel_Secure.Transaction._hdfTransactionId">
-<summary>
-hdfTransactionId control.
-</summary>
-<remarks>
-Auto-generated field.
-To modify move field declaration from designer file to code-behind file.
-</remarks>
-</member>
-<member name="F:Fuel_Secure.Transaction._HDF_TotalTransactions">
-<summary>
-HDF_TotalTransactions control.
-</summary>
-<remarks>
-Auto-generated field.
-To modify move field declaration from designer file to code-behind file.
-</remarks>
-</member>
-<member name="F:Fuel_Secure.Transaction._lblCost">
-<summary>
-lblCost control.
+txtOther control.
 </summary>
 <remarks>
 Auto-generated field.
@@ -13909,6 +14089,60 @@ To modify move field declaration from designer file to code-behind file.
 <member name="F:Fuel_Secure.Transaction._RDF_Customer">
 <summary>
 RDF_Customer control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.Transaction._divFinalQuantity">
+<summary>
+divFinalQuantity control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.Transaction._LblFinalQuantity">
+<summary>
+LblFinalQuantity control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.Transaction._divGuestVehicleNumber">
+<summary>
+divGuestVehicleNumber control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.Transaction._txtGuestVehicleNumber">
+<summary>
+txtGuestVehicleNumber control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.Transaction._HideCost">
+<summary>
+HideCost control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.Transaction._lblCost">
+<summary>
+lblCost control.
 </summary>
 <remarks>
 Auto-generated field.
@@ -13981,6 +14215,15 @@ To modify move field declaration from designer file to code-behind file.
 <member name="F:Fuel_Secure.Transaction._btnCancel">
 <summary>
 btnCancel control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.Transaction._btnSaveAndAddNew">
+<summary>
+btnSaveAndAddNew control.
 </summary>
 <remarks>
 Auto-generated field.
@@ -14296,6 +14539,105 @@ To modify move field declaration from designer file to code-behind file.
 <member name="F:Fuel_Secure.FirmwareUpgrades._btnCancel">
 <summary>
 btnCancel control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.TransactionImport._lblHeader">
+<summary>
+lblHeader control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.TransactionImport._message">
+<summary>
+message control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.TransactionImport._ErrorMessage">
+<summary>
+ErrorMessage control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.TransactionImport._HDF_CurrentDate">
+<summary>
+HDF_CurrentDate control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.TransactionImport._LB_Error">
+<summary>
+LB_Error control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.TransactionImport._divCompany">
+<summary>
+divCompany control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.TransactionImport._ddlCustomer">
+<summary>
+ddlCustomer control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.TransactionImport._RFV_Cust">
+<summary>
+RFV_Cust control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.TransactionImport._FU_Transactions">
+<summary>
+FU_Transactions control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.TransactionImport._btnUpload">
+<summary>
+btnUpload control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.TransactionImport._lnkTemplate">
+<summary>
+lnkTemplate control.
 </summary>
 <remarks>
 Auto-generated field.
@@ -15211,6 +15553,402 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
+<member name="F:Fuel_Secure.VehicleOptionsScreen._up_Main">
+<summary>
+up_Main control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.VehicleOptionsScreen._lblHeader">
+<summary>
+lblHeader control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.VehicleOptionsScreen._message">
+<summary>
+message control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.VehicleOptionsScreen._ErrorMessage">
+<summary>
+ErrorMessage control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.VehicleOptionsScreen._divCompany">
+<summary>
+divCompany control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.VehicleOptionsScreen._DDL_Customer">
+<summary>
+DDL_Customer control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.VehicleOptionsScreen._RFV_Cust">
+<summary>
+RFV_Cust control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.VehicleOptionsScreen._Div1">
+<summary>
+Div1 control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.VehicleOptionsScreen._btn_assign">
+<summary>
+btn_assign control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.VehicleOptionsScreen._Div2">
+<summary>
+Div2 control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.VehicleOptionsScreen._btn_EnableAllVehOdo">
+<summary>
+btn_EnableAllVehOdo control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.VehicleOptionsScreen._btn_DisableAllVehOdo">
+<summary>
+btn_DisableAllVehOdo control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.VehicleOptionsScreen._btn_EnableHours">
+<summary>
+btn_EnableHours control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.VehicleOptionsScreen._btn_DisableHours">
+<summary>
+btn_DisableHours control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.VehicleOptionsScreen._RBL_OdometerReasonabilityConditions">
+<summary>
+RBL_OdometerReasonabilityConditions control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.VehicleOptionsScreen._btn_EnableReasonability">
+<summary>
+btn_EnableReasonability control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.VehicleOptionsScreen._btn_DisableReasonability">
+<summary>
+btn_DisableReasonability control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.VehicleOptionsScreen._txtOdoLimit">
+<summary>
+txtOdoLimit control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.VehicleOptionsScreen._btnOdoLimitAll">
+<summary>
+btnOdoLimitAll control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.VehicleOptionsScreen._btnOdoLimit">
+<summary>
+btnOdoLimit control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.VehicleOptionsScreen._txtHoursLimit">
+<summary>
+txtHoursLimit control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.VehicleOptionsScreen._btnHoursLimitAll">
+<summary>
+btnHoursLimitAll control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.VehicleOptionsScreen._btnHoursLimit">
+<summary>
+btnHoursLimit control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.VehicleOptionsScreen._Div3">
+<summary>
+Div3 control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.VehicleOptionsScreen._btn_Return">
+<summary>
+btn_Return control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.VehicleOptionsScreen._hdfEnabDisOdo">
+<summary>
+hdfEnabDisOdo control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.VehicleOptionsScreen._hdfOdoReasonability">
+<summary>
+hdfOdoReasonability control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.VehicleOptionsScreen._hdfOdoHours">
+<summary>
+hdfOdoHours control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.VehicleOptionsScreen._hdfOdoHoursLimit">
+<summary>
+hdfOdoHoursLimit control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.VehicleOptionsScreen._lblVehodo">
+<summary>
+lblVehodo control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.VehicleOptionsScreen._btnVehOdoOk">
+<summary>
+btnVehOdoOk control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.VehicleOptionsScreen._btnCancelModal">
+<summary>
+btnCancelModal control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.VehicleOptionsScreen._lblVehAssign">
+<summary>
+lblVehAssign control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.VehicleOptionsScreen._btnVehAssignOk">
+<summary>
+btnVehAssignOk control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.VehicleOptionsScreen._btnCancelVehAssign">
+<summary>
+btnCancelVehAssign control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.VehicleOptionsScreen._lblOdoOpt">
+<summary>
+lblOdoOpt control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.VehicleOptionsScreen._btnSaveOdoOpt">
+<summary>
+btnSaveOdoOpt control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.VehicleOptionsScreen._btnCancelOdo">
+<summary>
+btnCancelOdo control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.VehicleOptionsScreen._lblOdoHours">
+<summary>
+lblOdoHours control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.VehicleOptionsScreen._btnOdoHours">
+<summary>
+btnOdoHours control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.VehicleOptionsScreen._btnOdoCancleHours">
+<summary>
+btnOdoCancleHours control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.VehicleOptionsScreen._lblOdoHoursLimit">
+<summary>
+lblOdoHoursLimit control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.VehicleOptionsScreen._btnCloseOdoHoursLimitOk">
+<summary>
+btnCloseOdoHoursLimitOk control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.VehicleOptionsScreen._btnCancelOdoHOursLimit">
+<summary>
+btnCancelOdoHOursLimit control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
 <member name="F:Fuel_Secure.VehiclePersonMapping._up_Main">
 <summary>
 up_Main control.
@@ -15562,9 +16300,9 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:Fuel_Secure.BillingReportByDeptDetails._chk_IsDeletedLinkAllow">
+<member name="F:Fuel_Secure.BillingReportByDeptDetails._DDL_HubName">
 <summary>
-chk_IsDeletedLinkAllow control.
+DDL_HubName control.
 </summary>
 <remarks>
 Auto-generated field.
@@ -15580,9 +16318,9 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:Fuel_Secure.BillingReportByDeptDetails._lstSites">
+<member name="F:Fuel_Secure.BillingReportByDeptDetails._ddl_TransactionType">
 <summary>
-lstSites control.
+ddl_TransactionType control.
 </summary>
 <remarks>
 Auto-generated field.
@@ -15598,9 +16336,36 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:Fuel_Secure.BillingReportByDeptDetails._DDL_HubName">
+<member name="F:Fuel_Secure.BillingReportByDeptDetails._divDeletedLink">
 <summary>
-DDL_HubName control.
+divDeletedLink control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.BillingReportByDeptDetails._chk_IsDeletedLinkAllow">
+<summary>
+chk_IsDeletedLinkAllow control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.BillingReportByDeptDetails._divFluidSecureLink">
+<summary>
+divFluidSecureLink control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.BillingReportByDeptDetails._lstSites">
+<summary>
+lstSites control.
 </summary>
 <remarks>
 Auto-generated field.
@@ -15994,9 +16759,9 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:Fuel_Secure.BillingReportByDeptSummary._chk_IsDeletedLinkAllow">
+<member name="F:Fuel_Secure.BillingReportByDeptSummary._DDL_HubName">
 <summary>
-chk_IsDeletedLinkAllow control.
+DDL_HubName control.
 </summary>
 <remarks>
 Auto-generated field.
@@ -16012,9 +16777,9 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:Fuel_Secure.BillingReportByDeptSummary._lstSites">
+<member name="F:Fuel_Secure.BillingReportByDeptSummary._ddl_TransactionType">
 <summary>
-lstSites control.
+ddl_TransactionType control.
 </summary>
 <remarks>
 Auto-generated field.
@@ -16030,9 +16795,36 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:Fuel_Secure.BillingReportByDeptSummary._DDL_HubName">
+<member name="F:Fuel_Secure.BillingReportByDeptSummary._divDeletedLink">
 <summary>
-DDL_HubName control.
+divDeletedLink control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.BillingReportByDeptSummary._chk_IsDeletedLinkAllow">
+<summary>
+chk_IsDeletedLinkAllow control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.BillingReportByDeptSummary._divFluidSecureLink">
+<summary>
+divFluidSecureLink control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.BillingReportByDeptSummary._lstSites">
+<summary>
+lstSites control.
 </summary>
 <remarks>
 Auto-generated field.
@@ -16426,9 +17218,9 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:Fuel_Secure.BillingReportByVehicleSummary._chk_IsDeletedLinkAllow">
+<member name="F:Fuel_Secure.BillingReportByVehicleSummary._DDL_HubName">
 <summary>
-chk_IsDeletedLinkAllow control.
+DDL_HubName control.
 </summary>
 <remarks>
 Auto-generated field.
@@ -16444,9 +17236,9 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:Fuel_Secure.BillingReportByVehicleSummary._lstSites">
+<member name="F:Fuel_Secure.BillingReportByVehicleSummary._ddl_TransactionType">
 <summary>
-lstSites control.
+ddl_TransactionType control.
 </summary>
 <remarks>
 Auto-generated field.
@@ -16462,9 +17254,36 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:Fuel_Secure.BillingReportByVehicleSummary._DDL_HubName">
+<member name="F:Fuel_Secure.BillingReportByVehicleSummary._divDeletedLink">
 <summary>
-DDL_HubName control.
+divDeletedLink control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.BillingReportByVehicleSummary._chk_IsDeletedLinkAllow">
+<summary>
+chk_IsDeletedLinkAllow control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.BillingReportByVehicleSummary._divFluidSecureLink">
+<summary>
+divFluidSecureLink control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.BillingReportByVehicleSummary._lstSites">
+<summary>
+lstSites control.
 </summary>
 <remarks>
 Auto-generated field.
@@ -19209,6 +20028,15 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
+<member name="F:Fuel_Secure.TankBalance._HDF_CurrentDate">
+<summary>
+HDF_CurrentDate control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
 <member name="F:Fuel_Secure.TankBalanceReport._btnBack">
 <summary>
 btnBack control.
@@ -20010,9 +20838,9 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:Fuel_Secure.TransactionReportByDepartment._chk_IsDeletedLinkAllow">
+<member name="F:Fuel_Secure.TransactionReportByDepartment._DDL_HubName">
 <summary>
-chk_IsDeletedLinkAllow control.
+DDL_HubName control.
 </summary>
 <remarks>
 Auto-generated field.
@@ -20028,9 +20856,9 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:Fuel_Secure.TransactionReportByDepartment._lstSites">
+<member name="F:Fuel_Secure.TransactionReportByDepartment._ddl_TransactionType">
 <summary>
-lstSites control.
+ddl_TransactionType control.
 </summary>
 <remarks>
 Auto-generated field.
@@ -20046,9 +20874,36 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:Fuel_Secure.TransactionReportByDepartment._DDL_HubName">
+<member name="F:Fuel_Secure.TransactionReportByDepartment._divDeletedLink">
 <summary>
-DDL_HubName control.
+divDeletedLink control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.TransactionReportByDepartment._chk_IsDeletedLinkAllow">
+<summary>
+chk_IsDeletedLinkAllow control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.TransactionReportByDepartment._divFluidSecureLink">
+<summary>
+divFluidSecureLink control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.TransactionReportByDepartment._lstSites">
+<summary>
+lstSites control.
 </summary>
 <remarks>
 Auto-generated field.
@@ -20451,18 +21306,18 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:Fuel_Secure.TransactionReportByLocation._chk_IsDeletedLinkAllow">
+<member name="F:Fuel_Secure.TransactionReportByLocation._DDL_VehicleType">
 <summary>
-chk_IsDeletedLinkAllow control.
+DDL_VehicleType control.
 </summary>
 <remarks>
 Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:Fuel_Secure.TransactionReportByLocation._lstSites">
+<member name="F:Fuel_Secure.TransactionReportByLocation._DDL_HubName">
 <summary>
-lstSites control.
+DDL_HubName control.
 </summary>
 <remarks>
 Auto-generated field.
@@ -20478,18 +21333,45 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:Fuel_Secure.TransactionReportByLocation._DDL_VehicleType">
+<member name="F:Fuel_Secure.TransactionReportByLocation._ddl_TransactionType">
 <summary>
-DDL_VehicleType control.
+ddl_TransactionType control.
 </summary>
 <remarks>
 Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:Fuel_Secure.TransactionReportByLocation._DDL_HubName">
+<member name="F:Fuel_Secure.TransactionReportByLocation._divDeletedLink">
 <summary>
-DDL_HubName control.
+divDeletedLink control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.TransactionReportByLocation._chk_IsDeletedLinkAllow">
+<summary>
+chk_IsDeletedLinkAllow control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.TransactionReportByLocation._divFluidSecureLink">
+<summary>
+divFluidSecureLink control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.TransactionReportByLocation._lstSites">
+<summary>
+lstSites control.
 </summary>
 <remarks>
 Auto-generated field.
@@ -20883,9 +21765,9 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:Fuel_Secure.TransactionReportByPersonnel._chk_IsDeletedLinkAllow">
+<member name="F:Fuel_Secure.TransactionReportByPersonnel._DDL_HubName">
 <summary>
-chk_IsDeletedLinkAllow control.
+DDL_HubName control.
 </summary>
 <remarks>
 Auto-generated field.
@@ -20901,9 +21783,9 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:Fuel_Secure.TransactionReportByPersonnel._lstSites">
+<member name="F:Fuel_Secure.TransactionReportByPersonnel._ddl_TransactionType">
 <summary>
-lstSites control.
+ddl_TransactionType control.
 </summary>
 <remarks>
 Auto-generated field.
@@ -20919,9 +21801,36 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:Fuel_Secure.TransactionReportByPersonnel._DDL_HubName">
+<member name="F:Fuel_Secure.TransactionReportByPersonnel._divDeletedLink">
 <summary>
-DDL_HubName control.
+divDeletedLink control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.TransactionReportByPersonnel._chk_IsDeletedLinkAllow">
+<summary>
+chk_IsDeletedLinkAllow control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.TransactionReportByPersonnel._divFluidSecureLink">
+<summary>
+divFluidSecureLink control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.TransactionReportByPersonnel._lstSites">
+<summary>
+lstSites control.
 </summary>
 <remarks>
 Auto-generated field.
@@ -21315,9 +22224,9 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:Fuel_Secure.TransactionReportBySite._chk_IsDeletedLinkAllow">
+<member name="F:Fuel_Secure.TransactionReportBySite._DDL_HubName">
 <summary>
-chk_IsDeletedLinkAllow control.
+DDL_HubName control.
 </summary>
 <remarks>
 Auto-generated field.
@@ -21333,9 +22242,9 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:Fuel_Secure.TransactionReportBySite._lstSites">
+<member name="F:Fuel_Secure.TransactionReportBySite._ddl_TransactionType">
 <summary>
-lstSites control.
+ddl_TransactionType control.
 </summary>
 <remarks>
 Auto-generated field.
@@ -21351,9 +22260,36 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:Fuel_Secure.TransactionReportBySite._DDL_HubName">
+<member name="F:Fuel_Secure.TransactionReportBySite._divDeletedLink">
 <summary>
-DDL_HubName control.
+divDeletedLink control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.TransactionReportBySite._chk_IsDeletedLinkAllow">
+<summary>
+chk_IsDeletedLinkAllow control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.TransactionReportBySite._divFluidSecureLink">
+<summary>
+divFluidSecureLink control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.TransactionReportBySite._lstSites">
+<summary>
+lstSites control.
 </summary>
 <remarks>
 Auto-generated field.
@@ -21747,9 +22683,9 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:Fuel_Secure.TransactionReportByVehicle._chk_IsDeletedLinkAllow">
+<member name="F:Fuel_Secure.TransactionReportByVehicle._DDL_HubName">
 <summary>
-chk_IsDeletedLinkAllow control.
+DDL_HubName control.
 </summary>
 <remarks>
 Auto-generated field.
@@ -21765,9 +22701,9 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:Fuel_Secure.TransactionReportByVehicle._lstSites">
+<member name="F:Fuel_Secure.TransactionReportByVehicle._ddl_TransactionType">
 <summary>
-lstSites control.
+ddl_TransactionType control.
 </summary>
 <remarks>
 Auto-generated field.
@@ -21783,9 +22719,36 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:Fuel_Secure.TransactionReportByVehicle._DDL_HubName">
+<member name="F:Fuel_Secure.TransactionReportByVehicle._divDeletedLink">
 <summary>
-DDL_HubName control.
+divDeletedLink control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.TransactionReportByVehicle._chk_IsDeletedLinkAllow">
+<summary>
+chk_IsDeletedLinkAllow control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.TransactionReportByVehicle._divFluidSecureLink">
+<summary>
+divFluidSecureLink control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.TransactionReportByVehicle._lstSites">
+<summary>
+lstSites control.
 </summary>
 <remarks>
 Auto-generated field.
@@ -22179,9 +23142,9 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:Fuel_Secure.TransactionReportsByDateTime._chk_IsDeletedLinkAllow">
+<member name="F:Fuel_Secure.TransactionReportsByDateTime._DDL_HubName">
 <summary>
-chk_IsDeletedLinkAllow control.
+DDL_HubName control.
 </summary>
 <remarks>
 Auto-generated field.
@@ -22197,9 +23160,9 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:Fuel_Secure.TransactionReportsByDateTime._lstSites">
+<member name="F:Fuel_Secure.TransactionReportsByDateTime._ddl_TransactionType">
 <summary>
-lstSites control.
+ddl_TransactionType control.
 </summary>
 <remarks>
 Auto-generated field.
@@ -22215,9 +23178,36 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:Fuel_Secure.TransactionReportsByDateTime._DDL_HubName">
+<member name="F:Fuel_Secure.TransactionReportsByDateTime._divDeletedLink">
 <summary>
-DDL_HubName control.
+divDeletedLink control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.TransactionReportsByDateTime._chk_IsDeletedLinkAllow">
+<summary>
+chk_IsDeletedLinkAllow control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.TransactionReportsByDateTime._divFluidSecureLink">
+<summary>
+divFluidSecureLink control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.TransactionReportsByDateTime._lstSites">
+<summary>
+lstSites control.
 </summary>
 <remarks>
 Auto-generated field.
@@ -22647,9 +23637,9 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:Fuel_Secure.TransactionReportsByMilesPerGallon._chk_IsDeletedLinkAllow">
+<member name="F:Fuel_Secure.TransactionReportsByMilesPerGallon._DDL_HubName">
 <summary>
-chk_IsDeletedLinkAllow control.
+DDL_HubName control.
 </summary>
 <remarks>
 Auto-generated field.
@@ -22665,9 +23655,9 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:Fuel_Secure.TransactionReportsByMilesPerGallon._lstSites">
+<member name="F:Fuel_Secure.TransactionReportsByMilesPerGallon._ddl_TransactionType">
 <summary>
-lstSites control.
+ddl_TransactionType control.
 </summary>
 <remarks>
 Auto-generated field.
@@ -22683,9 +23673,36 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
-<member name="F:Fuel_Secure.TransactionReportsByMilesPerGallon._DDL_HubName">
+<member name="F:Fuel_Secure.TransactionReportsByMilesPerGallon._divDeletedLink">
 <summary>
-DDL_HubName control.
+divDeletedLink control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.TransactionReportsByMilesPerGallon._chk_IsDeletedLinkAllow">
+<summary>
+chk_IsDeletedLinkAllow control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.TransactionReportsByMilesPerGallon._divFluidSecureLink">
+<summary>
+divFluidSecureLink control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.TransactionReportsByMilesPerGallon._lstSites">
+<summary>
+lstSites control.
 </summary>
 <remarks>
 Auto-generated field.
@@ -23412,6 +24429,42 @@ Auto-generated field.
 To modify move field declaration from designer file to code-behind file.
 </remarks>
 </member>
+<member name="F:Fuel_Secure.SiteMaster._SpecializedPersonnelImport">
+<summary>
+SpecializedPersonnelImport control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.SiteMaster._SpecializedVehicleImport">
+<summary>
+SpecializedVehicleImport control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.SiteMaster._SpecializedVehicleInactiveImport">
+<summary>
+SpecializedVehicleInactiveImport control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.SiteMaster._SpecializedTransactionImport">
+<summary>
+SpecializedTransactionImport control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
 <member name="F:Fuel_Secure.SiteMaster._Export">
 <summary>
 Export control.
@@ -23748,6 +24801,42 @@ To modify move field declaration from designer file to code-behind file.
 <member name="F:Fuel_Secure.Site_Mobile._Import">
 <summary>
 Import control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.Site_Mobile._SpecializedPersonnelImport">
+<summary>
+SpecializedPersonnelImport control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.Site_Mobile._SpecializedVehicleImport">
+<summary>
+SpecializedVehicleImport control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.Site_Mobile._SpecializedVehicleInactiveImport">
+<summary>
+SpecializedVehicleInactiveImport control.
+</summary>
+<remarks>
+Auto-generated field.
+To modify move field declaration from designer file to code-behind file.
+</remarks>
+</member>
+<member name="F:Fuel_Secure.Site_Mobile._SpecializedTransactionImport">
+<summary>
+SpecializedTransactionImport control.
 </summary>
 <remarks>
 Auto-generated field.

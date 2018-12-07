@@ -578,7 +578,7 @@ Public Class TankInventoryReconciliation
     End Sub
 
     Protected Sub btnMainCancel_Click(sender As Object, e As EventArgs)
-        Response.Redirect("/Master/AllTankInventoryReconciliation" + "?Type=" + hdnEntryType.Value)
+        Response.Redirect("/Master/AllTankInventoryReconciliation" + "?Filter=Filter&Type=" + hdnEntryType.Value)
     End Sub
 
     Protected Sub BindAllGrid()

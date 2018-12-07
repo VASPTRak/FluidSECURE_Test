@@ -26,8 +26,24 @@ Public Class AllFirmwareUpgrade
 
 			Else
 				If (Not IsPostBack) Then
-					BindColumns()
-					If Session("RoleName") <> "SuperAdmin" Then
+                    BindColumns()
+
+                    If (Request.QueryString("Filter") = Nothing) Then
+                        Session("FirmwareConditions") = ""
+                        Session("FirmwareDDL_ColumnName") = ""
+                        Session("Firmwaretxt_valueNameValue") = ""
+                    End If
+                    If (Not Session("FirmwareDDL_ColumnName") Is Nothing And Not Session("FirmwareDDL_ColumnName") = "") Then
+                        DDL_Column.SelectedValue = Session("FirmwareDDL_ColumnName")
+                        If (Not Session("FirmwareDDL_ColumnName") Is Nothing And Not Session("Firmwaretxt_valueNameValue") = "") Then
+                            If (Session("Firmwaretxt_valueNameValue") <> "") Then
+                                txt_value.Text = Session("Firmwaretxt_valueNameValue")
+                            Else
+                                txt_value.Text = ""
+                            End If
+                        End If
+                    End If
+                    If Session("RoleName") <> "SuperAdmin" Then
 						btn_New.Visible = False
 					End If
 					btnSearch_Click(Nothing, Nothing)
@@ -80,6 +96,7 @@ Public Class AllFirmwareUpgrade
             Dim dtFirmwares As DataTable = New DataTable()
 
             dtFirmwares = OBJMaster.GetFirmwaresByCondition(strConditions, Convert.ToInt32(Session("PersonId").ToString()), Session("RoleId").ToString())
+            Session("FirmwareConditions") = strConditions
 
             Session("dtFirmwares") = dtFirmwares
             lblTotalNumberOfRecords.Text = "Total Records: 0"
@@ -91,6 +108,8 @@ Public Class AllFirmwareUpgrade
             gvUploadedFirmware.DataSource = dtFirmwares
             gvUploadedFirmware.DataBind()
 
+            Session("FirmwareDDL_ColumnName") = DDL_Column.SelectedValue
+            Session("Firmwaretxt_valueNameValue") = txt_value.Text
 
             ViewState("Column_Name") = "FirmwareId"
             ViewState("Sort_Order") = "desc"

@@ -244,10 +244,10 @@
                         </div>
                         <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
                             <label>
-                                Active:</label>
+                                Gate HUB :</label>
                         </div>
                         <div class="form-group col-md-3 col-sm-3 col-xs-12">
-                            <asp:CheckBox ID="chkIsApproved" runat="server" TabIndex="18" />
+                            <asp:CheckBox ID="chk_GateHub" runat="server" TabIndex="19" />
                         </div>
 
                     </div>
@@ -264,13 +264,22 @@
                                 Font-Bold="False" Font-Names="arial" ErrorMessage="Please select department."
                                 ControlToValidate="DDL_Department" Display="Dynamic" ForeColor="Red" InitialValue="0" SetFocusOnError="True" ValidationGroup="PersonelValidation"></asp:RequiredFieldValidator>
                         </div>
+
                         <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
                             <label>
-                                Gate HUB :</label>
+                                Active:</label>
                         </div>
                         <div class="form-group col-md-3 col-sm-3 col-xs-12">
-                            <asp:CheckBox ID="chk_GateHub" runat="server" TabIndex="19" />
+                            <asp:CheckBox ID="chkIsApproved" runat="server" TabIndex="18" />
                         </div>
+
+                        <%-- <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
+                            <label>
+                                Stay Open :</label>
+                        </div>
+                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                            <asp:CheckBox ID="CHK_StayOpenGate" runat="server" TabIndex="29" Checked="false" />
+                        </div>--%>
                     </div>
 
                     <div class="row col-md-12 col-sm-12 col-xs-12">
@@ -444,13 +453,23 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row col-md-12 col-sm-12 col-xs-12">
+
+                        <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
+                            <label>
+                                Enable FA :</label>
+                        </div>
+                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                            <asp:CheckBox ID="chk_HubForFA" runat="server" TabIndex="29" Checked="false" />
+                        </div>
+                    </div>
                     <div class="row col-md-12 col-sm-12 text-center col-xs-12">
                         <asp:Button ID="btnSave" CssClass="btn btn-primary" runat="server" OnClick="btnSave_Click" Text="Save" Width="100px"
-                            UseSubmitBehavior="true" TabIndex="29" ValidationGroup="PersonelValidation" OnClientClick="return IsValidPhoneNumber();" />
+                            UseSubmitBehavior="true" TabIndex="30" ValidationGroup="PersonelValidation" OnClientClick="return IsValidPhoneNumber();" />
                         <asp:Button ID="btnCancel" CssClass="btn btn-default" runat="server" Text="Cancel" Width="100px" CausesValidation="False"
-                            UseSubmitBehavior="False" TabIndex="30" OnClick="btnCancel_Click" OnClientClick="window.location.href='/Master/AllFluidSecureHub?Filter=Filter'" />
+                            UseSubmitBehavior="False" TabIndex="31" OnClick="btnCancel_Click" OnClientClick="window.location.href='/Master/AllFluidSecureHub?Filter=Filter'" />
                         <asp:Button ID="btnSaveAndAddNew" CssClass="btn btn-primary" runat="server" Text="Save & Add New" Width="150px" OnClientClick="return IsValidPhoneNumber();"
-                            UseSubmitBehavior="true" TabIndex="31" ValidationGroup="PersonelValidation" OnClick="btnSaveAndAddNew_Click" />
+                            UseSubmitBehavior="true" TabIndex="32" ValidationGroup="PersonelValidation" OnClick="btnSaveAndAddNew_Click" />
                     </div>
                     <div class="row col-md-12 col-sm-12 text-center clear col-xs-12" style="margin: 10px 0">
                         <asp:Button ID="btnFirst" runat="server" Text="|<" CssClass="NewDept_ButtonFooter"

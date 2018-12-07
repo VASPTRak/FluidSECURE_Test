@@ -310,7 +310,7 @@
     <value>Fob/Card Number is assigned to Vehicle.</value>
   </data>
   <data name="HandlerMsg58" xml:space="preserve">
-    <value>Company is inactive. Please contact administrator.</value>
+    <value>Company is Inactive - Please contact FluidSecure Support support@fluidsecure.com</value>
   </data>
   <data name="HandlerMsg6" xml:space="preserve">
     <value>Not registered, Other Phone numbers are registered to same email address.</value>

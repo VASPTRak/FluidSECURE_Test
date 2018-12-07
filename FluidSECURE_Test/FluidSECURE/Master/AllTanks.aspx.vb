@@ -27,7 +27,6 @@ Public Class AllTanks
 
 					BindColumns()
 					BindCustomer()
-					log.Debug("Filer=>" & Request.QueryString("Filter"))
 					If (Request.QueryString("Filter") = Nothing) Then
 						Session("TankConditions") = ""
 						Session("TankDDL_ColumnName") = ""

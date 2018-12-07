@@ -398,13 +398,19 @@ Public Class TransactionReportByVehicle
 
             Dim SelectedSiteIds As String = ""
 
-            For Each item As ListItem In lstSites.Items
-                If item.Selected Then
-                    SelectedSiteIds = IIf(SelectedSiteIds = "", item.Value, SelectedSiteIds + "," + item.Value)
-                End If
-            Next
+            If (ddl_TransactionType.SelectedValue <> "1") Then
+                For Each item As ListItem In lstSites.Items
+                    If item.Selected Then
+                        SelectedSiteIds = IIf(SelectedSiteIds = "", item.Value, SelectedSiteIds + "," + item.Value)
+                    End If
+                Next
+            End If
             If (SelectedSiteIds <> "") Then
-                strConditions = IIf(strConditions = "", " and T.SiteID in ( " + SelectedSiteIds + ")", strConditions + " and T.SiteID in ( " + SelectedSiteIds + ")")
+                If (ddl_TransactionType.SelectedValue = "-1") Then
+                    strConditions = IIf(strConditions = "", " and (T.SiteID in ( " + SelectedSiteIds + ")  Or ISNULL(T.OFFSite,0)=1) ", strConditions + " and (T.SiteID in ( " + SelectedSiteIds + ")  Or ISNULL(T.OFFSite,0)=1) ")
+                Else
+                    strConditions = IIf(strConditions = "", " and T.SiteID in ( " + SelectedSiteIds + ")", strConditions + " and T.SiteID in ( " + SelectedSiteIds + ")")
+                End If
             End If
 
             'If (DDL_Site.SelectedValue <> "0") Then
@@ -433,6 +439,11 @@ Public Class TransactionReportByVehicle
             If (DDL_HubName.SelectedValue <> "0") Then
                 strConditions = IIf(strConditions = "", " and ISNULL(T.HubId,0) = " + DDL_HubName.SelectedValue, strConditions + " and ISNULL(T.HubId,0)= " + DDL_HubName.SelectedValue)
             End If
+
+            If (ddl_TransactionType.SelectedValue <> "-1") Then
+                strConditions = IIf(strConditions = "", " and ISNULL(T.OFFSite,0) = " + ddl_TransactionType.SelectedValue, strConditions + " and ISNULL(T.OFFSite,0) = " + ddl_TransactionType.SelectedValue)
+            End If
+
             'get data from server
             dSTran = OBJMaster.GetTransactionRptDetails(startDate.ToString(), endDate.ToString(), strConditions, "vehicle")
             If (Not dSTran Is Nothing) Then
@@ -469,6 +480,7 @@ Public Class TransactionReportByVehicle
 
             Session("FromDate") = startDate.ToString("dd-MMM-yyyy hh:mm tt")
             Session("ToDate") = endDate.ToString("dd-MMM-yyyy hh:mm tt")
+            Session("TransactionType") = ddl_TransactionType.SelectedItem.Text
 
             Response.Redirect("~/Reports/TransactionReportByVehicleReport")
 
@@ -733,14 +745,32 @@ Public Class TransactionReportByVehicle
     End Sub
 
     Protected Sub chk_IsDeletedLinkAllow_CheckedChanged(sender As Object, e As EventArgs)
-		Try
-			BindSites(Convert.ToInt32(DDL_Customer.SelectedValue.ToString()))
-		Catch ex As Exception
-			log.Error("Error occurred in chk_IsDeletedLinkAllow_CheckedChanged Exception is :" + ex.Message)
-			ErrorMessage.Visible = True
-			ErrorMessage.InnerText = "Error occurred while getting data, please try again later."
-		Finally
-			ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "loadMultiList();$('[id*=lstSites]').multiselect({includeSelectAllOption: true,allSelectedText: 'All FluidSecure Link',}).multiselect('selectAll', false).multiselect('updateButtonText');", True)
-		End Try
-	End Sub
+        Try
+            BindSites(Convert.ToInt32(DDL_Customer.SelectedValue.ToString()))
+        Catch ex As Exception
+            log.Error("Error occurred in chk_IsDeletedLinkAllow_CheckedChanged Exception is :" + ex.Message)
+            ErrorMessage.Visible = True
+            ErrorMessage.InnerText = "Error occurred while getting data, please try again later."
+        Finally
+            ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "loadMultiList();$('[id*=lstSites]').multiselect({includeSelectAllOption: true,allSelectedText: 'All FluidSecure Link',}).multiselect('selectAll', false).multiselect('updateButtonText');", True)
+        End Try
+    End Sub
+
+    Protected Sub ddl_TransactionType_SelectedIndexChanged(sender As Object, e As EventArgs)
+        Try
+            If ddl_TransactionType.SelectedValue = "0" Or ddl_TransactionType.SelectedValue = "-1" Then
+                divDeletedLink.Visible = True
+                divFluidSecureLink.Visible = True
+            Else
+                divDeletedLink.Visible = False
+                divFluidSecureLink.Visible = False
+            End If
+        Catch ex As Exception
+            log.Error("Error occurred in ddl_TransactionType_SelectedIndexChanged Exception is :" + ex.Message)
+            ErrorMessage.Visible = True
+            ErrorMessage.InnerText = "Error occurred while getting data, please try again later."
+        Finally
+            ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "loadMultiList();$('[id*=lstSites]').multiselect({includeSelectAllOption: true,allSelectedText: 'All FluidSecure Link',}).multiselect('selectAll', false).multiselect('updateButtonText');", True)
+        End Try
+    End Sub
 End Class

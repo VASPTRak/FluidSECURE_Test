@@ -26,6 +26,21 @@ Public Class AllFSNPFirmwareUpgrades
             Else
                 If (Not IsPostBack) Then
                     BindColumns()
+                    If (Request.QueryString("Filter") = Nothing) Then
+                        Session("FSNPFirmwareConditions") = ""
+                        Session("FSNPFirmwareDDL_ColumnName") = ""
+                        Session("FSNPFirmwaretxt_valueNameValue") = ""
+                    End If
+                    If (Not Session("FSNPFirmwareDDL_ColumnName") Is Nothing And Not Session("FSNPFirmwareDDL_ColumnName") = "") Then
+                        DDL_Column.SelectedValue = Session("FSNPFirmwareDDL_ColumnName")
+                        If (Not Session("FSNPFirmwareDDL_ColumnName") Is Nothing And Not Session("FSNPFirmwaretxt_valueNameValue") = "") Then
+                            If (Session("FSNPFirmwaretxt_valueNameValue") <> "") Then
+                                txt_value.Text = Session("FSNPFirmwaretxt_valueNameValue")
+                            Else
+                                txt_value.Text = ""
+                            End If
+                        End If
+                    End If
                     If Session("RoleName") <> "SuperAdmin" Then
                         btn_New.Visible = False
                     End If
@@ -79,7 +94,7 @@ Public Class AllFSNPFirmwareUpgrades
             Dim dtFSNPFirmwares As DataTable = New DataTable()
 
             dtFSNPFirmwares = OBJMaster.GetFSNPFirmwaresByCondition(strConditions, Convert.ToInt32(Session("PersonId").ToString()), Session("RoleId").ToString())
-
+            Session("FSNPFirmwareConditions") = strConditions
             Session("dtFSNPFirmwares") = dtFSNPFirmwares
             lblTotalNumberOfRecords.Text = "Total Records: 0"
             If dtFSNPFirmwares IsNot Nothing Then
@@ -90,6 +105,8 @@ Public Class AllFSNPFirmwareUpgrades
             gvUploadedFSNPFirmware.DataSource = dtFSNPFirmwares
             gvUploadedFSNPFirmware.DataBind()
 
+            Session("FSNPFirmwareDDL_ColumnName") = DDL_Column.SelectedValue
+            Session("FSNPFirmwaretxt_valueNameValue") = txt_value.Text
 
             ViewState("Column_Name") = "FSNPFirmwareId"
             ViewState("Sort_Order") = "desc"

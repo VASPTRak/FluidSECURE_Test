@@ -512,6 +512,17 @@ Public Class ApplicationUser
 
     Private m_IsLogging As Boolean
 
+    Public Property IsSpecialImport() As Boolean
+        Get
+            Return m_IsSpecialImport
+        End Get
+        Set(value As Boolean)
+            m_IsSpecialImport = value
+        End Set
+    End Property
+
+
+    Private m_IsSpecialImport As Boolean
     'End Add new properties
 
     Public Function GenerateUserIdentity(manager As ApplicationUserManager) As ClaimsIdentity

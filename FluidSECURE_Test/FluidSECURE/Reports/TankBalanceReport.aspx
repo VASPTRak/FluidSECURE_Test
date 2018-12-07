@@ -9,5 +9,6 @@
     </div>
 
     <rsweb:ReportViewer ID="RPT_TankBalanceDetails" runat="server"  CssClass="rptClass" Height="1000px" Width="100%" BackColor="#0762AC" Style="overflow: auto;"></rsweb:ReportViewer>
-
+   
+     
 </asp:Content>

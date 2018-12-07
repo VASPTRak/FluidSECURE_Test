@@ -50,6 +50,8 @@
               <xs:element name="IsOtherRequire" msprop:Generator_ColumnVarNameInTable="columnIsOtherRequire" msprop:Generator_ColumnPropNameInRow="IsOtherRequire" msprop:Generator_ColumnPropNameInTable="IsOtherRequireColumn" msprop:Generator_UserColumnName="IsOtherRequire" type="xs:string" minOccurs="0" />
               <xs:element name="OtherLabel" msprop:Generator_ColumnVarNameInTable="columnOtherLabel" msprop:Generator_ColumnPropNameInRow="OtherLabel" msprop:Generator_ColumnPropNameInTable="OtherLabelColumn" msprop:Generator_UserColumnName="OtherLabel" type="xs:string" minOccurs="0" />
               <xs:element name="VehicleNumberName" msprop:Generator_ColumnVarNameInTable="columnVehicleNumberName" msprop:Generator_ColumnPropNameInRow="VehicleNumberName" msprop:Generator_ColumnPropNameInTable="VehicleNumberNameColumn" msprop:Generator_UserColumnName="VehicleNumberName" type="xs:string" minOccurs="0" />
+              <xs:element name="OFFSite" msprop:Generator_ColumnVarNameInTable="columnOFFSite" msprop:Generator_ColumnPropNameInRow="OFFSite" msprop:Generator_ColumnPropNameInTable="OFFSiteColumn" msprop:Generator_UserColumnName="OFFSite" type="xs:string" minOccurs="0" />
+              <xs:element name="TransactionStatusText" msprop:Generator_ColumnVarNameInTable="columnTransactionStatusText" msprop:Generator_ColumnPropNameInRow="TransactionStatusText" msprop:Generator_ColumnPropNameInTable="TransactionStatusTextColumn" msprop:Generator_UserColumnName="TransactionStatusText" type="xs:string" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
@@ -291,6 +293,7 @@
               <xs:element name="TransactionCost" msprop:Generator_ColumnVarNameInTable="columnTransactionCost" msprop:Generator_ColumnPropNameInRow="TransactionCost" msprop:Generator_ColumnPropNameInTable="TransactionCostColumn" msprop:Generator_UserColumnName="TransactionCost" type="xs:string" minOccurs="0" />
               <xs:element name="Extension" msprop:Generator_ColumnVarNameInTable="columnExtension" msprop:Generator_ColumnPropNameInRow="Extension" msprop:Generator_ColumnPropNameInTable="ExtensionColumn" msprop:Generator_UserColumnName="Extension" type="xs:string" minOccurs="0" />
               <xs:element name="VehicleNumberName" msprop:Generator_ColumnVarNameInTable="columnVehicleNumberName" msprop:Generator_ColumnPropNameInRow="VehicleNumberName" msprop:Generator_ColumnPropNameInTable="VehicleNumberNameColumn" msprop:Generator_UserColumnName="VehicleNumberName" type="xs:string" minOccurs="0" />
+              <xs:element name="OFFSite" msprop:Generator_ColumnVarNameInTable="columnOFFSite" msprop:Generator_ColumnPropNameInRow="OFFSite" msprop:Generator_ColumnPropNameInTable="OFFSiteColumn" msprop:Generator_UserColumnName="OFFSite" type="xs:string" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>

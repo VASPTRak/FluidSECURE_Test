@@ -1,3 +1,3 @@
-'Personnel ID(max 20 alphanumeric characters )','Department number(max 10 alphanumeric characters )','Department Name(max 20 alphanumeric characters )','Last Name','First Name','Mi','Phone Number(Only (,),-, space, and + symbols allowed)','Email(max 256 alphanumeric characters )','Export Code(max 25 alphanumeric characters )','Active Flag(must be Y or N)','FluidLimitperday (max 4 digit numeric)','FluidLimitpertransaction (max 4 digit numeric)'
+'Personnel ID(max 20 alphanumeric characters )','Department number(max 10 alphanumeric characters )','Department Name(max 40 alphanumeric characters )','Last Name','First Name','Mi','Phone Number(Only (,),-, space, and + symbols allowed)','Email(max 256 alphanumeric characters )','Export Code(max 25 alphanumeric characters )','Active Flag(must be Y or N)','FluidLimitperday (max 4 digit numeric)','FluidLimitpertransaction (max 4 digit numeric)'
 Note:
 'Please remove header while importing file.'

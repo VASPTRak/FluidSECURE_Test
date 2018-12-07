@@ -27,6 +27,21 @@ Public Class AllShipments
             Else
                 If (Not IsPostBack) Then
                     BindColumns()
+                    If (Request.QueryString("Filter") = Nothing) Then
+                        Session("ShipmentConditions") = ""
+                        Session("ShipmentDDL_ColumnName") = ""
+                        Session("Shipmenttxt_valueNameValue") = ""
+                    End If
+                    If (Not Session("ShipmentDDL_ColumnName") Is Nothing And Not Session("ShipmentDDL_ColumnName") = "") Then
+                        DDL_ColumnName.SelectedValue = Session("ShipmentDDL_ColumnName")
+                        If (Not Session("ShipmentDDL_ColumnName") Is Nothing And Not Session("Shipmenttxt_valueNameValue") = "") Then
+                            If (Session("Shipmenttxt_valueNameValue") <> "") Then
+                                txt_value.Text = Session("Shipmenttxt_valueNameValue")
+                            Else
+                                txt_value.Text = ""
+                            End If
+                        End If
+                    End If
                     btnSearch_Click(Nothing, Nothing)
                     DDL_ColumnName.Focus()
                     If Session("RoleName") = "CustomerAdmin" Then
@@ -76,8 +91,10 @@ Public Class AllShipments
 
             If (Session("CustomerId") <> 0 And Not Session("CustomerId") Is Nothing) Then
                 dtShipments = OBJMaster.GetShipmentsByCondition(strConditions + " and SD.CompanyId = " + Session("CustomerId").ToString() + " ", Session("RoleId").ToString())
+                Session("ShipmentConditions") = strConditions + " and SD.CompanyId = " + Session("CustomerId").ToString() + " "
             Else
                 dtShipments = OBJMaster.GetShipmentsByCondition(strConditions, Session("RoleId").ToString())
+                Session("ShipmentConditions") = strConditions
             End If
 
             Session("dtShipments") = dtShipments
@@ -89,6 +106,10 @@ Public Class AllShipments
             End If
             gvShipment.DataSource = dtShipments
             gvShipment.DataBind()
+
+
+            Session("ShipmentDDL_ColumnName") = DDL_ColumnName.SelectedValue
+            Session("Shipmenttxt_valueNameValue") = txt_value.Text
 
             ViewState("Column_Name") = "FluidSecureUnitName"
             ViewState("Sort_Order") = "ASC"

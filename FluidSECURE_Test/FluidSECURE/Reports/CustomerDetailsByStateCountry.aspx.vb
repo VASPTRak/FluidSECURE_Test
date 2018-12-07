@@ -136,7 +136,7 @@ Public Class CustomerDetailsByStateCountry
                 CSCommonHelper.WriteLog("Report Genereated", "Customer Report By State and Country", "", writtenData, Session("PersonName").ToString() & "(" & Session("PersonEmail").ToString() & ")", Session("IPAddress").ToString(), "success", "")
             End If
             Session("StateCountryWiseCustomerReport") = dSTran
-            Response.Redirect("~/Reports/CustomerDetailsByStateCountryReport")
+            Response.Redirect("~/Reports/CustomerDetailsByStateCountryReport.aspx")
 
 
         Catch ex As Exception

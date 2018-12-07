@@ -79,10 +79,11 @@
     <div id="support-section">
         <h3>Contact and Support</h3>
         <p><a href="https://www.fluidsecure.com" target="_blank">www.FluidSecure.com</a></p>
-        <p>Contact:<a href="mailto:info@fluidsecure.com" target="_blank"> info@fluidsecure.com</a></p>
-        <p>Support: Monday through Friday  from 8:00 AM - 6:00 PM EST.</p>
+        <p>Contact:<a href="mailto:support@fluidsecure.com" target="_blank"> support@fluidsecure.com</a></p>
+        <p>Support: Monday through Friday from 8:00 AM - 6:00 PM (EST).</p>
         <p>850-878-4585, select support #1,</p>
-        <p>After hours and holidays: 850-878-4585, select #6</p>
+        <p>After hours and holidays: 850-878-4585, select #7</p>
+        <p>For Sales contact:<a href="mailto: info@fluidsecure.com" target="_blank"> info@fluidsecure.com</a> or call 850-878-4585 x325</p>
     </div>
 
      <script src="/Scripts/jquery-migrate-1.2.1.js"></script>

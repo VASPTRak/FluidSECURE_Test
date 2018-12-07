@@ -500,4 +500,9 @@ Public Class AllVehicles
             log.Error("Error occurred in CHK_Active_CheckedChanged Exception is :" + ex.Message)
         End Try
     End Sub
+
+    Protected Sub btn_Options_Click(sender As Object, e As EventArgs)
+        Response.Redirect("~/Master/VehicleOptionsScreen.aspx")
+    End Sub
+
 End Class

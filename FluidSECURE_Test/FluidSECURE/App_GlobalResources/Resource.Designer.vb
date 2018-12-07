@@ -650,7 +650,7 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to Company is inactive. Please contact administrator..
+        '''  Looks up a localized string similar to Company is Inactive - Please contact FluidSecure Support support@fluidsecure.com.
         '''</summary>
         Public Shared ReadOnly Property HandlerMsg58() As String
             Get

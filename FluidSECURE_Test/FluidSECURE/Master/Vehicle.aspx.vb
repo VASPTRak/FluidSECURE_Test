@@ -1101,7 +1101,7 @@ Public Class Vehicle
                                                  txtExportCode.Text, Convert.ToInt32(Session("PersonId")), DDL_Customer.SelectedValue, IIf(TXT_ExpectedMPGPerK.Text = "", "-1", TXT_ExpectedMPGPerK.Text),
                                                  CHK_Hours.Checked, RBL_UnitType.SelectedValue, txtLicenseState.Text, RBL_OdometerReasonabilityConditions.SelectedValue,
                                                  TXT_FoBNUM.Text.Replace(" ", ""), CHK_Active.Checked, txtFSTagMacAddress.Text, IIf(txtCurrentHrs.Text = "", "-1", txtCurrentHrs.Text), IIf(txtHoursLimit.Text = "", "-1", txtHoursLimit.Text),
-                                                 CurrentFSVMVersion)
+                                                 CurrentFSVMVersion, False)
 
 
             Dim dtFuelVehicle As DataTable = New DataTable("dtFuelTypeAndVehicle")

@@ -699,7 +699,7 @@ Public Class OFFSiteTransaction
             result = OBJMaster.InsertUpdateTransaction(HDF_VehicleId.Value, Site, PersonId, CurrentOdometer, FQunty, Fuel, 0, Nothing,
                                                      transactionDatetime, TransactionId, Convert.ToInt32(Session("PersonId")), "W", PreviousOdometer, "", "", "", vehicleNumber, txtDeptNo.Text,
                                                      txtPinNumber.Text, txtOther.Text, IIf(txtHours.Text = "", -1, txtHours.Text), IsMissed, False, TransactionStatus, 0, -1,
-                                                        VehicleName, DepartmentName, FuelTypeName, Email, PersonName, CompanyName, chkOFFSite.Checked, Convert.ToInt32(DDL_Customer.SelectedValue), IIf(txtPreviousHours.Text = "", -1, txtPreviousHours.Text), 0, 0)
+                                                        VehicleName, DepartmentName, FuelTypeName, Email, PersonName, CompanyName, chkOFFSite.Checked, Convert.ToInt32(DDL_Customer.SelectedValue), IIf(txtPreviousHours.Text = "", -1, txtPreviousHours.Text), 0, 0, 0, False)
 
             'result = OBJMaster.InsertUpdateTransaction(HDF_VehicleId.Value, DDL_Site.SelectedValue, hdf_PersonId.Value, txtCurrentOdometer.Text, txtFuelQuantity.Text, DDL_Fuel.SelectedValue, 0, Nothing,
             '                                         transactionDatetime, TransactionId, Convert.ToInt32(Session("PersonId")), "W", txtPreviousOdometer.Text, "", "", "", vehicleNumber, txtDeptNo.Text,

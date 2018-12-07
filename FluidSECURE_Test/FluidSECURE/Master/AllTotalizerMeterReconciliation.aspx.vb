@@ -27,9 +27,50 @@ Public Class AllTotalizerMeterReconciliation
 					If (Not Request.QueryString("Type") = Nothing And (Request.QueryString("Type") = "TM")) Then
 						hdnEntryType.Value = Request.QueryString("Type")
 						BindColumns()
-						BindCustomer()
-						TransDate.Visible = False
-						btnSearch_Click(Nothing, Nothing)
+                        BindCustomer()
+                        TransDate.Visible = False
+                        If (Request.QueryString("Filter") = Nothing) Then
+                            Session("TotalizerConditions") = ""
+                            Session("TotalizerDDL_ColumnName") = ""
+                            Session("TotalizerDDL_CustomerValue") = ""
+                            Session("TotalizerTXT_FluidLink") = ""
+                            Session("TotalizerStartDateValue") = ""
+                            Session("TotalizerEndDateValue") = ""
+                        End If
+
+                        If (Not Session("TotalizerConditions") Is Nothing And Not Session("TotalizerConditions") = "") Then
+                            DDL_ColumnName.SelectedValue = Session("TotalizerDDL_ColumnName")
+                            If (Not Session("TotalizerDDL_CustomerValue") Is Nothing And Not Session("TotalizerDDL_CustomerValue") = "") Then
+                                If (Session("TotalizerDDL_ColumnName") = "CompanyId") Then
+                                    DDL_Customer.SelectedValue = Session("TotalizerDDL_CustomerValue")
+                                    DDL_Customer.Visible = True
+                                    txt_value.Visible = False
+                                    TransDate.Visible = False
+                                    DDL_Datetype.Visible = False
+                                ElseIf (Session("TotalizerDDL_ColumnName") = "TotalizerTXT_FluidLink") Then
+                                    txt_value.Text = Session("TotalizerTXT_FluidLink")
+                                    DDL_Customer.Visible = False
+                                    txt_value.Visible = True
+                                    TransDate.Visible = False
+                                    DDL_Datetype.Visible = False
+                                ElseIf (Session("TotalizerDDL_ColumnName") = "InventoryDateTime") Then
+                                    txtDateFrom.Text = Session("TotalizerStartDateValue")
+                                    txtDateTo.Text = Session("TotalizerEndDateValue")
+                                    TransDate.Visible = True
+                                    DDL_Customer.Visible = False
+                                    txt_value.Visible = False
+                                    DDL_Datetype.Visible = False
+                                    hiddenDiv.Visible = False
+                                    OtherThanDate.Visible = False
+                                Else
+                                    DDL_Datetype.Visible = False
+                                    DDL_Customer.Visible = False
+                                    txt_value.Visible = True
+                                    TransDate.Visible = False
+                                End If
+                            End If
+                        End If
+                        btnSearch_Click(Nothing, Nothing)
 						DDL_ColumnName.Focus()
 					Else
 						Response.Redirect("/home")
@@ -112,21 +153,29 @@ Public Class AllTotalizerMeterReconciliation
 			End If
 
 			If ((Not txt_value.Text = "") And DDL_ColumnName.SelectedValue <> "0" And DDL_ColumnName.SelectedValue = "FluidLink") Then
-				strConditions = IIf(strConditions = "", " and " + DDL_ColumnName.SelectedValue + " = " + txt_value.Text + " ", strConditions + " and " + DDL_ColumnName.SelectedValue + " = " + txt_value.Text + " ")
-			ElseIf ((DDL_Customer.SelectedValue <> 0) And DDL_ColumnName.SelectedValue <> "0" And DDL_ColumnName.SelectedValue = "CompanyId") Then
+                strConditions = IIf(strConditions = "", " and " + DDL_ColumnName.SelectedValue + " like '%" + txt_value.Text + "%' ", strConditions + " and " + DDL_ColumnName.SelectedValue + " = '%" + txt_value.Text + "%' ")
+            ElseIf ((DDL_Customer.SelectedValue <> 0) And DDL_ColumnName.SelectedValue <> "0" And DDL_ColumnName.SelectedValue = "CompanyId") Then
 				strConditions = IIf(strConditions = "", " and " + DDL_ColumnName.SelectedValue + " = " + DDL_Customer.SelectedValue + "", strConditions + " and " + DDL_ColumnName.SelectedValue + " = " + DDL_Customer.SelectedValue + "")
 			ElseIf ((DDL_Datetype.SelectedValue <> "") And DDL_ColumnName.SelectedValue <> "0" And DDL_ColumnName.SelectedValue = "DateType") Then
 				strConditions = IIf(strConditions = "", " and " + DDL_ColumnName.SelectedValue + " = '" + DDL_Datetype.SelectedValue + "'", strConditions + " and " + DDL_ColumnName.SelectedValue + " = '" + DDL_Datetype.SelectedValue + "'")
 			ElseIf (DDL_ColumnName.SelectedValue = "InventoryDateTime") Then
-				strConditions = IIf(strConditions = "", " and " + DDL_ColumnName.SelectedValue + " between '" + Request.Form(txtDateFrom.UniqueID) + "' and '" + Convert.ToDateTime(Request.Form(txtDateTo.UniqueID)).AddDays(1).ToString("MM/dd/yyyy") + "' ", strConditions + " and " + DDL_ColumnName.SelectedValue + " between '" + Request.Form(txtDateFrom.UniqueID) + "' and '" + Request.Form(txtDateTo.UniqueID) + "'")
-			End If
+                If txtDateFrom.Text <> "" Then
+                    strConditions = IIf(strConditions = "", " and " + DDL_ColumnName.SelectedValue + " between '" + txtDateFrom.Text + "' and '" + Convert.ToDateTime(txtDateTo.Text).AddDays(1).ToString("MM/dd/yyyy") + "' ", strConditions + " and " + DDL_ColumnName.SelectedValue + " between '" + txtDateFrom.Text + "' and '" + txtDateTo.Text + "'")
+                    Session("TotalizerStartDateValue") = txtDateFrom.Text
+                    Session("TotalizerEndDateValue") = txtDateTo.Text
+                Else
+                    strConditions = IIf(strConditions = "", " and " + DDL_ColumnName.SelectedValue + " between '" + Request.Form(txtDateFrom.UniqueID) + "' and '" + Convert.ToDateTime(Request.Form(txtDateTo.UniqueID)).AddDays(1).ToString("MM/dd/yyyy") + "' ", strConditions + " and " + DDL_ColumnName.SelectedValue + " between '" + Request.Form(txtDateFrom.UniqueID) + "' and '" + Request.Form(txtDateTo.UniqueID) + "'")
+                    Session("TotalizerStartDateValue") = Request.Form(txtDateFrom.UniqueID)
+                    Session("TotalizerEndDateValue") = Request.Form(txtDateTo.UniqueID)
+                End If
+            End If
 
-			OBJMaster = New MasterBAL()
+            OBJMaster = New MasterBAL()
 			Dim dtTot As DataTable = New DataTable()
 
 			dtTot = OBJMaster.GetTankInventorybyConditions(strConditions, Convert.ToInt32(Session("PersonId").ToString()), Session("RoleId").ToString())
-
-			Session("dtTot") = dtTot
+            Session("TotalizerConditions") = strConditions
+            Session("dtTot") = dtTot
             lblTotalNumberOfRecords.Text = "Total Records: 0"
             If dtTot IsNot Nothing Then
                 If dtTot.Rows.Count > 0 Then
@@ -136,7 +185,13 @@ Public Class AllTotalizerMeterReconciliation
             gvTot.DataSource = dtTot
 			gvTot.DataBind()
 
-			ViewState("Column_Name") = "TankInventoryId "
+
+            Session("TotalizerDDL_ColumnName") = DDL_ColumnName.SelectedValue
+            Session("TotalizerDDL_CustomerValue") = DDL_Customer.SelectedValue
+            Session("TotalizerTXT_FluidLink") = txt_value.Text
+
+
+            ViewState("Column_Name") = "TankInventoryId "
 			ViewState("Sort_Order") = "DESC"
 			RebindData("TankInventoryId", "DESC")
 

@@ -6,81 +6,77 @@
 
 <html lang="en">
 <head runat="server">
-	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title><%: Page.Title %> - FluidSecure System Software</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%: Page.Title %> - FluidSecure System Software</title>
 
-	<asp:PlaceHolder runat="server">
-		<%: Scripts.Render("~/bundles/modernizr") %>
-		<%: Scripts.Render("~/bundles/jquery") %>
-	</asp:PlaceHolder>
+    <asp:PlaceHolder runat="server">
+        <%: Scripts.Render("~/bundles/modernizr") %>
+        <%: Scripts.Render("~/bundles/jquery") %>
+    </asp:PlaceHolder>
 
-	<webopt:BundleReference runat="server" Path="~/Content/css" />
-	<link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-	<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
-	<script lang="javascript" type="text/javascript">
-		function openWindow() {
-			window.location.href = 'http://forums.asp.net';
-		}
-	</script>
-	<style>
-		.navbar {
-			border: 0px;
-		}
+    <webopt:BundleReference runat="server" Path="~/Content/css" />
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
 
-		.ui-datepicker-trigger {
-			cursor: pointer;
-		}
+    <style>
+        .navbar {
+            border: 0px;
+        }
 
-		.dropdown-submenu {
-			position: relative;
-		}
+        .ui-datepicker-trigger {
+            cursor: pointer;
+        }
 
-			.dropdown-submenu > .dropdown-menu {
-				top: 0;
-				left: 100%;
-				margin-top: -6px;
-				margin-left: -1px;
-				-webkit-border-radius: 0 6px 6px 6px;
-				-moz-border-radius: 0 6px 6px;
-				border-radius: 0 6px 6px 6px;
-			}
+        .dropdown-submenu {
+            position: relative;
+        }
 
-			.dropdown-submenu:hover > .dropdown-menu {
-				display: block;
-			}
+            .dropdown-submenu > .dropdown-menu {
+                top: 0;
+                left: 100%;
+                margin-top: -6px;
+                margin-left: -1px;
+                -webkit-border-radius: 0 6px 6px 6px;
+                -moz-border-radius: 0 6px 6px;
+                border-radius: 0 6px 6px 6px;
+            }
 
-			.dropdown-submenu > a:after {
-				display: block;
-				content: " ";
-				float: right;
-				width: 0;
-				height: 0;
-				border-color: transparent;
-				border-style: solid;
-				border-width: 5px 0 5px 5px;
-				border-left-color: #ccc;
-				margin-top: 5px;
-				margin-right: -10px;
-			}
+            .dropdown-submenu:hover > .dropdown-menu {
+                display: block;
+            }
 
-			.dropdown-submenu:hover > a:after {
-				border-left-color: #fff;
-			}
+            .dropdown-submenu > a:after {
+                display: block;
+                content: " ";
+                float: right;
+                width: 0;
+                height: 0;
+                border-color: transparent;
+                border-style: solid;
+                border-width: 5px 0 5px 5px;
+                border-left-color: #ccc;
+                margin-top: 5px;
+                margin-right: -10px;
+            }
 
-			.dropdown-submenu.pull-left {
-				float: none;
-			}
+            .dropdown-submenu:hover > a:after {
+                border-left-color: #fff;
+            }
 
-				.dropdown-submenu.pull-left > .dropdown-menu {
-					left: -100%;
-					margin-left: 10px;
-					-webkit-border-radius: 6px 0 6px 6px;
-					-moz-border-radius: 6px 0 6px 6px;
-					border-radius: 6px 0 6px 6px;
-				}
-	</style>
-	<%-- <script>
+            .dropdown-submenu.pull-left {
+                float: none;
+            }
+
+                .dropdown-submenu.pull-left > .dropdown-menu {
+                    left: -100%;
+                    margin-left: 10px;
+                    -webkit-border-radius: 6px 0 6px 6px;
+                    -moz-border-radius: 6px 0 6px 6px;
+                    border-radius: 6px 0 6px 6px;
+                }
+    </style>
+    <%-- <script>
         $(document).ready(function () {
 
             var url = window.location.pathname;
@@ -99,289 +95,294 @@
         //    window.location.href = '/Account/Login';
         //}
     </script>--%>
-	<script src="/Scripts/validations.js"></script>
+    <script src="/Scripts/validations.js"></script>
 
 </head>
-<body> <%--onload="openWindow()"--%>
-	<form runat="server">
-		<asp:ScriptManager runat="server">
-			<Scripts>
-				<%--To learn more about bundling scripts in ScriptManager see http://go.microsoft.com/fwlink/?LinkID=301884 --%>
-				<%--Framework Scripts--%>
-				<asp:ScriptReference Name="MsAjaxBundle" />
-				<asp:ScriptReference Name="jquery" />
-				<asp:ScriptReference Name="bootstrap" />
-				<asp:ScriptReference Name="respond" />
-				<asp:ScriptReference Name="WebForms.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebForms.js" />
-				<asp:ScriptReference Name="WebUIValidation.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebUIValidation.js" />
-				<asp:ScriptReference Name="MenuStandards.js" Assembly="System.Web" Path="~/Scripts/WebForms/MenuStandards.js" />
-				<asp:ScriptReference Name="GridView.js" Assembly="System.Web" Path="~/Scripts/WebForms/GridView.js" />
-				<asp:ScriptReference Name="DetailsView.js" Assembly="System.Web" Path="~/Scripts/WebForms/DetailsView.js" />
-				<asp:ScriptReference Name="TreeView.js" Assembly="System.Web" Path="~/Scripts/WebForms/TreeView.js" />
-				<asp:ScriptReference Name="WebParts.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebParts.js" />
-				<asp:ScriptReference Name="Focus.js" Assembly="System.Web" Path="~/Scripts/WebForms/Focus.js" />
-				<asp:ScriptReference Name="WebFormsBundle" />
-				<%--Site Scripts--%>
-			</Scripts>
-		</asp:ScriptManager>
+<body>
+    <form runat="server">
+        <asp:ScriptManager runat="server">
+            <Scripts>
+                <%--To learn more about bundling scripts in ScriptManager see http://go.microsoft.com/fwlink/?LinkID=301884 --%>
+                <%--Framework Scripts--%>
+                <asp:ScriptReference Name="MsAjaxBundle" />
+                <asp:ScriptReference Name="jquery" />
+                <asp:ScriptReference Name="bootstrap" />
+                <asp:ScriptReference Name="respond" />
+                <asp:ScriptReference Name="WebForms.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebForms.js" />
+                <asp:ScriptReference Name="WebUIValidation.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebUIValidation.js" />
+                <asp:ScriptReference Name="MenuStandards.js" Assembly="System.Web" Path="~/Scripts/WebForms/MenuStandards.js" />
+                <asp:ScriptReference Name="GridView.js" Assembly="System.Web" Path="~/Scripts/WebForms/GridView.js" />
+                <asp:ScriptReference Name="DetailsView.js" Assembly="System.Web" Path="~/Scripts/WebForms/DetailsView.js" />
+                <asp:ScriptReference Name="TreeView.js" Assembly="System.Web" Path="~/Scripts/WebForms/TreeView.js" />
+                <asp:ScriptReference Name="WebParts.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebParts.js" />
+                <asp:ScriptReference Name="Focus.js" Assembly="System.Web" Path="~/Scripts/WebForms/Focus.js" />
+                <asp:ScriptReference Name="WebFormsBundle" />
+                <%--Site Scripts--%>
+            </Scripts>
+        </asp:ScriptManager>
 
-		<div class="navbar navbar-inverse navbar-fixed-top">
-			<div class="container">
-				<div class="navbar-header">
-					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-					</button>
-					<a href="/home">
-						<img src="../Content/images/FluidSECURELogo.png" style="max-height: 128px; float: left; margin-right: 20px;" /></a>
-					<%--<a class="navbar-brand" runat="server" href="/home">FluidSECURE</a>--%>
-				</div>
-				<div class="navbar-collapse collapse">
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a href="/home">
+                        <img src="../Content/images/FluidSECURELogo.png" style="max-height: 128px; float: left; margin-right: 20px;" /></a>
+                    <%--<a class="navbar-brand" runat="server" href="/home">FluidSECURE</a>--%>
+                </div>
+                <div class="navbar-collapse collapse">
 
-					<%--      <asp:LoginView runat="server" ViewStateMode="Disabled">--%>
-					<%--  <AnonymousTemplate>
+                    <%--      <asp:LoginView runat="server" ViewStateMode="Disabled">--%>
+                    <%--  <AnonymousTemplate>
                             <ul class="nav navbar-nav navbar-right">
                                 <li><a runat="server" href="~/Account/Register">Register</a></li>
                                 <li><a runat="server" href="~/Account/Login">Log in</a></li>
                             </ul>
                         </AnonymousTemplate>--%>
-					<%--   <LoggedInTemplate>--%>
-					<div id="navHide">
-						<ul class="nav navbar-nav">
-							<li class="dropdown" id="TransactionsMenu" runat="server">
-								<a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0)">Transactions<span class="caret"></span></a>
-								<ul class="dropdown-menu parentMenu">
-									<li><a href="/Master/AllTransactions.aspx">On Site Fueling Transactions</a></li>
-									<li><a href="/Master/AllOFFSiteTransactions.aspx">OFF Site Fueling Transactions</a></li>
-									<li><a href="/Master/AllDeletedTransactions.aspx">Deleted Transactions</a></li>
-								</ul>
-							</li>
-							<li class="dropdown" id="ReportMenu" runat="server">
-								<a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0)">Reports<span class="caret"></span></a>
-								<ul class="dropdown-menu parentMenu">
-									<li class="dropdown-submenu">
-										<a tabindex="-1" href="javascript:void(0)">Transactions Report</a>
-										<ul class="dropdown-menu">
-											<li><a href="/Reports/TransactionReportsByDateTime.aspx">Transaction Reports By Date/Time</a></li>
-											<li><a href="/Reports/TransactionReportByDepartment.aspx">Transaction Report by Department</a></li>
-											<li><a href="/Reports/TransactionReportBySite.aspx">Transaction Report by Site</a></li>
-											<li><a href="/Reports/TransactionReportByVehicle.aspx">Transaction Report by Vehicle</a></li>
-											<li><a href="/Reports/TransactionReportByPersonnel.aspx">Transaction Report by Personnel</a></li>
-											<li><a href="/Reports/TransactionReportsByMilesPerGallon.aspx">Transaction Report by  Miles Per Gallon or Liters/100KM</a></li>
-											<li><a href="/Reports/TransactionReportByLocation.aspx">Transaction Report by Location</a></li>
+                    <%--   <LoggedInTemplate>--%>
+                    <div id="navHide">
+                        <ul class="nav navbar-nav">
+                            <li class="dropdown" id="TransactionsMenu" runat="server">
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0)">Transactions<span class="caret"></span></a>
+                                <ul class="dropdown-menu parentMenu">
+                                    <li><a href="/Master/AllTransactions.aspx">On Site Fueling Transactions</a></li>
+                                    <li><a href="/Master/AllOFFSiteTransactions.aspx">OFF Site Fueling Transactions</a></li>
+                                    <li><a href="/Master/AllDeletedTransactions.aspx">Deleted Transactions</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown" id="ReportMenu" runat="server">
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0)">Reports<span class="caret"></span></a>
+                                <ul class="dropdown-menu parentMenu">
+                                    <li class="dropdown-submenu">
+                                        <a tabindex="-1" href="javascript:void(0)">Transactions Report</a>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="/Reports/TransactionReportsByDateTime.aspx">Transaction Reports By Date/Time</a></li>
+                                            <li><a href="/Reports/TransactionReportByDepartment.aspx">Transaction Report by Department</a></li>
+                                            <li><a href="/Reports/TransactionReportBySite.aspx">Transaction Report by Site</a></li>
+                                            <li><a href="/Reports/TransactionReportByVehicle.aspx">Transaction Report by Vehicle</a></li>
+                                            <li><a href="/Reports/TransactionReportByPersonnel.aspx">Transaction Report by Personnel</a></li>
+                                            <li><a href="/Reports/TransactionReportsByMilesPerGallon.aspx">Transaction Report by  Miles Per Gallon or Liters/100KM</a></li>
+                                            <li><a href="/Reports/TransactionReportByLocation.aspx">Transaction Report by Location</a></li>
                                             <li><a href="/Reports/InactiveVehicleByTransaction.aspx">Inactive vehicle report</a></li>
-                                             <li id="TotalFuelUsageByHubPerVehicle" runat="server"><a href="/Reports/TotalFuelUsageByHubPerVehicle.aspx">Total Fuel Usage By Hub Per Vehicle</a></li>
-										</ul>
-									</li>
-									<li class="dropdown-submenu">
-										<a tabindex="-1" href="javascript:void(0)">Fuel Use</a>
-										<ul class="dropdown-menu">
-											<li><a href="/Reports/EstimatedCarbonFootprintbyVehicle.aspx">Estimated Carbon Footprint by Vehicle</a></li>
-											<li><a href="/Reports/VehiclePerformance.aspx">Vehicle Performance Report</a></li>
-										</ul>
-									</li>
-									<li class="dropdown-submenu">
-										<a tabindex="-1" href="javascript:void(0)">General Listings Reports</a>
-										<ul class="dropdown-menu">
-											<li><a href="/Reports/VehicleReport.aspx">Vehicles</a></li>
-											<li><a href="/Reports/PersonnelReport.aspx">Personnel</a></li>
-											<li><a href="/Reports/DepartmentReport.aspx">Department</a></li>
-											<li><a href="/Reports/FluidSecureUnitReport.aspx">FluidSecure Links</a></li>
-											<li><a href="/Reports/FluidSecureUnitsLocationReport.aspx">FluidSecure Links Location</a></li>
-											<li><a href="/Reports/FluidSecureHubReport.aspx">FluidSecure Hub</a></li>
-										</ul>
-									</li>
-									<li class="dropdown-submenu">
-										<a tabindex="-1" href="javascript:void(0)">Billing Report</a>
-										<ul class="dropdown-menu">
-											<li><a href="/Reports/PriceHistorybyProduct.aspx">Price History By Product</a></li>
-											<li><a href="/Reports/BillingReportByDeptDetails.aspx">Billing Report - Department Detail</a></li>
-											<li><a href="/Reports/BillingReportByDeptSummary.aspx">Billing Report - Department Summary</a></li>
-											<li><a href="/Reports/BillingReportByVehicleSummary.aspx">Billing Report - Vehicle Summary</a></li>
-										</ul>
-									</li>
-								</ul>
-							</li>
-							<li class="dropdown" id="ItemMenu" runat="server">
-								<a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0)">Items<span class="caret"></span></a>
-								<ul class="dropdown-menu parentMenu">
-									<li id="VehiclestMenu" runat="server"><a href="/Master/AllVehicles.aspx">Vehicles</a></li>
-									<li id="PersonnelMenu" runat="server"><a href="/Master/AllPersonnel.aspx">Personnel</a></li>
-									<%--<li><a href="/Master/AllHubPersons.aspx">Hub Personnel</a></li>--%>
-									<li id="DepartmentsMenu" runat="server"><a href="/Master/AllDepartments.aspx">Departments</a></li>
-									<li id="CompaniesMenu" runat="server"><a href="/Master/AllCompanies.aspx">Companies</a></li>
-									<li id="ProductsMenu" runat="server"><a href="/Master/AllFuels.aspx">Products</a></li>
-									<li id="FluidSecureMenu" runat="server"><a href="/Master/AllFuelSecureUnits.aspx">FluidSecure Links</a></li>
-									<li id="FluidSecureHubMenu" runat="server"><a href="/Master/AllFluidSecureHub.aspx">FluidSecure Hub</a></li>
-									<li id="TankChartsMenu" runat="server"><a href="/Master/AllTankCharts.aspx">Tank Charts</a></li>
-									<li id="TanksMenu" runat="server"><a href="/Master/AllTanks.aspx">Tanks</a></li>
-									<%--		<li id="InventoryVeederTankMonitorReadingsMenu" runat="server"><a href="/Master/AllInventoryVeederTankMonitorDetails.aspx">Inventory Veeder Tank Monitor Readings</a></li>
+                                            <li id="TotalFuelUsageByHubPerVehicle" runat="server"><a href="/Reports/TotalFuelUsageByHubPerVehicle.aspx">Total Fuel Usage By Hub Per Vehicle</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="dropdown-submenu">
+                                        <a tabindex="-1" href="javascript:void(0)">Fuel Use</a>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="/Reports/EstimatedCarbonFootprintbyVehicle.aspx">Estimated Carbon Footprint by Vehicle</a></li>
+                                            <li><a href="/Reports/VehiclePerformance.aspx">Vehicle Performance Report</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="dropdown-submenu">
+                                        <a tabindex="-1" href="javascript:void(0)">General Listings Reports</a>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="/Reports/VehicleReport.aspx">Vehicles</a></li>
+                                            <li><a href="/Reports/PersonnelReport.aspx">Personnel</a></li>
+                                            <li><a href="/Reports/DepartmentReport.aspx">Department</a></li>
+                                            <li><a href="/Reports/FluidSecureUnitReport.aspx">FluidSecure Links</a></li>
+                                            <li><a href="/Reports/FluidSecureUnitsLocationReport.aspx">FluidSecure Links Location</a></li>
+                                            <li><a href="/Reports/FluidSecureHubReport.aspx">FluidSecure Hub</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="dropdown-submenu">
+                                        <a tabindex="-1" href="javascript:void(0)">Billing Report</a>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="/Reports/PriceHistorybyProduct.aspx">Price History By Product</a></li>
+                                            <li><a href="/Reports/BillingReportByDeptDetails.aspx">Billing Report - Department Detail</a></li>
+                                            <li><a href="/Reports/BillingReportByDeptSummary.aspx">Billing Report - Department Summary</a></li>
+                                            <li><a href="/Reports/BillingReportByVehicleSummary.aspx">Billing Report - Vehicle Summary</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="dropdown" id="ItemMenu" runat="server">
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0)">Items<span class="caret"></span></a>
+                                <ul class="dropdown-menu parentMenu">
+                                    <li id="VehiclestMenu" runat="server"><a href="/Master/AllVehicles.aspx">Vehicles</a></li>
+                                    <li id="PersonnelMenu" runat="server"><a href="/Master/AllPersonnel.aspx">Personnel</a></li>
+                                    <%--<li><a href="/Master/AllHubPersons.aspx">Hub Personnel</a></li>--%>
+                                    <li id="DepartmentsMenu" runat="server"><a href="/Master/AllDepartments.aspx">Departments</a></li>
+                                    <li id="CompaniesMenu" runat="server"><a href="/Master/AllCompanies.aspx">Companies</a></li>
+                                    <li id="ProductsMenu" runat="server"><a href="/Master/AllFuels.aspx">Products</a></li>
+                                    <li id="FluidSecureMenu" runat="server"><a href="/Master/AllFuelSecureUnits.aspx">FluidSecure Links</a></li>
+                                    <li id="FluidSecureHubMenu" runat="server"><a href="/Master/AllFluidSecureHub.aspx">FluidSecure Hub</a></li>
+                                    <li id="TankChartsMenu" runat="server"><a href="/Master/AllTankCharts.aspx">Tank Charts</a></li>
+                                    <li id="TanksMenu" runat="server"><a href="/Master/AllTanks.aspx">Tanks</a></li>
+                                    <%--		<li id="InventoryVeederTankMonitorReadingsMenu" runat="server"><a href="/Master/AllInventoryVeederTankMonitorDetails.aspx">Inventory Veeder Tank Monitor Readings</a></li>
 									<li id="deliveryVeederTankMonitorReadingsMenu" runat="server"><a href="/Master/AllDeliveryVeederTankMonitorDetails.aspx">Delivery Veeder Tank Monitor Readings</a></li>--%>
-									<li id="DayLightSavingId" runat="server"><a href="/Master/DayLightSaving.aspx">Day Light Saving</a></li>
-								</ul>
-							</li>
-							<li class="dropdown" id="Reconciliation" runat="server">
-								<a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0)">Reconciliation<span class="caret"></span></a>
-								<ul class="dropdown-menu parentMenu">
-									<li><a href="/Master/AllTankInventoryReconciliation.aspx?Type=Level">Tank Inventory Reconciliation</a></li>
-									<li><a href="/Master/AllTotalizerMeterReconciliation.aspx?Type=TM">Totalizer/Meter Reconciliation</a></li>
-									<li><a href="/Reports/TankInventoryDataEntered.aspx">Tank Inventory Data Entered</a></li>
-									<li><a href="/Reports/FluidsecureLinkTotalizerDataEntered.aspx">FluidSecure LINK Totalizer/Meter Data Entered</a></li>
-									<li><a href="/Reports/TankBalance">Tank Balance Report</a></li>
+                                    <li id="DayLightSavingId" runat="server"><a href="/Master/DayLightSaving.aspx">Day Light Saving</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown" id="Reconciliation" runat="server">
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0)">Reconciliation<span class="caret"></span></a>
+                                <ul class="dropdown-menu parentMenu">
+                                    <li><a href="/Master/AllTankInventoryReconciliation.aspx?Type=Level">Tank Inventory Reconciliation</a></li>
+                                    <li><a href="/Master/AllTotalizerMeterReconciliation.aspx?Type=TM">Totalizer/Meter Reconciliation</a></li>
+                                    <li><a href="/Reports/TankInventoryDataEntered.aspx">Tank Inventory Data Entered</a></li>
+                                    <li><a href="/Reports/FluidsecureLinkTotalizerDataEntered.aspx">FluidSecure LINK Totalizer/Meter Data Entered</a></li>
+                                    <li><a href="/Reports/TankBalance">Tank Balance Report</a></li>
                                     <li><a href="/Reports/InventoryForecast">Inventory Forecast Report</a></li>
-								</ul>
-							</li>
-							<li class="dropdown" id="Import" runat="server">
-								<a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0)">Imports<span class="caret"></span></a>
-								<ul class="dropdown-menu parentMenu">
-									<li><a href="/Master/VehicleImport.aspx">Vehicles</a></li>
-									<li class="dropdown-submenu">
-										<a href="javascript:void(0)">Personnel</a>
-										<ul class="dropdown-menu">
-											<li><a href="/Master/PersonnelImport.aspx">Non Hub User</a></li>
-											<li><a href="/Master/HubUserImport.aspx">Hub User</a></li>
-										</ul>
-									</li>
-									<li><a href="/Master/DeptImport.aspx">Department</a></li>
-								</ul>
-							</li>
-							<li class="dropdown" id="Export" runat="server">
-								<a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0)">Export<span class="caret"></span></a>
-								<ul class="dropdown-menu parentMenu">
-									<li id="CustomizedExport" runat="server"><a href="/Master/AllCustomizedExportTemplates.aspx">Customized Export</a></li>
-									<li id="TransactionExportSetting" runat="server"><a href="/Master/AllAutoTransactionExportSettings.aspx">Customized Export Settings</a></li>
-									<li id="StandardExport" runat="server"><a href="/Master/ExportTransactions.aspx">Standard Export</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown" id="Import" runat="server">
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0)">Imports<span class="caret"></span></a>
+                                <ul class="dropdown-menu parentMenu">
+                                    <li><a href="/Master/VehicleImport.aspx">Vehicles</a></li>
+                                    <li class="dropdown-submenu">
+                                        <a href="javascript:void(0)">Personnel</a>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="/Master/PersonnelImport.aspx">Non Hub User</a></li>
+                                            <li><a href="/Master/HubUserImport.aspx">Hub User</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="/Master/DeptImport.aspx">Department</a></li>
+                                    <li><a href="/Master/TransactionImport.aspx">Transaction</a></li>
+                                    <li id="SpecializedPersonnelImport" runat="server"></li>
+                                    <li id="SpecializedVehicleImport" runat="server"></li>
+                                    <li id="SpecializedVehicleInactiveImport" runat="server"></li>
+                                    <li id="SpecializedTransactionImport" runat="server"></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown" id="Export" runat="server">
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0)">Export<span class="caret"></span></a>
+                                <ul class="dropdown-menu parentMenu">
+                                    <li id="CustomizedExport" runat="server"><a href="/Master/AllCustomizedExportTemplates.aspx">Customized Export</a></li>
+                                    <li id="TransactionExportSetting" runat="server"><a href="/Master/AllAutoTransactionExportSettings.aspx">Customized Export Settings</a></li>
+                                    <li id="StandardExport" runat="server"><a href="/Master/ExportTransactions.aspx">Standard Export</a></li>
                                     <li id="SpecializedExport" runat="server"></li>
-									<li id="Export_WINCC" runat="server"><a href="/Master/ExportToWINCC.aspx">Export to WINCC</a></li>
-								</ul>
-							</li>
-							<li class="dropdown" id="OtherMenu" runat="server">
-								<a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0)">Other<span class="caret"></span></a>
-								<ul class="dropdown-menu parentMenu">
-									<li id="ShipmentMenu" runat="server"><a href="/Master/AllShipments.aspx">Shipments</a></li>
-									<li id="UploadedFirmware" runat="server"><a href="/Master/AllFirmwareUpgrade.aspx">Firmware Upgrades</a></li>
+                                    <li id="Export_WINCC" runat="server"><a href="/Master/ExportToWINCC.aspx">Export to WINCC</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown" id="OtherMenu" runat="server">
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0)">Other<span class="caret"></span></a>
+                                <ul class="dropdown-menu parentMenu">
+                                    <li id="ShipmentMenu" runat="server"><a href="/Master/AllShipments.aspx">Shipments</a></li>
+                                    <li id="UploadedFirmware" runat="server"><a href="/Master/AllFirmwareUpgrade.aspx">Firmware Upgrades</a></li>
                                     <li id="UploadedFSVMFirmware" runat="server"><a href="/Master/AllFSVMFirmwareUpgrades.aspx">FSVM Firmware Upgrades</a></li>
                                     <li id="UploadedFSNPFirmware" runat="server"><a href="/Master/AllFSNPFirmwareUpgrades.aspx">FSNP Firmware Upgrades</a></li>
-                                    <li id="CompanyHostingReport" runat ="server"><a href="/Reports/CompanyHostingDateReport.aspx">Company Hosting Date Report</a></li>
-                                    <li id="CustomerDetailsByStateCountryReport" runat ="server"><a href="/Reports/CustomerDetailsByStateCountry.aspx">Customer Report By State and Country</a></li>
-                                    <li id="ShipmentReport" runat ="server"><a href="/Reports/ShipmentDetailReport.aspx">Shipment Report</a></li>
+                                    <li id="CompanyHostingReport" runat="server"><a href="/Reports/CompanyHostingDateReport.aspx">Company Hosting Date Report</a></li>
+                                    <li id="CustomerDetailsByStateCountryReport" runat="server"><a href="/Reports/CustomerDetailsByStateCountry.aspx">Customer Report By State and Country</a></li>
+                                    <li id="ShipmentReport" runat="server"><a href="/Reports/ShipmentDetailReport.aspx">Shipment Report</a></li>
                                     <li id="SpecializedFeature" runat="server"><a href="/Master/AllSpecializedFeature.aspx">Specialized Feature</a></li>
-                                    <li id="CustomerWiseTransactionDetails" runat ="server"><a href="/Reports/CustomerWiseTransactionDetails.aspx">Customer Wise Transaction Details Report</a></li>
-                                    <li id="ResetTermsPrivacyPolicys" runat ="server"><a href="/Master/ResetTermAndPrivacy.aspx">Reset Terms and Privacy Policys</a></li>
-								</ul>
-							</li>
-							<%--<li Style="padding-top: 15px; padding-bottom: 15px;">
+                                    <li id="CustomerWiseTransactionDetails" runat="server"><a href="/Reports/CustomerWiseTransactionDetails.aspx">Customer Wise Transaction Details Report</a></li>
+                                    <li id="ResetTermsPrivacyPolicys" runat="server"><a href="/Master/ResetTermAndPrivacy.aspx">Reset Terms and Privacy Policys</a></li>
+                                </ul>
+                            </li>
+                            <%--<li Style="padding-top: 15px; padding-bottom: 15px;">
                                 <asp:Label ID="lblMasterCompany" Style="padding-top: 15px; padding-bottom: 15px;" runat="server" Visible="true" ForeColor="#33CC33"></asp:Label>
                                 <asp:Label ID="lblMasterCompanyName" Style="padding-top: 15px; padding-bottom: 15px;" runat="server" Visible="true" ForeColor="#0099FF" Font-Bold="True"></asp:Label>
                             </li>--%>
-						</ul>
-					</div>
-					<ul class="nav navbar-nav navbar-right">
-						<li>
-							<label style="padding-top: 15px; padding-bottom: 15px; color: #ffffff;" runat="server">Hello, <%: Context.User.Identity.GetUserName()  %>!</label></li>
-						<li>
-							<asp:LoginStatus runat="server" ID="LogAction" LogoutAction="Redirect" LogoutText="Log off" LogoutPageUrl="~/Account/login" OnLoggingOut="Unnamed_LoggingOut" />
-						</li>
-					</ul>
+                        </ul>
+                    </div>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <label style="padding-top: 15px; padding-bottom: 15px; color: #ffffff;" runat="server">Hello, <%: Context.User.Identity.GetUserName()  %>!</label></li>
+                        <li>
+                            <asp:LoginStatus runat="server" ID="LogAction" LogoutAction="Redirect" LogoutText="Log off" LogoutPageUrl="~/Account/login" OnLoggingOut="Unnamed_LoggingOut" />
+                        </li>
+                    </ul>
 
 
 
-					<%--  </LoggedInTemplate>--%>
-					<%-- </asp:LoginView>--%>
-				</div>
-			</div>
-		</div>
-		<div class="container body-content">
-			<div class="col-md-12 text-center">
-				<asp:Label ID="lblMasterCompany" Style="padding-top: 25px; padding-bottom: 15px;" runat="server" Visible="true"></asp:Label>
-				<asp:Label ID="lblMasterCompanyName" Style="padding-top: 25px; padding-bottom: 15px;" runat="server" Visible="true" Font-Bold="True"></asp:Label>
-				<asp:HiddenField runat="server" ID="hdfHide" Value="" />
-			</div>
-			<asp:ContentPlaceHolder ID="MainContent" runat="server">
-			</asp:ContentPlaceHolder>
-			<div style="height: 60px;"></div>
-			<footer>
-				<%-- <p>&copy; <%: DateTime.Now.Year %> - FluidSECURE System Software</p>--%>
+                    <%--  </LoggedInTemplate>--%>
+                    <%-- </asp:LoginView>--%>
+                </div>
+            </div>
+        </div>
+        <div class="container body-content">
+            <div class="col-md-12 text-center">
+                <asp:Label ID="lblMasterCompany" Style="padding-top: 25px; padding-bottom: 15px;" runat="server" Visible="true"></asp:Label>
+                <asp:Label ID="lblMasterCompanyName" Style="padding-top: 25px; padding-bottom: 15px;" runat="server" Visible="true" Font-Bold="True"></asp:Label>
+                <asp:HiddenField runat="server" ID="hdfHide" Value="" />
+            </div>
+            <asp:ContentPlaceHolder ID="MainContent" runat="server">
+            </asp:ContentPlaceHolder>
+            <div style="height: 60px;"></div>
+            <footer>
+                <%-- <p>&copy; <%: DateTime.Now.Year %> - FluidSECURE System Software</p>--%>
 
-				<div class="footer-logo">
-					<a href="https://www.fluidsecure.com" target="_blank">
-						<img src="../Content/images/FluidSECURELogo.png" style="max-width: 100%" />
-					</a>
-				</div>
-				<div>
-					<p style="color: #3131D7; font-size: 18px; text-align: center; top: 40px;">
-						<small>FluidSecure All Rights Reserved</small>
-					</p>
-				</div>
+                <div class="footer-logo">
+                    <a href="https://www.fluidsecure.com" target="_blank">
+                        <img src="../Content/images/FluidSECURELogo.png" style="max-width: 100%" />
+                    </a>
+                </div>
+                <div>
+                    <p style="color: #3131D7; font-size: 18px; text-align: center; top: 40px;">
+                        <small>FluidSecure All Rights Reserved</small>
+                    </p>
+                </div>
 
-			</footer>
-		</div>
-		<script>
-			function CheckSession() {
-				var FromLoginPage = '<%= Session("FromLoginPage") %>';
-				if (FromLoginPage == "Y") {
-					window.location.href = "/Account/Login"
-				}
-				else {
-					$('#checkLoginBox').modal({
-						show: true,
-						backdrop: 'static',
-						keyboard: false
-					});
-				}
-			}
+            </footer>
+        </div>
+        <script>
+            function CheckSession() {
+                var FromLoginPage = '<%= Session("FromLoginPage") %>';
+                if (FromLoginPage == "Y") {
+                    window.location.href = "/Account/Login"
+                }
+                else {
+                    $('#checkLoginBox').modal({
+                        show: true,
+                        backdrop: 'static',
+                        keyboard: false
+                    });
+                }
+            }
 
-			function NotValidUser() {
-				$('#NotValidUser').modal({
-					show: true,
-					backdrop: 'static',
-					keyboard: false
-				});
-			}
+            function NotValidUser() {
+                $('#NotValidUser').modal({
+                    show: true,
+                    backdrop: 'static',
+                    keyboard: false
+                });
+            }
 
-		</script>
-		<script src="/Scripts/bootstrap-multiselect.js"></script>
-		<link href="/Scripts/bootstrap-multiselect.css" rel="stylesheet" />
-		<!--alert message popup-->
-		<div class="modal fade" tabindex="-1" role="dialog" id="checkLoginBox">
-			<div class="modal-dialog modal-lg">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h3 class="modal-title text-center">FluidSecure</h3>
-					</div>
-					<div class="modal-body">
-						<h4>Session Expired. Please Login Again.</h4>
-					</div>
-					<div class="modal-footer nextButton">
-						<input type="button" id="btnMyModalSuccess" class="btn btn-success" onclick="window.location.href = '/Account/Login'" value="Ok" />
-					</div>
-				</div>
-				<!-- /.modal-content -->
-			</div>
-			<!-- /.modal-dialog -->
-		</div>
-		<!-- /.modal -->
+        </script>
+        <script src="/Scripts/bootstrap-multiselect.js"></script>
+        <link href="/Scripts/bootstrap-multiselect.css" rel="stylesheet" />
+        <!--alert message popup-->
+        <div class="modal fade" tabindex="-1" role="dialog" id="checkLoginBox">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title text-center">FluidSecure</h3>
+                    </div>
+                    <div class="modal-body">
+                        <h4>Session Expired. Please Login Again.</h4>
+                    </div>
+                    <div class="modal-footer nextButton">
+                        <input type="button" id="btnMyModalSuccess" class="btn btn-success" onclick="window.location.href = '/Account/Login'" value="Ok" />
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <!-- /.modal -->
 
-		<!--alert message popup-->
-		<div class="modal fade" tabindex="-1" role="dialog" id="NotValidUser">
-			<div class="modal-dialog modal-lg">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h3 class="modal-title text-center">FluidSecure</h3>
-					</div>
-					<div class="modal-body">
-						<h4>Access denied.</h4>
-					</div>
-					<div class="modal-footer nextButton">
-						<input type="button" id="btnMyModalSuccessUser" class="btn btn-success" onclick="window.location.href = '/home'" value="Ok" />
-					</div>
-				</div>
-				<!-- /.modal-content -->
-			</div>
-			<!-- /.modal-dialog -->
-		</div>
-		<!-- /.modal -->
-	</form>
+        <!--alert message popup-->
+        <div class="modal fade" tabindex="-1" role="dialog" id="NotValidUser">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title text-center">FluidSecure</h3>
+                    </div>
+                    <div class="modal-body">
+                        <h4>Access denied.</h4>
+                    </div>
+                    <div class="modal-footer nextButton">
+                        <input type="button" id="btnMyModalSuccessUser" class="btn btn-success" onclick="window.location.href = '/home'" value="Ok" />
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <!-- /.modal -->
+    </form>
 </body>
 </html>

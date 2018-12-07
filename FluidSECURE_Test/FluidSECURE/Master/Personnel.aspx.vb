@@ -1826,7 +1826,8 @@ Public Class Personnel
           .IsGateHub = False,
           .IsVehicleNumberRequire = False,
           .HubAddress = "",
-               .IsLogging = 0
+               .IsLogging = 0,
+           .IsSpecialImport = 0
                }
                     steps = "34"
                     If (txtFuelLimitPertxtn.Text = "") Then
@@ -1914,7 +1915,8 @@ Public Class Personnel
           .IsGateHub = False,
           .IsVehicleNumberRequire = False,
           .HubAddress = "",
-               .IsLogging = 0
+               .IsLogging = 0,
+           .IsSpecialImport = 0
                }
                     steps = "34"
                     If (txtFuelLimitPertxtn.Text = "") Then

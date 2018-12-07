@@ -193,34 +193,39 @@ Public Class PersonnelImport
 
 			Dim Row As DataRow
 			For i As Integer = 3 To Lines.GetLength(0) - 1
-				Fields = Lines(i).Split(New Char() {","c})
+                Try
+                    Fields = Lines(i).Split(New Char() {","c})
 
-				If (Fields.Length = dt.Columns.Count - 1) Then
-					Row = dt.NewRow()
-					For f As Integer = 0 To Cols - 1
-						Row(f) = Fields(f).ToString().Replace("'", "").Trim()
-					Next
-					Row(12) = i + 1
-					dt.Rows.Add(Row)
+                    If (Fields.Length = dt.Columns.Count - 1) Then
+                        Row = dt.NewRow()
+                        For f As Integer = 0 To Cols - 1
+                            Row(f) = Fields(f).ToString().Replace("'", "").Trim()
+                        Next
+                        Row(12) = i + 1
+                        dt.Rows.Add(Row)
 
-				ElseIf (Fields.Length < 12 And Fields.Length > 1) Then
+                    ElseIf (Fields.Length < 12 And Fields.Length > 1) Then
 
-					Row = dt.NewRow()
-					For f As Integer = 0 To Fields.Length - 1
-						Row(f) = Fields(f).ToString().Replace("'", "").Trim()
-					Next
+                        Row = dt.NewRow()
+                        For f As Integer = 0 To Fields.Length - 1
+                            Row(f) = Fields(f).ToString().Replace("'", "").Trim()
+                        Next
 
-					For f As Integer = Fields.Length To 11
-						Row(f) = ""
-					Next
+                        For f As Integer = Fields.Length To 11
+                            Row(f) = ""
+                        Next
 
-					Row(12) = i + 1
-					dt.Rows.Add(Row)
-				ElseIf (Fields.Length > 2) Then
-					strLog = strLog & Environment.NewLine & currentDateTime & "--" & " Invalid input format. Incorrect number of columns for the row number " & (i + 1) & ". Please correct the data and retry!"
-					ErrorCnt = ErrorCnt + 1
-				End If
-			Next
+                        Row(12) = i + 1
+                        dt.Rows.Add(Row)
+                    ElseIf (Fields.Length > 2) Then
+                        strLog = strLog & Environment.NewLine & currentDateTime & "--" & " Invalid input format. Incorrect number of columns for the row number " & (i + 1) & ". Please correct the data and retry!"
+                        ErrorCnt = ErrorCnt + 1
+                    End If
+                Catch
+                    strLog = strLog & Environment.NewLine & currentDateTime & "--" & " Invalid input format. Incorrect number of columns for the row number " & (i + 1) & ". Please correct the data and retry!"
+                    ErrorCnt = ErrorCnt + 1
+                End Try
+            Next
 
 			Dim CheckpersonalEmailExist As Boolean = False
 			OBJMaster = New MasterBAL()
@@ -481,7 +486,8 @@ Public Class PersonnelImport
       .IsGateHub = False,
       .IsVehicleNumberRequire = False,
       .HubAddress = "",
-               .IsLogging = 0
+               .IsLogging = 0,
+           .IsSpecialImport = 0
        }
             If (dr("FluidLimitpertransaction") = "") Then
 				user.FuelLimitPerTxn = Nothing

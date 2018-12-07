@@ -38,7 +38,7 @@
                         </div>
                     </div>
                     <div class="row col-md-12 col-sm-12 text-center col-xs-12">
-                        <asp:Button ID="btnGenarateReport" CssClass="btn btn-primary" runat="server" OnClick="btnGenarateReport_Click" Text="Generate Report"
+                        <asp:Button ID="btnGenarateReport" CssClass="btn btn-primary" runat="server" OnClientClick="setvalue();" OnClick="btnGenarateReport_Click" Text="Generate Report"
                             UseSubmitBehavior="False" TabIndex="7" ValidationGroup="InventoryValidation" />
                         <asp:Button ID="btnCancel" CssClass="btn btn-primary" runat="server" OnClick="btnCancel_Click" Text="Exit" TabIndex="8"
                             CausesValidation="false" />
@@ -47,7 +47,7 @@
             </div>
         </ContentTemplate>
     </asp:UpdatePanel>
-
+     <asp:HiddenField ID="HDF_CurrentDate" runat="server" />
 
     <script src="/Scripts/jquery-migrate-1.2.1.js"></script>
     <script src="/Scripts/jquery-ui.min.js" type="text/javascript"></script>
@@ -115,7 +115,23 @@
                 maxHeight: 200,
             }).multiselect('selectAll', false).multiselect('updateButtonText');
         });
-    </script>
 
+         function setvalue() {
+
+            var HDF_CurrentDate = $("#<%=HDF_CurrentDate.ClientID%>");
+
+            var localTime = new Date();
+            var year = localTime.getFullYear();
+            var month = localTime.getMonth() + 1;
+            var date = localTime.getDate();
+            var hours = localTime.getHours();
+            var minutes = localTime.getMinutes();
+            var seconds = localTime.getSeconds();
+
+            HDF_CurrentDate.val(month + "/" + date + "/" + year + " " + hours + ":" + minutes + ":" + seconds);
+
+        }
+    </script>
+    
 </asp:Content>
 

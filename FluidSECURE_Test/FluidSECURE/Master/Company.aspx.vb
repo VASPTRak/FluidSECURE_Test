@@ -47,14 +47,14 @@ Public Class Company
                         End If
                         divCompanyNumber.Visible = True
                         hdrCompanyNumber.InnerText = "FS" & Request.QueryString("CustId").ToString()
-						If Session("RoleName") <> "SuperAdmin" And Session("RoleName") <> "GroupAdmin" Then
-							txtCustName.Enabled = False
-						End If
-					Else
-						If Session("RoleName") <> "SuperAdmin" And Session("RoleName") <> "GroupAdmin" Then
-							ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "NotValidUser();", True)
-							Return
-						End If
+                        If Session("RoleName") <> "SuperAdmin" And Session("RoleName") <> "GroupAdmin" Then
+                            txtCustName.Enabled = False
+                        End If
+                    Else
+                        If Session("RoleName") <> "SuperAdmin" And Session("RoleName") <> "GroupAdmin" Then
+                            ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "NotValidUser();", True)
+                            Return
+                        End If
                         trLabel.Visible = False
                         btnFirst.Visible = False
                         btnNext.Visible = False
@@ -67,6 +67,7 @@ Public Class Company
                         txtBeginningHostingDate.Text = DateTime.Now.ToString("MM/dd/yyyy")
                         txtEndingHostingDate.Text = DateTime.Now.AddYears(1).ToString("MM/dd/yyyy")
                         divDates.Visible = False
+                        Session("CostingMethod") = "0"
                     End If
                     If Session("RoleName") = "SuperAdmin" Then
                         DivHideActive.Visible = False
@@ -78,7 +79,7 @@ Public Class Company
 
                     txtCustName.Focus()
                     ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "LoadDateTimeControl();", True)
-                    'Session("CostingMethod") = ""
+
                 Else
                     'txtBeginningHostingDate.Text = Request.Form(txtBeginningHostingDate.UniqueID)
                     'txtEndingHostingDate.Text = Request.Form(txtEndingHostingDate.UniqueID)
@@ -125,25 +126,25 @@ Public Class Company
             End If
 
 
-			Dim cnt As Integer = 0
-			If (dtCust.Rows.Count > 0) Then
-				Dim isValid As Boolean = False
-				If (Session("RoleName") = "GroupAdmin") Then
-					Dim dtCustOld As DataTable = New DataTable()
+            Dim cnt As Integer = 0
+            If (dtCust.Rows.Count > 0) Then
+                Dim isValid As Boolean = False
+                If (Session("RoleName") = "GroupAdmin") Then
+                    Dim dtCustOld As DataTable = New DataTable()
 
-					dtCustOld = OBJMaster.GetCustomerDetailsByPersonID(Convert.ToInt32(Session("PersonId").ToString()), Session("RoleId").ToString(), Session("CustomerId").ToString())
-					For Each drCusts As DataRow In dtCustOld.Rows
-						If (drCusts("CustomerId") = dtCust.Rows(0)("CustomerId").ToString()) Then
-							isValid = True
-							Exit For
-						End If
+                    dtCustOld = OBJMaster.GetCustomerDetailsByPersonID(Convert.ToInt32(Session("PersonId").ToString()), Session("RoleId").ToString(), Session("CustomerId").ToString())
+                    For Each drCusts As DataRow In dtCustOld.Rows
+                        If (drCusts("CustomerId") = dtCust.Rows(0)("CustomerId").ToString()) Then
+                            isValid = True
+                            Exit For
+                        End If
 
-					Next
-				End If
+                    Next
+                End If
 
-				If (Not Session("RoleName") = "SuperAdmin" And Not isValid = True) Then
+                If (Not Session("RoleName") = "SuperAdmin" And Not isValid = True) Then
 
-					Dim dtCustOld As DataTable = New DataTable()
+                    Dim dtCustOld As DataTable = New DataTable()
 
                     dtCustOld = OBJMaster.GetCustomerDetailsByPersonID(Convert.ToInt32(Session("PersonId").ToString()), Session("RoleId").ToString(), Session("CustomerId").ToString())
 
@@ -177,6 +178,7 @@ Public Class Company
 
 
                 DDL_Costing.SelectedValue = dtCust.Rows(0)("CostingMethod").ToString()
+                hdfCostingMethodValue.Value = dtCust.Rows(0)("CostingMethod").ToString()
                 Session("CostingMethod") = dtCust.Rows(0)("CostingMethod").ToString()
                 lblStartDate.Text = Convert.ToDateTime(dtCust.Rows(0)("StartDate").ToString()).ToString("MM/dd/yyyy")
                 txtBeginningHostingDate.Text = Convert.ToDateTime(dtCust.Rows(0)("BeginningHostingDate").ToString()).ToString("MM/dd/yyyy")
@@ -232,7 +234,7 @@ Public Class Company
 
             Else
                 ErrorMessage.Visible = True
-                ErrorMessage.InnerText = "Data Not found. Please try again after some time."
+                ErrorMessage.InnerText = "Data not found. Please try again after some time."
             End If
             txtCustName.Focus()
 
@@ -315,35 +317,39 @@ Public Class Company
             ' Check Tank without Delivery 
             Try
                 If DDL_Costing.SelectedValue = "2" Then
-                    If hdfType.Value = "2" Then
-                        lblErrorMessage.Text = "Please first create Company with any other Pricing method and Add delivery for evry Tank and then change Pricing method to Price Averaging."
-                        ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "OpenModalMessage();LoadDateTimeControl();", True)
-                        DDL_Costing.SelectedValue = Session("CostingMethod").ToString()
-                        Return
-                    Else
-                        OBJMaster = New MasterBAL()
-                        Dim dsTankNumber As DataSet = New DataSet()
-                        dsTankNumber = OBJMaster.GetTanksWithoutDeliveryByCustomerId(Convert.ToInt32(HDF_Custd.Value))
+                    If hdfCostingMethodValue.Value <> "2" Then
 
-                        If dsTankNumber IsNot Nothing Then
-                            If dsTankNumber.Tables.Count > 0 Then
-                                If dsTankNumber.Tables(0).Rows.Count > 0 Then
-                                    If dsTankNumber.Tables(0).Rows(0)(0).ToString() = "none" Then
-                                        lblErrorMessage.Text = "Please add delivery for evry Tank and then change Pricing method to Price Averaging."
-                                        ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "OpenModalMessage();LoadDateTimeControl();", True)
-                                        DDL_Costing.SelectedValue = Session("CostingMethod").ToString()
-                                        Return
-                                    ElseIf dsTankNumber.Tables(0).Rows(0)(0).ToString() <> "" Then
-                                        lblErrorMessage.Text = "Please Add delivery for following Tank and then change Pricing method to Price Averaging. " & "<br>" & dsTankNumber.Tables(0).Rows(0)(0).ToString()
-                                        ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "OpenModalMessage();LoadDateTimeControl();", True)
-                                        DDL_Costing.SelectedValue = Session("CostingMethod").ToString()
-                                        Return
+                        If hdfType.Value = "2" Then
+                            lblErrorMessage.Text = "Please first create Company with any other Pricing method and Add delivery for evry Tank and then change Pricing method to Price Averaging."
+                            ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "OpenModalMessage();LoadDateTimeControl();", True)
+                            DDL_Costing.SelectedValue = Session("CostingMethod").ToString()
+                            Return
+                        Else
+                            OBJMaster = New MasterBAL()
+                            Dim dsTankNumber As DataSet = New DataSet()
+                            dsTankNumber = OBJMaster.GetTanksWithoutDeliveryByCustomerId(Convert.ToInt32(HDF_Custd.Value))
+
+                            If dsTankNumber IsNot Nothing Then
+                                If dsTankNumber.Tables.Count > 0 Then
+                                    If dsTankNumber.Tables(0).Rows.Count > 0 Then
+                                        If dsTankNumber.Tables(0).Rows(0)(0).ToString() = "none" Then
+                                            lblErrorMessage.Text = "Please add delivery for evry Tank and then change Pricing method to Price Averaging."
+                                            ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "OpenModalMessage();LoadDateTimeControl();", True)
+                                            DDL_Costing.SelectedValue = Session("CostingMethod").ToString()
+                                            Return
+                                        ElseIf dsTankNumber.Tables(0).Rows(0)(0).ToString() <> "" Then
+                                            lblErrorMessage.Text = "Please Add delivery for following Tank and then change Pricing method to Price Averaging. " & "<br>" & dsTankNumber.Tables(0).Rows(0)(0).ToString()
+                                            ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "OpenModalMessage();LoadDateTimeControl();", True)
+                                            DDL_Costing.SelectedValue = Session("CostingMethod").ToString()
+                                            Return
+                                        End If
                                     End If
                                 End If
                             End If
                         End If
                     End If
-
+                Else
+                    hdfCostingMethodValue.Value = DDL_Costing.SelectedValue.ToString()
                 End If
             Catch ex As Exception
                 log.Error(String.Format("Error Occurred while btnSave_Click(Check Tank without Delivery ). Error is {0}.", ex.Message))
@@ -380,48 +386,91 @@ Public Class Company
             If CheckCustExists = True Then
 
                 ErrorMessage.Visible = True
-                ErrorMessage.InnerText = "Company name Already Exists."
+                ErrorMessage.InnerText = "Company name already exists."
                 ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "loadFunction();LoadDateTimeControl();", True)
                 Return
             End If
 
-            'check for existing user
-            'Dim existingUser = OBJMaster.GetPersonnelByNameAndNumberAndEmail(" And Email='" + txtAdminUsername.Text + "'", Convert.ToInt32(Session("PersonId").ToString()), Session("RoleId").ToString())
+            'check for user is already present in a system or not user
+
+            'If (Session("RoleName") = "GroupAdmin") Then
+            '    Dim dtCustOld As DataTable = New DataTable()
+
+            '    dtCustOld = OBJMaster.GetCustomerDetailsByPersonID(Convert.ToInt32(Session("PersonId").ToString()), Session("RoleId").ToString(), Session("CustomerId").ToString())
+            '    For Each drCusts As DataRow In dtCustOld.Rows
+            '        If (drCusts("CustomerId") = dtVehicle.Rows(0)("CustomerId").ToString()) Then
+            '            IsValid = True
+            '            Exit For
+            '        End If
+
+            '    Next
+            'End If
+
+
+
             Dim existingUser As DataTable = OBJMaster.GetPersonnelByEmail(txtAdminUsername.Text)
             If Not existingUser Is Nothing And existingUser.Rows.Count > 0 Then
 
-                If (Not existingUser.Rows(0)("CustomerId").ToString() = CustId) Then
+                Dim isValid As Boolean = False
+
+                If (existingUser.Rows(0)("Roles").ToString() = "GroupAdmin") Then
+                    If (CustId = 0 And txtAdminUsername.Text = Session("PersonEmail")) Then
+                        isValid = True
+                    Else
+                        Dim dtCustOld As DataTable = New DataTable()
+                        dtCustOld = OBJMaster.GetCustomerDetailsByPersonID(Convert.ToInt32(existingUser.Rows(0)("PersonId").ToString()), existingUser.Rows(0)("RoleId").ToString(), 0)
+                        For Each drCusts As DataRow In dtCustOld.Rows
+                            If (drCusts("CustomerId") = CustId) Then
+                                isValid = True
+                                Exit For
+                            End If
+
+                        Next
+                    End If
+                End If
+
+                If (Not existingUser.Rows(0)("CustomerId").ToString() = CustId And existingUser.Rows(0)("Roles").ToString() <> "SuperAdmin" And isValid = False) Then
                     ErrorMessage.Visible = True
-                    ErrorMessage.InnerText = "Contact Email is not from same company, Please try another Contact Email."
+                    ErrorMessage.InnerText = "Contact email is not from same company, please try another contact email."
                     ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "loadFunction();LoadDateTimeControl();", True)
                     Return
                 End If
 
                 'return if entered existing Contact Email is not customerAdmin
-                If Not existingUser.Rows(0)("Roles").ToString() = "CustomerAdmin" And Not existingUser.Rows(0)("Roles").ToString() = "SuperAdmin" Then
+                If Not existingUser.Rows(0)("Roles").ToString() = "CustomerAdmin" And Not existingUser.Rows(0)("Roles").ToString() = "SuperAdmin" And Not existingUser.Rows(0)("Roles").ToString() = "GroupAdmin" Then
                     ErrorMessage.Visible = True
-                    ErrorMessage.InnerText = "Contact Email is not customer admin, Please try another Contact Email."
+                    ErrorMessage.InnerText = "Contact email is not customer admin, please try another contact email."
                     ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "loadFunction();LoadDateTimeControl();", True)
                     Return
                 End If
+            ElseIf (HDF_UniqueUserId.Value <> "") Then
+                ErrorMessage.Visible = True
+                ErrorMessage.InnerText = "Contact email is not found in system, please try another contact email."
+                ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "loadFunction();LoadDateTimeControl();", True)
+                Return
             End If
 
-            If Not CustId = 0 Then
-                Dim oldUser = OBJMaster.GetPersonnelByNameAndNumberAndEmail(" And cust.CustomerId=CAST(" + CustId.ToString() + " as nvarchar) And IsMainCustomerAdmin = 1", Convert.ToInt32(Session("PersonId").ToString()), Session("RoleId").ToString(), True)
-                If Not oldUser Is Nothing And oldUser.Rows.Count > 0 Then
-                    Dim userOld = New ApplicationUser()
-                    userOld = manager.FindById(oldUser.Rows(0)("Id").ToString())
-                    If Not userOld.Email = txtAdminUsername.Text Then
-                        userOld.IsMainCustomerAdmin = False
-                        Dim identityResultForOldUser As IdentityResult
-                        identityResultForOldUser = New IdentityResult()
-                        identityResultForOldUser = manager.Update(userOld)
-                        If identityResultForOldUser.Succeeded Then
-                            'success
-                        End If
-                    End If
-                End If
-            End If
+            'added contact email directly to customer table so commented code from here.
+            'If Not CustId = 0 Then
+
+            '    Dim oldCustomerAdminUser = OBJMaster.GetPersonnelByNameAndNumberAndEmail(" And cust.CustomerId=CAST(" + CustId.ToString() + " as nvarchar) And IsMainCustomerAdmin = 1", Convert.ToInt32(Session("PersonId").ToString()), Session("RoleId").ToString(), False, True)
+            '    If Not oldCustomerAdminUser Is Nothing And oldCustomerAdminUser.Rows.Count > 0 Then
+            '        Dim customerAdminUserOld = New ApplicationUser()
+            '        customerAdminUserOld = manager.FindById(oldCustomerAdminUser.Rows(0)("Id").ToString())
+
+            '        'if entered email and old email is not same then set IsMainCustomerAdmin=0 to old MainCustomerAdmin 
+            '        If Not customerAdminUserOld.Email = txtAdminUsername.Text Then
+            '            customerAdminUserOld.IsMainCustomerAdmin = False
+            '            Dim identityResultForOldUser As IdentityResult
+            '            identityResultForOldUser = New IdentityResult()
+            '            identityResultForOldUser = manager.Update(customerAdminUserOld)
+            '            If identityResultForOldUser.Succeeded Then
+            '                'success
+            '            End If
+            '        End If
+            '    End If
+            'End If
+
             Dim custRole As IdentityRole
 
             If Not existingUser Is Nothing And existingUser.Rows.Count > 0 Then
@@ -461,20 +510,21 @@ Public Class Company
 
             If EndingHostingDate < BeginningHostingDate Then
                 ErrorMessage.Visible = True
-                ErrorMessage.InnerText = "Ending Hosting Date must be greater than Beginning Hosting Date."
+                ErrorMessage.InnerText = "Ending hosting date must be greater than beginning hosting date."
                 ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "loadFunction();LoadDateTimeControl();", True)
                 Return
             End If
 
             'save company
             result = OBJMaster.SaveUpdateCustomer(CustId, txtCustName.Text, txtContactName.Text, txtContactNumber.Text, "", txtExportCode.Text, Convert.ToInt32(Session("PersonId")), CHK_RequireLogin.Checked, False,
-                                                  chk_RequireDepartment.Checked, chk_RequirePersonnelPIN.Checked, chk_RequireOther.Checked, otherLabel, chkIsActive.Checked, chk_VehicleNumberRequire.Checked, txtStreetAddress.Text, txtCity.Text, txtState.Text, txtZip.Text, txtCountry.Text, Convert.ToInt32(DDL_Costing.SelectedValue),
-                                                  BeginningHostingDate, EndingHostingDate)
+                                                  chk_RequireDepartment.Checked, chk_RequirePersonnelPIN.Checked, chk_RequireOther.Checked, otherLabel, chkIsActive.Checked, chk_VehicleNumberRequire.Checked,
+                                                  txtStreetAddress.Text, txtCity.Text, txtState.Text, txtZip.Text, txtCountry.Text, txtAdminUsername.Text,
+                                                  Convert.ToInt32(DDL_Costing.SelectedValue), BeginningHostingDate, EndingHostingDate)
 
-            'Save Personal Vehicle Mapping
-            If chkAssignPerToVeh.Checked And result > 0 Then
-                OBJMaster.SavePersonnalVehicleMappingAgainstCustomer(CustId, Convert.ToInt32(Session("PersonId")))
-            End If
+            ''Save Personal Vehicle Mapping
+            'If chkAssignPerToVeh.Checked And result > 0 Then
+            '    OBJMaster.SavePersonnalVehicleMappingAgainstCustomer(CustId, Convert.ToInt32(Session("PersonId")))
+            'End If
 
             If result > 0 Then
                 Session("CostingMethod") = DDL_Costing.SelectedValue.ToString()
@@ -506,7 +556,7 @@ Public Class Company
                         .ApprovedBy = Convert.ToInt32(Session("PersonId")),
                         .ApprovedOn = DateTime.Now,
                         .CustomerId = Convert.ToInt32(result),
-                       .IsMainCustomerAdmin = True,
+                       .IsMainCustomerAdmin = True,'now not using this field to maintain Main Customer Admin, added contact email directly to customer table.
                        .SoftUpdate = "N",
                         .SendTransactionEmail = False,
                         .RequestFrom = "W",
@@ -533,7 +583,8 @@ Public Class Company
            .IsGateHub = False,
            .IsVehicleNumberRequire = False,
            .HubAddress = "",
-           .IsLogging = 0
+           .IsLogging = 0,
+           .IsSpecialImport = 0
                    }
 
                         identityResult = New IdentityResult()
@@ -557,13 +608,13 @@ Public Class Company
                         'user.RoleId = custRole.Id
                         user.IsApproved = True
                         If Not existingUser Is Nothing And existingUser.Rows.Count > 0 Then
-                            If (existingUser.Rows(0)("Roles").ToString() <> "SuperAdmin") Then
+                            If (existingUser.Rows(0)("Roles").ToString() <> "SuperAdmin" And existingUser.Rows(0)("Roles").ToString() <> "GroupAdmin") Then
                                 user.CustomerId = Convert.ToInt32(result)
                             End If
                         End If
                         user.ApprovedOn = DateTime.Now
                         'user.SoftUpdate = "N"
-                        user.IsMainCustomerAdmin = True
+                        'user.IsMainCustomerAdmin = True 'added contact email directly to customer table so commented code from here.
                         user.SendTransactionEmail = IIf(user.SendTransactionEmail = Nothing, False, user.SendTransactionEmail)
                         user.RequestFrom = IIf(user.RequestFrom = Nothing, "W", user.RequestFrom)
 
@@ -573,7 +624,7 @@ Public Class Company
                         If identityResult.Succeeded Then
                             'update password
                             If Not txtAdminPassword.Text = "" Then
-                                If (existingUser.Rows(0)("Roles").ToString() <> "SuperAdmin") Then
+                                If (existingUser.Rows(0)("Roles").ToString() <> "SuperAdmin" And existingUser.Rows(0)("Roles").ToString() <> "GroupAdmin") Then
 
                                     Dim code = manager.GeneratePasswordResetToken(HDF_UniqueUserId.Value)
                                     If Not code = Nothing Then
@@ -613,7 +664,7 @@ Public Class Company
                    .ApprovedBy = Convert.ToInt32(Session("PersonId")),
                    .ApprovedOn = DateTime.Now,
                    .CustomerId = Convert.ToInt32(result),
-                  .IsMainCustomerAdmin = True,
+                  .IsMainCustomerAdmin = True,'now not using this field to maintain Main Customer Admin, added contact email directly to customer table.
                   .SoftUpdate = "N",
                   .SendTransactionEmail = False,
                   .RequestFrom = "W",
@@ -640,7 +691,8 @@ Public Class Company
          .IsGateHub = False,
          .IsVehicleNumberRequire = False,
          .HubAddress = "",
-           .IsLogging = 0
+           .IsLogging = 0,
+           .IsSpecialImport = 0
               }
                         identityResult = New IdentityResult()
                         identityResult = manager.Create(user, txtAdminPassword.Text)
@@ -664,11 +716,11 @@ Public Class Company
                         user.ApprovedOn = DateTime.Now
                         'user.SoftUpdate = "N"
                         If Not existingUser Is Nothing And existingUser.Rows.Count > 0 Then
-                            If (existingUser.Rows(0)("Roles").ToString() <> "SuperAdmin") Then
+                            If (existingUser.Rows(0)("Roles").ToString() <> "SuperAdmin" And existingUser.Rows(0)("Roles").ToString() <> "GroupAdmin") Then
                                 user.CustomerId = Convert.ToInt32(result)
                             End If
                         End If
-                        user.IsMainCustomerAdmin = True
+                        'user.IsMainCustomerAdmin = True 'added contact email directly To customer table so commented code from here
                         user.SendTransactionEmail = IIf(user.SendTransactionEmail = Nothing, False, user.SendTransactionEmail)
                         user.RequestFrom = IIf(user.RequestFrom = Nothing, "W", user.RequestFrom)
 
@@ -678,7 +730,7 @@ Public Class Company
                         If identityResult.Succeeded Then
                             'update password
                             If Not txtAdminPassword.Text = "" Then
-                                If (existingUser.Rows(0)("Roles").ToString() <> "SuperAdmin") Then
+                                If (existingUser.Rows(0)("Roles").ToString() <> "SuperAdmin" And existingUser.Rows(0)("Roles").ToString() <> "GroupAdmin") Then
 
                                     Dim code = manager.GeneratePasswordResetToken(HDF_UniqueUserId.Value)
                                     If Not code = Nothing Then
@@ -803,7 +855,7 @@ Public Class Company
                         CSCommonHelper.WriteLog("Added", "Company", beforeData, writtenData, Session("PersonName").ToString() & "(" & Session("PersonEmail").ToString() & ")", Session("IPAddress").ToString(), "fail", "Company update failed.")
                     End If
                     ErrorMessage.Visible = True
-                    ErrorMessage.InnerText = "Company Addition failed, Please try again."
+                    ErrorMessage.InnerText = "Company addition failed, Please try again."
                 End If
 
             End If
@@ -977,7 +1029,6 @@ Public Class Company
                         "Other label = " & txtOtherLabel.Text.Replace(",", " ") & " ; " &
                         "Contact Phone Number = " & txtContactNumber.Text & " ; " &
                         "Contact Email = " & txtAdminUsername.Text & " ; " &
-                        "Assign all personnel to all vehicles = " & IIf(chkAssignPerToVeh.Checked = True, "Yes", "No") & " ; " &
                         "Costing Method = " & DDL_Costing.SelectedItem.ToString().Replace(",", " ") & " ; " &
                         "Start Date = " & lblStartDate.Text & " ; " &
                         "Beginning Hosting Date = " & BeginningHostingDate & " ; " &
@@ -998,12 +1049,49 @@ Public Class Company
 
     Protected Sub DDL_Costing_SelectedIndexChanged(sender As Object, e As EventArgs)
         Try
+            If Session("CostingMethod") = "0" Then
+                If (DDL_Costing.SelectedValue.ToString() = "1") Then
+                    lblWarningMessage.Text = "To use your new pricing, assign each product a price in the Items -> <a href='/Master/AllFuels.aspx'>Products</a> "
+                    ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "OpenModalWarningMessage();LoadDateTimeControl();", True)
+                ElseIf (DDL_Costing.SelectedValue.ToString() = "2") Then
+                    lblWarningMessage.Text = "To use your new pricing, ensure that a delivery with a price has been assigned to each tank. Do this Under Reconciliation -> <a href='/Master/AllTankInventoryReconciliation.aspx?Type=Level'>Tank Inventory Reconciliation</a>, and Select 'Add new Tank Inventory Reconciliation'."
+                    ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "OpenModalWarningMessage();LoadDateTimeControl();", True)
+                ElseIf (DDL_Costing.SelectedValue.ToString() = "3") Then
+                    lblWarningMessage.Text = "To use your new pricing, ensure that a delivery with a price has been assigned to each tank. Do this Under Reconciliation -> <a href='/Master/AllTankInventoryReconciliation.aspx?Type=Level'>Tank Inventory Reconciliation</a>, and Select 'Add new Tank Inventory Reconciliation'."
+                    ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "OpenModalWarningMessage();LoadDateTimeControl();", True)
+                End If
+            ElseIf Session("CostingMethod") = "1" Then
+                If (DDL_Costing.SelectedValue.ToString() = "2") Then
+                    lblWarningMessage.Text = "To use your new pricing, ensure that a delivery with a price has been assigned to each tank. Do this Under Reconciliation -> <a href='/Master/AllTankInventoryReconciliation.aspx?Type=Level'>Tank Inventory Reconciliation</a>, and Select 'Add new Tank Inventory Reconciliation'. Past transactions will not be affected."
+                    ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "OpenModalWarningMessage();LoadDateTimeControl();", True)
+                ElseIf (DDL_Costing.SelectedValue.ToString() = "3") Then
+                    lblWarningMessage.Text = "To use your new pricing, ensure that a delivery with a price has been assigned to each tank. Do this Under Reconciliation -> <a href='/Master/AllTankInventoryReconciliation.aspx?Type=Level'>Tank Inventory Reconciliation</a>, and Select 'Add new Tank Inventory Reconciliation'. Past transactions will not be affected."
+                    ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "OpenModalWarningMessage();LoadDateTimeControl();", True)
+                End If
+            ElseIf Session("CostingMethod") = "2" Then
+                If (DDL_Costing.SelectedValue.ToString() = "1") Then
+                    lblWarningMessage.Text = "To use your new pricing, assign each product a price in the Items -> <a href='/Master/AllFuels.aspx'>Products</a>. <br/> Past transactions will not be affected."
+                    ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "OpenModalWarningMessage();LoadDateTimeControl();", True)
+                ElseIf (DDL_Costing.SelectedValue.ToString() = "3") Then
+                    lblWarningMessage.Text = "If your Price Averaging has been working, you do not need any further setup to switch to FIFO pricing. Otherwise, to use your new pricing, ensure that a delivery with a price has been assigned to each tank. Do this Under Reconciliation -> <a href='/Master/AllTankInventoryReconciliation.aspx?Type=Level'>Tank Inventory Reconciliation</a>, and Select 'Add new Tank Inventory Reconciliation'. <br/> Past transactions will not be affected."
+                    ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "OpenModalWarningMessage();LoadDateTimeControl();", True)
+                End If
+            ElseIf Session("CostingMethod") = "3" Then
+                If (DDL_Costing.SelectedValue.ToString() = "1") Then
+                    lblWarningMessage.Text = "To use your new pricing, assign each product a price in the Items -> <a href='/Master/AllFuels.aspx'>Products</a>. <br/> Past transactions will not be affected."
+                    ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "OpenModalWarningMessage();LoadDateTimeControl();", True)
+                ElseIf (DDL_Costing.SelectedValue.ToString() = "2") Then
+                    lblWarningMessage.Text = "If your FIFO costing has been working, you do not need any further setup to switch to Price Averaging. Otherwise, to use your new pricing, ensure that a delivery with a price has been assigned to each tank. Do this Under Reconciliation -> <a href='/Master/AllTankInventoryReconciliation.aspx?Type=Level'>Tank Inventory Reconciliation</a>, and Select 'Add new Tank Inventory Reconciliation'. <br/> Past transactions will not be affected."
+                    ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "OpenModalWarningMessage();LoadDateTimeControl();", True)
+                End If
+            End If
+
             If DDL_Costing.SelectedValue.ToString() <> Convert.ToString(Session("CostingMethod")) And DDL_Costing.SelectedValue.ToString() <> "0" Then
                 ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "OpenModalWarningMessage();LoadDateTimeControl();", True)
             Else
                 Page.Validate()
                 ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "LoadDateTimeControl();", True)
-             End If
+            End If
             txtAdminPassword.Attributes("value") = txtAdminPassword.Text
             txtConfirmPassword.Attributes("value") = txtConfirmPassword.Text
         Catch ex As Exception

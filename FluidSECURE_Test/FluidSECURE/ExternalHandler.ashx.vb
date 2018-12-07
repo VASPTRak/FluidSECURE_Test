@@ -239,7 +239,8 @@ Public Class ExternalHandler
             companyAddress = drFinal("billing_address_1").ToString() & IIf(drFinal("billing_address_2").ToString() = "", "", " , " & drFinal("billing_address_2").ToString())
 
             'save company
-            result = OBJMaster.SaveUpdateCustomer(0, drFinal("billing_company").ToString(), ContactName, drFinal("billing_phone").ToString(), companyAddress, "", 0, False, False, False, False, False, "Other", 1, 0, "", "", "", "", "")
+            result = OBJMaster.SaveUpdateCustomer(0, drFinal("billing_company").ToString(), ContactName, drFinal("billing_phone").ToString(), companyAddress, "", 0,
+                                                  False, False, False, False, False, "Other", 1, 0, "", "", "", "", "", "")
 
 
 
@@ -311,7 +312,8 @@ Public Class ExternalHandler
            .IsGateHub = False,
            .IsVehicleNumberRequire = False,
            .HubAddress = "",
-           .IsLogging = 0
+           .IsLogging = 0,
+           .IsSpecialImport = 0
    }
         identityResult = New IdentityResult()
         Dim pwd As String = PasswordService.GeneratePassword()

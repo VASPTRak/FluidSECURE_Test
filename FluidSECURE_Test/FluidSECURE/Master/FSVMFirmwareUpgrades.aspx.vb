@@ -198,7 +198,7 @@ Public Class FSVMFirmwareUpgrades
     End Sub
 
     Protected Sub btnCancel_Click(sender As Object, e As EventArgs) Handles btnCancel.Click
-        Response.Redirect("~/Master/AllFSVMFirmwareUpgrades")
+        Response.Redirect("~/Master/AllFSVMFirmwareUpgrades?Filter=Filter")
     End Sub
 
     Private Sub BindCompanyAndVehicles(PersonId As Integer, RoleId As String, flag As Integer)

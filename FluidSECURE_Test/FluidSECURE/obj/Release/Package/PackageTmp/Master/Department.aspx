@@ -37,7 +37,7 @@
                                   <label class="text-danger font-required">[required]</label></label>
                         </div>
                         <div class="form-group col-md-3 col-sm-3 col-xs-12">
-                            <asp:TextBox ID="txtDeptName" runat="server" CssClass="form-control input-sm" MaxLength="20" Width="190" TabIndex="7"></asp:TextBox>
+                            <asp:TextBox ID="txtDeptName" runat="server" CssClass="form-control input-sm" MaxLength="40" TabIndex="7"></asp:TextBox>
                             <asp:RequiredFieldValidator ID="RFVtxtDepartment" runat="server" Font-Size="Small"
                                 Font-Bold="False" Font-Names="arial" ErrorMessage="Please Enter Department Name."
                                 ControlToValidate="txtDeptName" Display="Dynamic" ForeColor="Red" SetFocusOnError="True" ValidationGroup="DeptValidation"></asp:RequiredFieldValidator></td>

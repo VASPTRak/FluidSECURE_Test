@@ -201,7 +201,7 @@ Public Class FirmwareUpgrades
     End Sub
 
     Protected Sub btnCancel_Click(sender As Object, e As EventArgs) Handles btnCancel.Click
-        Response.Redirect("~/Master/AllFirmwareUpgrade")
+        Response.Redirect("~/Master/AllFirmwareUpgrade?Filter=Filter")
     End Sub
 
     Private Sub BindCompanyAndLink(PersonId As Integer, RoleId As String, flag As Integer)

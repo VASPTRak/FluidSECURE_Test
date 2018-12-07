@@ -26,8 +26,15 @@ Public Class Transaction
                 Response.Redirect("/home")
 
             Else
-                If Not IsPostBack Then
 
+
+
+                If Not IsPostBack Then
+                    If (Session("RoleName") = "SuperAdmin") Then
+                        divFinalQuantity.Visible = True
+                    Else
+                        divFinalQuantity.Visible = False
+                    End If
                     BindTransactionStatus()
 
                     txtTransactionDate.Text = DateTime.Now.ToString("MM/dd/yyyy")
@@ -36,6 +43,7 @@ Public Class Transaction
 
                     BindCustomer(Convert.ToInt32(Session("PersonId").ToString()), Session("RoleId").ToString())
                     DDL_Customer_SelectedIndexChanged(Nothing, Nothing)
+                    Session("PinNumber") = ""
                     If (Not Request.QueryString("TransactionId") = Nothing And Not Request.QueryString("TransactionId") = "") Then
 
                         PreviousOdometer.Visible = True
@@ -52,7 +60,10 @@ Public Class Transaction
                             message.Visible = True
                             message.InnerText = "Record saved"
                         End If
-
+                        divTransactionStatus.Visible = True
+                        divPersonnel.Visible = True
+                        HideCost.Visible = True
+                        divFinalQuantity.Visible = True
                     Else
                         PreviousOdometer.Visible = False
                         divPrevHours.Visible = False
@@ -62,6 +73,11 @@ Public Class Transaction
                         btnLast.Visible = False
                         lblof.Visible = False
                         lblHeader.Text = "Add Transaction Information"
+                        divTransactionStatus.Visible = False
+                        DDL_TransactionStatus.SelectedIndex = 2
+                        divPersonnel.Visible = False
+                        HideCost.Visible = False
+                        divFinalQuantity.Visible = False
                     End If
 
                     DDL_Customer.Focus()
@@ -314,6 +330,8 @@ Public Class Transaction
                 txtTransactionDate.Text = Convert.ToDateTime(dtTransaction.Rows(0)("TransactionDateTime").ToString()).ToString("MM/dd/yyyy")
                 txtTransactionTime.Text = Convert.ToDateTime(dtTransaction.Rows(0)("TransactionDateTime").ToString()).ToString("hh:mm tt")
                 DDL_Customer.SelectedValue = dtTransaction.Rows(0)("CustomerId")
+                LblFinalQuantity.Text = dtTransaction.Rows(0)("FinalQuantity")
+
                 Try
                     DDL_Customer_SelectedIndexChanged(Nothing, Nothing)
                 Catch
@@ -356,6 +374,13 @@ Public Class Transaction
                 lbl_VehicleNumber.Text = dtTransaction.Rows(0)("VehicleNumber")
 
                 txtGuestVehicleNumber.Text = IIf(Convert.ToString(dtTransaction.Rows(0)("VehicleName")).Contains("guest"), dtTransaction.Rows(0)("VehicleNumber"), "")
+
+                'If Convert.ToString(dtTransaction.Rows(0)("VehicleName")).Contains("guest") Then
+                divGuestVehicleNumber.Visible = True
+                'Else
+                'divGuestVehicleNumber.Visible = False
+                'End If
+
                 txtDeptNo.Text = dtTransaction.Rows(0)("DepartmentNumber")
                 Try
                     If dtTransaction.Rows(0)("DepartmentName") IsNot Nothing Then
@@ -363,19 +388,25 @@ Public Class Transaction
                     End If
 
                     If txtDeptNo.Text = "" Then
-                        Dim dtVehicle As DataTable = New DataTable()
-                        OBJMaster = New MasterBAL()
-                        dtVehicle = OBJMaster.GetVehiclebyId(dtTransaction.Rows(0)("VehicleId"))
-                        txtDeptNo.Text = dtVehicle.Rows(0)("DepartmentNumber")
+                        'Dim dtVehicle As DataTable = New DataTable()
+                        'OBJMaster = New MasterBAL()
+                        'dtVehicle = OBJMaster.GetVehiclebyId(dtTransaction.Rows(0)("VehicleId"))
+                        'txtDeptNo.Text = dtVehicle.Rows(0)("DepartmentNumber")
+                        'divDepartmentNumber.Visible = False
                         If dtTransaction.Rows(0)("DeptId") IsNot Nothing Then
                             DDL_Dept.SelectedValue = dtTransaction.Rows(0)("DeptId")
                         End If
+                    Else
+                        'divDepartmentNumber.Visible = True
+                        'divOppDepartmentNumber.Visible = False
                     End If
                 Catch
                 End Try
+                divDepartmentNumber.Visible = True
 
 
                 txtPinNumber.Text = IIf(IsDBNull(dtTransaction.Rows(0)("PersonPin")), "", dtTransaction.Rows(0)("PersonPin"))
+                'Session("PinNumber") = IIf(IsDBNull(dtTransaction.Rows(0)("PersonPin")), "", dtTransaction.Rows(0)("PersonPin"))
                 txtOther.Text = dtTransaction.Rows(0)("Other")
                 txtHours.Text = IIf(IsDBNull(dtTransaction.Rows(0)("Hours")), "", dtTransaction.Rows(0)("Hours"))
                 'CHK_IsMissed.Checked = IIf(IsDBNull(dtTransaction.Rows(0)("IsMissed")), "", dtTransaction.Rows(0)("IsMissed"))
@@ -391,6 +422,11 @@ Public Class Transaction
 
 
                 If (isManuallyEdit = True) Then
+                    If (dtTransaction.Rows(0)("TransactionFrom").ToString().ToUpper() = "W") Then
+                        ManuallyEditMessage.InnerText = "This transaction is manually entered."
+                    Else
+                        ManuallyEditMessage.InnerText = "This transaction is manually edited."
+                    End If
                     ManuallyEditMessage.Visible = True
                 Else
                     ManuallyEditMessage.Visible = False
@@ -487,7 +523,366 @@ Public Class Transaction
     End Sub
 
     Protected Sub btnSave_Click(sender As Object, e As EventArgs) Handles btnSave.Click
+        ValidateAndSaveTransaction(False)
+    End Sub
 
+    Private Function CheckBeforeSave(TransactionId) As Integer
+        Try
+
+            Dim dtTransaction As DataTable = New DataTable()
+            OBJMaster = New MasterBAL()
+            dtTransaction = OBJMaster.GetTransactionById(TransactionId, False)
+
+
+            If (dtTransaction.Rows(0)("CurrentOdometer").ToString() <> txtCurrentOdometer.Text Or dtTransaction.Rows(0)("FuelQuantity") <> txtFuelQuantity.Text Or
+                dtTransaction.Rows(0)("PreviousOdometer").ToString() <> txtPreviousOdometer.Text Or dtTransaction.Rows(0)("FuelTypeId") <> DDL_Fuel.SelectedValue Or
+               Convert.ToDateTime(dtTransaction.Rows(0)("TransactionDateTime").ToString()).ToString("hh:mm tt") <> txtTransactionTime.Text Or
+               Convert.ToDateTime(dtTransaction.Rows(0)("TransactionDateTime").ToString()).ToString("MM/dd/yyyy") <> txtTransactionDate.Text Or
+               dtTransaction.Rows(0)("SiteId") <> DDL_Site.SelectedValue Or dtTransaction.Rows(0)("PersonID") <> hdf_PersonId.Value Or
+               dtTransaction.Rows(0)("VehicleId") <> HDF_VehicleId.Value Or dtTransaction.Rows(0)("VehicleNumber") <> txtGuestVehicleNumber.Text Or
+               dtTransaction.Rows(0)("DepartmentNumber") <> txtDeptNo.Text Or
+                dtTransaction.Rows(0)("Other") <> txtOther.Text Or dtTransaction.Rows(0)("TransactionStatus") <> DDL_TransactionStatus.SelectedValue) Or
+               IIf(IsDBNull(dtTransaction.Rows(0)("Hours")), "", dtTransaction.Rows(0)("Hours")) <> txtHours.Text Or
+               IIf(IsDBNull(dtTransaction.Rows(0)("PreviousHours")), "", dtTransaction.Rows(0)("PreviousHours")) <> txtPreviousHours.Text Or
+                IIf(IsDBNull(dtTransaction.Rows(0)("PersonPin")), "", dtTransaction.Rows(0)("PersonPin")) <> txtPinNumber.Text Then
+
+                Return 1
+            Else
+                Return 0
+            End If
+
+        Catch ex As Exception
+            log.Error("Error occurred in linkEdit_Click Exception is :" + ex.Message)
+            ErrorMessage.Visible = True
+            ErrorMessage.InnerText = "Error occurred while getting data,please try again later."
+            Return 0
+        End Try
+
+    End Function
+
+    Protected Sub btnCancel_Click(sender As Object, e As EventArgs) Handles btnCancel.Click
+        Response.Redirect("~/Master/AllTransactions.aspx?Filter=Filter")
+    End Sub
+
+    'Protected Sub btnCloseVehicle_Click(sender As Object, e As EventArgs)
+    '    'If HDF_PersonnelId.Value.ToString() = Nothing Then
+    '    '    BindVehicles(Convert.ToInt32(DDL_Customer.SelectedValue.ToString()))
+    '    'Else
+    '    '    Dim personid As Integer = Convert.ToInt32(HDF_PersonnelId.Value.ToString())
+    '    '    BindVehicles(Convert.ToInt32(DDL_Customer.SelectedValue.ToString()))
+    '    '    BindVehiclesDataToCheckboxList(personid)
+    '    'End If
+    '    'ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "loadFunction();", True)
+    'End Sub
+
+    Protected Sub First_Click(sender As Object, e As EventArgs) Handles btnFirst.Click
+        Try
+            Dim CurrentTransactionId As Integer = hdfTransactionId.Value
+            Dim strConditions As String = ""
+            If (Not Session("TranConditions") Is Nothing) Then
+                strConditions = Session("TranConditions")
+            Else
+                If (Session("CustomerId") <> 0 And Not Session("CustomerId") Is Nothing) Then
+                    strConditions = IIf(strConditions = "", " and T.CompanyId=" & Session("CustomerId"), strConditions & " and T.CompanyId=" & Session("CustomerId"))
+                End If
+            End If
+            OBJMaster = New MasterBAL()
+            Dim TransactionId As Integer = OBJMaster.GetTransactionIdByCondition(CurrentTransactionId, True, False, False, False, False, Convert.ToInt32(Session("PersonId").ToString()), Session("RoleId").ToString(), Session("CustomerId").ToString(), 0, False, strConditions)
+            hdfTransactionId.Value = TransactionId
+            BindTransactionsDetails(TransactionId)
+
+
+        Catch ex As Exception
+            log.Error("Error occurred in First_Click Exception is :" + ex.Message)
+            ErrorMessage.Visible = True
+            ErrorMessage.InnerText = "Error occurred while getting data, please try again later."
+        End Try
+    End Sub
+
+    Protected Sub btnprevious_Click(sender As Object, e As EventArgs) Handles btnprevious.Click
+        Try
+
+            Dim CurrentTransactionId As Integer = hdfTransactionId.Value
+            Dim strConditions As String = ""
+            If (Not Session("TranConditions") Is Nothing) Then
+                strConditions = Session("TranConditions")
+            Else
+                If (Session("CustomerId") <> 0 And Not Session("CustomerId") Is Nothing) Then
+                    strConditions = IIf(strConditions = "", " and T.CompanyId=" & Session("CustomerId"), strConditions & " and T.CompanyId=" & Session("CustomerId"))
+                End If
+            End If
+            OBJMaster = New MasterBAL()
+            Dim TransactionId As Integer = OBJMaster.GetTransactionIdByCondition(CurrentTransactionId, False, False, False, True, False, Convert.ToInt32(Session("PersonId").ToString()), Session("RoleId").ToString(), Session("CustomerId").ToString(), 0, False, strConditions)
+            hdfTransactionId.Value = TransactionId
+            BindTransactionsDetails(TransactionId)
+        Catch ex As Exception
+            log.Error("Error occurred in btnprevious_Click Exception is :" + ex.Message)
+            ErrorMessage.Visible = True
+            ErrorMessage.InnerText = "Error occurred while getting data, please try again later."
+        End Try
+    End Sub
+
+    Protected Sub btnNext_Click(sender As Object, e As EventArgs) Handles btnNext.Click
+        Try
+            Dim CurrentTransactionId As Integer = hdfTransactionId.Value
+            Dim strConditions As String = ""
+            If (Not Session("TranConditions") Is Nothing) Then
+                strConditions = Session("TranConditions")
+            Else
+                If (Session("CustomerId") <> 0 And Not Session("CustomerId") Is Nothing) Then
+                    strConditions = IIf(strConditions = "", " and T.CompanyId=" & Session("CustomerId"), strConditions & " and T.CompanyId=" & Session("CustomerId"))
+                End If
+            End If
+            OBJMaster = New MasterBAL()
+            Dim TransactionId As Integer = OBJMaster.GetTransactionIdByCondition(CurrentTransactionId, False, False, True, False, False, Convert.ToInt32(Session("PersonId").ToString()), Session("RoleId").ToString(), Session("CustomerId").ToString(), 0, False, strConditions)
+            hdfTransactionId.Value = TransactionId
+            BindTransactionsDetails(TransactionId)
+        Catch ex As Exception
+            log.Error("Error occurred in btnNext_Click Exception is :" + ex.Message)
+            ErrorMessage.Visible = True
+            ErrorMessage.InnerText = "Error occurred while getting data, please try again later."
+        End Try
+    End Sub
+
+    Protected Sub btnLast_Click(sender As Object, e As EventArgs) Handles btnLast.Click
+        Try
+            Dim CurrentTransactionId As Integer = hdfTransactionId.Value
+            Dim strConditions As String = ""
+            If (Not Session("TranConditions") Is Nothing) Then
+                strConditions = Session("TranConditions")
+            Else
+                If (Session("CustomerId") <> 0 And Not Session("CustomerId") Is Nothing) Then
+                    strConditions = IIf(strConditions = "", " and T.CompanyId=" & Session("CustomerId"), strConditions & " and T.CompanyId=" & Session("CustomerId"))
+                End If
+            End If
+            OBJMaster = New MasterBAL()
+            Dim TransactionId As Integer = OBJMaster.GetTransactionIdByCondition(CurrentTransactionId, False, True, False, False, False, Convert.ToInt32(Session("PersonId").ToString()), Session("RoleId").ToString(), Session("CustomerId").ToString(), 0, False, strConditions)
+            hdfTransactionId.Value = TransactionId
+            BindTransactionsDetails(TransactionId)
+        Catch ex As Exception
+            log.Error("Error occurred in btnLast_Click Exception is :" + ex.Message)
+            ErrorMessage.Visible = True
+            ErrorMessage.InnerText = "Error occurred while getting data, please try again later."
+        End Try
+    End Sub
+
+    Protected Sub DDL_Customer_SelectedIndexChanged(sender As Object, e As EventArgs) Handles DDL_Customer.SelectedIndexChanged
+        Try
+            BindSites(Convert.ToInt32(DDL_Customer.SelectedValue))
+            BindDepartment(Convert.ToInt32(DDL_Customer.SelectedValue))
+            BindAllPersonnels(Convert.ToInt32(DDL_Customer.SelectedValue))
+            BindAllVehicles(Convert.ToInt32(DDL_Customer.SelectedValue))
+            BindFuelTypes(DDL_Customer.SelectedValue)
+        Catch ex As Exception
+            log.Error("Error occurred in DDL_Customer_SelectedIndexChanged Exception is :" + ex.Message)
+            ErrorMessage.Visible = True
+            ErrorMessage.InnerText = "Error occurred while getting data, please try again later."
+        Finally
+            ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "LoadDateTimeControl();", True)
+        End Try
+    End Sub
+
+    'Protected Sub DDL_Vehicle_SelectedIndexChanged(sender As Object, e As EventArgs)
+
+    '    Dim dtVehicle As DataTable = New DataTable()
+    '    OBJMaster = New MasterBAL()
+    '    'dtVehicle = OBJMaster.GetVehiclebyId(DDL_Vehicle.SelectedValue)
+
+    '    DDL_Dept.SelectedValue = dtVehicle.Rows(0)("DepartmentId")
+    '    txtDeptNo.Text = dtVehicle.Rows(0)("DepartmentNumber")
+    '    lblVehicleName.Text = dtVehicle.Rows(0)("VehicleName")
+
+    '    ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "LoadDateTimeControl();", True)
+    'End Sub
+
+    'Protected Sub DDL_Personnel_SelectedIndexChanged(sender As Object, e As EventArgs)
+    '    OBJMaster = New MasterBAL()
+    '    Dim personId As Integer = Convert.ToInt32(DDL_Personnel.SelectedValue)
+    '    Dim dtPerson As DataTable = OBJMaster.GetPersonnelByNameAndNumberAndEmail(" And ANU.PersonId = " & personId & "", Convert.ToInt32(Session("PersonId").ToString()), Session("RoleId").ToString())
+    '    txtPinNumber.Text = dtPerson.Rows(0)("PinNumber").ToString()
+    '    ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "LoadDateTimeControl();", True)
+    'End Sub
+
+    Protected Sub txtPinNumber_TextChanged(sender As Object, e As EventArgs)
+        Try
+            OBJMaster = New MasterBAL()
+            Dim dtPerson As DataTable = OBJMaster.GetPersonnelByNameAndNumberAndEmail(" And ANU.PinNumber = '" & txtPinNumber.Text & "' and ANU.CustomerId=" & DDL_Customer.SelectedValue, Convert.ToInt32(Session("PersonId").ToString()), Session("RoleId").ToString())
+            If (dtPerson.Rows.Count > 0) Then
+                hdf_PersonId.Value = dtPerson.Rows(0)("PersonId")
+                hdf_UniqueId.Value = dtPerson.Rows(0)("Id")
+                LBL_SelectedPerson.Text = dtPerson.Rows(0)("PersonName").ToString() & "," & dtPerson.Rows(0)("PinNumber").ToString()
+                hdf_PersonName.Value = dtPerson.Rows(0)("PersonName").ToString()
+                For Each rows As GridViewRow In gv_Persons.Rows
+                    If (dtPerson.Rows(0)("PersonId") = gv_Persons.DataKeys(rows.RowIndex).Values("PersonId").ToString()) Then
+                        TryCast(rows.FindControl("RDB_Person"), RadioButton).Checked = True
+                    End If
+                Next
+            Else
+                BindAllPersonnels(DDL_Customer.SelectedValue)
+                hdf_PersonId.Value = ""
+                hdf_UniqueId.Value = ""
+                LBL_SelectedPerson.Text = ""
+                hdf_PersonName.Value = ""
+            End If
+
+        Catch ex As Exception
+            log.Error("Error occurred in txtPinNumber_TextChanged Exception is :" + ex.Message)
+            ErrorMessage.Visible = True
+            ErrorMessage.InnerText = "Error occurred while getting data, please try again later."
+        Finally
+            ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "LoadDateTimeControl();", True)
+        End Try
+    End Sub
+
+    Protected Sub DDL_Site_SelectedIndexChanged(sender As Object, e As EventArgs)
+        Try
+            OBJMaster = New MasterBAL()
+            Dim SiteId As Integer = Convert.ToInt32(DDL_Site.SelectedValue)
+            Dim dtSites As DataTable = OBJMaster.GetSiteByCondition(" and s.siteId = " & SiteId & "", Convert.ToInt32(Session("PersonId").ToString()), Session("RoleId").ToString(), False)
+            If (dtSites.Rows.Count > 0) Then
+                DDL_Fuel.SelectedValue = dtSites.Rows(0)("FuelTypeId").ToString()
+            Else
+                DDL_Fuel.SelectedValue = 0
+            End If
+
+        Catch ex As Exception
+            log.Error("Error occurred in DDL_Site_SelectedIndexChanged Exception is :" + ex.Message)
+            ErrorMessage.Visible = True
+            ErrorMessage.InnerText = "Error occurred while getting data, please try again later."
+        Finally
+            ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "LoadDateTimeControl();", True)
+        End Try
+
+    End Sub
+
+    Private Function CreateData(TransactionId As Integer) As String
+        Try
+
+            Dim data As String = "TransactionId = " & TransactionId & " ; " &
+                                    "Vehicle Number = " & HDF_VehicleNumber.Value.Replace(",", " ") & " ; " &
+                                    "Vehicle Name = " & lblVehicleName.Text.Replace(",", " ") & " ; " &
+                                    "Department = " & DDL_Dept.SelectedItem.Text.Replace(",", " ") & " ; " &
+                                    "Department Number = " & txtDeptNo.Text.Replace(",", " ") & " ; " &
+                                    "Guest Vehicle Number = " & txtGuestVehicleNumber.Text.Replace(",", " ") & " ; " &
+                                    "FluidSecure Link = " & DDL_Site.Text.Replace(",", " ") & " ; " &
+                                    "Fuel Quantity = " & txtFuelQuantity.Text.Replace(",", " ") & " ; " &
+                                    "Other = " & txtOther.Text.Replace(",", " ") & " ; " &
+                                    "Company = " & DDL_Customer.SelectedItem.Text & " ; " &
+                                    "Cost = " & lblCost.InnerText.Trim().Replace(",", " ") & " ; " &
+                                    "Cost Per Gallon = " & lblCostPerGallon.InnerText.Trim().Replace(",", " ") & " ; " &
+                                    "SurchargeT ype = " & lblSurchargeType.InnerText.Trim().Replace(",", " ") & " ; " &
+                                    "Vehicle Sum = " & lblVehicleSum.InnerText.Trim().Replace(",", " ") & " ; " &
+                                    "department Sum = " & lblDeptSum.InnerText.Trim().Replace(",", " ") & " ; " &
+                                    "Veh Percentage = " & lblVehPercentage.InnerText.Trim().Replace(",", " ") & " ; " &
+                                    "Dept Percentage = " & lblDeptPercentage.InnerText.Trim().Replace(",", " ") & " ; " &
+                                    "Transaction Date = " & txtTransactionDate.Text.Replace(",", " ") & " ; " &
+                                    "Transaction Time = " & txtTransactionTime.Text.Replace(",", " ") & " ; " &
+                                    "Person = " & hdf_PersonName.Value & " ; " &
+                                    "Current Odometer = " & txtCurrentOdometer.Text.Replace(",", " ") & " ; " &
+                                    "Previous Odometer = " & txtPreviousOdometer.Text.Replace(",", " ") & " ; " &
+                                    "Previous Hours = " & txtPreviousHours.Text.Replace(",", " ") & " ; " &
+                                    "Hours = " & txtHours.Text.Replace(",", " ") & " ; " &
+                                    "Fuel Type = " & DDL_Fuel.SelectedItem.Text.Replace(",", " ") & " ; " &
+                                    "Person PIN = " & txtPinNumber.Text.Replace(",", " ") & " ; " &
+                                    "Transaction Status = " & DDL_TransactionStatus.SelectedItem.Text.Replace(",", " ") & " ; "
+
+
+
+            Return data
+        Catch ex As Exception
+            log.Error(String.Format("Error Occurred while CreateData. Error is {0}.", ex.Message))
+            Return ""
+        End Try
+
+    End Function
+
+    Protected Sub btnOk_Click(sender As Object, e As EventArgs)
+        Try
+            Dim isChecked As Boolean = False
+            For Each item As GridViewRow In gv_Vehicles.Rows
+
+                Dim RDB_Vehicle As RadioButton = TryCast(item.FindControl("RDB_Vehicle"), RadioButton)
+                If (RDB_Vehicle.Checked = True) Then
+                    isChecked = True
+                    HDF_VehicleId.Value = gv_Vehicles.DataKeys(item.RowIndex).Values("VehicleId").ToString()
+                    HDF_VehicleNumber.Value = gv_Vehicles.DataKeys(item.RowIndex).Values("VehicleNumber").ToString()
+
+                    Dim dtVehicle As DataTable = New DataTable()
+                    OBJMaster = New MasterBAL()
+                    dtVehicle = OBJMaster.GetVehiclebyId(HDF_VehicleId.Value)
+
+                    DDL_Dept.SelectedValue = dtVehicle.Rows(0)("DepartmentId")
+                    txtDeptNo.Text = dtVehicle.Rows(0)("DepartmentNumber")
+                    lblVehicleName.Text = dtVehicle.Rows(0)("VehicleName")
+                    lbl_VehicleNumber.Text = gv_Vehicles.DataKeys(item.RowIndex).Values("VehicleNumber").ToString()
+                    Exit For
+                End If
+            Next
+
+            If (isChecked = False) Then
+                lblVehicleName.Text = ""
+                lbl_VehicleNumber.Text = ""
+            End If
+        Catch ex As Exception
+            log.Error("Error occurred in btnOk_Click Exception is :" + ex.Message)
+            ErrorMessage.Visible = True
+            ErrorMessage.InnerText = "Error occurred while getting data, please try again later."
+        Finally
+            ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "LoadDateTimeControl();", True)
+        End Try
+    End Sub
+
+    Protected Sub btnOkPerson_Click(sender As Object, e As EventArgs)
+        Try
+            Dim isChecked As Boolean = False
+            For Each item As GridViewRow In gv_Persons.Rows
+
+                Dim RDB_Person As RadioButton = TryCast(item.FindControl("RDB_Person"), RadioButton)
+                If (RDB_Person.Checked = True) Then
+                    isChecked = True
+                    hdf_PersonId.Value = gv_Persons.DataKeys(item.RowIndex).Values("PersonId").ToString()
+                    hdf_UniqueId.Value = gv_Persons.DataKeys(item.RowIndex).Values("Id").ToString()
+
+                    Dim dtPerson As DataTable = New DataTable()
+                    OBJMaster = New MasterBAL()
+                    dtPerson = OBJMaster.GetPersonnelByPersonIdAndId(hdf_PersonId.Value, hdf_UniqueId.Value)
+                    LBL_SelectedPerson.Text = dtPerson.Rows(0)("PersonName").ToString() & "," & dtPerson.Rows(0)("PinNumber").ToString()
+                    txtPinNumber.Text = dtPerson.Rows(0)("PinNumber").ToString()
+                    'Session("PinNumber") = dtPerson.Rows(0)("PinNumber").ToString()
+                    hdf_PersonName.Value = dtPerson.Rows(0)("PersonName").ToString()
+                    Exit For
+                End If
+            Next
+
+            If (isChecked = False) Then
+
+            End If
+        Catch ex As Exception
+            log.Error("Error occurred in btnOkPerson_Click Exception is :" + ex.Message)
+            ErrorMessage.Visible = True
+            ErrorMessage.InnerText = "Error occurred while getting data, please try again later."
+        Finally
+            ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "LoadDateTimeControl();", True)
+        End Try
+    End Sub
+
+    Private Sub BindTransactionStatus()
+        Try
+            DDL_TransactionStatus.Items.Insert(0, New ListItem("Select Transaction Status", "-1"))
+            DDL_TransactionStatus.Items.Insert(1, New ListItem(ConfigurationManager.AppSettings("MissedText").ToString(), "1"))
+            DDL_TransactionStatus.Items.Insert(2, New ListItem(ConfigurationManager.AppSettings("CompletedText").ToString(), "2"))
+        Catch ex As Exception
+            log.Error("Error occurred in BindTransactionStatus Exception is :" + ex.Message)
+            ErrorMessage.Visible = True
+            ErrorMessage.InnerText = "Error occurred while getting data, please try again later."
+        End Try
+    End Sub
+
+    Protected Sub btnSaveAndAddNew_Click(sender As Object, e As EventArgs)
+        ValidateAndSaveTransaction(True)
+    End Sub
+
+    Private Sub ValidateAndSaveTransaction(IsSaveAndAddNew As Boolean)
         Dim TransactionId As Integer = 0
         Try
             If CSCommonHelper.CheckSessionExpired() = False Then
@@ -738,7 +1133,7 @@ Public Class Transaction
             result = OBJMaster.InsertUpdateTransaction(HDF_VehicleId.Value, Site, PersonId, CurrentOdometer, FQunty, Fuel, 0, Nothing,
                                                      transactionDatetime, TransactionId, Convert.ToInt32(Session("PersonId")), "W", PreviousOdometer, "", "", "", vehicleNumber, txtDeptNo.Text,
                                                      txtPinNumber.Text, txtOther.Text, IIf(txtHours.Text = "", -1, txtHours.Text), IsMissed, False, TransactionStatus, HubId, -1,
-                                                        VehicleName, DepartmentName, FuelTypeName, Email, PersonName, CompanyName, False, Convert.ToInt32(DDL_Customer.SelectedValue), IIf(txtPreviousHours.Text = "", -1, txtPreviousHours.Text), 0, 0)
+                                                        VehicleName, DepartmentName, FuelTypeName, Email, PersonName, CompanyName, False, Convert.ToInt32(DDL_Customer.SelectedValue), IIf(txtPreviousHours.Text = "", -1, txtPreviousHours.Text), 0, 0, 0, False)
 
             'result = OBJMaster.InsertUpdateTransaction(HDF_VehicleId.Value, DDL_Site.SelectedValue, hdf_PersonId.Value, txtCurrentOdometer.Text, txtFuelQuantity.Text, DDL_Fuel.SelectedValue, 0, Nothing,
             '                                         transactionDatetime, TransactionId, Convert.ToInt32(Session("PersonId")), "W", txtPreviousOdometer.Text, "", "", "", vehicleNumber, txtDeptNo.Text,
@@ -755,7 +1150,11 @@ Public Class Transaction
                         Dim writtenData As String = CreateData(TransactionId)
                         CSCommonHelper.WriteLog("Modified", "Transactions", beforeData, writtenData, Session("PersonName").ToString() & "(" & Session("PersonEmail").ToString() & ")", Session("IPAddress").ToString(), "success", "")
                     End If
-                    BindTransactionsDetails(result)
+                    If (IsSaveAndAddNew = True) Then
+                        Response.Redirect(String.Format("~/Master/Transaction"))
+                    Else
+                        BindTransactionsDetails(result)
+                    End If
                 Else
 
                     If Not txtCurrentOdometer.Text = "" Then
@@ -766,8 +1165,12 @@ Public Class Transaction
                         Dim writtenData As String = CreateData(result)
                         CSCommonHelper.WriteLog("Added", "Transactions", beforeData, writtenData, Session("PersonName").ToString() & "(" & Session("PersonEmail").ToString() & ")", Session("IPAddress").ToString(), "success", "")
                     End If
+                    If (IsSaveAndAddNew = True) Then
+                        Response.Redirect(String.Format("~/Master/Transaction"))
+                    Else
+                        Response.Redirect(String.Format("~/Master/Transaction?TransactionId={0}&RecordIs=New", result))
+                    End If
 
-                    Response.Redirect(String.Format("~/Master/Transaction?TransactionId={0}&RecordIs=New", result))
                 End If
 
             Else
@@ -818,357 +1221,6 @@ Public Class Transaction
 
         Finally
             ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "LoadDateTimeControl();", True)
-        End Try
-    End Sub
-
-    Private Function CheckBeforeSave(TransactionId) As Integer
-        Try
-
-            Dim dtTransaction As DataTable = New DataTable()
-            OBJMaster = New MasterBAL()
-            dtTransaction = OBJMaster.GetTransactionById(TransactionId, False)
-
-
-            If (dtTransaction.Rows(0)("CurrentOdometer") <> txtCurrentOdometer.Text Or dtTransaction.Rows(0)("FuelQuantity") <> txtFuelQuantity.Text Or
-                dtTransaction.Rows(0)("PreviousOdometer") <> txtPreviousOdometer.Text Or dtTransaction.Rows(0)("FuelTypeId") <> DDL_Fuel.SelectedValue Or
-               Convert.ToDateTime(dtTransaction.Rows(0)("TransactionDateTime").ToString()).ToString("hh:mm tt") <> txtTransactionTime.Text Or
-               Convert.ToDateTime(dtTransaction.Rows(0)("TransactionDateTime").ToString()).ToString("MM/dd/yyyy") <> txtTransactionDate.Text Or
-               dtTransaction.Rows(0)("SiteId") <> DDL_Site.SelectedValue Or dtTransaction.Rows(0)("PersonID") <> hdf_PersonId.Value Or
-               dtTransaction.Rows(0)("VehicleId") <> HDF_VehicleId.Value Or dtTransaction.Rows(0)("VehicleNumber") <> txtGuestVehicleNumber.Text Or
-               dtTransaction.Rows(0)("DepartmentNumber") <> txtDeptNo.Text Or
-               IIf(IsDBNull(dtTransaction.Rows(0)("PersonPin")), "", dtTransaction.Rows(0)("PersonPin")) <> txtPinNumber.Text Or
-               dtTransaction.Rows(0)("Other") <> txtOther.Text Or dtTransaction.Rows(0)("TransactionStatus") <> DDL_TransactionStatus.SelectedValue) Or
-               IIf(IsDBNull(dtTransaction.Rows(0)("Hours")), "", dtTransaction.Rows(0)("Hours")) <> txtHours.Text Or
-               IIf(IsDBNull(dtTransaction.Rows(0)("PreviousHours")), "", dtTransaction.Rows(0)("PreviousHours")) <> txtPreviousHours.Text Then
-                Return 1
-            Else
-                Return 0
-            End If
-
-        Catch ex As Exception
-            log.Error("Error occurred in linkEdit_Click Exception is :" + ex.Message)
-            ErrorMessage.Visible = True
-            ErrorMessage.InnerText = "Error occurred while getting data,please try again later."
-            Return 0
-        End Try
-
-    End Function
-
-    Protected Sub btnCancel_Click(sender As Object, e As EventArgs) Handles btnCancel.Click
-        Response.Redirect("~/Master/AllTransactions.aspx?Filter=Filter")
-    End Sub
-
-    'Protected Sub btnCloseVehicle_Click(sender As Object, e As EventArgs)
-    '    'If HDF_PersonnelId.Value.ToString() = Nothing Then
-    '    '    BindVehicles(Convert.ToInt32(DDL_Customer.SelectedValue.ToString()))
-    '    'Else
-    '    '    Dim personid As Integer = Convert.ToInt32(HDF_PersonnelId.Value.ToString())
-    '    '    BindVehicles(Convert.ToInt32(DDL_Customer.SelectedValue.ToString()))
-    '    '    BindVehiclesDataToCheckboxList(personid)
-    '    'End If
-    '    'ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "loadFunction();", True)
-    'End Sub
-
-    Protected Sub First_Click(sender As Object, e As EventArgs) Handles btnFirst.Click
-        Try
-            Dim CurrentTransactionId As Integer = hdfTransactionId.Value
-            Dim strConditions As String = ""
-            If (Not Session("TranConditions") Is Nothing) Then
-                strConditions = Session("TranConditions")
-            Else
-                If (Session("CustomerId") <> 0 And Not Session("CustomerId") Is Nothing) Then
-                    strConditions = IIf(strConditions = "", " and T.CompanyId=" & Session("CustomerId"), strConditions & " and T.CompanyId=" & Session("CustomerId"))
-                End If
-            End If
-            OBJMaster = New MasterBAL()
-            Dim TransactionId As Integer = OBJMaster.GetTransactionIdByCondition(CurrentTransactionId, True, False, False, False, False, Convert.ToInt32(Session("PersonId").ToString()), Session("RoleId").ToString(), Session("CustomerId").ToString(), 0, False, strConditions)
-            hdfTransactionId.Value = TransactionId
-            BindTransactionsDetails(TransactionId)
-
-
-        Catch ex As Exception
-            log.Error("Error occurred in First_Click Exception is :" + ex.Message)
-            ErrorMessage.Visible = True
-            ErrorMessage.InnerText = "Error occurred while getting data, please try again later."
-        End Try
-    End Sub
-
-    Protected Sub btnprevious_Click(sender As Object, e As EventArgs) Handles btnprevious.Click
-        Try
-
-            Dim CurrentTransactionId As Integer = hdfTransactionId.Value
-            Dim strConditions As String = ""
-            If (Not Session("TranConditions") Is Nothing) Then
-                strConditions = Session("TranConditions")
-            Else
-                If (Session("CustomerId") <> 0 And Not Session("CustomerId") Is Nothing) Then
-                    strConditions = IIf(strConditions = "", " and T.CompanyId=" & Session("CustomerId"), strConditions & " and T.CompanyId=" & Session("CustomerId"))
-                End If
-            End If
-            OBJMaster = New MasterBAL()
-            Dim TransactionId As Integer = OBJMaster.GetTransactionIdByCondition(CurrentTransactionId, False, False, False, True, False, Convert.ToInt32(Session("PersonId").ToString()), Session("RoleId").ToString(), Session("CustomerId").ToString(), 0, False, strConditions)
-            hdfTransactionId.Value = TransactionId
-            BindTransactionsDetails(TransactionId)
-        Catch ex As Exception
-            log.Error("Error occurred in btnprevious_Click Exception is :" + ex.Message)
-            ErrorMessage.Visible = True
-            ErrorMessage.InnerText = "Error occurred while getting data, please try again later."
-        End Try
-    End Sub
-
-    Protected Sub btnNext_Click(sender As Object, e As EventArgs) Handles btnNext.Click
-        Try
-            Dim CurrentTransactionId As Integer = hdfTransactionId.Value
-            Dim strConditions As String = ""
-            If (Not Session("TranConditions") Is Nothing) Then
-                strConditions = Session("TranConditions")
-            Else
-                If (Session("CustomerId") <> 0 And Not Session("CustomerId") Is Nothing) Then
-                    strConditions = IIf(strConditions = "", " and T.CompanyId=" & Session("CustomerId"), strConditions & " and T.CompanyId=" & Session("CustomerId"))
-                End If
-            End If
-            OBJMaster = New MasterBAL()
-            Dim TransactionId As Integer = OBJMaster.GetTransactionIdByCondition(CurrentTransactionId, False, False, True, False, False, Convert.ToInt32(Session("PersonId").ToString()), Session("RoleId").ToString(), Session("CustomerId").ToString(), 0, False, strConditions)
-            hdfTransactionId.Value = TransactionId
-            BindTransactionsDetails(TransactionId)
-        Catch ex As Exception
-            log.Error("Error occurred in btnNext_Click Exception is :" + ex.Message)
-            ErrorMessage.Visible = True
-            ErrorMessage.InnerText = "Error occurred while getting data, please try again later."
-        End Try
-    End Sub
-
-    Protected Sub btnLast_Click(sender As Object, e As EventArgs) Handles btnLast.Click
-        Try
-            Dim CurrentTransactionId As Integer = hdfTransactionId.Value
-            Dim strConditions As String = ""
-            If (Not Session("TranConditions") Is Nothing) Then
-                strConditions = Session("TranConditions")
-            Else
-                If (Session("CustomerId") <> 0 And Not Session("CustomerId") Is Nothing) Then
-                    strConditions = IIf(strConditions = "", " and T.CompanyId=" & Session("CustomerId"), strConditions & " and T.CompanyId=" & Session("CustomerId"))
-                End If
-            End If
-            OBJMaster = New MasterBAL()
-            Dim TransactionId As Integer = OBJMaster.GetTransactionIdByCondition(CurrentTransactionId, False, True, False, False, False, Convert.ToInt32(Session("PersonId").ToString()), Session("RoleId").ToString(), Session("CustomerId").ToString(), 0, False, strConditions)
-            hdfTransactionId.Value = TransactionId
-            BindTransactionsDetails(TransactionId)
-        Catch ex As Exception
-            log.Error("Error occurred in btnLast_Click Exception is :" + ex.Message)
-            ErrorMessage.Visible = True
-            ErrorMessage.InnerText = "Error occurred while getting data, please try again later."
-        End Try
-    End Sub
-
-    Protected Sub DDL_Customer_SelectedIndexChanged(sender As Object, e As EventArgs) Handles DDL_Customer.SelectedIndexChanged
-        Try
-            BindSites(Convert.ToInt32(DDL_Customer.SelectedValue))
-            BindDepartment(Convert.ToInt32(DDL_Customer.SelectedValue))
-            BindAllPersonnels(Convert.ToInt32(DDL_Customer.SelectedValue))
-            BindAllVehicles(Convert.ToInt32(DDL_Customer.SelectedValue))
-            BindFuelTypes(DDL_Customer.SelectedValue)
-        Catch ex As Exception
-            log.Error("Error occurred in DDL_Customer_SelectedIndexChanged Exception is :" + ex.Message)
-            ErrorMessage.Visible = True
-            ErrorMessage.InnerText = "Error occurred while getting data, please try again later."
-        Finally
-            ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "LoadDateTimeControl();", True)
-        End Try
-    End Sub
-
-    'Protected Sub DDL_Vehicle_SelectedIndexChanged(sender As Object, e As EventArgs)
-
-    '    Dim dtVehicle As DataTable = New DataTable()
-    '    OBJMaster = New MasterBAL()
-    '    'dtVehicle = OBJMaster.GetVehiclebyId(DDL_Vehicle.SelectedValue)
-
-    '    DDL_Dept.SelectedValue = dtVehicle.Rows(0)("DepartmentId")
-    '    txtDeptNo.Text = dtVehicle.Rows(0)("DepartmentNumber")
-    '    lblVehicleName.Text = dtVehicle.Rows(0)("VehicleName")
-
-    '    ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "LoadDateTimeControl();", True)
-    'End Sub
-
-    'Protected Sub DDL_Personnel_SelectedIndexChanged(sender As Object, e As EventArgs)
-    '    OBJMaster = New MasterBAL()
-    '    Dim personId As Integer = Convert.ToInt32(DDL_Personnel.SelectedValue)
-    '    Dim dtPerson As DataTable = OBJMaster.GetPersonnelByNameAndNumberAndEmail(" And ANU.PersonId = " & personId & "", Convert.ToInt32(Session("PersonId").ToString()), Session("RoleId").ToString())
-    '    txtPinNumber.Text = dtPerson.Rows(0)("PinNumber").ToString()
-    '    ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "LoadDateTimeControl();", True)
-    'End Sub
-
-    Protected Sub txtPinNumber_TextChanged(sender As Object, e As EventArgs)
-        Try
-            OBJMaster = New MasterBAL()
-            Dim dtPerson As DataTable = OBJMaster.GetPersonnelByNameAndNumberAndEmail(" And ANU.PinNumber = '" & txtPinNumber.Text & "' and ANU.CustomerId=" & DDL_Customer.SelectedValue, Convert.ToInt32(Session("PersonId").ToString()), Session("RoleId").ToString())
-            If (dtPerson.Rows.Count > 0) Then
-                hdf_PersonId.Value = dtPerson.Rows(0)("PersonId")
-                hdf_UniqueId.Value = dtPerson.Rows(0)("Id")
-                LBL_SelectedPerson.Text = dtPerson.Rows(0)("PersonName").ToString() & "," & dtPerson.Rows(0)("PinNumber").ToString()
-                hdf_PersonName.Value = dtPerson.Rows(0)("PersonName").ToString()
-                For Each rows As GridViewRow In gv_Persons.Rows
-                    If (dtPerson.Rows(0)("PersonId") = gv_Persons.DataKeys(rows.RowIndex).Values("PersonId").ToString()) Then
-                        TryCast(rows.FindControl("RDB_Person"), RadioButton).Checked = True
-                    End If
-                Next
-            Else
-                BindAllPersonnels(DDL_Customer.SelectedValue)
-                hdf_PersonId.Value = ""
-                hdf_UniqueId.Value = ""
-                LBL_SelectedPerson.Text = ""
-                hdf_PersonName.Value = ""
-            End If
-
-        Catch ex As Exception
-            log.Error("Error occurred in txtPinNumber_TextChanged Exception is :" + ex.Message)
-            ErrorMessage.Visible = True
-            ErrorMessage.InnerText = "Error occurred while getting data, please try again later."
-        Finally
-            ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "LoadDateTimeControl();", True)
-        End Try
-
-
-
-    End Sub
-
-    Protected Sub DDL_Site_SelectedIndexChanged(sender As Object, e As EventArgs)
-        Try
-            OBJMaster = New MasterBAL()
-            Dim SiteId As Integer = Convert.ToInt32(DDL_Site.SelectedValue)
-            Dim dtSites As DataTable = OBJMaster.GetSiteByCondition(" and s.siteId = " & SiteId & "", Convert.ToInt32(Session("PersonId").ToString()), Session("RoleId").ToString(), False)
-            If (dtSites.Rows.Count > 0) Then
-                DDL_Fuel.SelectedValue = dtSites.Rows(0)("FuelTypeId").ToString()
-            Else
-                DDL_Fuel.SelectedValue = 0
-            End If
-
-        Catch ex As Exception
-            log.Error("Error occurred in DDL_Site_SelectedIndexChanged Exception is :" + ex.Message)
-            ErrorMessage.Visible = True
-            ErrorMessage.InnerText = "Error occurred while getting data, please try again later."
-        Finally
-            ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "LoadDateTimeControl();", True)
-        End Try
-
-    End Sub
-
-    Private Function CreateData(TransactionId As Integer) As String
-        Try
-
-            Dim data As String = "TransactionId = " & TransactionId & " ; " &
-                                    "Vehicle Number = " & HDF_VehicleNumber.Value.Replace(",", " ") & " ; " &
-                                    "Vehicle Name = " & lblVehicleName.Text.Replace(",", " ") & " ; " &
-                                    "Department = " & DDL_Dept.SelectedItem.Text.Replace(",", " ") & " ; " &
-                                    "Department Number = " & txtDeptNo.Text.Replace(",", " ") & " ; " &
-                                    "Guest Vehicle Number = " & txtGuestVehicleNumber.Text.Replace(",", " ") & " ; " &
-                                    "FluidSecure Link = " & DDL_Site.Text.Replace(",", " ") & " ; " &
-                                    "Fuel Quantity = " & txtFuelQuantity.Text.Replace(",", " ") & " ; " &
-                                    "Other = " & txtOther.Text.Replace(",", " ") & " ; " &
-                                    "Company = " & DDL_Customer.SelectedItem.Text & " ; " &
-                                    "Cost = " & lblCost.InnerText.Trim().Replace(",", " ") & " ; " &
-                                    "Cost Per Gallon = " & lblCostPerGallon.InnerText.Trim().Replace(",", " ") & " ; " &
-                                    "SurchargeT ype = " & lblSurchargeType.InnerText.Trim().Replace(",", " ") & " ; " &
-                                    "Vehicle Sum = " & lblVehicleSum.InnerText.Trim().Replace(",", " ") & " ; " &
-                                    "department Sum = " & lblDeptSum.InnerText.Trim().Replace(",", " ") & " ; " &
-                                    "Veh Percentage = " & lblVehPercentage.InnerText.Trim().Replace(",", " ") & " ; " &
-                                    "Dept Percentage = " & lblDeptPercentage.InnerText.Trim().Replace(",", " ") & " ; " &
-                                    "Transaction Date = " & txtTransactionDate.Text.Replace(",", " ") & " ; " &
-                                    "Transaction Time = " & txtTransactionTime.Text.Replace(",", " ") & " ; " &
-                                    "Person = " & hdf_PersonName.Value & " ; " &
-                                    "Person PIN = " & txtPinNumber.Text.Replace(",", " ") & " ; " &
-                                    "Current Odometer = " & txtCurrentOdometer.Text.Replace(",", " ") & " ; " &
-                                    "Previous Odometer = " & txtPreviousOdometer.Text.Replace(",", " ") & " ; " &
-                                    "Previous Hours = " & txtPreviousHours.Text.Replace(",", " ") & " ; " &
-                                    "Hours = " & txtHours.Text.Replace(",", " ") & " ; " &
-                                    "Fuel Type = " & DDL_Fuel.SelectedItem.Text.Replace(",", " ") & " ; " &
-                                    "Transaction Status = " & DDL_TransactionStatus.SelectedItem.Text.Replace(",", " ") & " ; "
-
-            Return data
-        Catch ex As Exception
-            log.Error(String.Format("Error Occurred while CreateData. Error is {0}.", ex.Message))
-            Return ""
-        End Try
-
-    End Function
-
-    Protected Sub btnOk_Click(sender As Object, e As EventArgs)
-        Try
-            Dim isChecked As Boolean = False
-            For Each item As GridViewRow In gv_Vehicles.Rows
-
-                Dim RDB_Vehicle As RadioButton = TryCast(item.FindControl("RDB_Vehicle"), RadioButton)
-                If (RDB_Vehicle.Checked = True) Then
-                    isChecked = True
-                    HDF_VehicleId.Value = gv_Vehicles.DataKeys(item.RowIndex).Values("VehicleId").ToString()
-                    HDF_VehicleNumber.Value = gv_Vehicles.DataKeys(item.RowIndex).Values("VehicleNumber").ToString()
-
-                    Dim dtVehicle As DataTable = New DataTable()
-                    OBJMaster = New MasterBAL()
-                    dtVehicle = OBJMaster.GetVehiclebyId(HDF_VehicleId.Value)
-
-                    DDL_Dept.SelectedValue = dtVehicle.Rows(0)("DepartmentId")
-                    txtDeptNo.Text = dtVehicle.Rows(0)("DepartmentNumber")
-                    lblVehicleName.Text = dtVehicle.Rows(0)("VehicleName")
-                    lbl_VehicleNumber.Text = gv_Vehicles.DataKeys(item.RowIndex).Values("VehicleNumber").ToString()
-                    Exit For
-                End If
-            Next
-
-            If (isChecked = False) Then
-                lblVehicleName.Text = ""
-                lbl_VehicleNumber.Text = ""
-            End If
-        Catch ex As Exception
-            log.Error("Error occurred in btnOk_Click Exception is :" + ex.Message)
-            ErrorMessage.Visible = True
-            ErrorMessage.InnerText = "Error occurred while getting data, please try again later."
-        Finally
-            ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "LoadDateTimeControl();", True)
-        End Try
-    End Sub
-
-    Protected Sub btnOkPerson_Click(sender As Object, e As EventArgs)
-        Try
-            Dim isChecked As Boolean = False
-            For Each item As GridViewRow In gv_Persons.Rows
-
-                Dim RDB_Person As RadioButton = TryCast(item.FindControl("RDB_Person"), RadioButton)
-                If (RDB_Person.Checked = True) Then
-                    isChecked = True
-                    hdf_PersonId.Value = gv_Persons.DataKeys(item.RowIndex).Values("PersonId").ToString()
-                    hdf_UniqueId.Value = gv_Persons.DataKeys(item.RowIndex).Values("Id").ToString()
-
-                    Dim dtPerson As DataTable = New DataTable()
-                    OBJMaster = New MasterBAL()
-                    dtPerson = OBJMaster.GetPersonnelByPersonIdAndId(hdf_PersonId.Value, hdf_UniqueId.Value)
-                    LBL_SelectedPerson.Text = dtPerson.Rows(0)("PersonName").ToString() & "," & dtPerson.Rows(0)("PinNumber").ToString()
-                    txtPinNumber.Text = dtPerson.Rows(0)("PinNumber").ToString()
-                    hdf_PersonName.Value = dtPerson.Rows(0)("PersonName").ToString()
-                    Exit For
-                End If
-            Next
-
-            If (isChecked = False) Then
-
-            End If
-        Catch ex As Exception
-            log.Error("Error occurred in btnOkPerson_Click Exception is :" + ex.Message)
-            ErrorMessage.Visible = True
-            ErrorMessage.InnerText = "Error occurred while getting data, please try again later."
-        Finally
-            ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "LoadDateTimeControl();", True)
-        End Try
-    End Sub
-
-    Private Sub BindTransactionStatus()
-        Try
-            DDL_TransactionStatus.Items.Insert(0, New ListItem("Select Transaction Status", "-1"))
-            DDL_TransactionStatus.Items.Insert(1, New ListItem(ConfigurationManager.AppSettings("MissedText").ToString(), "1"))
-            DDL_TransactionStatus.Items.Insert(2, New ListItem(ConfigurationManager.AppSettings("CompletedText").ToString(), "2"))
-        Catch ex As Exception
-            log.Error("Error occurred in BindTransactionStatus Exception is :" + ex.Message)
-            ErrorMessage.Visible = True
-            ErrorMessage.InnerText = "Error occurred while getting data, please try again later."
         End Try
     End Sub
 End Class

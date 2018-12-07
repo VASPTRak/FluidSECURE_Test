@@ -149,13 +149,13 @@ Partial Public Class BillingReportByVehicleSummary
     Protected WithEvents DDL_Fuel As Global.System.Web.UI.WebControls.DropDownList
     
     '''<summary>
-    '''chk_IsDeletedLinkAllow control.
+    '''DDL_HubName control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents chk_IsDeletedLinkAllow As Global.System.Web.UI.WebControls.CheckBox
+    Protected WithEvents DDL_HubName As Global.System.Web.UI.WebControls.DropDownList
     
     '''<summary>
     '''DDL_VehicleType control.
@@ -167,13 +167,13 @@ Partial Public Class BillingReportByVehicleSummary
     Protected WithEvents DDL_VehicleType As Global.System.Web.UI.WebControls.DropDownList
     
     '''<summary>
-    '''lstSites control.
+    '''ddl_TransactionType control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents lstSites As Global.System.Web.UI.WebControls.ListBox
+    Protected WithEvents ddl_TransactionType As Global.System.Web.UI.WebControls.DropDownList
     
     '''<summary>
     '''DDL_TransactionStatus control.
@@ -185,13 +185,40 @@ Partial Public Class BillingReportByVehicleSummary
     Protected WithEvents DDL_TransactionStatus As Global.System.Web.UI.WebControls.DropDownList
     
     '''<summary>
-    '''DDL_HubName control.
+    '''divDeletedLink control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents DDL_HubName As Global.System.Web.UI.WebControls.DropDownList
+    Protected WithEvents divDeletedLink As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+    
+    '''<summary>
+    '''chk_IsDeletedLinkAllow control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents chk_IsDeletedLinkAllow As Global.System.Web.UI.WebControls.CheckBox
+    
+    '''<summary>
+    '''divFluidSecureLink control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents divFluidSecureLink As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+    
+    '''<summary>
+    '''lstSites control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lstSites As Global.System.Web.UI.WebControls.ListBox
     
     '''<summary>
     '''btnGenarateReport control.

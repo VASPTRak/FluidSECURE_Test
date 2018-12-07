@@ -193,33 +193,38 @@ Public Class HubUserImport
 
             Dim Row As DataRow
             For i As Integer = 3 To Lines.GetLength(0) - 1
-                Fields = Lines(i).Split(New Char() {","c})
+                Try
+                    Fields = Lines(i).Split(New Char() {","c})
 
-                If (Fields.Length = dt.Columns.Count - 1) Then
-                    Row = dt.NewRow()
-                    For f As Integer = 0 To Cols - 1
-                        Row(f) = Fields(f).ToString().Replace("'", "").Trim()
-                    Next
-                    Row(10) = i + 1
-                    dt.Rows.Add(Row)
+                    If (Fields.Length = dt.Columns.Count - 1) Then
+                        Row = dt.NewRow()
+                        For f As Integer = 0 To Cols - 1
+                            Row(f) = Fields(f).ToString().Replace("'", "").Trim()
+                        Next
+                        Row(10) = i + 1
+                        dt.Rows.Add(Row)
 
-                ElseIf (Fields.Length < 10 And Fields.Length > 1) Then
+                    ElseIf (Fields.Length < 10 And Fields.Length > 1) Then
 
-                    Row = dt.NewRow()
-                    For f As Integer = 0 To Fields.Length - 1
-                        Row(f) = Fields(f).ToString().Replace("'", "").Trim()
-                    Next
+                        Row = dt.NewRow()
+                        For f As Integer = 0 To Fields.Length - 1
+                            Row(f) = Fields(f).ToString().Replace("'", "").Trim()
+                        Next
 
-                    For f As Integer = Fields.Length To 9
-                        Row(f) = ""
-                    Next
+                        For f As Integer = Fields.Length To 9
+                            Row(f) = ""
+                        Next
 
-                    Row(10) = i + 1
-                    dt.Rows.Add(Row)
-                ElseIf (Fields.Length > 2) Then
+                        Row(10) = i + 1
+                        dt.Rows.Add(Row)
+                    ElseIf (Fields.Length > 2) Then
+                        strLog = strLog & Environment.NewLine & currentDateTime & "--" & " Invalid input format. Incorrect number of columns for the row number " & (i + 1) & ". Please correct the data and retry!"
+                        ErrorCnt = ErrorCnt + 1
+                    End If
+                Catch
                     strLog = strLog & Environment.NewLine & currentDateTime & "--" & " Invalid input format. Incorrect number of columns for the row number " & (i + 1) & ". Please correct the data and retry!"
                     ErrorCnt = ErrorCnt + 1
-                End If
+                End Try
             Next
 
             Dim CheckpersonalEmailExist As Boolean = False
@@ -442,7 +447,8 @@ Public Class HubUserImport
       .IsGateHub = False,
       .IsVehicleNumberRequire = False,
       .HubAddress = "",
-               .IsLogging = 0
+               .IsLogging = 0,
+           .IsSpecialImport = 0
        }
             If (dr("FluidLimitpertransaction") = "") Then
                 user.FuelLimitPerTxn = Nothing
@@ -522,6 +528,37 @@ Public Class HubUserImport
 
                 '    strLog = strLog & Environment.NewLine & currentDateTime & "--" & "Error occured while importing row " & rowIndex & ". Error is " & ex.Message
                 'End Try
+
+                Try
+
+                    'insert site person mapping
+                    Dim dtPersonSite As DataTable = New DataTable()
+                    dtPersonSite.Columns.Add("PersonId", System.Type.[GetType]("System.Int32"))
+                    dtPersonSite.Columns.Add("SiteID", System.Type.[GetType]("System.Int32"))
+                    dtPersonSite.Columns.Add("CreatedDate", System.Type.[GetType]("System.DateTime"))
+                    dtPersonSite.Columns.Add("CreatedBy", System.Type.[GetType]("System.Int32"))
+
+                    Dim dtStoredSites As DataTable = New DataTable()
+                    dtStoredSites = OBJMaster.GetSiteByCondition(" and s.CustomerId=" & ddlCustomer.SelectedValue, Session("PersonId").ToString(), Session("RoleId").ToString(), False)
+
+                    For Each item As DataRow In dtStoredSites.Rows
+
+                        Dim drSites As DataRow = dtPersonSite.NewRow()
+                        drSites("PersonId") = PersonId
+                        drSites("SiteID") = item("SiteID").ToString()
+                        drSites("CreatedDate") = DateTime.Now
+                        drSites("CreatedBy") = Convert.ToInt32(Session("PersonId"))
+                        dtPersonSite.Rows.Add(drSites)
+
+                    Next
+
+                    OBJMaster.InsertPersonSiteMapping(dtPersonSite, PersonId)
+
+                Catch ex As Exception
+                    log.Error("Exception occured while importing file. Exception is : " & ex.Message)
+
+                    strLog = strLog & Environment.NewLine & currentDateTime & "--" & "Error occured while importing row " & rowIndex & ". Error is " & ex.Message
+                End Try
             Else
                 strLog = strLog & Environment.NewLine & currentDateTime & "--" & "Error occured while importing row " & rowIndex & ". Error is " & result.Errors(0).Replace(" '", "")
             End If

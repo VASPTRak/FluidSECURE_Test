@@ -507,7 +507,16 @@ Partial Public Class FluidSecureHub
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents DDL_WifiChannelToUse As Global.System.Web.UI.WebControls.DropDownList
-    
+
+    '''<summary>
+    '''chk_HubForFA control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents chk_HubForFA As Global.System.Web.UI.WebControls.CheckBox
+
     '''<summary>
     '''btnSave control.
     '''</summary>

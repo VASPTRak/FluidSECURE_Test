@@ -35,8 +35,8 @@ Public Class TankChart
 						btnNext.Visible = True
 						btnprevious.Visible = True
 						btnLast.Visible = True
-						txtTankSize.Enabled = False
-						txtFuelIncrement.Enabled = False
+                        'txtTankSize.Enabled = False
+                        txtFuelIncrement.Enabled = False
 						RBL_Entry.Enabled = False
 						lblHeader.Text = "Edit Tank Chart"
 						If (Request.QueryString("RecordIs") = "New") Then
@@ -173,7 +173,7 @@ Public Class TankChart
 				txtDescription.Text = dtTankChart.Rows(0)("Description").ToString()
 				txtTankSize.Text = dtTankChart.Rows(0)("TankSize").ToString()
                 txtFuelIncrement.Text = dtTankChart.Rows(0)("FuelIncrement").ToString()
-                Session("TankSizeInches") = dtTankChart.Rows(0)("TankSize").ToString()
+                'Session("TankSizeInches") = dtTankChart.Rows(0)("TankSize").ToString()
                 Session("FuelIncrement") = dtTankChart.Rows(0)("FuelIncrement").ToString()
                 DDL_Customer.SelectedValue = dtTankChart.Rows(0)("CompanyId").ToString()
 
@@ -452,7 +452,7 @@ Public Class TankChart
                 Dim resultDecimal As Decimal = 0
                 resultInteger = 0
 
-                If (Session("TankSizeInches").ToString() <> "" And Not (Decimal.TryParse(Session("TankSizeInches").ToString(), resultDecimal))) Then
+                If (txtTankSize.Text <> "" And Not (Decimal.TryParse(txtTankSize.Text, resultDecimal))) Then
                     ErrorMessage.Visible = True
                     ErrorMessage.InnerText = "Please enter Tank Size as decimal and try again."
                     txtTankSize.Focus()
@@ -467,7 +467,7 @@ Public Class TankChart
                 End If
 
             Else
-                Session("TankSizeInches") = txtTankSize.Text
+                'Session("TankSizeInches") = txtTankSize.Text
                 Session("FuelIncrement") = txtFuelIncrement.Text
             End If
 			Dim CheckNumberExists As Integer = 0
@@ -502,7 +502,7 @@ Public Class TankChart
 
 			OBJMaster = New MasterBAL()
 
-            result = OBJMaster.SaveUpdateTankChart(TankChartId, txtTankChartNumber.Text, txtTankChartName.Text, txtDescription.Text, Session("TankSizeInches").ToString(), RBL_Entry.SelectedValue,
+            result = OBJMaster.SaveUpdateTankChart(TankChartId, txtTankChartNumber.Text, txtTankChartName.Text, txtDescription.Text, txtTankSize.Text, RBL_Entry.SelectedValue,
                                                    Session("FuelIncrement").ToString(), DDL_Customer.SelectedValue, Session("PersonId".ToString()))
 
             If result > 0 Then

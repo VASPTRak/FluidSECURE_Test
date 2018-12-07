@@ -433,7 +433,7 @@
             <Paragraph>
               <TextRuns>
                 <TextRun>
-                  <Value>="As of: " &amp; CDate(Globals!ExecutionTime).ToString("dd-MMM-yyyy hh:mm:tt")</Value>
+                  <Value>="As of: " &amp; CDate(Parameters!ASOfDate.Value).ToString("dd-MMM-yyyy hh:mm:tt")</Value>
                   <Style>
                     <FontFamily>open Sans</FontFamily>
                     <FontSize>12pt</FontSize>
@@ -573,6 +573,14 @@
       </rd:DataSetInfo>
     </DataSet>
   </DataSets>
+  <ReportParameters>
+    <ReportParameter Name="ASOfDate">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>ReportParameter1</Prompt>
+    </ReportParameter>
+  </ReportParameters>
   <rd:ReportUnitType>Inch</rd:ReportUnitType>
   <rd:ReportID>dc749a56-5131-4880-9170-b98780c2ac5b</rd:ReportID>
 </Report>

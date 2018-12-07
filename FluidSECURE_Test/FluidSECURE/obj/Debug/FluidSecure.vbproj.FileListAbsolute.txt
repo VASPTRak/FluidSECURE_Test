@@ -1465,7 +1465,6 @@ D:\Rahul\Trak\FluidSECURE_Test\FluidSECURE\bin\Microsoft.Owin.Security.Google.xm
 D:\Rahul\Trak\FluidSECURE_Test\FluidSECURE\bin\Microsoft.Owin.Security.Twitter.xml
 D:\Rahul\Trak\FluidSECURE_Test\FluidSECURE\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
 D:\Rahul\Trak\FluidSECURE_Test\FluidSECURE\bin\Microsoft.Owin.Security.OAuth.xml
-D:\Rahul\Trak\FluidSECURE_Test\FluidSECURE\obj\Debug\FluidSECURE.vbprojAssemblyReference.cache
 D:\Rahul\Trak\FluidSECURE_Test\FluidSECURE\obj\Debug\Interop.MSDAOSP.dll
 D:\Rahul\Trak\FluidSECURE_Test\FluidSECURE\obj\Debug\Interop.MSDASC.dll
 D:\Rahul\Trak\FluidSECURE_Test\FluidSECURE\obj\Debug\FluidSECURE.vbproj.ResolveComReference.cache
@@ -1479,6 +1478,7 @@ D:\Rahul\Trak\FluidSECURE_Test\FluidSECURE\obj\Debug\FluidSECURE.vbproj.CopyComp
 D:\Rahul\Trak\FluidSECURE_Test\FluidSECURE\obj\Debug\Fuel Secure.dll
 D:\Rahul\Trak\FluidSECURE_Test\FluidSECURE\obj\Debug\WebForms_Basic.xml
 D:\Rahul\Trak\FluidSECURE_Test\FluidSECURE\obj\Debug\Fuel Secure.pdb
+D:\Rahul\Trak\FluidSECURE_Test\FluidSECURE\obj\Debug\FluidSECURE.vbprojAssemblyReference.cache
 D:\Soham_Work\FluidSECURE_Test\FluidSECURE\bin\Fuel Secure.dll.config
 D:\Soham_Work\FluidSECURE_Test\FluidSECURE\bin\Fuel Secure.dll
 D:\Soham_Work\FluidSECURE_Test\FluidSECURE\bin\Fuel Secure.pdb
@@ -1541,7 +1541,6 @@ D:\Soham_Work\FluidSECURE_Test\FluidSECURE\bin\Microsoft.Owin.Security.Google.xm
 D:\Soham_Work\FluidSECURE_Test\FluidSECURE\bin\Microsoft.Owin.Security.Twitter.xml
 D:\Soham_Work\FluidSECURE_Test\FluidSECURE\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
 D:\Soham_Work\FluidSECURE_Test\FluidSECURE\bin\Microsoft.Owin.Security.OAuth.xml
-D:\Soham_Work\FluidSECURE_Test\FluidSECURE\obj\Debug\FluidSECURE.vbprojResolveAssemblyReference.cache
 D:\Soham_Work\FluidSECURE_Test\FluidSECURE\obj\Debug\Interop.MSDAOSP.dll
 D:\Soham_Work\FluidSECURE_Test\FluidSECURE\obj\Debug\Interop.MSDASC.dll
 D:\Soham_Work\FluidSECURE_Test\FluidSECURE\obj\Debug\FluidSECURE.vbproj.ResolveComReference.cache

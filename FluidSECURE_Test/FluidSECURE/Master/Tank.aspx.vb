@@ -48,11 +48,36 @@ Public Class Tank
 						btnprevious.Visible = True
 						btnLast.Visible = True
 						lblHeader.Text = "Edit Tank Information"
-						If (Request.QueryString("RecordIs") = "New") Then
-							message.Visible = True
-							message.Text = "Record saved"
-						End If
-					Else
+                        If (Request.QueryString("RecordIs") = "New") Then
+                            message.Visible = True
+                            message.Text = "Record saved"
+                        End If
+                        'Check Tank delivery costing method = 2
+                        OBJMaster = New MasterBAL()
+                        Dim dtCustomer = New DataTable()
+                        dtCustomer = OBJMaster.GetCustomerId(DDL_Customer.SelectedValue)
+                        If (dtCustomer.Rows(0)("CostingMethod").ToString() = "2" Or dtCustomer.Rows(0)("CostingMethod").ToString() = "3") Then
+                            Dim dtTankInvt As DataTable = New DataTable()
+                            dtTankInvt = OBJMaster.GetTankInventorybyConditions(" and TankInventory.TankNumber='" & txtTankNo.Text & "' and TankInventory.CompanyId=" & DDL_Customer.SelectedValue & " and ENTRY_TYPE='RD' ", Convert.ToInt32(Session("PersonId").ToString()), Session("RoleId").ToString())
+                            If dtTankInvt IsNot Nothing Then
+                                If dtTankInvt.Rows.Count = 0 Then
+                                    WarningMessage.Visible = True
+                                Else
+                                    WarningMessage.Visible = False
+                                End If
+                            Else
+                                WarningMessage.Visible = True
+                            End If
+
+                            If dtCustomer.Rows(0)("CostingMethod").ToString() = "2" Then
+                                lblCostingMethod.Text = "'Price Averaging'"
+                            Else
+                                lblCostingMethod.Text = "'FIFO'"
+                            End If
+                        Else
+                                WarningMessage.Visible = False
+                        End If
+                    Else
 						btnFirst.Visible = False
 						btnNext.Visible = False
 						btnprevious.Visible = False
@@ -190,7 +215,32 @@ Public Class Tank
 				End If
 				lblof.Text = cnt & " of " & HDF_TotalTank.Value.ToString()
 
-			Else
+                'Check Tank delivery costing method = 2
+                OBJMaster = New MasterBAL()
+                Dim dtCustomer = New DataTable()
+                dtCustomer = OBJMaster.GetCustomerId(DDL_Customer.SelectedValue)
+                If (dtCustomer.Rows(0)("CostingMethod").ToString() = "2" Or dtCustomer.Rows(0)("CostingMethod").ToString() = "3") Then
+                    Dim dtTankInvt As DataTable = New DataTable()
+                    dtTankInvt = OBJMaster.GetTankInventorybyConditions(" and TankInventory.TankNumber='" & txtTankNo.Text & "' and TankInventory.CompanyId=" & DDL_Customer.SelectedValue & " and ENTRY_TYPE='RD' ", Convert.ToInt32(Session("PersonId").ToString()), Session("RoleId").ToString())
+                    If dtTankInvt IsNot Nothing Then
+                        If dtTankInvt.Rows.Count = 0 Then
+                            WarningMessage.Visible = True
+                        Else
+                            WarningMessage.Visible = False
+                        End If
+                    Else
+                        WarningMessage.Visible = True
+                    End If
+
+                    If dtCustomer.Rows(0)("CostingMethod").ToString() = "2" Then
+                        lblCostingMethod.Text = "'Price Averaging'"
+                    Else
+                        lblCostingMethod.Text = "'FIFO'"
+                    End If
+                Else
+                    WarningMessage.Visible = False
+                End If
+            Else
 				ErrorMessage.Visible = True
 				ErrorMessage.Text = "Data Not found. Please try again after some time."
 			End If

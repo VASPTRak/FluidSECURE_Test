@@ -104,6 +104,69 @@ Partial Public Class FuelSecureUnit
     Protected WithEvents btnCancelFuelingDays As Global.System.Web.UI.WebControls.Button
     
     '''<summary>
+    '''LBL_LinkHistory control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents LBL_LinkHistory As Global.System.Web.UI.WebControls.Label
+    
+    '''<summary>
+    '''UP_FSHistory control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents UP_FSHistory As Global.System.Web.UI.UpdatePanel
+    
+    '''<summary>
+    '''gv_HistoryView control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents gv_HistoryView As Global.System.Web.UI.WebControls.GridView
+    
+    '''<summary>
+    '''btnFSHistoryOk control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnFSHistoryOk As Global.System.Web.UI.WebControls.Button
+    
+    '''<summary>
+    '''btnCancelFSHistoryBox control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnCancelFSHistoryBox As Global.System.Web.UI.WebControls.Button
+    
+    '''<summary>
+    '''HDF_FSCurrentName control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents HDF_FSCurrentName As Global.System.Web.UI.WebControls.HiddenField
+    
+    '''<summary>
+    '''HDF_FSNameHistory control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents HDF_FSNameHistory As Global.System.Web.UI.WebControls.HiddenField
+    
+    '''<summary>
     '''lblHeader control.
     '''</summary>
     '''<remarks>
@@ -210,6 +273,15 @@ Partial Public Class FuelSecureUnit
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents CHK_DisableGeoLocation As Global.System.Web.UI.WebControls.CheckBox
+    
+    '''<summary>
+    '''btn_ViewHistory control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btn_ViewHistory As Global.System.Web.UI.WebControls.Button
     
     '''<summary>
     '''divShowHideReplacingLink control.

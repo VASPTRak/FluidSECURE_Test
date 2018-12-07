@@ -50,6 +50,24 @@ Partial Public Class Tank
     Protected WithEvents ErrorMessage As Global.System.Web.UI.WebControls.Label
     
     '''<summary>
+    '''WarningMessage control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents WarningMessage As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+    
+    '''<summary>
+    '''lblCostingMethod control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblCostingMethod As Global.System.Web.UI.WebControls.Label
+    
+    '''<summary>
     '''txtTankNo control.
     '''</summary>
     '''<remarks>
@@ -200,7 +218,7 @@ Partial Public Class Tank
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-   Protected WithEvents Chk_TankMonitor As Global.System.Web.UI.WebControls.CheckBox
+    Protected WithEvents Chk_TankMonitor As Global.System.Web.UI.WebControls.CheckBox
     
     '''<summary>
     '''divConstantB control.
@@ -245,7 +263,7 @@ Partial Public Class Tank
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-   Protected WithEvents CVTankMonitorNumber As Global.System.Web.UI.WebControls.CompareValidator
+    Protected WithEvents CVTankMonitorNumber As Global.System.Web.UI.WebControls.CompareValidator
     
     '''<summary>
     '''divConstantC control.

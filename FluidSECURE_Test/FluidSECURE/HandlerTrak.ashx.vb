@@ -1,7 +1,5 @@
-﻿
-Imports Microsoft.AspNet.Identity
+﻿Imports Microsoft.AspNet.Identity
 Imports Microsoft.AspNet.Identity.Owin
-
 Imports System.IO
 Imports System.Web.Script.Serialization
 Imports log4net
@@ -13,6 +11,7 @@ Imports System.Resources
 
 Public Class HandlerTrak
     Implements System.Web.IHttpHandler
+
     Public Shared ReadOnly log As ILog = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType)
     Dim OBJServiceBAL As WebServiceBAL = New WebServiceBAL()
     Dim OBJMasterBAL As MasterBAL = New MasterBAL()
@@ -22,6 +21,7 @@ Public Class HandlerTrak
 
     Sub ProcessRequest(ByVal context As HttpContext) Implements IHttpHandler.ProcessRequest
         log4net.Config.XmlConfigurator.Configure()
+
         Try
             Dim userAgent = context.Request.UserAgent
             If (userAgent Is Nothing) Then
@@ -108,6 +108,7 @@ Public Class HandlerTrak
 
             CheckBusyStatusOfAllFluidSecureUnits()
 
+
             'log.Error(Route)
             If Route = "Register" Then
 
@@ -151,7 +152,7 @@ Public Class HandlerTrak
                 End If
                 'company here
 
-                'Check if imei already exists------------------------------
+                'Check if imei alredy exists------------------------------
                 Dim ds = New DataSet()
                 ds = OBJServiceBAL.IsIMEIExists(IMEI_UDID)
                 If Not ds Is Nothing Then
@@ -274,7 +275,7 @@ Public Class HandlerTrak
                                 data3 = inputStream2.ReadToEnd()
                                 log.Debug("Other :" & data3)
                             End Using
-
+                            data3 = data3.Replace("\", "").TrimEnd("""").TrimStart("""")
                             data2 = data3.Split(":")(0)
                             FromWhere = data3.Split(":")(1)
                             steps = "3"
@@ -518,7 +519,6 @@ Public Class HandlerTrak
                                             'objss.IsBusy = IIf(dsSSID.Tables(0).Rows(0)("IsBusy") = True, "Y", "N")
                                             'objss.PulserTimingAdjust = dsSSID.Tables(0).Rows(0)("PulserTimingAdjust")
                                             rootOject.SSIDDataObj.Add(objss)
-
 
                                             Dim seri As New JavaScriptSerializer()
                                             Dim json As String
@@ -1007,6 +1007,9 @@ Public Class HandlerTrak
                 End If
 
                 objUserData.WifiChannelToUse = row("WifiChannelToUse").ToString()
+                log.Debug("EnbDisHubForFA : " & row("EnbDisHubForFA").ToString())
+                objUserData.EnbDisHubForFA = row("EnbDisHubForFA").ToString()
+
 
                 'Dim seri As New JavaScriptSerializer()
                 'Dim jStr As String = seri.Serialize(objUserData)
@@ -1089,7 +1092,8 @@ Public Class HandlerTrak
     .IsGateHub = False,
     .IsVehicleNumberRequire = False,
     .HubAddress = "",
-    .IsLogging = 0
+    .IsLogging = 0,
+           .IsSpecialImport = 0
  }
             Dim result As IdentityResult = manager.Create(user, "FluidSecure*123")
 
@@ -1127,7 +1131,7 @@ Public Class HandlerTrak
                 ErrorInAuthontication(context, "success", resourceManager.GetString("HandlerMsg3"))
 
             Else
-                'context.Response.Write(CreateResponse("401", "fail", "Registration fail", ""))'if not AP then mark approved as false
+                'context.Response.Write(CreateResponse("401", "fail", "Registration fail", ""))
                 ErrorInAuthontication(context, "fail", resourceManager.GetString("HandlerMsg7"))
             End If
 
@@ -1146,7 +1150,7 @@ Public Class HandlerTrak
     .CreatedDate = DateTime.Now,
     .CreatedBy = Nothing,
     .IsDeleted = False,
-    .IsApproved = False,
+    .IsApproved = False, 'if not AP then mark approved as false
     .RequestFrom = ReqFrom,
     .SendTransactionEmail = False,
     .IMEI_UDID = IMEI_UDID,
@@ -1171,12 +1175,14 @@ Public Class HandlerTrak
        .IsVehicleHasFob = False,
        .IsPersonHasFob = False,
        .IsTermConditionAgreed = False,
-            .DateTimeTermConditionAccepted = Nothing,
+       .DateTimeTermConditionAccepted = Nothing,
     .IsGateHub = False,
     .IsVehicleNumberRequire = False,
     .HubAddress = "",
-    .IsLogging = 0
+    .IsLogging = 0,
+           .IsSpecialImport = 0
  }
+
 
             Dim result As IdentityResult = manager.Create(user, "Fuel@123")
 
@@ -1227,7 +1233,7 @@ Public Class HandlerTrak
 
         rootOject.objUserData.Email = Data.Email
         rootOject.objUserData.PhoneNumber = Data.PhoneNumber
-        rootOject.objUserData.PersonName = Data.PersonName 'rm.GetString("PersonName") 
+        rootOject.objUserData.PersonName = Data.PersonName
         rootOject.objUserData.IsApproved = Data.IsApproved
         rootOject.objUserData.IMEI_UDID = Data.IMEI_UDID
         rootOject.objUserData.IsOdoMeterRequire = Data.IsOdoMeterRequire
@@ -1253,7 +1259,7 @@ Public Class HandlerTrak
         rootOject.objUserData.WifiChannelToUse = Data.WifiChannelToUse
         rootOject.objUserData.IsGateHub = Data.IsGateHub
         rootOject.objUserData.IsVehicleNumberRequire = Data.IsVehicleNumberRequire
-
+        rootOject.objUserData.EnbDisHubForFA = Data.EnbDisHubForFA
         rootOject.SSIDDataObj = New List(Of SSIDData)()
 
         If Not ds Is Nothing Then
@@ -1263,6 +1269,7 @@ Public Class HandlerTrak
                 'objSSIDList.result = New List(Of SSIDData)()
                 For index As Integer = 0 To ds.Tables(0).Rows.Count - 1
                     Dim row As DataRow = ds.Tables(0).Rows(index)
+                    Dim SiteId As Integer = 0
 
                     Dim objSSIDData = New SSIDData()
                     objSSIDData.ResponceMessage = "success"
@@ -1285,6 +1292,68 @@ Public Class HandlerTrak
                     'objSSIDData.Password = "" 'row("Password")
                     objSSIDData.Password = ConfigurationManager.AppSettings("FSPassword").ToString()
                     objSSIDData.SiteId = row("SiteId")
+
+                    'If (Data.StayOpenGate = "True") Then
+                    If (Data.IsGateHub = "True") Then
+
+                        Try
+                            SiteId = row("SiteId")
+
+                            log.Info("StayOpenGate , SiteID : " & SiteId)
+
+                            Dim dsCurrentTimeInPerson = New DataSet()
+                            dsCurrentTimeInPerson = OBJMasterBAL.CheckCurrentTimeInTimesTable(SiteId, personId)
+                            If Not dsCurrentTimeInPerson Is Nothing Then ' check Current Time In Times Table
+                                If dsCurrentTimeInPerson.Tables.Count = 2 Then
+                                    If dsCurrentTimeInPerson.Tables(1).Rows.Count <> 0 Then 'Current Time not in SiteTiming and PersonnelTimings from-to timing
+                                        log.Info("StayOpenGate" & dsCurrentTimeInPerson.Tables(1).Rows(0)("StayOpenGate"))
+
+                                        For Each dr As DataRow In dsCurrentTimeInPerson.Tables(1).Rows
+                                            If (dr("TimeId") = "1" And dr("StayOpenGate").ToString() = "True") Then
+                                                rootOject.objUserData.StayOpenGate = "True"
+                                                Exit For
+                                            Else
+                                                If (dr("StayOpenGate").ToString() = "True") Then
+                                                    rootOject.objUserData.StayOpenGate = "True"
+                                                    Exit For
+                                                Else
+                                                    rootOject.objUserData.StayOpenGate = "False"
+                                                End If
+                                            End If
+                                        Next
+
+
+
+                                        log.Info("StayOpenGate 1")
+
+                                    Else
+                                        log.Info("StayOpenGate 2")
+                                        rootOject.objUserData.StayOpenGate = "False"
+                                    End If
+                                Else
+                                    log.Info("StayOpenGate 3")
+                                    rootOject.objUserData.StayOpenGate = "False"
+                                End If
+                            Else
+                                log.Info("StayOpenGate 4")
+                                rootOject.objUserData.StayOpenGate = "False"
+                            End If
+
+                        Catch ex As Exception
+                            log.Info("StayOpenGate 5")
+                            rootOject.objUserData.StayOpenGate = "False"
+                        End Try
+
+                    End If
+
+                    'End If
+
+                    log.Info("rootOject.objUserData.StayOpenGate " & rootOject.objUserData.StayOpenGate)
+
+                    If (String.IsNullOrEmpty(rootOject.objUserData.StayOpenGate)) Then
+                        rootOject.objUserData.StayOpenGate = "False"
+                    End If
+
                     objSSIDData.SiteNumber = row("SiteNumber")
                     objSSIDData.SiteName = "" 'row("SiteName")
                     steps = "24_1"
@@ -1720,18 +1789,23 @@ Public Class HandlerTrak
                         Dim PrinterName As String = ""
                         Dim BluetoothCardReader As String = ""
                         Dim BluetoothCardReaderMacAddress As String = ""
+                        Dim IsGateHub As Boolean = False
                         Try
                             printerMacAddress = dsIMEI.Tables(0).Rows(0)("PrinterMacAddress").ToString().ToLower()
                             PrinterName = dsIMEI.Tables(0).Rows(0)("PrinterName")
                             BluetoothCardReader = dsIMEI.Tables(0).Rows(0)("BluetoothCardReader")
                             BluetoothCardReaderMacAddress = dsIMEI.Tables(0).Rows(0)("BluetoothCardReaderMacAddress").ToString().ToUpper()
+                            IsGateHub = dsIMEI.Tables(0).Rows(0)("IsGateHub").ToString()
+
                             log.Info("BluetoothCardReader : " & BluetoothCardReader)
                         Catch ex As Exception
                             printerMacAddress = ""
                             PrinterName = ""
                             BluetoothCardReader = ""
                             BluetoothCardReaderMacAddress = ""
+                            IsGateHub = False
                         End Try
+                        log.Info("AuthorizationSequence IsGateHub : " & IsGateHub)
 
                         If dtMain.Rows(0)("IsApproved").ToString() = "True" Then
                             steps = "AuthorizationSequence 3"
@@ -1820,7 +1894,7 @@ Public Class HandlerTrak
                                                                                                             If (RequestFrom = "A" Or RequestFrom = "I") Then
 
                                                                                                                 'check valid department
-                                                                                                                If Boolean.Parse(dtCustomer.Rows(0)("IsDepartmentRequire")) = True Then
+                                                                                                                If Boolean.Parse(dtCustomer.Rows(0)("IsDepartmentRequire")) = True And IsGateHub = False Then
                                                                                                                     Dim dtDept As DataTable = OBJMasterBAL.GetDeptDetails(" and D.CustomerId=" & customerId & " and D.Number = '" & DepartmentNumber & "'")
                                                                                                                     If Not dtDept Is Nothing Then
                                                                                                                         If (dtDept.Rows.Count <= 0) Then
@@ -1864,7 +1938,8 @@ Public Class HandlerTrak
 
 
                                                                                                                 'If (RequestFrom = "I") Then
-                                                                                                                CheckFuelType(context, data, vehicleId, dtVehicle, personId, dt, RoleId, printerMacAddress, PrinterName, BluetoothCardReader, BluetoothCardReaderMacAddress)
+                                                                                                                CheckFuelType(context, data, vehicleId, dtVehicle, personId, dt, RoleId, printerMacAddress, PrinterName, BluetoothCardReader,
+                                                                                                                              BluetoothCardReaderMacAddress, IsGateHub, dsCurrentTimeInPerson.Tables(1))
                                                                                                                 'Else
                                                                                                                 '    If dtVehicle.Rows(0)("RequireOdometerEntry") = "Y" Then 'If Boolean.Parse(dtCustomer.Rows(0)("IsOdometerRequire")) = True Then
                                                                                                                 '        steps = "AuthorizationSequence 12"
@@ -1923,7 +1998,8 @@ Public Class HandlerTrak
                                                                                                                         If odoMeterValue <= OdoMeter Then
                                                                                                                             steps = "AuthorizationSequence 17"
                                                                                                                             ''proper fuel type
-                                                                                                                            CheckFuelType(context, data, vehicleId, dtVehicle, personId, dt, RoleId, printerMacAddress, PrinterName, BluetoothCardReader, BluetoothCardReaderMacAddress) ', Boolean.Parse(dtCustomer.Rows(0)("IsOdometerRequire"))
+                                                                                                                            CheckFuelType(context, data, vehicleId, dtVehicle, personId, dt, RoleId, printerMacAddress, PrinterName, BluetoothCardReader,
+                                                                                                                                          BluetoothCardReaderMacAddress, IsGateHub, dsCurrentTimeInPerson.Tables(1)) ', Boolean.Parse(dtCustomer.Rows(0)("IsOdometerRequire"))
                                                                                                                         Else
                                                                                                                             'Bad odometer, try again
                                                                                                                             log.Error("ProcessRequest: AuthorizationSequence- Bad odometer, please try again for IMEI_UDID=" & IMEI_UDID & ", Odometer : " & OdoMeter)
@@ -1932,11 +2008,13 @@ Public Class HandlerTrak
 
                                                                                                                     Else
                                                                                                                         'proper fuel type
-                                                                                                                        CheckFuelType(context, data, vehicleId, dtVehicle, personId, dt, RoleId, printerMacAddress, PrinterName, BluetoothCardReader, BluetoothCardReaderMacAddress) ', Boolean.Parse(dtCustomer.Rows(0)("IsOdometerRequire"))
+                                                                                                                        CheckFuelType(context, data, vehicleId, dtVehicle, personId, dt, RoleId, printerMacAddress, PrinterName, BluetoothCardReader,
+                                                                                                                                      BluetoothCardReaderMacAddress, IsGateHub, dsCurrentTimeInPerson.Tables(1)) ', Boolean.Parse(dtCustomer.Rows(0)("IsOdometerRequire"))
                                                                                                                     End If
                                                                                                                 Else
                                                                                                                     'proper fuel type
-                                                                                                                    CheckFuelType(context, data, vehicleId, dtVehicle, personId, dt, RoleId, printerMacAddress, PrinterName, BluetoothCardReader, BluetoothCardReaderMacAddress) ', Boolean.Parse(dtCustomer.Rows(0)("IsOdometerRequire"))
+                                                                                                                    CheckFuelType(context, data, vehicleId, dtVehicle, personId, dt, RoleId, printerMacAddress, PrinterName, BluetoothCardReader,
+                                                                                                                                  BluetoothCardReaderMacAddress, IsGateHub, dsCurrentTimeInPerson.Tables(1)) ', Boolean.Parse(dtCustomer.Rows(0)("IsOdometerRequire"))
                                                                                                                 End If
                                                                                                             End If
 
@@ -2062,7 +2140,9 @@ Public Class HandlerTrak
         End Using
     End Sub
 
-    Private Sub CheckFuelType(context As HttpContext, data As String, VehicleId As Integer, dtVehicle As DataTable, PersonId As Integer, dt As DataTable, RoleId As String, printerMacAddress As String, PrinterName As String, BluetoothCardReader As String, BluetoothCardReaderMacAddress As String) ', IsOdometerRequire As Boolean
+    Private Sub CheckFuelType(context As HttpContext, data As String, VehicleId As Integer, dtVehicle As DataTable, PersonId As Integer,
+                              dt As DataTable, RoleId As String, printerMacAddress As String, PrinterName As String, BluetoothCardReader As String,
+                              BluetoothCardReaderMacAddress As String, IsGateHub As Boolean, dtCurrentTimeInLink As DataTable) ', IsOdometerRequire As Boolean
         Dim javaScriptSerializer = New JavaScriptSerializer()
         Dim serJsonDetails = javaScriptSerializer.Deserialize(data, GetType(AuthorizationSequenceModel))
         Dim IMEI_UDID = DirectCast(serJsonDetails, AuthorizationSequenceModel).IMEIUDID
@@ -2103,15 +2183,10 @@ Public Class HandlerTrak
         steps = "CheckFuelType 2"
         If Not dtHose Is Nothing Then ''Hose does not exists
             If dtHose.Rows.Count <> 0 Then ''Hose does not exists
-                'Dim dtFuelTypeVehicle = New DataTable()
-                'dtFuelTypeVehicle = OBJMasterBAL.GetFuelTypeVehicleMapping(VehicleId)
-                'If Not dtFuelTypeVehicle Is Nothing Then ' vehicle and fuel type mapping does not exists
+
                 Dim fuelTypeOfHose As Integer
                 fuelTypeOfHose = Integer.Parse(dtHose.Rows(0)("FuelTypeId").ToString())
-                'steps = "CheckFuelType 3"
-                'Dim fuelTypeArray = dtFuelTypeVehicle.AsEnumerable().[Select](Function(r) r.Field(Of Integer)("FuelTypeId")).ToArray()
-                'Dim isFuelTypeInFuelTypeArray = fuelTypeArray.Contains(fuelTypeOfHose)
-                'If isFuelTypeInFuelTypeArray Then 'Wrong fuel type try different hose
+
                 steps = "CheckFuelType 4"
                 'get vehicle fuel limit per day
                 'check vehicle fuel limit per day
@@ -2122,86 +2197,135 @@ Public Class HandlerTrak
                 personFuelLimitForDay = Integer.Parse(dt.Rows(0)("FuelLimitPerDay").ToString())
                 Dim phoneNumber As String = dt.Rows(0)("PhoneNumber").ToString()
                 Dim dsTransactionFuelLimitForDay = New DataSet()
-                dsTransactionFuelLimitForDay = OBJMasterBAL.GetSumOfFuelQuantity(PersonId, VehicleId) 'Get sum of person fuel transaction and vehicle fuel transaction for current day
+                dsTransactionFuelLimitForDay = OBJMasterBAL.GetSumOfFuelQuantity(PersonId, VehicleId, SiteId) 'Get sum of person fuel transaction and vehicle fuel transaction for current day
                 steps = "CheckFuelType 6"
-                If Not dsTransactionFuelLimitForDay Is Nothing Then
-                    If dsTransactionFuelLimitForDay.Tables.Count = 2 Then
-                        If Not dsTransactionFuelLimitForDay.Tables(0) Is Nothing And Not dsTransactionFuelLimitForDay.Tables(1) Is Nothing Then
-                            If dsTransactionFuelLimitForDay.Tables(0).Rows.Count <> 0 And dsTransactionFuelLimitForDay.Tables(1).Rows.Count <> 0 Then
-                                If Decimal.Parse(dsTransactionFuelLimitForDay.Tables(0).Rows(0)("FuelQuantityOfPerson").ToString()) < personFuelLimitForDay Or personFuelLimitForDay = 0 Then
-                                    If Decimal.Parse(dsTransactionFuelLimitForDay.Tables(1).Rows(0)("FuelQuantityOfVehicle").ToString()) < vehicleFuelLimitForDay Or vehicleFuelLimitForDay = 0 Then
+                log.Info(" CheckFuelType : IsGateHub" & IsGateHub)
+
+                If Not dsTransactionFuelLimitForDay Is Nothing Or IsGateHub = True Then
+                    If dsTransactionFuelLimitForDay.Tables.Count = 2 Or IsGateHub = True Then
+                        If (Not dsTransactionFuelLimitForDay.Tables(0) Is Nothing And Not dsTransactionFuelLimitForDay.Tables(1) Is Nothing) Or IsGateHub = True Then
+                            If (dsTransactionFuelLimitForDay.Tables(0).Rows.Count <> 0 And dsTransactionFuelLimitForDay.Tables(1).Rows.Count <> 0) Or IsGateHub = True Then
+
+                                If (Decimal.Parse(dsTransactionFuelLimitForDay.Tables(0).Rows(0)("FuelQuantityOfPerson").ToString()) < personFuelLimitForDay Or personFuelLimitForDay = 0) Or IsGateHub = True Then
+                                    If (Decimal.Parse(dsTransactionFuelLimitForDay.Tables(1).Rows(0)("FuelQuantityOfVehicle").ToString()) < vehicleFuelLimitForDay Or vehicleFuelLimitForDay = 0) Or IsGateHub = True Then
                                         steps = "CheckFuelType 7"
+                                        Dim minLimit As Integer
                                         'calculate min fuel limit per day
                                         '0 means unlimited
                                         Dim minLimitForPerson As Integer
                                         Dim minLimitForVehicle As Integer
-                                        If personFuelLimitForDay <> 0 Then
-                                            minLimitForPerson = personFuelLimitForDay - Decimal.Parse(dsTransactionFuelLimitForDay.Tables(0).Rows(0)("FuelQuantityOfPerson").ToString())
-                                        Else
-                                            minLimitForPerson = 0
-                                        End If
-                                        steps = "CheckFuelType 7_1"
+                                        Dim PumpOffTime As Integer = 0
+                                        If (IsGateHub = True) Then
+                                            minLimit = 0
+                                            Try
+                                                Dim OffsetValue As Integer = 0
 
-                                        If vehicleFuelLimitForDay <> 0 Then
-                                            minLimitForVehicle = vehicleFuelLimitForDay - Decimal.Parse(dsTransactionFuelLimitForDay.Tables(1).Rows(0)("FuelQuantityOfVehicle").ToString())
+                                                'Dim FromTime As String = dtCurrentTimeInLink.Rows(0)("FromTime").ToString()
+                                                Dim ToTime As String = "" 'dtCurrentTimeInLink.Rows(0)("ToTime").ToString()
+
+                                                For Each dr As DataRow In dtCurrentTimeInLink.Rows
+                                                    Try
+                                                        log.Debug("AuthorizationSequence OffsetValue : " & dr("OffsetValue"))
+
+                                                        OffsetValue = dr("OffsetValue")
+
+                                                    Catch ex As Exception
+                                                        log.Debug("ProcessRequest: AuthorizationSequence- calculating OffsetValue. Exception is " & ex.Message)
+                                                    End Try
+
+                                                    If (dr("TimeId") = "1" And dr("StayOpenGate").ToString() = "True") Then
+                                                        ToTime = dr("ToTime").ToString()
+                                                        Exit For
+                                                    Else
+                                                        If (dr("StayOpenGate").ToString() = "True") Then
+                                                            ToTime = dr("ToTime").ToString()
+                                                            Exit For
+                                                        End If
+                                                    End If
+                                                Next
+
+                                                Dim currentDate As Date = DateTime.UtcNow.AddMinutes(OffsetValue).Date.ToString()
+
+                                                'Dim FromDate = currentDate & " " & FromTime.Replace(".", ":")
+                                                If (ToTime = "") Then
+                                                    PumpOffTime = 0
+                                                Else
+                                                    Dim ToDate = currentDate & " " & ToTime.Replace(".", ":")
+
+                                                    Dim diffInSeconds As Integer = (Convert.ToDateTime(ToDate) - DateTime.UtcNow.AddMinutes(OffsetValue)).TotalSeconds + 60
+                                                    PumpOffTime = diffInSeconds
+                                                End If
+
+
+                                            Catch ex As Exception
+                                                log.Debug("ProcessRequest: AuthorizationSequence- calculating PumpOffTime. Exception is " & ex.Message)
+                                            End Try
+
+                                            log.Debug("CheckFuelType PumpOffTime " & PumpOffTime)
+
                                         Else
-                                            minLimitForVehicle = 0
-                                        End If
-                                        steps = "CheckFuelType 7_2"
-                                        Dim minLimit As Integer
-                                        If minLimitForPerson = 0 Then
-                                            minLimit = minLimitForVehicle
-                                        ElseIf minLimitForVehicle = 0 Then
-                                            minLimit = minLimitForPerson
-                                        ElseIf minLimitForPerson <= minLimitForVehicle Then
-                                            minLimit = minLimitForPerson
-                                        Else
-                                            minLimit = minLimitForVehicle
-                                        End If
-                                        steps = "CheckFuelType 7_3"
-                                        'calculate min fuel limit per transaction
-                                        Dim personFuellimitPerTran As Integer
-                                        personFuellimitPerTran = 0
-                                        If Not dt.Rows(0)("FuelLimitPerTxn".ToString()) Is Nothing Then
-                                            personFuellimitPerTran = Integer.Parse(dt.Rows(0)("FuelLimitPerTxn".ToString()))
-                                        End If
-                                        steps = "CheckFuelType 7_4"
-                                        Dim vehicleFuellimitPerTran As Integer
-                                        vehicleFuellimitPerTran = 0
-                                        If Not dtVehicle.Rows(0)("FuelLimitPerTxn").ToString() Is Nothing Then
-                                            vehicleFuellimitPerTran = Integer.Parse(dtVehicle.Rows(0)("FuelLimitPerTxn").ToString())
-                                        End If
-                                        steps = "CheckFuelType 7_5"
-                                        If minLimit = 0 Then
-                                            If personFuellimitPerTran = 0 Then
-                                                minLimit = vehicleFuellimitPerTran
-                                            ElseIf vehicleFuellimitPerTran = 0 Then
-                                                minLimit = personFuellimitPerTran
-                                            ElseIf personFuellimitPerTran <= vehicleFuellimitPerTran Then
-                                                minLimit = personFuellimitPerTran
+
+                                            If personFuelLimitForDay <> 0 Then
+                                                minLimitForPerson = personFuelLimitForDay - Decimal.Parse(dsTransactionFuelLimitForDay.Tables(0).Rows(0)("FuelQuantityOfPerson").ToString())
                                             Else
-                                                minLimit = vehicleFuellimitPerTran
+                                                minLimitForPerson = 0
                                             End If
-                                        Else
-                                            If minLimit >= personFuellimitPerTran And personFuellimitPerTran <> 0 Then
-                                                minLimit = personFuellimitPerTran
+                                            steps = "CheckFuelType 7_1"
+
+                                            If vehicleFuelLimitForDay <> 0 Then
+                                                minLimitForVehicle = vehicleFuelLimitForDay - Decimal.Parse(dsTransactionFuelLimitForDay.Tables(1).Rows(0)("FuelQuantityOfVehicle").ToString())
+                                            Else
+                                                minLimitForVehicle = 0
+                                            End If
+                                            steps = "CheckFuelType 7_2"
+
+                                            If minLimitForPerson = 0 Then
+                                                minLimit = minLimitForVehicle
+                                            ElseIf minLimitForVehicle = 0 Then
+                                                minLimit = minLimitForPerson
+                                            ElseIf minLimitForPerson <= minLimitForVehicle Then
+                                                minLimit = minLimitForPerson
+                                            Else
+                                                minLimit = minLimitForVehicle
+                                            End If
+                                            steps = "CheckFuelType 7_3"
+                                            'calculate min fuel limit per transaction
+                                            Dim personFuellimitPerTran As Integer
+                                            personFuellimitPerTran = 0
+                                            If Not dt.Rows(0)("FuelLimitPerTxn".ToString()) Is Nothing Then
+                                                personFuellimitPerTran = Integer.Parse(dt.Rows(0)("FuelLimitPerTxn".ToString()))
+                                            End If
+                                            steps = "CheckFuelType 7_4"
+                                            Dim vehicleFuellimitPerTran As Integer
+                                            vehicleFuellimitPerTran = 0
+                                            If Not dtVehicle.Rows(0)("FuelLimitPerTxn").ToString() Is Nothing Then
+                                                vehicleFuellimitPerTran = Integer.Parse(dtVehicle.Rows(0)("FuelLimitPerTxn").ToString())
+                                            End If
+                                            steps = "CheckFuelType 7_5"
+                                            If minLimit = 0 Then
+                                                If personFuellimitPerTran = 0 Then
+                                                    minLimit = vehicleFuellimitPerTran
+                                                ElseIf vehicleFuellimitPerTran = 0 Then
+                                                    minLimit = personFuellimitPerTran
+                                                ElseIf personFuellimitPerTran <= vehicleFuellimitPerTran Then
+                                                    minLimit = personFuellimitPerTran
+                                                Else
+                                                    minLimit = vehicleFuellimitPerTran
+                                                End If
+                                            Else
+                                                If minLimit >= personFuellimitPerTran And personFuellimitPerTran <> 0 Then
+                                                    minLimit = personFuellimitPerTran
+                                                End If
+
+                                                If minLimit >= vehicleFuellimitPerTran And vehicleFuellimitPerTran <> 0 Then
+                                                    minLimit = vehicleFuellimitPerTran
+                                                End If
                                             End If
 
-                                            If minLimit >= vehicleFuellimitPerTran And vehicleFuellimitPerTran <> 0 Then
-                                                minLimit = vehicleFuellimitPerTran
-                                            End If
                                         End If
+
 
                                         steps = "CheckFuelType 7_6"
-
-
-                                        'If personFuellimitPerTran < minLimit Then
-                                        '    minLimit = personFuellimitPerTran
-                                        'End If
-                                        'If vehicleFuellimitPerTran < minLimit Then
-                                        '    minLimit = vehicleFuellimitPerTran
-                                        'End If
-
 
                                         Dim pulseRatio As Decimal
                                         Dim transactionDate As DateTime = DateTime.UtcNow.ToString()
@@ -2222,7 +2346,13 @@ Public Class HandlerTrak
                                         steps = "CheckFuelType 7_6_3"
                                         rootOject.ResponceData.ServerDate = transactionDate
                                         rootOject.ResponceData.PumpOnTime = dtHose.Rows(0)("PumpOnTime")
-                                        rootOject.ResponceData.PumpOffTime = dtHose.Rows(0)("PumpOffTime")
+
+                                        If (IsGateHub = True And PumpOffTime <> 0) Then
+                                            rootOject.ResponceData.PumpOffTime = PumpOffTime
+                                        Else
+                                            rootOject.ResponceData.PumpOffTime = dtHose.Rows(0)("PumpOffTime")
+                                        End If
+
                                         rootOject.ResponceData.IsTLDCall = IIf(dtHose.Rows(0)("PROBEMacAddress").ToString() = "", "False", "True")
                                         rootOject.ResponceData.PulserStopTime = ConfigurationManager.AppSettings("PulserStopTime").ToString()
 
@@ -2230,24 +2360,6 @@ Public Class HandlerTrak
                                         steps = "CheckFuelType 7_7"
 
                                         Dim json As String
-
-                                        ''IsOdometerRequire on screen mobile application
-                                        'If IsOdometerRequire = True Then
-                                        '    'update current odometer
-                                        '    OBJMasterBAL.UpdateVehicleCurrentOdometer(VehicleId, OdoMeter)
-                                        'End If
-
-                                        'make IsBusy is true
-                                        'Try
-
-                                        '    Dim OBJWebServiceBAL = New WebServiceBAL()
-
-                                        '    OBJWebServiceBAL.ChangeBusyStatusOfFluidSecureUnit(SiteId, True)
-
-
-                                        'Catch ex As Exception
-                                        '    log.Error("Error occurred in ChangeBusyStatusOfFluidSecureUnit. Exception is :" & ex.Message)
-                                        'End Try
 
                                         CurrentLocationAddress = GetLocationAddress(CurrentLat, CurrentLng)
 
@@ -2299,10 +2411,23 @@ Public Class HandlerTrak
                                             End If
                                         End If
                                         steps = "CheckFuelType 7_8"
-                                        TransactionId = OBJMasterBAL.InsertUpdateTransaction(VehicleId, SiteId, PersonId, OdoMeter, 0, fuelTypeOfHose, phoneNumber, WifiSSId.ToString().Trim(), transactionDate,
+
+                                        OBJMasterBAL = New MasterBAL()
+                                        Dim dtTransaction As DataTable = New DataTable()
+                                        Dim dsT As DataSet = New DataSet()
+                                        dsT = OBJMasterBAL.GetTransactionsByCondition(" and T.VehicleId=" & VehicleId & " and (((ISNULL(T.TransactionStatus,0) = 1  or ISNULL(T.IsMissed,0)= 1) or ISNULL(T.TransactionStatus,0) = 0) and datediff(minute, T.[CreatedDate] ,getdate()) <= 15)", PersonId, RoleId, False, 0, 0, False, "", "")
+                                        dtTransaction = dsT.Tables(0)
+
+                                        If (dtTransaction Is Nothing Or dtTransaction.Rows.Count = 0) Then
+                                            TransactionId = OBJMasterBAL.InsertUpdateTransaction(VehicleId, SiteId, PersonId, OdoMeter, 0, fuelTypeOfHose, phoneNumber, WifiSSId.ToString().Trim(), transactionDate,
                                                                 0, 0, TransactionFrom, 0, Convert.ToDouble(CurrentLat).ToString("0.00000"), Convert.ToDouble(CurrentLng).ToString("0.00000"), CurrentLocationAddress,
                                                               IIf(VehicleNumber.Trim().ToLower().Contains("guest"), VehicleNumber.Trim(), dtVehicle.Rows(0)("VehicleNumber").ToString().Trim()), DepartmentNumber, PersonnelPIN.Trim(), Other, IIf(Hours = "", -1, Hours), True, False, 0, HubId, 0,
-                                                                 dtVehicle.Rows(0)("VehicleName").ToString(), DepartmentName, FuelTypeName, Email, PersonName, CompanyName, 0, Convert.ToInt32(dsTransactionValuesData.Tables(3).Rows(0)("CustomerId")), 0, 0, 0) '
+                                                                 dtVehicle.Rows(0)("VehicleName").ToString(), DepartmentName, FuelTypeName, Email, PersonName, CompanyName, 0, Convert.ToInt32(dsTransactionValuesData.Tables(3).Rows(0)("CustomerId")), 0, 0, 0, 0, False)
+                                        Else
+                                            TransactionId = Convert.ToInt32(dtTransaction.Rows(0)("TransactionId").ToString())
+                                        End If
+
+                                        steps = "CheckFuelType 7_8_1"
 
                                         If (TransactionId = 0) Then
                                             log.Debug("ProcessRequest: AuthorizationSequence- Error occcured in saving transactions.")
@@ -2397,23 +2522,13 @@ Public Class HandlerTrak
                     'context.Response.Write("Transaction Not Found") 'Get sum of person fuel transaction and vehicle fuel transaction for current day
                     ErrorInAuthontication(context, "fail", resourceManager.GetString("HandlerMsg51"))
                 End If
-                'Else
-                '    log.Debug("ProcessRequest: AuthorizationSequence- Wrong fuel type try different hose")
-                '    'context.Response.Write("Wrong fuel type try different hose") 'Wrong fuel type try different hose
-                '    ErrorInAuthontication(context, "fail", "Wrong fuel type, try a different hose")
-                'End If
-                'Else
-                '    log.Debug("ProcessRequest: AuthorizationSequence- vehicle and fuel type mapping does not exists")
-                '    'context.Response.Write("Unauthorized Vehicle") 'vehicle and fuel type mapping does not exists
-                '    ErrorInAuthontication(context, "fail", "Fuel types are not assigned for this vehicle.")
-                'End If
             Else
                 log.Debug("ProcessRequest: AuthorizationSequence- Hose does not exists")
                 'context.Response.Write("Unauthorized Vehicle") 'Hose does not exists
                 ErrorInAuthontication(context, "fail", resourceManager.GetString("HandlerMsg32"))
             End If
         Else
-            log.Debug("ProcessRequest: AuthorizationSequence- IMEI_UDID does not exist")
+            log.Debug("ProcessRequest: AuthorizationSequence- Hose does not exist")
             'context.Response.Write("IMEI_UDID not exists") 'Hose does not exists
             ErrorInAuthontication(context, "fail", resourceManager.GetString("HandlerMsg32"))
         End If
@@ -2455,6 +2570,8 @@ Public Class HandlerTrak
         rootOject.ResponceData.CollectDiagnosticLogs = "False"
         rootOject.ResponceData.IsGateHub = "False"
         rootOject.ResponceData.IsVehicleNumberRequire = "False"
+        rootOject.ResponceData.EnbDisHubForFA = "False"
+        rootOject.ResponceData.StayOpenGate = "False"
 
         Dim json As String
         json = javaScriptSerializer.Serialize(rootOject)
@@ -2499,6 +2616,8 @@ Public Class HandlerTrak
         rootOject.objUserData.WifiChannelToUse = data.WifiChannelToUse
         rootOject.objUserData.IsGateHub = data.IsGateHub
         rootOject.objUserData.IsVehicleNumberRequire = data.IsVehicleNumberRequire
+        rootOject.objUserData.EnbDisHubForFA = data.EnbDisHubForFA
+        rootOject.objUserData.StayOpenGate = "False"
 
         Dim json As String
         json = javaScriptSerializer.Serialize(rootOject)
@@ -2643,6 +2762,7 @@ Public Class HandlerTrak
                             Return
 
                         End If
+
                         Dim EmailSubject As String = ""
                         If (IsLastTransaction Is Nothing Or IsLastTransaction = "" Or IsLastTransaction = "0") Then
                             If (IsFuelingStop Is Nothing Or IsFuelingStop = "") Then 'backward compatibility for not sending email to use if quantity is less than  one gallon of previous email quantity .
@@ -2695,7 +2815,7 @@ Public Class HandlerTrak
                         Dim Beforedata = CreateData(TransactionId, CreateDataFor)
 
                         TransactionId = OBJMasterBAL.InsertUpdateTransaction(dtSingleTransacton.Rows(0)("VehicleId"), 0, 0, dtSingleTransacton.Rows(0)("CurrentOdometer"), FuelQuantity, 0, "", "", DateTime.Now, TransactionId, dtSingleTransacton.Rows(0)("PersonId"),
-                                                                            "", dtSingleTransacton.Rows(0)("PreviousOdometer"), "", "", "", "", "", "", "", 0, False, True, 0, 0, Pulses, "", "", "", "", "", "", 0, 0, 0, 0, 0) '
+                                                                            "", dtSingleTransacton.Rows(0)("PreviousOdometer"), "", "", "", "", "", "", "", 0, False, True, 0, 0, Pulses, "", "", "", "", "", "", 0, 0, 0, 0, 0, 0, False) '
 
                         If TransactionId <> 0 Then 'success
                             Try
@@ -2947,7 +3067,7 @@ Public Class HandlerTrak
                 Dim Beforedata = CreateData(TransactionId, CreateDataFor)
                 log.Error("UpdateTenTransactions Step 8 ")
                 TransactionId = OBJMasterBAL.InsertUpdateTransaction(dtSingleTransacton.Rows(0)("VehicleId"), 0, 0, dtSingleTransacton.Rows(0)("CurrentOdometer"), FuelQuantity, 0, "", "", DateTime.Now, TransactionId, dtSingleTransacton.Rows(0)("PersonId"),
-                                                                        "", dtSingleTransacton.Rows(0)("PreviousOdometer"), "", "", "", "", "", "", "", 0, False, True, 0, 0, Pulses, "", "", "", "", "", "", 0, 0, 0, 0, 0) '
+                                                                        "", dtSingleTransacton.Rows(0)("PreviousOdometer"), "", "", "", "", "", "", "", 0, False, True, 0, 0, Pulses, "", "", "", "", "", "", 0, 0, 0, 0, 0, 0, False) '
                 log.Error("UpdateTenTransactions Step 9 ")
                 If TransactionId <> 0 Then 'success
 
@@ -3143,6 +3263,8 @@ Public Class HandlerTrak
         rootOject.objUserData.WifiChannelToUse = userObj.WifiChannelToUse
         rootOject.objUserData.IsGateHub = userObj.IsGateHub
         rootOject.objUserData.IsVehicleNumberRequire = userObj.IsVehicleNumberRequire
+        rootOject.objUserData.EnbDisHubForFA = userObj.EnbDisHubForFA
+        rootOject.objUserData.StayOpenGate = "False"
 
         rootOject.SSIDDataObj = New List(Of SSIDData)()
 
@@ -3390,6 +3512,7 @@ Public Class HandlerTrak
             End If
 
             Dim dsIMEI = New DataSet()
+            Dim IsGateHub As Boolean = False
             dsIMEI = OBJServiceBAL.IsIMEIExists(IMEI_UDID)
             steps = "CheckVehicleRequireOdometerEntryAndRequireHourEntry 2"
             If Not dsIMEI Is Nothing Then   'IMEI_UDID not exists
@@ -3422,6 +3545,8 @@ Public Class HandlerTrak
                         'Else
                         '	dtMain = dsIMEI.Tables(0)
                         'End If
+
+                        IsGateHub = dsIMEI.Tables(0).Rows(0)("IsGateHub").ToString()
 
                         If dtMain.Rows(0)("IsApproved").ToString() = "True" Then
                             steps = "CheckVehicleRequireOdometerEntryAndRequireHourEntry 3"
@@ -3560,7 +3685,7 @@ Public Class HandlerTrak
                                                                                                         'log.Error("customerId : " & customerId)
                                                                                                         steps = "CheckVehicleRequireOdometerEntryAndRequireHourEntry 11"
 
-                                                                                                        CreateResponseForRequireOdoVehicle(context, data, vehicleId, dtVehicle, personId, dt, RoleId) ', Boolean.Parse(dtCustomer.Rows(0)("IsOdometerRequire"))
+                                                                                                        CreateResponseForRequireOdoVehicle(context, data, vehicleId, dtVehicle, personId, dt, RoleId, IsGateHub) ', Boolean.Parse(dtCustomer.Rows(0)("IsOdometerRequire"))
 
                                                                                                     Else
                                                                                                         log.Debug("ProcessRequest: CheckVehicleRequireOdometerEntryAndRequireHourEntry- 1 The user is not authorized for this vehicle for IMEI_UDID=" & IMEI_UDID)
@@ -3577,10 +3702,6 @@ Public Class HandlerTrak
                                                                                                 ErrorInRequireOdoVehicle(context, "fail", resourceManager.GetString("HandlerMsg20"), "Pin")
                                                                                                 'ErrorInRequireOdoVehicle(context, "fail", "The user is not authorized for this vehicle, please contact administrator.", "Pin")
                                                                                             End If
-
-
-
-
                                                                                         Else
                                                                                             log.Debug("ProcessRequest: CheckVehicleRequireOdometerEntryAndRequireHourEntry- Unauthorized fuel time for IMEI_UDID=" & IMEI_UDID)
                                                                                             ErrorInRequireOdoVehicle(context, "fail", resourceManager.GetString("HandlerMsg21"), "Pin")
@@ -3683,7 +3804,7 @@ Public Class HandlerTrak
 
     End Sub
 
-    Private Sub CreateResponseForRequireOdoVehicle(context As HttpContext, data As String, VehicleId As Integer, dtVehicle As DataTable, PersonId As Integer, dt As DataTable, RoleId As String) ', IsOdometerRequire As Boolean
+    Private Sub CreateResponseForRequireOdoVehicle(context As HttpContext, data As String, VehicleId As Integer, dtVehicle As DataTable, PersonId As Integer, dt As DataTable, RoleId As String, IsGateHub As Boolean) ', IsOdometerRequire As Boolean
         Dim javaScriptSerializer = New JavaScriptSerializer()
         Dim serJsonDetails = javaScriptSerializer.Deserialize(data, GetType(AuthorizationSequenceModel))
         Dim IMEI_UDID = DirectCast(serJsonDetails, AuthorizationSequenceModel).IMEIUDID
@@ -3705,7 +3826,7 @@ Public Class HandlerTrak
         Else
             VehicleNumber = ""
         End If
-
+        log.Info("CreateResponseForRequireOdoVehicle : IsGateHub" & IsGateHub)
         OBJMasterBAL = New MasterBAL()
         steps = "CreateResponseForRequireOdoVehicle 1"
         Dim dtHose = OBJMasterBAL.GetHoseByCondition(" And LTRIM(RTRIM(h.WifiSSId)) ='" & WifiSSId.ToString().Trim().Replace("'", "''") & "' and s.SiteID =" & SiteId.ToString() & "", PersonId, RoleId)
@@ -3725,14 +3846,14 @@ Public Class HandlerTrak
                 personFuelLimitForDay = Integer.Parse(dt.Rows(0)("FuelLimitPerDay".ToString()))
                 Dim phoneNumber = dt.Rows(0)("PhoneNumber".ToString())
                 Dim dsTransactionFuelLimitForDay = New DataSet()
-                dsTransactionFuelLimitForDay = OBJMasterBAL.GetSumOfFuelQuantity(PersonId, VehicleId) 'Get sum of person fuel transaction and vehicle fuel transaction for current day
+                dsTransactionFuelLimitForDay = OBJMasterBAL.GetSumOfFuelQuantity(PersonId, VehicleId, SiteId) 'Get sum of person fuel transaction and vehicle fuel transaction for current day
                 steps = "CreateResponseForRequireOdoVehicle 6"
-                If Not dsTransactionFuelLimitForDay Is Nothing Then
-                    If dsTransactionFuelLimitForDay.Tables.Count = 2 Then
-                        If Not dsTransactionFuelLimitForDay.Tables(0) Is Nothing And Not dsTransactionFuelLimitForDay.Tables(1) Is Nothing Then
-                            If dsTransactionFuelLimitForDay.Tables(0).Rows.Count <> 0 And dsTransactionFuelLimitForDay.Tables(1).Rows.Count <> 0 Then
-                                If Decimal.Parse(dsTransactionFuelLimitForDay.Tables(0).Rows(0)("FuelQuantityOfPerson").ToString()) < personFuelLimitForDay Or personFuelLimitForDay = 0 Then
-                                    If Decimal.Parse(dsTransactionFuelLimitForDay.Tables(1).Rows(0)("FuelQuantityOfVehicle").ToString()) < vehicleFuelLimitForDay Or vehicleFuelLimitForDay = 0 Then
+                If Not dsTransactionFuelLimitForDay Is Nothing Or IsGateHub = True Then
+                    If dsTransactionFuelLimitForDay.Tables.Count = 2 Or IsGateHub = True Then
+                        If (Not dsTransactionFuelLimitForDay.Tables(0) Is Nothing And Not dsTransactionFuelLimitForDay.Tables(1) Is Nothing) Or IsGateHub = True Then
+                            If (dsTransactionFuelLimitForDay.Tables(0).Rows.Count <> 0 And dsTransactionFuelLimitForDay.Tables(1).Rows.Count <> 0) Or IsGateHub = True Then
+                                If (Decimal.Parse(dsTransactionFuelLimitForDay.Tables(0).Rows(0)("FuelQuantityOfPerson").ToString()) < personFuelLimitForDay Or personFuelLimitForDay = 0) Or IsGateHub = True Then
+                                    If (Decimal.Parse(dsTransactionFuelLimitForDay.Tables(1).Rows(0)("FuelQuantityOfVehicle").ToString()) < vehicleFuelLimitForDay Or vehicleFuelLimitForDay = 0) Or IsGateHub = True Then
                                         steps = "CreateResponseForRequireOdoVehicle 7"
                                         'calculate min fuel limit per day
                                         '0 means unlimited
@@ -3825,21 +3946,23 @@ Public Class HandlerTrak
 
                                             If (dtVehicle.Rows(0)("CheckOdometerReasonable") = "Y") Then
 
-                                            checkRequireOdoResponse.OdometerReasonabilityConditions = IIf(Convert.ToString(dtVehicle.Rows(0)("OdometerReasonabilityConditions")) = "", 1, dtVehicle.Rows(0)("OdometerReasonabilityConditions"))
+                                                checkRequireOdoResponse.OdometerReasonabilityConditions = IIf(Convert.ToString(dtVehicle.Rows(0)("OdometerReasonabilityConditions")) = "", 1, dtVehicle.Rows(0)("OdometerReasonabilityConditions"))
 
-                                            checkRequireOdoResponse.OdoLimit = (Integer.Parse(IIf(IsDBNull(dtVehicle.Rows(0)("CurrentOdometer")), 0, dtVehicle.Rows(0)("CurrentOdometer"))) +
-                                                                                Integer.Parse(IIf(IsDBNull(dtVehicle.Rows(0)("Odolimit")), 0, dtVehicle.Rows(0)("Odolimit"))))
+                                                checkRequireOdoResponse.OdoLimit = (Integer.Parse(IIf(IsDBNull(dtVehicle.Rows(0)("CurrentOdometer")), 0, dtVehicle.Rows(0)("CurrentOdometer"))) +
+                                                                                    Integer.Parse(IIf(IsDBNull(dtVehicle.Rows(0)("Odolimit")), 0, dtVehicle.Rows(0)("Odolimit"))))
 
-                                            checkRequireOdoResponse.HoursLimit = (Integer.Parse(IIf(IsDBNull(dtVehicle.Rows(0)("CurrentHours")), 0, dtVehicle.Rows(0)("CurrentHours"))) +
-                                                                                Integer.Parse(IIf(IsDBNull(dtVehicle.Rows(0)("HoursLimit")), 0, dtVehicle.Rows(0)("HoursLimit"))))
+                                                checkRequireOdoResponse.HoursLimit = (Integer.Parse(IIf(IsDBNull(dtVehicle.Rows(0)("CurrentHours")), 0, dtVehicle.Rows(0)("CurrentHours"))) +
+                                                                                    Integer.Parse(IIf(IsDBNull(dtVehicle.Rows(0)("HoursLimit")), 0, dtVehicle.Rows(0)("HoursLimit"))))
 
-                                        Else
+                                            Else
                                                 checkRequireOdoResponse.OdometerReasonabilityConditions = 2
                                                 checkRequireOdoResponse.OdoLimit = 0
                                                 checkRequireOdoResponse.HoursLimit = 0
                                             End If
 
                                         End If
+
+
 
                                         checkRequireOdoResponse.FOBNumber = dtVehicle.Rows(0)("FOBNumber").ToString().Replace(" ", "")
                                         checkRequireOdoResponse.VehicleNumber = dtVehicle.Rows(0)("VehicleNumber").ToString().Trim()
@@ -4155,7 +4278,7 @@ Public Class HandlerTrak
             TransactionId = OBJMasterBAL.InsertUpdateTransaction(VehicleId, SiteId, PersonId, CurrentOdometer, FuelQuantity, FuelTypeId, PhoneNumber, WifiSSId.ToString().Trim(), TransactionDate,
                                                               0, 0, TransactionFrom, 0, Convert.ToDouble(CurrentLat).ToString("0.00000"), Convert.ToDouble(CurrentLng).ToString("0.00000"), CurrentLocationAddress,
                                                               VehicleNumber.Trim(), DepartmentNumber, PersonnelPIN.Trim(), Other, IIf(Hours = "", -1, Hours), False, False, 2, 0, 0,
-                                                                 VehicleName, DepartmentName, FuelTypeName, Email, PersonName, CompanyName, 0, Convert.ToInt32(dsTransactionValuesData.Tables(3).Rows(0)("CustomerId")), 0, 0, 0) '
+                                                                 VehicleName, DepartmentName, FuelTypeName, Email, PersonName, CompanyName, 0, Convert.ToInt32(dsTransactionValuesData.Tables(3).Rows(0)("CustomerId")), 0, 0, 0, 0, False) '
 
             If TransactionId <> 0 Then 'success
                 Try
@@ -4267,13 +4390,9 @@ Public Class HandlerTrak
                     objSSIDData.ResponceText = "SSID Data"
                     objSSIDData.WifiSSId = row("WifiSSId").ToString().Trim()
                     objSSIDData.SiteId = row("SiteId")
-                    'log.Info("PulserRatio :" & row("PulserRatio"))
-                    'log.Info("PulserRatio -1 : " & row("PulserRatio").ToString())
                     Dim pulseRatio = Decimal.Parse(row("PulserRatio").ToString())
-                    'log.Info("PulserRatio -2 : " & pulseRatio)
                     objSSIDData.PulserRatio = pulseRatio
                     objSSIDData.DecimalPulserRatio = pulseRatio
-                    'log.Info(objSSIDData.PulserRatio)
                     objSSIDData.FuelTypeId = row("FuelTypeId")
                     objSSIDData.Password = ConfigurationManager.AppSettings("FSPassword").ToString()
                     objSSIDData.PumpOnTime = row("PumpOnTime")
@@ -4645,7 +4764,6 @@ Public Class HandlerTrak
         End Try
         Return ""
     End Function
-
     Private Function UpgradeTransactionStatus(context As HttpContext)
         Dim requestJson As String = ""
         Try
@@ -5884,7 +6002,7 @@ Public Class HandlerTrak
                                 TransactionId = OBJMasterBAL.InsertUpdateTransaction(VehicleId, 0, personId, (Odometer * KilometerTOMiles) - DiffRawOdoAndManualOdo, 0, 0, Phonenumber, "", TransactionDate,
                                                                 0, 0, TransactionFrom, 0, CurrentLat, CurrentLng, "",
                                                               VehicleNumber.Trim(), DepartmentNumber, PinNumber.Trim(), "", -1, True, False, 0, personId, 0,
-                                                                VehicleName, DepartmentName, FuelTypeName, Email, PersonName, CompanyName, 0, customerId, 0, Odometer, 1)
+                                                                VehicleName, DepartmentName, FuelTypeName, Email, PersonName, CompanyName, 0, customerId, 0, Odometer, 1, 0, False)
                                 log.Debug("In Insert Transaction ODOK - " & Odometer)
                             Else
                                 steps = "VehicleRecurringMSG 3 - 2 -1"
@@ -5893,7 +6011,7 @@ Public Class HandlerTrak
                                     TransactionId = OBJMasterBAL.InsertUpdateTransaction(VehicleId, 0, personId, (Odometer * KilometerTOMiles) - DiffRawOdoAndManualOdo, 0, 0, Phonenumber, "", TransactionDate,
                                                                 TransactionId, 0, TransactionFrom, 0, CurrentLat, CurrentLng, "",
                                                               VehicleNumber.Trim(), DepartmentNumber, PinNumber.Trim(), "", -1, True, False, 0, personId, 0,
-                                                                VehicleName, DepartmentName, FuelTypeName, Email, PersonName, CompanyName, 0, customerId, 0, Odometer, 1)
+                                                                VehicleName, DepartmentName, FuelTypeName, Email, PersonName, CompanyName, 0, customerId, 0, Odometer, 1, 0, False)
 
                                     log.Debug("In Update Transaction Calculated Odometer - " & (Odometer * KilometerTOMiles) + DiffRawOdoAndManualOdo)
                                     log.Debug("In Update Transaction ODOK - " & Odometer)
@@ -6199,7 +6317,7 @@ Public Class HandlerTrak
                                                                                         personFuelLimitForDay = Integer.Parse(dt.Rows(0)("FuelLimitPerDay").ToString())
                                                                                         Dim phoneNumber As String = dt.Rows(0)("PhoneNumber").ToString()
                                                                                         Dim dsTransactionFuelLimitForDay = New DataSet()
-                                                                                        dsTransactionFuelLimitForDay = OBJMasterBAL.GetSumOfFuelQuantity(personId, VehicleId) 'Get sum of person fuel transaction and vehicle fuel transaction for current day
+                                                                                        dsTransactionFuelLimitForDay = OBJMasterBAL.GetSumOfFuelQuantity(personId, VehicleId, SiteId) 'Get sum of person fuel transaction and vehicle fuel transaction for current day
                                                                                         steps = "CheckAndValidateFSNPDetails 11_3"
                                                                                         If Not dsTransactionFuelLimitForDay Is Nothing Then
                                                                                             If dsTransactionFuelLimitForDay.Tables.Count = 2 Then
@@ -6359,7 +6477,6 @@ Public Class HandlerTrak
                                                                                                                     rootOject.OdometerReasonabilityConditions = 2
                                                                                                                     rootOject.OdoLimit = 0
                                                                                                                 End If
-
                                                                                                                 rootOject.CheckOdometerReasonable = IIf(dtVehicle.Rows(0)("CheckOdometerReasonable") = "Y", "True", "False")
 
                                                                                                                 Try
@@ -7084,6 +7201,8 @@ Public Class HandlerTrak
 
 #End Region
 
+
+
     Private Sub SendLinkDefectiveEmail(emailTo As String, LinkName As String, numberzero As Integer, CompanyName As String)
         Try
 
@@ -7114,8 +7233,8 @@ Public Class HandlerTrak
             messageSend.[To].Add(New MailAddress(emailTo))
 
 
-            messageSend.Subject = "Defective link " & CompanyName & "-" & LinkName
-
+            'messageSend.Subject = "Defective link " & CompanyName & "-" & LinkName
+            messageSend.Subject = "Multiple zero quantity transactions detected.  Please check integrity of system."
             messageSend.Body = body
 
             messageSend.IsBodyHtml = True

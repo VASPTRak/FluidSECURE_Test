@@ -11,8 +11,8 @@
                 <div class="panel-body">
                     <div class="row col-md-12 col-sm-12 col-xs-12">
                         <p class="text-center green" id="message" runat="server"></p>
-                        <p class="text-center red" id="ErrorMessage" runat="server"></p>
-                        <p class="text-center red" id="ManuallyEditMessage" runat="server">This transaction is manually edited.</p>
+                       <p class="text-center red" id="ErrorMessage" runat="server"></p>
+                        <p class="text-center red" id="ManuallyEditMessage" runat="server"></p>
                     </div>
 
                     <div class="row col-md-12 col-sm-12 col-xs-12">
@@ -24,8 +24,6 @@
                         <div class="form-group col-md-3 col-sm-3 col-xs-12">
                             <input type="button" id="BTN_Vehicles" tabindex="1" onclick="OpenVehicleTypeBox();" value="Click to add vehicle" />
                             <asp:Label ID="lbl_VehicleNumber" runat="server"></asp:Label>
-                            <%--<asp:DropDownList ID="DDL_Vehicle" runat="server" TabIndex="1" CssClass="form-control input-sm" AutoPostBack="true" OnSelectedIndexChanged="DDL_Vehicle_SelectedIndexChanged"></asp:DropDownList>
-                            <asp:RequiredFieldValidator ID="RDF_Vehicle" runat="server" ControlToValidate="DDL_Vehicle" Display="Dynamic" ErrorMessage="Please select Vehicle Number." ForeColor="Red" InitialValue="0" SetFocusOnError="True" ValidationGroup="TransactionValidation"></asp:RequiredFieldValidator>--%>
                         </div>
                         <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
                             <label>
@@ -70,8 +68,6 @@
                             <asp:RequiredFieldValidator ID="RDF_Dept" runat="server" ControlToValidate="DDL_Customer" Display="Dynamic"
                                 ErrorMessage="Please select Department." ForeColor="Red" InitialValue="0" SetFocusOnError="True" ValidationGroup="TransactionValidation"></asp:RequiredFieldValidator>
                         </div>
-
-
                         <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
                             <label>
                                 Person
@@ -87,9 +83,43 @@
                         </div>
                     </div>
                     <div class="row col-md-12 col-sm-12 col-xs-12">
-                        <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
+                        <div runat="server" id="divDepartmentNumber" visible="false">
+                            <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
+                                <label>
+                                    Department Number:
+                                <label class="text-danger font-required">[required]:</label>
+                                </label>
+                            </div>
+                            <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                                <asp:TextBox ID="txtDeptNo" CssClass="form-control input-sm" TabIndex="4" runat="server" MaxLength="10" Width="110"></asp:TextBox>
+                                <asp:RequiredFieldValidator ID="RFD_txtDeptNo" runat="server" ControlToValidate="txtDeptNo" Display="Dynamic" ErrorMessage="Please enter Department number." ForeColor="Red" SetFocusOnError="True" ValidationGroup="TransactionValidation"></asp:RequiredFieldValidator>
+                            </div>
+                        </div>
+                        <div runat="server" id="divPersonnel">
+                            <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
+                                <label>
+                                    Person PIN:</label>
+                            </div>
+                            <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                                <asp:TextBox ID="txtPinNumber" runat="server" CssClass="form-control input-sm" MaxLength="10" Width="95" TabIndex="13" OnTextChanged="txtPinNumber_TextChanged" AutoPostBack="true"></asp:TextBox>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row col-md-12 col-sm-12 col-xs-12">
+                        <%-- <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
                         </div>
                         <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                        </div>--%>
+                        <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
+                            <label>
+                                FluidSecure Link
+                        <label class="text-danger font-required">[required]</label>:</label>
+                        </div>
+                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
+
+                            <asp:DropDownList ID="DDL_Site" runat="server" TabIndex="5" CssClass="form-control input-sm" OnSelectedIndexChanged="DDL_Site_SelectedIndexChanged" AutoPostBack="true"></asp:DropDownList>
+                            <asp:RequiredFieldValidator ID="RDF_Site" runat="server" ControlToValidate="DDL_Site" Display="Dynamic" ErrorMessage="Please select FluidSecure Link." ForeColor="Red" InitialValue="0" SetFocusOnError="True" ValidationGroup="TransactionValidation"></asp:RequiredFieldValidator>
+
                         </div>
                         <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
                             <label>
@@ -101,82 +131,50 @@
                             <asp:Label ID="LBL_SelectedPerson" runat="server"></asp:Label>
                         </div>
                     </div>
-
                     <div class="row col-md-12 col-sm-12 col-xs-12">
                         <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
                             <label>
-                                Department Number:
-                                <label class="text-danger font-required">[required]:</label>
+                                Fuel Type
+                        <label class="text-danger font-required">[required]</label>:
                             </label>
                         </div>
                         <div class="form-group col-md-3 col-sm-3 col-xs-12">
-                            <asp:TextBox ID="txtDeptNo" CssClass="form-control input-sm" TabIndex="4" runat="server" MaxLength="10" Width="110"></asp:TextBox>
-                            <asp:RequiredFieldValidator ID="RFD_txtDeptNo" runat="server" ControlToValidate="txtDeptNo" Display="Dynamic" ErrorMessage="Please enter Department number." ForeColor="Red" SetFocusOnError="True" ValidationGroup="TransactionValidation"></asp:RequiredFieldValidator>
-                        </div>
+                            <asp:DropDownList ID="DDL_Fuel" runat="server" TabIndex="6" CssClass="form-control input-sm" Enabled="false"></asp:DropDownList>
+                            <asp:RequiredFieldValidator ID="RDF_Fuel" runat="server" ControlToValidate="DDL_Fuel" Display="Dynamic" ErrorMessage="Please select Fuel." ForeColor="Red" InitialValue="0" SetFocusOnError="True" ValidationGroup="TransactionValidation"></asp:RequiredFieldValidator>
 
+                            <asp:HiddenField ID="hdfTransactionId" runat="server"></asp:HiddenField>
+                            <asp:HiddenField ID="HDF_TotalTransactions" runat="server" />
+                        </div>
                         <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
                             <label>
-                                Person PIN:</label>
-                        </div>
-                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
-                            <asp:TextBox ID="txtPinNumber" runat="server" CssClass="form-control input-sm" MaxLength="10" Width="95" TabIndex="13" OnTextChanged="txtPinNumber_TextChanged" AutoPostBack="true"></asp:TextBox>
-                            <%--<asp:CompareValidator ID="CVPinNumber" runat="server" ControlToValidate="txtPinNumber" Display="Dynamic" ErrorMessage="Please enter PIN Number in integer format." ForeColor="Red" Operator="DataTypeCheck" SetFocusOnError="True" Type="Double" ValidationGroup="TransactionValidation"></asp:CompareValidator>--%>
-                        </div>
-                    </div>
-                    <div class="row col-md-12 col-sm-12 col-xs-12">
-                        <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
-                            <label>
-                                Guest Vehicle Number:</label>
-                        </div>
-                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
-                            <asp:TextBox ID="txtGuestVehicleNumber" CssClass="form-control input-sm" TabIndex="5" runat="server" MaxLength="10" Width="110"></asp:TextBox>
-                        </div>
-
-
-                        <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
-                            <label>
-                                Current Odometer
-                                  <label class="text-danger font-required">[required]:</label>
+                                Current Odometer:
                             </label>
                         </div>
                         <div class="form-group col-md-3 col-sm-3 col-xs-12">
                             <asp:TextBox ID="txtCurrentOdometer" runat="server" CssClass="form-control input-sm" MaxLength="7" Width="70" TabIndex="14" onkeypress="return onlyNumbers(event);"></asp:TextBox>
-                            <label runat="server" id="lblcurrODO" style="color: red"></label>
+                            <%--<label runat="server" id="lblcurrODO" style="color: red"></label>
                             <asp:RequiredFieldValidator ID="RFD_CurrOdo" runat="server" ControlToValidate="txtCurrentOdometer" Display="Dynamic" ErrorMessage="Please enter current odometer." ForeColor="Red" SetFocusOnError="True" ValidationGroup="TransactionValidation"></asp:RequiredFieldValidator>
-                            <asp:CompareValidator ID="CV_CurrOdo" runat="server" Display="Dynamic" ErrorMessage="Please enter current odometer in integer format." ForeColor="Red" Operator="DataTypeCheck" SetFocusOnError="True" Type="Integer" ValidationGroup="TransactionValidation" ControlToValidate="txtCurrentOdometer"></asp:CompareValidator>
-
+                            <asp:CompareValidator ID="CV_CurrOdo" runat="server" Display="Dynamic" ErrorMessage="Please enter current odometer in integer format." ForeColor="Red" Operator="DataTypeCheck" SetFocusOnError="True" Type="Integer" ValidationGroup="TransactionValidation" ControlToValidate="txtCurrentOdometer"></asp:CompareValidator>--%>
                         </div>
                     </div>
                     <div class="row col-md-12 col-sm-12 col-xs-12">
-                        <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
-                            <label>
-                                FluidSecure Link
-                        <label class="text-danger font-required">[required]</label>:</label>
-                        </div>
-                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
-
-                            <asp:DropDownList ID="DDL_Site" runat="server" TabIndex="6" CssClass="form-control input-sm" OnSelectedIndexChanged="DDL_Site_SelectedIndexChanged" AutoPostBack="true"></asp:DropDownList>
-                            <label runat="server" id="lblSite" style="color: red"></label>
-                            <asp:RequiredFieldValidator ID="RDF_Site" runat="server" ControlToValidate="DDL_Site" Display="Dynamic" ErrorMessage="Please select FluidSecure Link." ForeColor="Red" InitialValue="0" SetFocusOnError="True" ValidationGroup="TransactionValidation"></asp:RequiredFieldValidator>
-
-                        </div>
                         <div id="PreviousOdometer" runat="server">
                             <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
+                            </div>
+                            <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
+                            </div>
+                            <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
                                 <label>
-                                    Previous Odometer
-                                  <label class="text-danger font-required">[required]:</label>
+                                    Previous Odometer:
                                 </label>
                             </div>
                             <div class="form-group col-md-3 col-sm-3 col-xs-12">
                                 <asp:TextBox ID="txtPreviousOdometer" runat="server" CssClass="form-control input-sm" MaxLength="7" Width="70" TabIndex="15" Text="0" onkeypress="return onlyNumbers(event);"></asp:TextBox>
-                                <label runat="server" id="lblprevODO" style="color: red"></label>
+                                <%--<label runat="server" id="lblprevODO" style="color: red"></label>
                                 <asp:RequiredFieldValidator ID="RDF_PreviousOdometer" runat="server" ControlToValidate="txtPreviousOdometer" Display="Dynamic" ErrorMessage="Please enter previous odometer." ForeColor="Red" SetFocusOnError="True" ValidationGroup="TransactionValidation"></asp:RequiredFieldValidator>
-                                <asp:CompareValidator ID="CV_PreviousOdometer" runat="server" Display="Dynamic" ErrorMessage="Please enter previous odometer in integer format." ForeColor="Red" Operator="DataTypeCheck" SetFocusOnError="True" Type="Integer" ValidationGroup="TransactionValidation" ControlToValidate="txtPreviousOdometer"></asp:CompareValidator>
-
-
+                                <asp:CompareValidator ID="CV_PreviousOdometer" runat="server" Display="Dynamic" ErrorMessage="Please enter previous odometer in integer format." ForeColor="Red" Operator="DataTypeCheck" SetFocusOnError="True" Type="Integer" ValidationGroup="TransactionValidation" ControlToValidate="txtPreviousOdometer"></asp:CompareValidator>--%>
                             </div>
                         </div>
-
                     </div>
                     <div class="row col-md-12 col-sm-12 col-xs-12">
                         <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
@@ -186,14 +184,12 @@
                         </div>
                         <div class="form-group col-md-3 col-sm-3 col-xs-12">
                             <asp:TextBox ID="txtFuelQuantity" runat="server" CssClass="form-control input-sm checkDecimal" Width="80px" TabIndex="7" onchange="return onlyDecimal();"></asp:TextBox>
-                            <label runat="server" id="lblFQnty" style="color: red"></label>
                             <asp:RequiredFieldValidator ID="RFD_FuelQuantity" runat="server" ControlToValidate="txtFuelQuantity" Display="Dynamic" ErrorMessage="Please enter Fuel Quantity." ForeColor="Red" SetFocusOnError="True" ValidationGroup="TransactionValidation"></asp:RequiredFieldValidator>
                             <asp:CompareValidator ID="CV_Quantity" runat="server" Display="Dynamic" ErrorMessage="Please enter Quantity in decimal format." ForeColor="Red" Operator="DataTypeCheck" SetFocusOnError="True" Type="Double" ValidationGroup="TransactionValidation" ControlToValidate="txtFuelQuantity"></asp:CompareValidator>
-
                         </div>
                         <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
                             <label>
-                              Current Hours:</label>
+                                Current Hours:</label>
                         </div>
                         <div class="form-group col-md-3 col-sm-3 col-xs-12">
                             <asp:TextBox ID="txtHours" runat="server" CssClass="form-control input-sm" MaxLength="10" Width="95" TabIndex="16" onkeypress="return onlyNumbers(event);"></asp:TextBox>
@@ -201,23 +197,19 @@
                         </div>
                     </div>
                     <div class="row col-md-12 col-sm-12 col-xs-12">
-                        <%--<div class="form-group col-md-3 col-sm-3 textright col-xs-12">
-                            <label>Pulses
-                                <label class="text-danger font-required">[required]</label>:</label>
-                        </div>
-                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
-                            <asp:TextBox ID="txtPulses" runat="server" CssClass="form-control input-sm"  Width="80px" TabIndex="8" onchange="return onlyNumbers(event);"></asp:TextBox>
-                            <asp:RequiredFieldValidator ID="RFDPulses" runat="server" ControlToValidate="txtPulses" Display="Dynamic" ErrorMessage="Please enter Pulses." ForeColor="Red" SetFocusOnError="True" ValidationGroup="TransactionValidation"></asp:RequiredFieldValidator>
-
-                            <asp:CompareValidator ID="CVPulses" runat="server" Display="Dynamic" ErrorMessage="Please enter pulses in integer format." ForeColor="Red" Operator="DataTypeCheck" SetFocusOnError="True" Type="Integer" ValidationGroup="TransactionValidation" ControlToValidate="txtPulses"></asp:CompareValidator>
-
-                        </div>--%>
-                        <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
-                            <label>
-                                Other:</label>
-                        </div>
-                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
-                            <asp:TextBox ID="txtOther" CssClass="form-control input-sm" TabIndex="8" runat="server"></asp:TextBox>
+                        <div runat="server" id="divTransactionStatus">
+                            <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
+                                <label>
+                                    Transaction Status
+                                <label class="text-danger font-required">[required]</label>:
+                                </label>
+                            </div>
+                            <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                                <asp:DropDownList ID="DDL_TransactionStatus" runat="server" TabIndex="8" CssClass="form-control input-sm">
+                                </asp:DropDownList>
+                                <asp:RequiredFieldValidator ID="RDF_TransactionStatus" runat="server" ControlToValidate="DDL_TransactionStatus" Display="Dynamic"
+                                    ErrorMessage="Please select Transaction Status." ForeColor="Red" InitialValue="-1" SetFocusOnError="True" ValidationGroup="TransactionValidation"></asp:RequiredFieldValidator>
+                            </div>
                         </div>
                         <div id="divPrevHours" runat="server">
                             <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
@@ -232,51 +224,12 @@
                         </div>
                     </div>
                     <div class="row col-md-12 col-sm-12 col-xs-12">
-
-
-                        <%-- <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
-                            <label>
-                                Is Missed:</label>
-                        </div>
-                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
-                           <asp:CheckBox ID="CHK_IsMissed" runat="server"  />
-                        </div>--%>
                         <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
                             <label>
-                                Transaction Status
-                                <label class="text-danger font-required">[required]</label>:
-                            </label>
+                                Other:</label>
                         </div>
                         <div class="form-group col-md-3 col-sm-3 col-xs-12">
-                            <asp:DropDownList ID="DDL_TransactionStatus" runat="server" TabIndex="9" CssClass="form-control input-sm">
-                            </asp:DropDownList>
-                            <label runat="server" id="lbltranStatus" style="color: red"></label>
-                            <asp:RequiredFieldValidator ID="RDF_TransactionStatus" runat="server" ControlToValidate="DDL_TransactionStatus" Display="Dynamic"
-                                ErrorMessage="Please select Transaction Status." ForeColor="Red" InitialValue="-1" SetFocusOnError="True" ValidationGroup="TransactionValidation"></asp:RequiredFieldValidator>
-                        </div>
-                        <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
-                            <label>
-                                Fuel Type
-                        <label class="text-danger font-required">[required]</label>:
-                            </label>
-                        </div>
-                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
-
-                            <asp:DropDownList ID="DDL_Fuel" runat="server" TabIndex="18" CssClass="form-control input-sm" Enabled="false"></asp:DropDownList>
-                            <label runat="server" id="lblFuel" style="color: red"></label>
-                            <asp:RequiredFieldValidator ID="RDF_Fuel" runat="server" ControlToValidate="DDL_Fuel" Display="Dynamic" ErrorMessage="Please select Fuel." ForeColor="Red" InitialValue="0" SetFocusOnError="True" ValidationGroup="TransactionValidation"></asp:RequiredFieldValidator>
-
-                            <asp:HiddenField ID="hdfTransactionId" runat="server"></asp:HiddenField>
-                            <asp:HiddenField ID="HDF_TotalTransactions" runat="server" />
-                        </div>
-                    </div>
-                    <div class="row col-md-12 col-sm-12 col-xs-12">
-                        <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
-                            <label>
-                                Cost:</label>
-                        </div>
-                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
-                            <label style="font-weight: bold">$</label><label runat="server" id="lblCost" style="font-weight: bold"></label>
+                            <asp:TextBox ID="txtOther" CssClass="form-control input-sm" TabIndex="9" runat="server"></asp:TextBox>
                         </div>
                         <div id="divCompany" runat="server" class="form-group col-md-3 col-sm-3 textright col-xs-12">
                             <label>
@@ -284,64 +237,100 @@
                                 <label class="text-danger font-required">[required]</label>:</label>
                         </div>
                         <div class="form-group col-md-3 col-sm-3 col-xs-12">
-                            <asp:DropDownList ID="DDL_Customer" runat="server" CssClass="form-control input-sm" TabIndex="19" AutoPostBack="true" OnSelectedIndexChanged="DDL_Customer_SelectedIndexChanged"></asp:DropDownList>
+                            <asp:DropDownList ID="DDL_Customer" runat="server" CssClass="form-control input-sm" TabIndex="18" AutoPostBack="true" OnSelectedIndexChanged="DDL_Customer_SelectedIndexChanged"></asp:DropDownList>
                             <asp:RequiredFieldValidator ID="RDF_Customer" runat="server" ControlToValidate="DDL_Customer" Display="Dynamic"
                                 ErrorMessage="Please select Company." ForeColor="Red" InitialValue="0" SetFocusOnError="True" ValidationGroup="TransactionValidation"></asp:RequiredFieldValidator>
                         </div>
                     </div>
-                    <div class="row col-md-12 col-sm-12 col-xs-12">
-                        <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
-                            <label>
-                                Cost Per Gallon:</label>
+                     <div class="row col-md-12 col-sm-12 col-xs-12">
+                        <div id="divFinalQuantity" runat="server">
+                            <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
+                                <label>
+                                    Final Quantity:</label>
+                                </label>
+                            </div>
+                            <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                                <asp:Label Style="font-weight: bold;" ID="LblFinalQuantity" runat="server"></asp:Label>
+                            </div>
                         </div>
-                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
-                            <label style="font-weight: bold">$</label><label runat="server" id="lblCostPerGallon" style="font-weight: bold"></label>
-                        </div>
-                        <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
-                            <label>
-                                Surcharge Type:</label>
-                        </div>
-                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
-                            <label runat="server" id="lblSurchargeType" style="font-weight: bold"></label>
-                        </div>
-                    </div>
-                    <div class="row col-md-12 col-sm-12 col-xs-12">
-                        <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
-                            <label>
-                                Vehicle Sum:</label>
-                        </div>
-                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
-                            <label runat="server" id="lblVehicleSum" style="font-weight: bold"></label>
-                        </div>
-                        <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
-                            <label>
-                                Department Sum:</label>
-                        </div>
-                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
-                            <label runat="server" id="lblDeptSum" style="font-weight: bold"></label>
+                        <div runat="server" id="divGuestVehicleNumber" visible="false">
+                            <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
+                                <label>
+                                    Guest Vehicle Number:</label>
+                            </div>
+                            <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                                <asp:TextBox ID="txtGuestVehicleNumber" CssClass="form-control input-sm" TabIndex="19" runat="server" MaxLength="10" Width="110"></asp:TextBox>
+                            </div>
                         </div>
                     </div>
-                    <div class="row col-md-12 col-sm-12 col-xs-12">
-                        <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
-                            <label>
-                                Vehicle Percentage:</label>
+                    <div id="HideCost" runat="server">
+                        <div class="row col-md-12 col-sm-12 col-xs-12">
+                            <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
+                                <label>
+                                    Cost:</label>
+                            </div>
+                            <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                                <label style="font-weight: bold">$</label><label runat="server" id="lblCost" style="font-weight: bold"></label>
+                            </div>
+
                         </div>
-                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
-                            <label runat="server" id="lblVehPercentage" style="font-weight: bold"></label>
+                        <div class="row col-md-12 col-sm-12 col-xs-12">
+                            <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
+                                <label>
+                                    Cost Per Gallon:</label>
+                            </div>
+                            <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                                <label style="font-weight: bold">$</label><label runat="server" id="lblCostPerGallon" style="font-weight: bold"></label>
+                            </div>
+                            <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
+                                <label>
+                                    Surcharge Type:</label>
+                            </div>
+                            <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                                <label runat="server" id="lblSurchargeType" style="font-weight: bold"></label>
+                            </div>
                         </div>
-                        <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
-                            <label>
-                                Department Percentage:</label>
+                        <div class="row col-md-12 col-sm-12 col-xs-12">
+                            <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
+                                <label>
+                                    Vehicle Sum:</label>
+                            </div>
+                            <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                                <label runat="server" id="lblVehicleSum" style="font-weight: bold"></label>
+                            </div>
+                            <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
+                                <label>
+                                    Department Sum:</label>
+                            </div>
+                            <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                                <label runat="server" id="lblDeptSum" style="font-weight: bold"></label>
+                            </div>
                         </div>
-                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
-                            <label runat="server" id="lblDeptPercentage" style="font-weight: bold"></label>
+                        <div class="row col-md-12 col-sm-12 col-xs-12">
+                            <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
+                                <label>
+                                    Vehicle Percentage:</label>
+                            </div>
+                            <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                                <label runat="server" id="lblVehPercentage" style="font-weight: bold"></label>
+                            </div>
+                            <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
+                                <label>
+                                    Department Percentage:</label>
+                            </div>
+                            <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                                <label runat="server" id="lblDeptPercentage" style="font-weight: bold"></label>
+                            </div>
                         </div>
                     </div>
+
                     <div class="row col-md-12 col-sm-12 text-center col-xs-12">
                         <asp:Button ID="btnSave" CssClass="btn btn-primary" runat="server" OnClick="btnSave_Click" Text="Save" Width="100px"
                             UseSubmitBehavior="False" TabIndex="22" ValidationGroup="TransactionValidation" />
                         <asp:Button ID="btnCancel" CssClass="btn btn-default" runat="server" Text="Cancel" Width="100px" CausesValidation="False"
                             UseSubmitBehavior="False" TabIndex="23" OnClick="btnCancel_Click" />
+                        <asp:Button ID="btnSaveAndAddNew" CssClass="btn btn-primary" runat="server" Text="Save & Add New" Width="150px"
+                            UseSubmitBehavior="False" TabIndex="30" ValidationGroup="TransactionValidation" OnClick="btnSaveAndAddNew_Click" />
                     </div>
                     <div class="row col-md-12 col-sm-12 text-center clear col-xs-12" style="margin: 10px 0">
                         <asp:Button ID="btnFirst" runat="server" Text="|<" CssClass="NewDept_ButtonFooter"
@@ -452,6 +441,7 @@
                 <!-- /.modal-dialog -->
             </div>
             <!-- /.modal -->
+
 
         </ContentTemplate>
     </asp:UpdatePanel>
@@ -623,27 +613,27 @@
             input = document.getElementById("PersonInput");
             filter = input.value.toLowerCase();
             table = document.getElementById('<%= gv_Persons.ClientID %>');
-		    if (table != null) {
-		        tr = table.getElementsByTagName("tr");
-		        for (i = 0; i < tr.length; i++) {
-		            td = tr[i].getElementsByTagName("td")[1];
-		            if (td) {
-		                if (td.innerText.toLowerCase().indexOf(filter) > -1) {
-		                    tr[i].style.display = "";
-		                } else {
-		                    td = tr[i].getElementsByTagName("td")[2];
-		                    if (td) {
-		                        if (td.innerText.toLowerCase().indexOf(filter) > -1) {
-		                            tr[i].style.display = "";
-		                        } else {
-		                            tr[i].style.display = "none";
-		                        }
-		                    }
-		                }
-		            }
-		        }
+            if (table != null) {
+                tr = table.getElementsByTagName("tr");
+                for (i = 0; i < tr.length; i++) {
+                    td = tr[i].getElementsByTagName("td")[1];
+                    if (td) {
+                        if (td.innerText.toLowerCase().indexOf(filter) > -1) {
+                            tr[i].style.display = "";
+                        } else {
+                            td = tr[i].getElementsByTagName("td")[2];
+                            if (td) {
+                                if (td.innerText.toLowerCase().indexOf(filter) > -1) {
+                                    tr[i].style.display = "";
+                                } else {
+                                    tr[i].style.display = "none";
+                                }
+                            }
+                        }
+                    }
+                }
 
-		    }
+            }
         }
     </script>
 

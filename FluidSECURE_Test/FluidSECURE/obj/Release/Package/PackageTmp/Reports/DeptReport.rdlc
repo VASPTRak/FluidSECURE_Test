@@ -6,10 +6,10 @@
         <TablixBody>
           <TablixColumns>
             <TablixColumn>
-              <Width>1.89758in</Width>
+              <Width>1.92537in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.77258in</Width>
+              <Width>2.60116in</Width>
             </TablixColumn>
             <TablixColumn>
               <Width>2.07466in</Width>
@@ -728,9 +728,8 @@
         <KeepTogether>true</KeepTogether>
         <DataSetName>DeptDetails</DataSetName>
         <Top>0.155in</Top>
-        <Left>0.36333in</Left>
         <Height>0.5in</Height>
-        <Width>10.67014in</Width>
+        <Width>11.52651in</Width>
         <Style>
           <Border>
             <Style>None</Style>

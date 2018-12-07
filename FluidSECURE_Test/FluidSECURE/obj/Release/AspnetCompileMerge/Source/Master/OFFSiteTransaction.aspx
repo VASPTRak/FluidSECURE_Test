@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="vb" AutoEventWireup="false" MasterPageFile="~/Site.Master" CodeBehind="OFFSiteTransaction.aspx.vb" Inherits="Fuel_Secure.OFFSiteTransaction" %>
+﻿<%@ Page Title="OFF Site Transaction" Language="vb" AutoEventWireup="false" MasterPageFile="~/Site.Master" CodeBehind="OFFSiteTransaction.aspx.vb" Inherits="Fuel_Secure.OFFSiteTransaction" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <asp:UpdatePanel ID="up_Main" runat="server">

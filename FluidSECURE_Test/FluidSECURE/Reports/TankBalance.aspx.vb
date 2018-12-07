@@ -118,8 +118,9 @@ Public Class TankBalance
 				Dim writtenData = CreateData()
 				CSCommonHelper.WriteLog("Report Genereated", "Tank Balance", "", writtenData, HttpContext.Current.Session("PersonName").ToString() & "(" & HttpContext.Current.Session("PersonEmail").ToString() & ")", HttpContext.Current.Session("IPAddress").ToString(), "success", "")
 			End If
-			Session("TankBalanceDetails") = dtTankInv
-			Response.Redirect("~/Reports/TankBalanceReport")
+            Session("TankBalanceDetails") = dtTankInv
+            Session("ASOfDate") = Convert.ToDateTime(HDF_CurrentDate.Value).ToString("MM/dd/yyyy hh:mm:ss tt")
+            Response.Redirect("~/Reports/TankBalanceReport")
 
 
 		Catch ex As Exception

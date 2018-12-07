@@ -16,22 +16,77 @@ Public Class AllTankInventoryReconciliation
 			ErrorMessage.Visible = False
 			message.Visible = False
 			ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "LoadDateTimeControl();", True)
-			If CSCommonHelper.CheckSessionExpired() = False Then
-				'unautorized access error log
-				ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "CheckSession();", True)
-			ElseIf Session("RoleName") = "User" Or Session("RoleName") = "Reports Only" Or Session("RoleName") = "Support" Then
-				'Access denied
-				Response.Redirect("/home")
+            If CSCommonHelper.CheckSessionExpired() = False Then
+                'unautorized access error log
+                ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "CheckSession();", True)
+            ElseIf Session("RoleName") = "User" Or Session("RoleName") = "Reports Only" Or Session("RoleName") = "Support" Then
+                'Access denied
+                Response.Redirect("/home")
 
-			Else
-				If (Not IsPostBack) Then
+            Else
+                If (Not IsPostBack) Then
 					If (Not Request.QueryString("Type") = Nothing And (Request.QueryString("Type") = "Level" Or Request.QueryString("Type") = "RD")) Then
-						hdnEntryType.Value = Request.QueryString("Type")
-						BindColumns()
-						BindCustomer()
-						BindTanks(Convert.ToInt32(DDL_Customer.SelectedValue))
-						TransDate.Visible = False
-						btnSearch_Click(Nothing, Nothing)
+                        hdnEntryType.Value = Request.QueryString("Type")
+
+                        BindColumns()
+                        BindCustomer()
+                        BindTanks(Convert.ToInt32(DDL_Customer.SelectedValue))
+                        TransDate.Visible = False
+                        If (Request.QueryString("Filter") = Nothing) Then
+                            Session("TankInventoryConditions") = ""
+                            Session("TankInventoryDDL_ColumnName") = ""
+                            Session("TankInventoryDDL_CustomerValue") = ""
+                            Session("TankInventoryDDL_TankNumber") = ""
+                            Session("TankInventoryDDL_EntryType") = ""
+                            Session("TankInventoryStartDateValue") = ""
+                            Session("TankInventoryEndDateValue") = ""
+                        End If
+
+                        If (Not Session("TankInventoryConditions") Is Nothing And Not Session("TankInventoryConditions") = "") Then
+                            DDL_ColumnName.SelectedValue = Session("TankInventoryDDL_ColumnName")
+                            If (Not Session("TankInventoryDDL_CustomerValue") Is Nothing And Not Session("TankInventoryDDL_CustomerValue") = "") Then
+                                If (Session("TankInventoryDDL_ColumnName") = "CompanyId") Then
+                                    DDL_Customer.SelectedValue = Session("TankInventoryDDL_CustomerValue")
+                                    DDL_Customer.Visible = True
+                                    ddl_TankNo.Visible = False
+                                    txt_value.Visible = False
+                                    TransDate.Visible = False
+                                    DDL_Datetype.Visible = False
+                                ElseIf (Session("TankInventoryDDL_ColumnName") = "TankNumber") Then
+                                    ddl_TankNo.SelectedValue = Session("TankInventoryDDL_TankNumber")
+                                    ddl_TankNo.Visible = True
+                                    DDL_Customer.Visible = False
+                                    txt_value.Visible = False
+                                    TransDate.Visible = False
+                                    DDL_Datetype.Visible = False
+                                ElseIf (Session("TankInventoryDDL_ColumnName") = "InventoryDateTime") Then
+                                    txtDateFrom.Text = Session("TankInventoryStartDateValue")
+                                    txtDateTo.Text = Session("TankInventoryEndDateValue")
+                                    TransDate.Visible = True
+                                    ddl_TankNo.Visible = False
+                                    DDL_Customer.Visible = False
+                                    txt_value.Visible = False
+                                    DDL_Datetype.Visible = False
+                                    hiddenDiv.Visible = False
+                                    OtherThanDate.Visible = False
+                                ElseIf (Session("TankInventoryDDL_ColumnName") = "DateType") Then
+                                    DDL_Datetype.SelectedValue = Session("TankInventoryDDL_EntryType")
+                                    DDL_Datetype.Visible = True
+                                    ddl_TankNo.Visible = False
+                                    DDL_Customer.Visible = False
+                                    txt_value.Visible = False
+                                    TransDate.Visible = False
+                                Else
+                                    DDL_Datetype.Visible = False
+                                    ddl_TankNo.Visible = False
+                                    DDL_Customer.Visible = False
+                                    txt_value.Visible = True
+                                    TransDate.Visible = False
+                                End If
+                            End If
+                        End If
+
+                        btnSearch_Click(Nothing, Nothing)
 						DDL_ColumnName.Focus()
 					Else
 						Response.Redirect("/home")
@@ -141,18 +196,28 @@ Public Class AllTankInventoryReconciliation
 			ElseIf ((DDL_Datetype.SelectedValue <> "") And DDL_ColumnName.SelectedValue <> "0" And DDL_ColumnName.SelectedValue = "DateType") Then
 				strConditions = IIf(strConditions = "", " and " + DDL_ColumnName.SelectedValue + " = '" + DDL_Datetype.SelectedValue + "'", strConditions + " and " + DDL_ColumnName.SelectedValue + " = '" + DDL_Datetype.SelectedValue + "'")
 			ElseIf (DDL_ColumnName.SelectedValue = "InventoryDateTime") Then
-				Dim endate = Convert.ToDateTime(Request.Form(txtDateTo.UniqueID)).AddDays(1).ToString("MM/dd/yyyy")
-				strConditions = IIf(strConditions = "", " and " + DDL_ColumnName.SelectedValue + " between '" + Request.Form(txtDateFrom.UniqueID) + "' and '" + endate + "' ", strConditions + " and " + DDL_ColumnName.SelectedValue + " between '" + Request.Form(txtDateFrom.UniqueID) + "' and '" + endate + "'")
-			ElseIf (DDL_ColumnName.SelectedValue <> "0" And DDL_ColumnName.SelectedValue = "TankNumber" And ddl_TankNo.SelectedValue.ToString() <> "0") Then
-				strConditions = IIf(strConditions = "", " and TankInventory." + DDL_ColumnName.SelectedValue + " = '" + ddl_TankNo.SelectedValue.ToString() + "' ", strConditions + " and TankInventory." + DDL_ColumnName.SelectedValue + " = '" + ddl_TankNo.SelectedValue.ToString() + "' ")
+
+                If txtDateFrom.Text <> "" Then
+                    Dim endate = Convert.ToDateTime(txtDateTo.Text).AddDays(1).ToString("MM/dd/yyyy")
+                    strConditions = IIf(strConditions = "", " and " + DDL_ColumnName.SelectedValue + " between '" + txtDateFrom.Text + "' and '" + endate + "' ", strConditions + " and " + DDL_ColumnName.SelectedValue + " between '" + txtDateFrom.Text + "' and '" + endate + "'")
+                    Session("TankInventoryStartDateValue") = txtDateFrom.Text
+                    Session("TankInventoryEndDateValue") = txtDateTo.Text
+                Else
+                    Dim endate = Convert.ToDateTime(Request.Form(txtDateTo.UniqueID)).AddDays(1).ToString("MM/dd/yyyy")
+                    strConditions = IIf(strConditions = "", " and " + DDL_ColumnName.SelectedValue + " between '" + Request.Form(txtDateFrom.UniqueID) + "' and '" + endate + "' ", strConditions + " and " + DDL_ColumnName.SelectedValue + " between '" + Request.Form(txtDateFrom.UniqueID) + "' and '" + endate + "'")
+                    Session("TankInventoryStartDateValue") = Request.Form(txtDateFrom.UniqueID)
+                    Session("TankInventoryEndDateValue") = Request.Form(txtDateTo.UniqueID)
+                End If
+            ElseIf (DDL_ColumnName.SelectedValue <> "0" And DDL_ColumnName.SelectedValue = "TankNumber" And ddl_TankNo.SelectedValue.ToString() <> "0") Then
+                strConditions = IIf(strConditions = "", " and TankInventory." + DDL_ColumnName.SelectedValue + " = '" + ddl_TankNo.SelectedValue.ToString() + "' ", strConditions + " and TankInventory." + DDL_ColumnName.SelectedValue + " = '" + ddl_TankNo.SelectedValue.ToString() + "' ")
 			End If
 
 			OBJMaster = New MasterBAL()
 			Dim dtTankInvt As DataTable = New DataTable()
 
 			dtTankInvt = OBJMaster.GetTankInventorybyConditions(strConditions, Convert.ToInt32(Session("PersonId").ToString()), Session("RoleId").ToString())
-
-			Session("dtTankInvt") = dtTankInvt
+            Session("TankInventoryConditions") = strConditions
+            Session("dtTankInvt") = dtTankInvt
             lblTotalNumberOfRecords.Text = "Total Records: 0"
             If dtTankInvt IsNot Nothing Then
                 If dtTankInvt.Rows.Count > 0 Then
@@ -162,7 +227,12 @@ Public Class AllTankInventoryReconciliation
             gvTankInvt.DataSource = dtTankInvt
 			gvTankInvt.DataBind()
 
-			ViewState("Column_Name") = "TankInventoryId "
+            Session("TankInventoryDDL_ColumnName") = DDL_ColumnName.SelectedValue
+            Session("TankInventoryDDL_CustomerValue") = DDL_Customer.SelectedValue
+            Session("TankInventoryDDL_TankNumber") = ddl_TankNo.SelectedValue
+            Session("TankInventoryDDL_EntryType") = DDL_Datetype.SelectedValue
+
+            ViewState("Column_Name") = "TankInventoryId "
 			ViewState("Sort_Order") = "DESC"
 			RebindData("TankInventoryId", "DESC")
 

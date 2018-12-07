@@ -217,12 +217,6 @@
                                             runat="server" />
                                     </ItemTemplate>
                                 </asp:TemplateField>
-                                <asp:TemplateField SortExpression="ContactAddress" ItemStyle-HorizontalAlign="Center" HeaderText="Contact Address">
-                                    <ItemTemplate>
-                                        <asp:Label ID="lblContactAddress" Text='<%# DataBinder.Eval(Container.DataItem, "ContactAddress")%>'
-                                            runat="server" />
-                                    </ItemTemplate>
-                                </asp:TemplateField>
                             </Columns>
 
                             <HeaderStyle BackColor="#A5BBC5" Font-Bold="True" ForeColor="black" />

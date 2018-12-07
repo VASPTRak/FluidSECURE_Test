@@ -346,8 +346,8 @@ Public Class FluidSecureHub
                 chk_GateHub.Checked = dtPersonnel.Rows(0)("IsGateHub").ToString()
                 chk_IsVehicleNumberRequire.Checked = dtPersonnel.Rows(0)("IsVehicleNumberRequire").ToString()
                 txtHUB_Address.Text = dtPersonnel.Rows(0)("HubAddress").ToString()
-                chk_IsLogging.Checked = dtPersonnel.Rows(0)("IsLogging").ToString()
-
+                 chk_IsLogging.Checked = dtPersonnel.Rows(0)("IsLogging").ToString()
+                chk_HubForFA.Checked = dtPersonnel.Rows(0)("EnbDisHubForFA").ToString()
                 txtContactName.Text = dtPersonnel.Rows(0)("ContactName").ToString()
                 txtContactEmail.Text = dtPersonnel.Rows(0)("ContactEmail").ToString()
                 DDL_WifiChannelToUse.SelectedValue = dtPersonnel.Rows(0)("WifiChannelToUse").ToString()
@@ -771,7 +771,7 @@ Public Class FluidSecureHub
             HDF_UniqueUserId.Value = UniqueUserId
 
             OBJMaster = New MasterBAL()
-            OBJMaster.InsertUpdateHubExtraInformation(PersonId, txtContactName.Text, txtContactEmail.Text, DDL_WifiChannelToUse.SelectedValue, Session("PersonId"))
+            OBJMaster.InsertUpdateHubExtraInformation(PersonId, txtContactName.Text, txtContactEmail.Text, DDL_WifiChannelToUse.SelectedValue, Session("PersonId"), chk_HubForFA.Checked)
 
 
             Dim dtVehicle As DataTable = New DataTable("dtPersonAndVehicle")
@@ -1224,7 +1224,7 @@ Public Class FluidSecureHub
                 Dim FullHubName As String = "HUB" & HubName.ToString("00000000")
 
                 steps = "33"
-                User = New ApplicationUser() With {
+                user = New ApplicationUser() With {
                .UserName = FullHubName & "@gmail.com",
                .Email = FullHubName & "@gmail.com",
                .PersonName = FullHubName,
@@ -1265,7 +1265,8 @@ Public Class FluidSecureHub
                .IsGateHub = chk_GateHub.Checked,
                .IsVehicleNumberRequire = chk_IsVehicleNumberRequire.Checked,
                .HubAddress = txtHUB_Address.Text,
-               .IsLogging = chk_IsLogging.Checked
+               .IsLogging = chk_IsLogging.Checked,
+           .IsSpecialImport = 0
             }
 
                 steps = "34"

@@ -117,7 +117,8 @@
                         <div class="row col-md-6 col-sm-6 col-xs-12 text-left">
                             <b><asp:Label runat="server" ID="lblTotalNumberOfRecords"></asp:Label></b>
                         </div>
-                        <div class="row col-md-6 col-sm-6 col-xs-12 text-right">
+                       <div class="row col-md-6 col-sm-6 col-xs-12 text-right">
+                            <asp:Button ID="btn_Options" CssClass="btn btn-warning" runat="server" Text="Vehicle Options" OnClick="btn_Options_Click" />
                             <asp:Button ID="btn_New" CssClass="btn btn-primary" runat="server" Text="Add new vehicle" OnClick="btn_New_Click" />
                         </div>
                     </div>
@@ -151,22 +152,34 @@
                                             runat="server" />
                                     </ItemTemplate>
                                 </asp:TemplateField>
-                                <asp:TemplateField SortExpression="VehicleName" ItemStyle-HorizontalAlign="Center" HeaderText="Name">
+                               <%-- <asp:TemplateField SortExpression="VehicleName" ItemStyle-HorizontalAlign="Center" HeaderText="Name">
                                     <ItemTemplate>
                                         <asp:Label ID="lblVehicleName" Text='<%# DataBinder.Eval(Container.DataItem, "VehicleName")%>'
                                             runat="server" />
                                     </ItemTemplate>
-                                </asp:TemplateField>
-                                <asp:TemplateField SortExpression="EXTENSION" ItemStyle-HorizontalAlign="Left"
+                                </asp:TemplateField>--%>
+                                <%--<asp:TemplateField SortExpression="EXTENSION" ItemStyle-HorizontalAlign="Left"
                                     HeaderText="Description">
                                     <ItemTemplate>
                                         <asp:Label ID="lblEXTENSION" Text='<%# DataBinder.Eval(Container.DataItem, "EXTENSION")%>'
                                             runat="server" />
                                     </ItemTemplate>
-                                </asp:TemplateField>
+                                </asp:TemplateField>--%>
                                 <asp:TemplateField SortExpression="Name" ItemStyle-HorizontalAlign="Center" HeaderText="Department">
                                     <ItemTemplate>
                                         <asp:Label ID="lblDEPT" Text='<%# DataBinder.Eval(Container.DataItem, "Name")%>'
+                                            runat="server" />
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField SortExpression="CurrentOdometer" ItemStyle-HorizontalAlign="Center" HeaderText="Current Miles">
+                                    <ItemTemplate>
+                                        <asp:Label ID="lblCurrentMiles" Text='<%# DataBinder.Eval(Container.DataItem, "CurrentOdometer")%>'
+                                            runat="server" />
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField SortExpression="CurrentHours" ItemStyle-HorizontalAlign="Center" HeaderText="Current Hours">
+                                    <ItemTemplate>
+                                        <asp:Label ID="lblCurrentHours" Text='<%# DataBinder.Eval(Container.DataItem, "CurrentHours")%>'
                                             runat="server" />
                                     </ItemTemplate>
                                 </asp:TemplateField>

@@ -346,7 +346,7 @@ Partial Public Class Login
                         Response.Redirect("/home")
                     End If
                 Else
-                    FailureText.Text = "Company is inactive. Please contact administrator."
+                    FailureText.Text = "Company  is inactive - Please contact FluidSecure Support  <a href='mailto:support@fluidsecure.com' target=_blank> support@fluidsecure.com</a>. "
                     ErrorMessage.Visible = True
                 End If
                 'Response.Redirect("/home")

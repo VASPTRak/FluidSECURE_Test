@@ -1,6 +1,7 @@
 ﻿Imports log4net.Config
 Imports log4net
 Imports Microsoft.Reporting.WebForms
+Imports System.Globalization
 
 Public Class TankBalanceReport
 	Inherits System.Web.UI.Page
@@ -18,7 +19,7 @@ Public Class TankBalanceReport
 			Else
 				If (Not IsPostBack) Then
 
-					Dim dtTankInv As DataTable = Session("TankBalanceDetails")
+                    Dim dtTankInv As DataTable = Session("TankBalanceDetails")
 
 					RPT_TankBalanceDetails.Visible = True
 
@@ -27,9 +28,11 @@ Public Class TankBalanceReport
 					Dim rep As LocalReport = RPT_TankBalanceDetails.LocalReport
 					rep.Refresh()
 					Dim TankReconciliationReportDetailsPath As String = ConfigurationManager.AppSettings("TankBalanceDetailsPath")
-					rep.ReportPath = Server.MapPath(TankReconciliationReportDetailsPath)
+                    rep.ReportPath = Server.MapPath(TankReconciliationReportDetailsPath)
+                    Dim ASOfDate As ReportParameter = New ReportParameter("ASOfDate", Session("ASOfDate").ToString())
+                    RPT_TankBalanceDetails.LocalReport.SetParameters(New ReportParameter() {ASOfDate})
 
-					Dim rds As ReportDataSource = New ReportDataSource()
+                    Dim rds As ReportDataSource = New ReportDataSource()
 					rds.Name = "TankBalanceDetails"
 					rds.Value = dtTankInv
 					rep.DataSources.Add(rds)

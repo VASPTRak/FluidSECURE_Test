@@ -38,14 +38,14 @@ Public Class CustomerDetailsByStateCountryReport
                 End If
             End If
 
-        Catch ex As Exception
+       Catch ex As Exception
             Log.Error("Error occurred in Page_Load Exception is :" + ex.Message)
-            Response.Redirect("~/Reports/CustomerDetailsByStateCountry")
+            Response.Redirect("~/Reports/CustomerDetailsByStateCountry.aspx")
         End Try
     End Sub
 
     Protected Sub btnBack_Click(sender As Object, e As EventArgs)
-        Response.Redirect("~/Reports/CustomerDetailsByStateCountry")
+        Response.Redirect("~/Reports/CustomerDetailsByStateCountry.aspx")
     End Sub
 
 End Class

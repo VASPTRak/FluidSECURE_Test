@@ -28,6 +28,14 @@ Public Class SpecializedPersonnelImport
                 Response.Redirect("/home")
 
             Else
+
+                If Session("RoleName") <> "SuperAdmin" Then
+                    If Session("SpecializedPersonnelImport") <> "SpecializedPersonnelImport" Then
+                        'Access denied 
+                        Response.Redirect("/home")
+                    End If
+                End If
+
                 If Not IsPostBack Then
                     GetCustomers(Convert.ToInt32(Session("PersonId").ToString()), Session("RoleId").ToString())
 
@@ -43,41 +51,41 @@ Public Class SpecializedPersonnelImport
         End Try
     End Sub
 
-    Public Function ImportExceltoDatatable(filepath As String) As DataTable
-        Dim dt As DataTable = New DataTable()
-        Try
-            Using workBook As New XLWorkbook(filepath)
-                'Read the first Sheet from Excel file.
-                Dim workSheet As IXLWorksheet = workBook.Worksheet(1)
-                'Loop through the Worksheet rows.
-                Dim firstRow As Boolean = True
-                For Each row As IXLRow In workSheet.Rows()
-                    'Use the first row to add columns to DataTable.
-                    If firstRow Then
-                        For Each cell As IXLCell In row.Cells()
-                            dt.Columns.Add(cell.Value.ToString())
-                        Next
-                        firstRow = False
-                    Else
-                        'Add rows to DataTable.
-                        dt.Rows.Add()
-                        Dim i As Integer = 0
-                        For Each cell As IXLCell In row.Cells()
-                            dt.Rows(dt.Rows.Count - 1)(i) = cell.Value.ToString()
-                            i += 1
-                        Next
-                    End If
-                Next
-            End Using
+    'Public Function ImportExceltoDatatable(filepath As String) As DataTable
+    '    Dim dt As DataTable = New DataTable()
+    '    Try
+    '        Using workBook As New XLWorkbook(filepath)
+    '            'Read the first Sheet from Excel file.
+    '            Dim workSheet As IXLWorksheet = workBook.Worksheet(1)
+    '            'Loop through the Worksheet rows.
+    '            Dim firstRow As Boolean = True
+    '            For Each row As IXLRow In workSheet.Rows()
+    '                'Use the first row to add columns to DataTable.
+    '                If firstRow Then
+    '                    For Each cell As IXLCell In row.Cells()
+    '                        dt.Columns.Add(cell.Value.ToString())
+    '                    Next
+    '                    firstRow = False
+    '                Else
+    '                    'Add rows to DataTable.
+    '                    dt.Rows.Add()
+    '                    Dim i As Integer = 0
+    '                    For Each cell As IXLCell In row.Cells()
+    '                        dt.Rows(dt.Rows.Count - 1)(i) = cell.Value.ToString()
+    '                        i += 1
+    '                    Next
+    '                End If
+    '            Next
+    '        End Using
 
-            Return dt
-        Catch ex As Exception
-            log.Error("Error occurred in ImportExceltoDatatable Exception is :" + ex.Message)
-            ErrorMessage.Visible = True
-            ErrorMessage.InnerText = IIf(ErrorMessage.InnerText <> "", "", "Error occurred while loading details, please try again later.")
-            Return dt
-        End Try
-    End Function
+    '        Return dt
+    '    Catch ex As Exception
+    '        log.Error("Error occurred in ImportExceltoDatatable Exception is :" + ex.Message)
+    '        ErrorMessage.Visible = True
+    '        ErrorMessage.InnerText = IIf(ErrorMessage.InnerText <> "", "", "Error occurred while loading details, please try again later.")
+    '        Return dt
+    '    End Try
+    'End Function
 
     Private Sub GetCustomers(personId As Integer, RoleId As String)
         Try
@@ -153,18 +161,63 @@ Public Class SpecializedPersonnelImport
             Dim FileName As String = "Persons_" & DateTime.Now.ToString("MM-dd-yyyy hh-mm-ss") & FU_Persons.FileName
             FU_Persons.SaveAs(folderPath & Path.GetFileName(FileName))
 
-
             Dim FilePath = folderPath & FileName
 
-            Dim dtImportData As DataTable = ImportExceltoDatatable(FilePath)
+            Dim dtImportData As DataTable = ImportExcelUsingOLEDB(FilePath)
 
             If (dtImportData Is Nothing Or dtImportData.Rows.Count < 1) Then
                 LB_Error.Visible = True
                 Session("Errorlogs") = strLog
                 message.InnerText = "No data found in file."
+                Return
             End If
 
-            Dim MessageToShow As String = ValidateAndInsertData(dtImportData)
+            Dim dtData As DataTable = New DataTable()
+            For index = 0 To dtImportData.Columns.Count - 1
+                Dim columnName As String = ""
+                Select Case dtImportData.Rows(0)(index).ToString().Trim()
+                    Case "Driver ID"
+                        columnName = "PinNumber"
+                    Case "Last Name"
+                        columnName = "LastName"
+                    Case "First Name"
+                        columnName = "FirstName"
+                    Case "Department"
+                        columnName = "DepartmentId"
+                    Case "Status"
+                        columnName = "Active"
+                    Case Else
+                        columnName = dtImportData.Rows(0)(index)
+                End Select
+
+                dtData.Columns.Add(columnName)
+            Next
+
+
+            dtData.Columns.Add("RowIndex")
+
+            Dim count As Integer = 0
+
+            For Each dr As DataRow In dtImportData.Rows
+                If (count <> 0) Then
+                    'Dim drinsert As DataRow = dtData.NewRow()
+                    dtData.Rows.Add(dr.ItemArray)
+                    dtData.Rows(count - 1)("RowIndex") = count
+                End If
+                count = count + 1
+
+            Next
+
+            Dim returnCnts As String = ValidateAndInsertData(dtData)
+
+            message.Visible = True
+            message.InnerText = returnCnts.Split(";")(0) & " persons imported successfully "
+
+            If (strLog.Trim() <> "") Then
+                LB_Error.Visible = True
+                Session("Errorlogs") = strLog
+                message.InnerText = message.InnerText + " , " + returnCnts.Split(";")(1) + " caused some errors."
+            End If
 
         Catch ex As Exception
             message.InnerText = message.InnerText + " , Error occurred, Please try after some time."
@@ -175,14 +228,43 @@ Public Class SpecializedPersonnelImport
 
     End Sub
 
+    Public Function ImportExcelUsingOLEDB(ExcelFilePath As String)
+        Dim Sname As String = ""
+        Dim connStr As String = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + ExcelFilePath + ";Extended Properties='Excel 8.0;HDR=NO;IMEX=1;TypeGuessRows=0;Importmixedtypes=text';"
+        Dim MyConnection As OleDbConnection = New OleDbConnection(connStr)
+        Dim MyCommand As OleDbDataAdapter = Nothing
+
+        MyConnection = New OleDbConnection(connStr)
+
+        If (MyConnection.State = ConnectionState.Closed) Then
+            MyConnection.Open()
+        End If
+        'Getting Sheet name from ExcelFile.
+        Dim dtSheets As DataTable = MyConnection.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, Nothing)
+
+        Try
+            If (dtSheets.Rows.Count > 0) Then
+                Sname = dtSheets.Rows(0)("Table_Name")
+            Else
+                Sname = "'ACTIVE DRiver PINS$'"
+            End If
+        Catch ex As Exception
+            Sname = "'ACTIVE DRiver PINS$'"
+        End Try
+
+        MyCommand = New OleDbDataAdapter("select * from" + "[" + Sname + "]", MyConnection)
+        Dim ds As DataSet = New System.Data.DataSet()
+        MyCommand.Fill(ds)
+        MyConnection.Close()
+
+        Return ds.Tables(0)
+    End Function
+
     Protected Function ValidateAndInsertData(dtImportData As DataTable) As String
         Dim cnt As Integer = 0
         Dim ErrorCnt As Integer = 0
         Dim returnsCnt As String = ""
         Dim currentDateTime As String = ""
-        Dim dtImportDataToUpdate As DataTable = New DataTable()
-        dtImportDataToUpdate = dtImportData.Copy()
-        dtImportDataToUpdate.Clear()
 
         Try
             currentDateTime = Convert.ToDateTime(HDF_CurrentDate.Value).ToString("MM/dd/yyyy hh:mm:ss tt")
@@ -210,8 +292,6 @@ Public Class SpecializedPersonnelImport
                 rowIndex = dr("RowIndex")
 
                 If (dr("PinNumber") <> "") Then
-                    ' Dim number As Long
-                    'If (dr("PinNumber").ToString()) Then
                     If (dr("PinNumber").ToString().Length > 20) Then
                         strLog = strLog & Environment.NewLine & currentDateTime & "--" & "Personnel ID (" & dr("PinNumber") & ") is must be less than equal to 20 characters. Check Row  " & rowIndex
                         isDirty = True
@@ -226,19 +306,22 @@ Public Class SpecializedPersonnelImport
 
                     End If
                 Else
-                    strLog = strLog & Environment.NewLine & currentDateTime & "--" & "Personnel ID (" & dr("PinNumber") & ") is must be in number format. Check Row  " & rowIndex
+                    strLog = strLog & Environment.NewLine & currentDateTime & "--" & "Driver ID (" & dr("PinNumber") & ") is must be in number format. Check Row  " & rowIndex
                     isDirty = True
                 End If
 
-                Dim flagCheckDept As Integer = 0
-                Dim DepartmentId As String = dr("DepartmentId")
+                Dim fileDepartmentName As String = dr("DepartmentId")
+                Dim DepartmentName As String = ""
                 Dim strErrorDept As String = ""
+                If (fileDepartmentName = "Unassigned") Then
+                    dr("DepartmentId") = "Default"
+                End If
 
-                If (dr("DepartmentNo") <> "") Then
-
-                    Dim drDept() As DataRow = dtDept.Select("NUMBER='" & dr("DepartmentNo") & "'")
+                If (dr("DepartmentId") <> "") Then
+                    Dim drDept() As DataRow = dtDept.Select("NAME='" & dr("DepartmentId") & "'")
 
                     Dim i As Integer
+                    DepartmentName = dr("DepartmentId")
 
                     dr("DepartmentId") = ""
 
@@ -247,45 +330,37 @@ Public Class SpecializedPersonnelImport
                     Next i
 
                     If (dr("DepartmentId") = "") Then
-                        dr("DepartmentId") = DepartmentId
-                        flagCheckDept = 1
-                        strErrorDept = currentDateTime & "--" & "Person department number field not found. Check Row  " & rowIndex
+                        'strLog = strLog & Environment.NewLine & strErrorDept & Environment.NewLine & currentDateTime & "--" & "Vehicle department name is not found. Check Row  " & rowIndex
+                        'isDirty = True
+                        OBJMaster = New MasterBAL()
+
+                        Dim result As Integer = OBJMaster.SaveUpdateDept(0, DepartmentName, "", "", "", "", ddlCustomer.SelectedValue, "", Convert.ToInt32(Session("PersonId")), 0, 0, 0, 0, 0, True)
+                        If (result > 0) Then
+                            dtDept = OBJMaster.GetDeptbyConditions(" and Dept.CustomerId = " & ddlCustomer.SelectedValue, Session("PersonId").ToString(), Session("RoleId").ToString())
+                            dr("DepartmentId") = result
+                        Else
+                            strLog = strLog & Environment.NewLine & strErrorDept & Environment.NewLine & currentDateTime & "--" & " Error occurred while creating Vehicle department. Check Row  " & rowIndex
+                            isDirty = True
+                        End If
+
                     End If
                 Else
-                    flagCheckDept = 2
-                    strErrorDept = currentDateTime & "--" & "Person department number field is required. Check Row  " & rowIndex
+                    strLog = strLog & Environment.NewLine & strErrorDept & Environment.NewLine & currentDateTime & "--" & "Vehicle department name is required. Check Row  " & rowIndex
+                    isDirty = True
                 End If
 
-                If flagCheckDept = 1 Or flagCheckDept = 2 Then
-                    If (dr("DepartmentId") <> "") Then
-                        Dim drDept() As DataRow = dtDept.Select("NAME='" & dr("DepartmentId") & "'")
 
-                        Dim i As Integer
-
-                        dr("DepartmentId") = ""
-
-                        For i = 0 To drDept.GetUpperBound(0)
-                            dr("DepartmentId") = drDept(i)("DeptID")
-                        Next i
-
-                        If (dr("DepartmentId") = "") Then
-                            strLog = strLog & Environment.NewLine & strErrorDept & Environment.NewLine & currentDateTime & "--" & "Person department name is not found. Check Row  " & rowIndex
-                            isDirty = True
-                        Else
-                            flagCheckDept = 0
-                        End If
-                    Else
-                        strLog = strLog & Environment.NewLine & strErrorDept & Environment.NewLine & currentDateTime & "--" & "Person department name is required. Check Row  " & rowIndex
-                        isDirty = True
-                    End If
+                If (dr("Active").ToString() = "Active") Then
+                    dr("Active") = "Y"
+                Else
+                    dr("Active") = "N"
                 End If
-
 
 
                 If IsUpdate = False Then
                     If (isDirty = False) Then
-                        Dim result As Integer = InsertRecord(dr, rowIndex, True)
-                        If (result = 1) Then
+                        Dim result As Integer = InsertRecord(dr, True)
+                        If (result > 0) Then
                             cnt = cnt + 1
                         End If
                     Else
@@ -293,7 +368,10 @@ Public Class SpecializedPersonnelImport
                     End If
                 Else
                     If (isDirty = False) Then
-                        dtImportDataToUpdate.Rows.Add(dr)
+                        Dim result As Integer = InsertRecord(dr, False)
+                        If (result > 0) Then
+                            cnt = cnt + 1
+                        End If
                     Else
                         ErrorCnt = ErrorCnt + 1
                     End If
@@ -302,14 +380,6 @@ Public Class SpecializedPersonnelImport
                 'rowIndex = rowIndex + 1
             Next
 
-            If dtImportDataToUpdate.Rows.Count > 0 Then
-                For Each dr As DataRow In dtImportDataToUpdate.Rows
-                    Dim result As Integer = InsertRecord(dr, rowIndex, False)
-                    If (result = 1) Then
-                        cnt = cnt + 1
-                    End If
-                Next
-            End If
 
             Return cnt & ";" & ErrorCnt
 
@@ -321,7 +391,7 @@ Public Class SpecializedPersonnelImport
         End Try
     End Function
 
-    Private Function InsertRecord(dr As DataRow, rowIndex As Integer, FlagForInsertUpdate As Boolean) As Integer
+    Private Function InsertRecord(dr As DataRow, FlagForInsertUpdate As Boolean) As Integer
         Dim resultInt As Integer = 0
         Dim currentDateTime As String = ""
         Try
@@ -346,6 +416,7 @@ Public Class SpecializedPersonnelImport
                 ApprBy = Convert.ToInt32(Session("PersonId"))
 
             End If
+
             Dim EmailUserName As String = ""
             Dim PhoneNumber As String = ""
 
@@ -355,13 +426,11 @@ Public Class SpecializedPersonnelImport
 
             EmailUserName = "u" & HubPersonNumber & "@FluidSecureHub.com"
             PhoneNumber = ""
-
-
-
-            user = New ApplicationUser() With {
+            If FlagForInsertUpdate Then
+                user = New ApplicationUser() With {
             .UserName = EmailUserName,
             .Email = EmailUserName,
-            .PersonName = (dr("LastName") & " " & dr("FirstName") & " " & dr("MI")).ToString().Trim(),
+            .PersonName = (dr("LastName") & " " & dr("FirstName")).ToString().Trim(),
             .DepartmentId = dr("DepartmentId"),
             .PhoneNumber = PhoneNumber,
             .SoftUpdate = "N",
@@ -392,37 +461,46 @@ Public Class SpecializedPersonnelImport
             .PrinterMacAddress = "",
             .HubSiteName = "",
             .BluetoothCardReaderMacAddress = "",
-       .LFBluetoothCardReader = "",
-       .LFBluetoothCardReaderMacAddress = "",
-       .VeederRootMacAddress = "",
-       .CollectDiagnosticLogs = False,
-       .IsVehicleHasFob = False,
-       .IsPersonHasFob = False,
-       .IsTermConditionAgreed = False,
-       .DateTimeTermConditionAccepted = Nothing,
-      .IsGateHub = False,
-      .IsVehicleNumberRequire = False,
-      .HubAddress = "",
-               .IsLogging = 0
+            .LFBluetoothCardReader = "",
+            .LFBluetoothCardReaderMacAddress = "",
+            .VeederRootMacAddress = "",
+            .CollectDiagnosticLogs = False,
+            .IsVehicleHasFob = False,
+            .IsPersonHasFob = False,
+            .IsTermConditionAgreed = False,
+            .DateTimeTermConditionAccepted = Nothing,
+            .IsGateHub = False,
+            .IsVehicleNumberRequire = False,
+            .HubAddress = "",
+            .IsLogging = 0,
+            .IsSpecialImport = 1
        }
+                Dim result As IdentityResult
 
-            user.FuelLimitPerTxn = Nothing
-
-
-
-            user.FuelLimitPerDay = Nothing
-
-            Dim result As IdentityResult
-            If FlagForInsertUpdate Then
-                result = manager.Update(user)
-            Else
                 result = manager.Create(user, "FluidSecure*123")
-            End If
 
+                If result.Succeeded Then
+                    resultInt = 1
+                End If
 
+            Else
+                Dim dtPersonnel As DataTable = New DataTable()
+                dtPersonnel = OBJMaster.GetPersonnelByNameAndNumberAndEmail(" and LTRIM(RTRIM(ANU.PinNumber))='" & dr("PinNumber").ToString().Trim() & "' and ANU.CustomerId = " & ddlCustomer.SelectedValue, Convert.ToInt32(Session("PersonId").ToString()), Session("RoleId").ToString())
 
-            If result.Succeeded Then
-                resultInt = 1
+                If (dtPersonnel.Rows.Count > 0) Then
+                    user = manager.FindById(dtPersonnel.Rows(0)("Id").ToString())
+                    user.PersonName = (dr("LastName") & " " & dr("FirstName")).ToString().Trim()
+                    user.DepartmentId = dr("DepartmentId")
+                    user.IsApproved = IIf(dr("Active").ToString().ToUpper() = "Y", True, False)
+                    user.LastModifiedDate = DateTime.Now
+                    user.LastModifiedBy = Convert.ToInt32(Session("PersonId"))
+
+                    Dim result As IdentityResult
+                    result = manager.Update(user)
+                    If result.Succeeded Then
+                        resultInt = 1
+                    End If
+                End If
             End If
 
             Return resultInt
@@ -430,7 +508,7 @@ Public Class SpecializedPersonnelImport
         Catch ex As Exception
             log.Error("Exception occured while importing file. Exception is : " & ex.Message)
 
-            strLog = strLog & Environment.NewLine & currentDateTime & "--" & "Error occured while importing row " & rowIndex & ". Error is " & ex.Message
+            strLog = strLog & Environment.NewLine & currentDateTime & "--" & "Error occured while importing row " & dr("RowIndex").ToString() & ". Error is " & ex.Message
 
             Return resultInt
 

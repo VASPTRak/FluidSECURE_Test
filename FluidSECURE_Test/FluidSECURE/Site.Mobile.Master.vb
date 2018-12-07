@@ -95,11 +95,19 @@
             SpecializedFeature.Visible = False
             Session("SpecializedExport") = ""
             Session("TotalFuelUsageByHubPerVehicle") = ""
+            Session("SpecializedPersonnelImport") = ""
+            Session("SpecializedVehicleImport") = ""
+            Session("SpecializedVehicleInactiveImport") = ""
+            Session("SpecializedTransactionImport") = ""
             CustomerWiseTransactionDetails.Visible = False
             ResetTermsPrivacyPolicys.Visible = False
             Export_WINCC.Visible = False
             SpecializedExport.Visible = False
             TotalFuelUsageByHubPerVehicle.Visible = False
+            SpecializedPersonnelImport.Visible = False
+            SpecializedVehicleImport.Visible = False
+            SpecializedVehicleInactiveImport.Visible = False
+            SpecializedTransactionImport.Visible = False
 
             If Session("RoleName") = "User" Then
 
@@ -167,6 +175,23 @@
 
                 ' TotalFuelUsageByHubPerVehicle
                 TotalFuelUsageByHubPerVehicle.Visible = True
+
+                ' Specilized Personnel Import
+                SpecializedPersonnelImport.Visible = True
+                SpecializedPersonnelImport.InnerHtml = "<a href=/Master/SpecializedPersonnelImport.aspx>Specialized Personnel Import: Hawaii Telecom" & "</a>"
+
+                ' Specilized Vehicle Import
+                SpecializedVehicleImport.Visible = True
+                SpecializedVehicleImport.InnerHtml = "<a href=/Master/SpecializedVehicleImport.aspx>Specialized Vehicle Import: Hawaii Telecom" & "</a>"
+
+                ' Specialized Vehicle Inactive Import
+                SpecializedVehicleInactiveImport.Visible = True
+                SpecializedVehicleInactiveImport.InnerHtml = "<a href=/Master/SpecializedInActiveVehicleImport.aspx>Specialized Vehicle Inactive Import: Hawaii Telecom" & "</a>"
+
+                ' Specialized Transaction Import
+                SpecializedTransactionImport.Visible = True
+                SpecializedTransactionImport.InnerHtml = "<a href=/Master/SpecializedTransactionImport.aspx>Specialized Transaction Import: Hawaii Telecom" & "</a>"
+
             Else
                 If (Session("RoleName") = "Support") Then 'If (Session("RoleName") = "CustomerAdmin" Or Session("RoleName") = "Support") Then
                     ShipmentMenu.Visible = True
@@ -187,7 +212,7 @@
                     Export.Visible = True
 
 
-                    ' Specilized Export
+                    ' Specilized Feature
                     If Session("PersonId") IsNot Nothing And Session("UniqueId") IsNot Nothing Then
                         Dim OBJMaster As MasterBAL = New MasterBAL()
                         Dim dtPersonnel As DataTable = New DataTable()
@@ -223,13 +248,90 @@
                             Else
                                 TotalFuelUsageByHubPerVehicle.Visible = False
                             End If
+
+                            dtuspGetCustMenuMapingById = OBJMaster.GetCustMenuMapingById(" and CustomerMenuLinkId = 3", dtPersonnel.Rows(0)("CustomerId").ToString())
+                            If dtuspGetCustMenuMapingById IsNot Nothing And dtuspGetCustMenuMapingById.Rows.Count > 0 Then
+                                SpecializedPersonnelImport.Visible = True
+                                If Session("CompanyNameHeader").ToString() IsNot Nothing Then
+                                    Session("SpecializedPersonnelImport") = "SpecializedPersonnelImport"
+                                    If (Session("RoleName") = "CustomerAdmin") Then
+                                        SpecializedPersonnelImport.InnerHtml = "<a href=/Master/SpecializedPersonnelImport.aspx>Specialized Personnel Import: " & Session("CompanyNameHeader").ToString() & "</a>"
+                                    Else
+                                        SpecializedPersonnelImport.InnerHtml = "<a href=/Master/SpecializedPersonnelImport.aspx>Specialized Personnel Import: Hawaii Telecom" & "</a>"
+                                    End If
+                                Else
+                                    SpecializedPersonnelImport.Visible = False
+                                End If
+                            Else
+                                SpecializedPersonnelImport.Visible = False
+                            End If
+
+                            dtuspGetCustMenuMapingById = OBJMaster.GetCustMenuMapingById(" and CustomerMenuLinkId = 4", dtPersonnel.Rows(0)("CustomerId").ToString())
+                            If dtuspGetCustMenuMapingById IsNot Nothing And dtuspGetCustMenuMapingById.Rows.Count > 0 Then
+                                SpecializedVehicleImport.Visible = True
+                                If Session("CompanyNameHeader").ToString() IsNot Nothing Then
+                                    Session("SpecializedVehicleImport") = "SpecializedVehicleImport"
+                                    If (Session("RoleName") = "CustomerAdmin") Then
+                                        SpecializedVehicleImport.InnerHtml = "<a href=/Master/SpecializedVehicleImport.aspx>Specialized Vehicle Import: " & Session("CompanyNameHeader").ToString() & "</a>"
+                                    Else
+                                        SpecializedVehicleImport.InnerHtml = "<a href=/Master/SpecializedVehicleImport.aspx>Specialized Vehicle Import: Hawaii Telecom" & "</a>"
+                                    End If
+                                Else
+                                    SpecializedVehicleImport.Visible = False
+                                End If
+                            Else
+                                SpecializedVehicleImport.Visible = False
+                            End If
+
+                            dtuspGetCustMenuMapingById = OBJMaster.GetCustMenuMapingById(" and CustomerMenuLinkId = 5", dtPersonnel.Rows(0)("CustomerId").ToString())
+                            If dtuspGetCustMenuMapingById IsNot Nothing And dtuspGetCustMenuMapingById.Rows.Count > 0 Then
+                                SpecializedVehicleInactiveImport.Visible = True
+                                If Session("CompanyNameHeader").ToString() IsNot Nothing Then
+                                    Session("SpecializedVehicleInactiveImport") = "SpecializedVehicleInactiveImport"
+                                    If (Session("RoleName") = "CustomerAdmin") Then
+                                        SpecializedVehicleInactiveImport.InnerHtml = "<a href=/Master/SpecializedVehicleInactiveImport.aspx>Specialized Vehicle Inactive Import: " & Session("CompanyNameHeader").ToString() & "</a>"
+                                    Else
+                                        SpecializedVehicleInactiveImport.InnerHtml = "<a href=/Master/SpecializedVehicleInactiveImport.aspx>Specialized Vehicle Inactive Import: Hawaii Telecom" & "</a>"
+                                    End If
+                                Else
+                                    SpecializedVehicleInactiveImport.Visible = False
+                                End If
+                            Else
+                                SpecializedVehicleInactiveImport.Visible = False
+                            End If
+
+                            dtuspGetCustMenuMapingById = OBJMaster.GetCustMenuMapingById(" and CustomerMenuLinkId = 6", dtPersonnel.Rows(0)("CustomerId").ToString())
+                            If dtuspGetCustMenuMapingById IsNot Nothing And dtuspGetCustMenuMapingById.Rows.Count > 0 Then
+                                SpecializedTransactionImport.Visible = True
+                                If Session("CompanyNameHeader").ToString() IsNot Nothing Then
+                                    Session("SpecializedTransactionImport") = "SpecializedTransactionImport"
+                                    If (Session("RoleName") = "CustomerAdmin") Then
+                                        SpecializedTransactionImport.InnerHtml = "<a href=/Master/SpecializedTransactionImport.aspx>Specialized Transaction Import: " & Session("CompanyNameHeader").ToString() & "</a>"
+                                    Else
+                                        SpecializedTransactionImport.InnerHtml = "<a href=/Master/SpecializedTransactionImport.aspx>Specialized Transaction Import: Hawaii Telecom" & "</a>"
+                                    End If
+                                Else
+                                    SpecializedTransactionImport.Visible = False
+                                End If
+                            Else
+                                SpecializedTransactionImport.Visible = False
+                            End If
+
                         Else
                             SpecializedExport.Visible = False
                             TotalFuelUsageByHubPerVehicle.Visible = False
+                            SpecializedPersonnelImport.Visible = False
+                            SpecializedVehicleImport.Visible = False
+                            SpecializedVehicleInactiveImport.Visible = False
+                            SpecializedTransactionImport.Visible = False
                         End If
                     Else
                         SpecializedExport.Visible = False
                         TotalFuelUsageByHubPerVehicle.Visible = False
+                        SpecializedPersonnelImport.Visible = False
+                        SpecializedVehicleImport.Visible = False
+                        SpecializedVehicleInactiveImport.Visible = False
+                        SpecializedTransactionImport.Visible = False
                     End If
 
                 End If

@@ -175,7 +175,7 @@ Public Class IMEIPersonMapping
     End Sub
 
     Protected Sub btnSave_Click(sender As Object, e As EventArgs)
-        Try
+		Try
 			If CSCommonHelper.CheckSessionExpired() = False Then
 				'unautorized access error log
 
@@ -185,78 +185,78 @@ Public Class IMEIPersonMapping
 
 			OBJMaster = New MasterBAL()
 
-            If txtIMEINumber.Text = "" Then
-                ErrorMessage.Visible = True
-                ErrorMessage.InnerText = "Please enter IMEI number and Try again."
-                ErrorMessage.Focus()
-                Return
-            End If
+			If txtIMEINumber.Text = "" Then
+				ErrorMessage.Visible = True
+				ErrorMessage.InnerText = "Please enter IMEI number and Try again."
+				ErrorMessage.Focus()
+				Return
+			End If
 
-            Dim IMEIPersonMappingId As Integer = 0
-            If HDF_IMEIPersonMappingId.Value IsNot "" Then
-                IMEIPersonMappingId = Convert.ToInt32(HDF_IMEIPersonMappingId.Value)
-            End If
+			Dim IMEIPersonMappingId As Integer = 0
+			If HDF_IMEIPersonMappingId.Value IsNot "" Then
+				IMEIPersonMappingId = Convert.ToInt32(HDF_IMEIPersonMappingId.Value)
+			End If
 
-            Dim CheckIMEIExists As Boolean = False
-            OBJMaster = New MasterBAL()
-            If (txtIMEINumber.Text <> "") Then
-                CheckIMEIExists = OBJMaster.CheckDuplicateIMEI_UDIDPersonMapping(txtIMEINumber.Text, Convert.ToInt32(HDF_PersonnelId.Value), IMEIPersonMappingId)
+			Dim CheckIMEIExists As Boolean = False
+			OBJMaster = New MasterBAL()
+			If (txtIMEINumber.Text <> "") Then
+				CheckIMEIExists = OBJMaster.CheckDuplicateIMEI_UDIDPersonMapping(txtIMEINumber.Text, Convert.ToInt32(HDF_PersonnelId.Value), IMEIPersonMappingId)
 
-                If CheckIMEIExists = True Then
-                    ErrorMessage.Visible = True
-                    ErrorMessage.InnerText = "IMEI number already exist."
-                    ErrorMessage.Focus()
-                    Return
-                End If
-            End If
+				If CheckIMEIExists = True Then
+					ErrorMessage.Visible = True
+					ErrorMessage.InnerText = "IMEI number already exist."
+					ErrorMessage.Focus()
+					Return
+				End If
+			End If
 
-            Dim result As Integer = 0
-            result = OBJMaster.IMEI_UDIDPersonMappingInsertUpdate(IMEIPersonMappingId, Convert.ToInt32(HDF_PersonnelId.Value), txtIMEINumber.Text, CHK_IsActive.Checked, Session("PersonId").ToString())
+			Dim result As Integer = 0
+			result = OBJMaster.IMEI_UDIDPersonMappingInsertUpdate(IMEIPersonMappingId, Convert.ToInt32(HDF_PersonnelId.Value), txtIMEINumber.Text, CHK_IsActive.Checked, Session("PersonId").ToString())
 
-            If result > 0 Then
-                If (IMEIPersonMappingId > 0) Then
-                    message.Visible = True
-                    message.InnerText = "Record saved"
+			If result > 0 Then
+				If (IMEIPersonMappingId > 0) Then
+					message.Visible = True
+					message.InnerText = "Record saved"
 
-                    If (ConfigurationManager.AppSettings("AllowActivityLogin").ToString().ToLower() = "yes") Then
-                        Dim writtenData As String = CreateData(Convert.ToInt32(HDF_PersonnelId.Value))
-                        CSCommonHelper.WriteLog("Modified", "IMEI Person Mapping", beforeData, writtenData, Session("PersonName").ToString() & "(" & Session("PersonEmail").ToString() & ")", Session("IPAddress").ToString(), "success", "")
-                    End If
+					If (ConfigurationManager.AppSettings("AllowActivityLogin").ToString().ToLower() = "yes") Then
+						Dim writtenData As String = CreateData(Convert.ToInt32(HDF_PersonnelId.Value))
+						CSCommonHelper.WriteLog("Modified", "IMEI Person Mapping", beforeData, writtenData, Session("PersonName").ToString() & "(" & Session("PersonEmail").ToString() & ")", Session("IPAddress").ToString(), "success", "")
+					End If
 
-                Else
+				Else
 
-                    If (ConfigurationManager.AppSettings("AllowActivityLogin").ToString().ToLower() = "yes") Then
-                        Dim writtenData As String = CreateData(Convert.ToInt32(HDF_PersonnelId.Value))
-                        CSCommonHelper.WriteLog("Added", "IMEI Person Mapping", beforeData, writtenData, Session("PersonName").ToString() & "(" & Session("PersonEmail").ToString() & ")", Session("IPAddress").ToString(), "success", "")
-                    End If
+					If (ConfigurationManager.AppSettings("AllowActivityLogin").ToString().ToLower() = "yes") Then
+						Dim writtenData As String = CreateData(Convert.ToInt32(HDF_PersonnelId.Value))
+						CSCommonHelper.WriteLog("Added", "IMEI Person Mapping", beforeData, writtenData, Session("PersonName").ToString() & "(" & Session("PersonEmail").ToString() & ")", Session("IPAddress").ToString(), "success", "")
+					End If
 
-                End If
-                Response.Redirect("~/Master/IMEIPersonMapping.aspx?RecordIs=New&PersonId=" & HDF_PersonnelId.Value & "&UniqueUserId=" & HDF_UniqueUserId.Value, False)
-            Else
-                If (IMEIPersonMappingId > 0) Then
-                    If (ConfigurationManager.AppSettings("AllowActivityLogin").ToString().ToLower() = "yes") Then
-                        Dim writtenData As String = CreateData(Convert.ToInt32(HDF_PersonnelId.Value))
-                        CSCommonHelper.WriteLog("Modified", "IMEI Person Mapping", beforeData, writtenData, Session("PersonName").ToString() & "(" & Session("PersonEmail").ToString() & ")", Session("IPAddress").ToString(), "fail", "IMEI Person Mapping update failed.")
-                    End If
-                    ErrorMessage.Visible = True
-                    ErrorMessage.InnerText = "IMEI Person Mapping update failed, please try again"
-                Else
-                    If (ConfigurationManager.AppSettings("AllowActivityLogin").ToString().ToLower() = "yes") Then
-                        Dim writtenData As String = CreateData(Convert.ToInt32(HDF_PersonnelId.Value))
-                        CSCommonHelper.WriteLog("Added", "IMEI Person Mapping", beforeData, writtenData, Session("PersonName").ToString() & "(" & Session("PersonEmail").ToString() & ")", Session("IPAddress").ToString(), "fail", "IMEI Person Mapping Addition failed.")
-                    End If
-                    ErrorMessage.Visible = True
-                    ErrorMessage.InnerText = "IMEI Person Mapping failed, please try again"
-                End If
+				End If
+				Response.Redirect("~/Master/IMEIPersonMapping.aspx?RecordIs=New&PersonId=" & HDF_PersonnelId.Value & "&UniqueUserId=" & HDF_UniqueUserId.Value, False)
+			Else
+				If (IMEIPersonMappingId > 0) Then
+					If (ConfigurationManager.AppSettings("AllowActivityLogin").ToString().ToLower() = "yes") Then
+						Dim writtenData As String = CreateData(Convert.ToInt32(HDF_PersonnelId.Value))
+						CSCommonHelper.WriteLog("Modified", "IMEI Person Mapping", beforeData, writtenData, Session("PersonName").ToString() & "(" & Session("PersonEmail").ToString() & ")", Session("IPAddress").ToString(), "fail", "IMEI Person Mapping update failed.")
+					End If
+					ErrorMessage.Visible = True
+					ErrorMessage.InnerText = "IMEI Person Mapping update failed, please try again"
+				Else
+					If (ConfigurationManager.AppSettings("AllowActivityLogin").ToString().ToLower() = "yes") Then
+						Dim writtenData As String = CreateData(Convert.ToInt32(HDF_PersonnelId.Value))
+						CSCommonHelper.WriteLog("Added", "IMEI Person Mapping", beforeData, writtenData, Session("PersonName").ToString() & "(" & Session("PersonEmail").ToString() & ")", Session("IPAddress").ToString(), "fail", "IMEI Person Mapping Addition failed.")
+					End If
+					ErrorMessage.Visible = True
+					ErrorMessage.InnerText = "IMEI Person Mapping failed, please try again"
+				End If
 
-            End If
+			End If
 
-        Catch ex As Exception
-            log.Error("Error occurred in btnSave_Click Exception is :" + ex.Message)
-            ErrorMessage.Visible = True
-            ErrorMessage.InnerText = "Error occurred while saving IMIE Personnel Mapping data, please try again later."
-        Finally
-            txtIMEINumber.Focus()
+		Catch ex As Exception
+			log.Error("Error occurred in btnSave_Click Exception is :" + ex.Message)
+			ErrorMessage.Visible = True
+			ErrorMessage.InnerText = "Error occurred while saving IMIE Personnel Mapping data, please try again later."
+		Finally
+			txtIMEINumber.Focus()
         End Try
     End Sub
 

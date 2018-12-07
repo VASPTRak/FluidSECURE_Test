@@ -219,8 +219,8 @@ Public Class DeptImport
 					If CheckIdExists = -2 Then
 						strLog = strLog & Environment.NewLine & currentDateTime & "-- Department Name (" & dr("DepartmentName") & ") is already exist. Check Row  " & rowIndex & " & column 2 in uploaded file."
 						isDirty = True
-					ElseIf (dr("DepartmentNumber").ToString().Length > 20) Then
-						strLog = strLog & Environment.NewLine & currentDateTime & "--" & "Department Name (" & dr("DepartmentName") & ") is must be less than equal to 20 characters. Check Row  " & rowIndex & " & column 2 in uploaded file."
+					ElseIf (dr("DepartmentName").ToString().Length > 40) Then
+						strLog = strLog & Environment.NewLine & currentDateTime & "--" & "Department Name (" & dr("DepartmentName") & ") is must be less than equal to 40 characters. Check Row  " & rowIndex & " & column 2 in uploaded file."
 						isDirty = True
 					End If
 				Else
@@ -277,9 +277,9 @@ Public Class DeptImport
 	Private Function InsertRecord(dr As DataRow) As Integer ', dtSelectedFuels As DataTable
 		Try
 
-			Dim result As Integer = OBJMaster.SaveUpdateDept(0, dr("DepartmentName"), dr("DepartmentNumber"), dr("Address"), dr("Address2"), dr("AccountNumber"), ddlCustomer.SelectedValue, dr("ExportCode"), Convert.ToInt32(Session("PersonId")), 0, 0.0, 0.0, 0.0, 0.0)
+            Dim result As Integer = OBJMaster.SaveUpdateDept(0, dr("DepartmentName"), dr("DepartmentNumber"), dr("Address"), dr("Address2"), dr("AccountNumber"), ddlCustomer.SelectedValue, dr("ExportCode"), Convert.ToInt32(Session("PersonId")), 0, 0.0, 0.0, 0.0, 0.0, 0)
 
-			Return 1
+            Return 1
 
 		Catch ex As Exception
 

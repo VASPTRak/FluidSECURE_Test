@@ -26,6 +26,14 @@ Public Class SpecializedVehicleImport
                 Response.Redirect("/home")
 
             Else
+
+                If Session("RoleName") <> "SuperAdmin" Then
+                    If Session("SpecializedVehicleImport") <> "SpecializedVehicleImport" Then
+                        'Access denied 
+                        Response.Redirect("/home")
+                    End If
+                End If
+
                 If Not IsPostBack Then
                     GetCustomers(Convert.ToInt32(Session("PersonId").ToString()), Session("RoleId").ToString())
 
@@ -41,41 +49,41 @@ Public Class SpecializedVehicleImport
         End Try
     End Sub
 
-    Public Function ImportExceltoDatatable(filepath As String) As DataTable
-        Dim dt As DataTable = New DataTable()
-        Try
-            Using workBook As New XLWorkbook(filepath)
-                'Read the first Sheet from Excel file.
-                Dim workSheet As IXLWorksheet = workBook.Worksheet(1)
-                'Loop through the Worksheet rows.
-                Dim firstRow As Boolean = True
-                For Each row As IXLRow In workSheet.Rows()
-                    'Use the first row to add columns to DataTable.
-                    If firstRow Then
-                        For Each cell As IXLCell In row.Cells()
-                            dt.Columns.Add(cell.Value.ToString())
-                        Next
-                        firstRow = False
-                    Else
-                        'Add rows to DataTable.
-                        dt.Rows.Add()
-                        Dim i As Integer = 0
-                        For Each cell As IXLCell In row.Cells()
-                            dt.Rows(dt.Rows.Count - 1)(i) = cell.Value.ToString()
-                            i += 1
-                        Next
-                    End If
-                Next
-            End Using
+    'Public Function ImportExceltoDatatable(filepath As String) As DataTable
+    '    Dim dt As DataTable = New DataTable()
+    '    Try
+    '        Using workBook As New XLWorkbook(filepath)
+    '            'Read the first Sheet from Excel file.
+    '            Dim workSheet As IXLWorksheet = workBook.Worksheet(1)
+    '            'Loop through the Worksheet rows.
+    '            Dim firstRow As Boolean = True
+    '            For Each row As IXLRow In workSheet.Rows()
+    '                'Use the first row to add columns to DataTable.
+    '                If firstRow Then
+    '                    For Each cell As IXLCell In row.Cells()
+    '                        dt.Columns.Add(cell.Value.ToString())
+    '                    Next
+    '                    firstRow = False
+    '                Else
+    '                    'Add rows to DataTable.
+    '                    dt.Rows.Add()
+    '                    Dim i As Integer = 0
+    '                    For Each cell As IXLCell In row.Cells()
+    '                        dt.Rows(dt.Rows.Count - 1)(i) = cell.Value.ToString()
+    '                        i += 1
+    '                    Next
+    '                End If
+    '            Next
+    '        End Using
 
-            Return dt
-        Catch ex As Exception
-            log.Error("Error occurred in ImportExceltoDatatable Exception is :" + ex.Message)
-            ErrorMessage.Visible = True
-            ErrorMessage.InnerText = IIf(ErrorMessage.InnerText <> "", "", "Error occurred while loading details, please try again later.")
-            Return dt
-        End Try
-    End Function
+    '        Return dt
+    '    Catch ex As Exception
+    '        log.Error("Error occurred in ImportExceltoDatatable Exception is :" + ex.Message)
+    '        ErrorMessage.Visible = True
+    '        ErrorMessage.InnerText = IIf(ErrorMessage.InnerText <> "", "", "Error occurred while loading details, please try again later.")
+    '        Return dt
+    '    End Try
+    'End Function
 
     Private Sub GetCustomers(personId As Integer, RoleId As String)
         Try
@@ -126,9 +134,9 @@ Public Class SpecializedVehicleImport
 
             fileExt = System.IO.Path.GetExtension(FU_Vehicles.FileName)
 
-            If (fileExt <> ".xls" And fileExt <> ".xlsx") Then
+            If (fileExt <> ".xls") Then 'And fileExt <> ".xlsx"
                 ErrorMessage.Visible = True
-                ErrorMessage.InnerText = "Only .xls or .xlsx files allowed to upload!."
+                ErrorMessage.InnerText = "Only .xls files allowed to upload!."
 
                 Return
             End If
@@ -153,15 +161,65 @@ Public Class SpecializedVehicleImport
 
             Dim FilePath = folderPath & FileName
 
-            Dim dtImportData As DataTable = ImportExceltoDatatable(FilePath)
+            Dim dtImportData As DataTable = ImportExcelUsingOLEDB(FilePath)
 
-            If (dtImportData Is Nothing Or dtImportData.Rows.Count < 1) Then
+            If (dtImportData Is Nothing Or dtImportData.Rows.Count < 2) Then
                 LB_Error.Visible = True
                 Session("Errorlogs") = strLog
                 message.InnerText = "No data found in file."
+                Return
             End If
 
-            Dim MessageToShow As String = ValidateAndInsertData(dtImportData)
+            Dim dtData As DataTable = New DataTable()
+            For index = 0 To dtImportData.Columns.Count - 1
+                Dim columnName As String = ""
+                Select Case dtImportData.Rows(0)(index).ToString().Trim()
+                    Case "Vehicle Card"
+                        columnName = "VehicleNumber"
+                    Case "Vehicle ID"
+                        columnName = "VehicleName"
+                    Case "Vehicle Description"
+                        columnName = "Extension"
+                    Case "Account"
+                        columnName = "Acc_Id"
+                    Case "License Plate State"
+                        columnName = "LicenseState"
+                    Case "Department"
+                        columnName = "DepartmentId"
+                    Case "Status"
+                        columnName = "Active"
+                    Case Else
+                        columnName = dtImportData.Rows(0)(index)
+                End Select
+
+                dtData.Columns.Add(columnName)
+            Next
+
+
+            dtData.Columns.Add("RowIndex")
+
+            Dim count As Integer = 0
+
+            For Each dr As DataRow In dtImportData.Rows
+                If (count <> 0) Then
+                    'Dim drinsert As DataRow = dtData.NewRow()
+                    dtData.Rows.Add(dr.ItemArray)
+                    dtData.Rows(count - 1)("RowIndex") = count
+                End If
+                count = count + 1
+
+            Next
+
+            Dim returnCnts As String = ValidateAndInsertData(dtData)
+
+            message.Visible = True
+            message.InnerText = returnCnts.Split(";")(0) & " vehicles imported successfully "
+
+            If (strLog.Trim() <> "") Then
+                LB_Error.Visible = True
+                Session("Errorlogs") = strLog
+                message.InnerText = message.InnerText + " , " + returnCnts.Split(";")(1) + " caused some errors."
+            End If
 
         Catch ex As Exception
             message.InnerText = message.InnerText + " , Error occurred, Please try after some time."
@@ -172,14 +230,42 @@ Public Class SpecializedVehicleImport
 
     End Sub
 
+    Public Function ImportExcelUsingOLEDB(ExcelFilePath As String)
+        Dim Sname As String = ""
+        Dim connStr As String = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + ExcelFilePath + ";Extended Properties='Excel 8.0;HDR=NO;IMEX=1;TypeGuessRows=0;Importmixedtypes=text';"
+        Dim MyConnection As OleDbConnection = New OleDbConnection(connStr)
+        Dim MyCommand As OleDbDataAdapter = Nothing
+
+        MyConnection = New OleDbConnection(connStr)
+
+        If (MyConnection.State = ConnectionState.Closed) Then
+            MyConnection.Open()
+        End If
+        'Getting Sheet name from ExcelFile.
+        Dim dtSheets As DataTable = MyConnection.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, Nothing)
+        Try
+            If (dtSheets.Rows.Count > 0) Then
+                Sname = dtSheets.Rows(0)("Table_Name")
+            Else
+                Sname = "'ACTIVE card$'"
+            End If
+        Catch ex As Exception
+            Sname = "'ACTIVE card$'"
+        End Try
+
+
+        MyCommand = New OleDbDataAdapter("select * from" + "[" + Sname + "]", MyConnection)
+        Dim ds As DataSet = New System.Data.DataSet()
+        MyCommand.Fill(ds)
+        MyConnection.Close()
+
+        Return ds.Tables(0)
+    End Function
     Protected Function ValidateAndInsertData(dtImportData As DataTable) As String
         Dim cnt As Integer = 0
         Dim ErrorCnt As Integer = 0
         Dim returnsCnt As String = ""
         Dim currentDateTime As String = ""
-        Dim dtImportDataToUpdate As DataTable = New DataTable()
-        dtImportDataToUpdate = dtImportData.Copy()
-        dtImportDataToUpdate.Clear()
 
         Try
             currentDateTime = Convert.ToDateTime(HDF_CurrentDate.Value).ToString("MM/dd/yyyy hh:mm:ss tt")
@@ -202,69 +288,51 @@ Public Class SpecializedVehicleImport
             Dim isDirty As Boolean = False
             Dim IsUpdate As Boolean = False
             For Each dr As DataRow In dtImportData.Rows
+                Try
 
-                CheckVehicleNumberExist = False
-                isDirty = False
-                IsUpdate = False
+                    CheckVehicleNumberExist = False
+                    isDirty = False
+                    IsUpdate = False
 
-                rowIndex = dr("RowIndex")
+                    rowIndex = dr("RowIndex")
 
-                If (dr("VehicleNumber") <> "") Then
+                    If (dr("VehicleNumber") <> "") Then
 
-                    CheckVehicleNumberExist = OBJMaster.CheckVehicleNumberExist(dr("VehicleNumber"), 0, Convert.ToInt32(ddlCustomer.SelectedValue))
+                        CheckVehicleNumberExist = OBJMaster.CheckVehicleNumberExist(dr("VehicleNumber"), 0, Convert.ToInt32(ddlCustomer.SelectedValue))
 
-                    If CheckVehicleNumberExist = True Then
-                        IsUpdate = True
-                    ElseIf (dr("VehicleNumber").ToString().Length > 10) Then
-                        strLog = strLog & Environment.NewLine & currentDateTime & "--" & "Vehicle Number (" & dr("VehicleNumber") & ") is must be less than equal to 10 characters. Check Row  " & rowIndex
+                        If CheckVehicleNumberExist = True Then
+                            IsUpdate = True
+                        ElseIf (dr("VehicleNumber").ToString().Length > 10) Then
+                            strLog = strLog & Environment.NewLine & currentDateTime & "--" & "Vehicle Card (" & dr("VehicleNumber") & ") is must be less than equal to 10 characters. Check Row  " & rowIndex
+                            isDirty = True
+                        End If
+                    Else
+                        strLog = strLog & Environment.NewLine & currentDateTime & "--" & "Vehicle Card field is required. Check Row  " & rowIndex
                         isDirty = True
                     End If
-                Else
-                    strLog = strLog & Environment.NewLine & currentDateTime & "--" & "Vehicle Number field is required. Check Row  " & rowIndex
-                    isDirty = True
-                End If
 
-                If (dr("VehicleName").ToString().Length > 25) Then
-                    strLog = strLog & Environment.NewLine & currentDateTime & "--" & "Vehicle Name (" & dr("VehicleName") & ") Is must be less than equal To 25 characters. Check Row  " & rowIndex
-                    isDirty = True
-                End If
-
-                If (dr("Extension").ToString().Length > 50) Then
-                    strLog = strLog & Environment.NewLine & currentDateTime & "--" & "Vehicle description (" & dr("Extension") & ") Is must be less than equal To 50 characters. Check Row  " & rowIndex
-                    isDirty = True
-                End If
-
-                Dim flagCheckDept As Integer = 0
-                Dim DepartmentId As String = dr("DepartmentId")
-                Dim strErrorDept As String = ""
-
-                If (dr("DepartmentNo") <> "") Then
-
-                    Dim drDept() As DataRow = dtDept.Select("NUMBER='" & dr("DepartmentNo") & "'")
-
-                    Dim i As Integer
-
-                    dr("DepartmentId") = ""
-
-                    For i = 0 To drDept.GetUpperBound(0)
-                        dr("DepartmentId") = drDept(i)("DeptID")
-                    Next i
-
-                    If (dr("DepartmentId") = "") Then
-                        dr("DepartmentId") = DepartmentId
-                        flagCheckDept = 1
-                        strErrorDept = currentDateTime & "--" & "Vehicle department number field not found. Check Row  " & rowIndex
+                    If (dr("VehicleName").ToString().Length > 25) Then
+                        strLog = strLog & Environment.NewLine & currentDateTime & "--" & "Vehicle ID (" & dr("VehicleName") & ") is must be less than equal To 25 characters. Check Row  " & rowIndex
+                        isDirty = True
                     End If
-                Else
-                    flagCheckDept = 2
-                    strErrorDept = currentDateTime & "--" & "Vehicle department number field is required. Check Row  " & rowIndex
-                End If
 
-                If flagCheckDept = 1 Or flagCheckDept = 2 Then
+                    If (dr("Extension").ToString().Length > 50) Then
+                        strLog = strLog & Environment.NewLine & currentDateTime & "--" & "Vehicle description (" & dr("Extension") & ") is must be less than equal To 50 characters. Check Row  " & rowIndex
+                        isDirty = True
+                    End If
+
+                    Dim fileDepartmentName As String = dr("DepartmentId")
+                    Dim DepartmentName As String = ""
+                    Dim strErrorDept As String = ""
+                    If (fileDepartmentName = "Unassigned") Then
+                        dr("DepartmentId") = "Default"
+                    End If
+
                     If (dr("DepartmentId") <> "") Then
                         Dim drDept() As DataRow = dtDept.Select("NAME='" & dr("DepartmentId") & "'")
 
                         Dim i As Integer
+                        DepartmentName = dr("DepartmentId")
 
                         dr("DepartmentId") = ""
 
@@ -273,54 +341,64 @@ Public Class SpecializedVehicleImport
                         Next i
 
                         If (dr("DepartmentId") = "") Then
-                            strLog = strLog & Environment.NewLine & strErrorDept & Environment.NewLine & currentDateTime & "--" & "Vehicle department name is not found. Check Row  " & rowIndex
-                            isDirty = True
-                        Else
-                            flagCheckDept = 0
+                            'strLog = strLog & Environment.NewLine & strErrorDept & Environment.NewLine & currentDateTime & "--" & "Vehicle department name is not found. Check Row  " & rowIndex
+                            'isDirty = True
+                            OBJMaster = New MasterBAL()
+
+                            Dim result As Integer = OBJMaster.SaveUpdateDept(0, DepartmentName, "", "", "", "", ddlCustomer.SelectedValue, "", Convert.ToInt32(Session("PersonId")), 0, 0, 0, 0, 0, True)
+                            If (result > 0) Then
+                                dtDept = OBJMaster.GetDeptbyConditions(" and Dept.CustomerId = " & ddlCustomer.SelectedValue, Session("PersonId").ToString(), Session("RoleId").ToString())
+                                dr("DepartmentId") = result
+                            Else
+                                strLog = strLog & Environment.NewLine & strErrorDept & Environment.NewLine & currentDateTime & "--" & " Error occurred while creating Vehicle department. Check Row  " & rowIndex
+                                isDirty = True
+                            End If
+
                         End If
                     Else
                         strLog = strLog & Environment.NewLine & strErrorDept & Environment.NewLine & currentDateTime & "--" & "Vehicle department name is required. Check Row  " & rowIndex
                         isDirty = True
                     End If
-                End If
+                    'End If
 
-                If (dr("Acc_Id").ToString().Length > 20) Then
-                    strLog = strLog & Environment.NewLine & currentDateTime & "--" & " Vehicle Account Id (" & dr("Acc_Id") & ") is must be less than equal to 20 characters. Check Row  " & rowIndex
-                    isDirty = True
-                End If
+                    If (dr("Acc_Id").ToString().Length > 20) Then
+                        strLog = strLog & Environment.NewLine & currentDateTime & "--" & " Account (" & dr("Acc_Id") & ") is must be less than equal to 20 characters. Check Row  " & rowIndex
+                        isDirty = True
+                    End If
+                    If (dr("Active").ToString() = "Active") Then
+                        dr("Active") = True
+                    Else
+                        dr("Active") = False
+                    End If
 
-                If (dr("LicenseState").ToString().Length > 2) Then
-                    strLog = strLog & Environment.NewLine & currentDateTime & "--" & "Vehicle License State (" & dr("LicenseState") & ") is must be less than equal to 2 characters. Check Row  " & rowIndex
-                    isDirty = True
-                End If
-
-                If IsUpdate = False Then
-                    If (isDirty = False) Then
-                        Dim result As Integer = InsertRecord(dr, True)
-                        If (result = 1) Then
-                            cnt = cnt + 1
+                    If IsUpdate = False Then
+                        If (isDirty = False) Then
+                            Dim result As Integer = InsertRecord(dr, True, currentDateTime)
+                            If (result > 0) Then
+                                cnt = cnt + 1
+                            End If
+                        Else
+                            ErrorCnt = ErrorCnt + 1
                         End If
                     Else
-                        ErrorCnt = ErrorCnt + 1
-                    End If
-                Else
-                    If (isDirty = False) Then
-                        dtImportDataToUpdate.Rows.Add(dr)
-                    Else
-                        ErrorCnt = ErrorCnt + 1
-                    End If
-                End If
-                'rowIndex = rowIndex + 1
-            Next
+                        If (isDirty = False) Then
+                            Dim result As Integer = InsertRecord(dr, False, currentDateTime)
+                            If (result > 0) Then
+                                cnt = cnt + 1
+                            End If
 
-            If dtImportDataToUpdate.Rows.Count > 0 Then
-                For Each dr As DataRow In dtImportDataToUpdate.Rows
-                    Dim result As Integer = InsertRecord(dr, False)
-                    If (result = 1) Then
-                        cnt = cnt + 1
+                        Else
+                            ErrorCnt = ErrorCnt + 1
+                        End If
                     End If
-                Next
-            End If
+                    'rowIndex = rowIndex + 1
+
+
+                Catch ex As Exception
+                    log.Error("Exception occured while importing Vehicle file at row " & dr("RowIndex") & " . Exception is : " & ex.Message)
+                End Try
+
+            Next
 
             Return cnt & ";" & ErrorCnt
 
@@ -332,30 +410,29 @@ Public Class SpecializedVehicleImport
         End Try
     End Function
 
-    Private Function InsertRecord(dr As DataRow, FlagForInsertUpdate As Boolean) As Integer
+    Private Function InsertRecord(dr As DataRow, FlagForInsertUpdate As Boolean, currentDateTime As String) As Integer
         Try
-            If FlagForInsertUpdate Then
+            Dim result As Integer = 0
+            If FlagForInsertUpdate = False Then
 
                 OBJMaster = New MasterBAL()
                 Dim dtVehicle As DataTable = New DataTable()
                 dtVehicle = OBJMaster.GetVehicleByCondition(" and V.VehicleNumber = '" & dr("VehicleNumber") & "' and V.CustomerId = " & ddlCustomer.SelectedValue, Convert.ToInt32(Session("PersonId")), Session("RoleId").ToString())
 
-                Dim result As Integer = OBJMaster.SaveUpdateVehicle(Convert.ToInt32(dtVehicle.Rows(0)("VehicleId")), dr("VehicleName"), "", "", "-1", "", "", "", dr("Extension"), "", "-1", dr("DepartmentId"),
-                                                            0, 0, "N", "N", "-1", dr("VehicleNumber"), dr("Acc_Id"), "", Convert.ToInt32(Session("PersonId")), ddlCustomer.SelectedValue,
-                                                            "-1", "0", 1, dr("LicenseState"), 1, "", dr("Active"), "", 0, 0, "")
+                result = OBJMaster.SaveUpdateVehicle(Convert.ToInt32(dtVehicle.Rows(0)("VehicleId")), dr("VehicleName").ToString(), "", "", "-1", "", "", "", dr("Extension").ToString(), "", "-1", dr("DepartmentId"),
+                                                            0, 0, "N", "N", "-1", dr("VehicleNumber").ToString(), dr("Acc_Id").ToString(), "", Convert.ToInt32(Session("PersonId")), ddlCustomer.SelectedValue,
+                                                            "-1", "0", 1, dr("LicenseState").ToString(), 1, "", dr("Active"), "", 0, 0, "", True)
             Else
-                Dim result As Integer = OBJMaster.SaveUpdateVehicle(0, dr("VehicleName"), "", "", "-1", "", "", "", dr("Extension"), "", "-1", dr("DepartmentId"),
-                                                            0, 0, "N", "N", "-1", dr("VehicleNumber"), dr("Acc_Id"), "", Convert.ToInt32(Session("PersonId")), ddlCustomer.SelectedValue,
-                                                            "-1", "0", 1, dr("LicenseState"), 1, "", dr("Active"), "", 0, 0, "")
-
+                result = OBJMaster.SaveUpdateVehicle(0, dr("VehicleName").ToString(), "", "", "-1", "", "", "", dr("Extension").ToString(), "", "-1", dr("DepartmentId"),
+                                                            0, 0, "N", "N", "-1", dr("VehicleNumber").ToString(), dr("Acc_Id").ToString(), "", Convert.ToInt32(Session("PersonId")), ddlCustomer.SelectedValue,
+                                                            "-1", "0", 1, dr("LicenseState").ToString(), 1, "", dr("Active"), "", 0, 0, "", True)
             End If
 
-
-            Return 1
+            Return result
 
         Catch ex As Exception
             log.Error("Exception occured while importing file. Exception is : " & ex.Message)
-
+            strLog = strLog & Environment.NewLine & currentDateTime & "--" & "Error occured while importing row " & dr("RowIndex").ToString() & ". Error is " & ex.Message
             Return 0
         End Try
 

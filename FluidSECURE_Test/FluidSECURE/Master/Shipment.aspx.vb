@@ -121,7 +121,13 @@ Public Class Shipment
                 If (Session("CustomerId") <> 0 And Not Session("CustomerId") Is Nothing) Then
                     CompanyId = Convert.ToInt32(Session("CustomerId").ToString())
                 End If
-                HDF_TotalShipments.Value = OBJMaster.GetShipmentIdByCondition(ShipmentId, False, False, False, False, True, Session("RoleId").ToString(), Convert.ToInt32(Session("PersonId").ToString()), CompanyId)
+
+                Dim strConditions As String = ""
+                If (Not Session("ShipmentConditions") Is Nothing) Then
+                    strConditions = Session("ShipmentConditions")
+                End If
+
+                HDF_TotalShipments.Value = OBJMaster.GetShipmentIdByCondition(ShipmentId, False, False, False, False, True, Session("RoleId").ToString(), Convert.ToInt32(Session("PersonId").ToString()), CompanyId, strConditions)
 
                 OBJMaster = New MasterBAL()
                 Dim dtAllShipments As DataTable = New DataTable()
@@ -136,9 +142,9 @@ Public Class Shipment
                 'End If
 
                 If (Session("CustomerId") <> 0 And Not Session("CustomerId") Is Nothing) Then
-                    dtAllShipments = OBJMaster.GetShipmentsByCondition(" and SD.CompanyId = " + Session("CustomerId").ToString() + " ", Session("RoleId").ToString())
+                    dtAllShipments = OBJMaster.GetShipmentsByCondition(" and SD.CompanyId = " + Session("CustomerId").ToString() + " " + strConditions, Session("RoleId").ToString())
                 Else
-                    dtAllShipments = OBJMaster.GetShipmentsByCondition("", Session("RoleId").ToString())
+                    dtAllShipments = OBJMaster.GetShipmentsByCondition(strConditions, Session("RoleId").ToString())
                 End If
 
                 dtAllShipments.PrimaryKey = New DataColumn() {dtAllShipments.Columns(0)}
@@ -191,7 +197,7 @@ Public Class Shipment
     End Sub
 
     Protected Sub btnCancel_Click(sender As Object, e As EventArgs) Handles btnCancel.Click
-        Response.Redirect("~/Master/AllShipments")
+        Response.Redirect("~/Master/AllShipments?Filter=Filter")
     End Sub
 
     Protected Sub First_Click(sender As Object, e As EventArgs) Handles btnFirst.Click
@@ -203,10 +209,17 @@ Public Class Shipment
                 CompanyId = Convert.ToInt32(Session("CustomerId").ToString())
             End If
 
+            Dim strConditions As String = ""
+            If (Not Session("ShipmentConditions") Is Nothing) Then
+                strConditions = Session("ShipmentConditions")
+            End If
+
             OBJMaster = New MasterBAL()
-            Dim ShipmentId As Integer = OBJMaster.GetShipmentIdByCondition(CurrentShipmentId, True, False, False, False, False, Session("RoleId").ToString(), Convert.ToInt32(Session("PersonId").ToString()), CompanyId)
+            Dim ShipmentId As Integer = OBJMaster.GetShipmentIdByCondition(CurrentShipmentId, True, False, False, False, False, Session("RoleId").ToString(), Convert.ToInt32(Session("PersonId").ToString()), CompanyId, strConditions)
             HDF_ShipmentId.Value = ShipmentId
             BindShipmentDetails(ShipmentId)
+
+
 
         Catch ex As Exception
             log.Error("Error occurred in First_Click Exception is :" + ex.Message)
@@ -223,8 +236,14 @@ Public Class Shipment
             If (Session("CustomerId") <> 0 And Not Session("CustomerId") Is Nothing) Then
                 CompanyId = Convert.ToInt32(Session("CustomerId").ToString())
             End If
+
+            Dim strConditions As String = ""
+            If (Not Session("ShipmentConditions") Is Nothing) Then
+                strConditions = Session("ShipmentConditions")
+            End If
+
             OBJMaster = New MasterBAL()
-            Dim ShipmentId As Integer = OBJMaster.GetShipmentIdByCondition(CurrentShipmentId, False, False, False, True, False, Session("RoleId").ToString(), Convert.ToInt32(Session("PersonId").ToString()), CompanyId)
+            Dim ShipmentId As Integer = OBJMaster.GetShipmentIdByCondition(CurrentShipmentId, False, False, False, True, False, Session("RoleId").ToString(), Convert.ToInt32(Session("PersonId").ToString()), CompanyId, strConditions)
             HDF_ShipmentId.Value = ShipmentId
             BindShipmentDetails(ShipmentId)
 
@@ -243,8 +262,14 @@ Public Class Shipment
             If (Session("CustomerId") <> 0 And Not Session("CustomerId") Is Nothing) Then
                 CompanyId = Convert.ToInt32(Session("CustomerId").ToString())
             End If
+
+            Dim strConditions As String = ""
+            If (Not Session("ShipmentConditions") Is Nothing) Then
+                strConditions = Session("ShipmentConditions")
+            End If
+
             OBJMaster = New MasterBAL()
-            Dim ShipmentId As Integer = OBJMaster.GetShipmentIdByCondition(CurrentShipmentId, False, False, True, False, False, Session("RoleId").ToString(), Convert.ToInt32(Session("PersonId").ToString()), CompanyId)
+            Dim ShipmentId As Integer = OBJMaster.GetShipmentIdByCondition(CurrentShipmentId, False, False, True, False, False, Session("RoleId").ToString(), Convert.ToInt32(Session("PersonId").ToString()), CompanyId, strConditions)
             HDF_ShipmentId.Value = ShipmentId
             BindShipmentDetails(ShipmentId)
 
@@ -263,8 +288,14 @@ Public Class Shipment
             If (Session("CustomerId") <> 0 And Not Session("CustomerId") Is Nothing) Then
                 CompanyId = Convert.ToInt32(Session("CustomerId").ToString())
             End If
+
+            Dim strConditions As String = ""
+            If (Not Session("ShipmentConditions") Is Nothing) Then
+                strConditions = Session("ShipmentConditions")
+            End If
+
             OBJMaster = New MasterBAL()
-            Dim ShipmentId As Integer = OBJMaster.GetShipmentIdByCondition(CurrentShipmentId, False, True, False, False, False, Session("RoleId").ToString(), Convert.ToInt32(Session("PersonId").ToString()), CompanyId)
+            Dim ShipmentId As Integer = OBJMaster.GetShipmentIdByCondition(CurrentShipmentId, False, True, False, False, False, Session("RoleId").ToString(), Convert.ToInt32(Session("PersonId").ToString()), CompanyId, strConditions)
             HDF_ShipmentId.Value = ShipmentId
             BindShipmentDetails(ShipmentId)
 

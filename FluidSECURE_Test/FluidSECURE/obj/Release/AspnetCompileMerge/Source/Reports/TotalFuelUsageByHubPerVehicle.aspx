@@ -260,7 +260,7 @@
          function loadMultiList() {
              $('[id*=lst_Vehicle]').multiselect({
                  includeSelectAllOption: true,
-                 allSelectedText: 'All FluidSecure Link',
+                 allSelectedText: 'All Vehicle Numbers',
                  maxHeight: 200,
              })
              LoadDateTimeControl();
@@ -269,7 +269,7 @@
          $(function () {
              $('[id*=lst_Vehicle]').multiselect({
                  includeSelectAllOption: true,
-                 allSelectedText: 'All FluidSecure Link',
+                 allSelectedText: 'All Vehicle Numbers',
                  maxHeight: 200,
              }).multiselect('selectAll', false).multiselect('updateButtonText');
          });

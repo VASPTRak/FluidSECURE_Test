@@ -119,7 +119,7 @@
                             <h3 class="modal-title text-center">FluidSecure</h3>
                         </div>
                         <div class="modal-body">
-                            <h4>Do you want to Add this Vehicle to all Personnel in your Organization?</h4>
+                            <h4>Do you want to Add this Vehicle to all Personnel and hubs in your Organization?</h4>
                         </div>
                         <div class="modal-footer nextButton">
                             <input type="button" id="btnVehiclePersonMappingSuccess" class="btn btn-success" onclick="AddMapping()" value="Yes" />
@@ -140,7 +140,7 @@
                             <h3 class="modal-title text-center">FluidSecure</h3>
                         </div>
                         <div class="modal-body">
-                            <h4>Do you want to Add this Vehicle to all Personnel in your Organization?</h4>
+                            <h4>Do you want to Add this Vehicle to all Personnel and hubs in your Organization?</h4>
                         </div>
                         <div class="modal-footer nextButton">
                             <input type="button" id="btnVehiclePersonMappingSuccessAddNew" class="btn btn-success" onclick="AddNewMapping();" value="Yes" />

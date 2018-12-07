@@ -402,20 +402,26 @@ Public Class TransactionReportByLocation
 
 			Dim SelectedSiteIds As String = ""
 
-			For Each item As ListItem In lstSites.Items
-				If item.Selected Then
-					SelectedSiteIds = IIf(SelectedSiteIds = "", item.Value, SelectedSiteIds + "," + item.Value)
-				End If
-			Next
-			If (SelectedSiteIds <> "") Then
-				strConditions = IIf(strConditions = "", " and T.SiteID in ( " + SelectedSiteIds + ")", strConditions + " and T.SiteID in ( " + SelectedSiteIds + ")")
-			End If
+            If (ddl_TransactionType.SelectedValue <> "1") Then
+                For Each item As ListItem In lstSites.Items
+                    If item.Selected Then
+                        SelectedSiteIds = IIf(SelectedSiteIds = "", item.Value, SelectedSiteIds + "," + item.Value)
+                    End If
+                Next
+            End If
+            If (SelectedSiteIds <> "") Then
+                If (ddl_TransactionType.SelectedValue = "-1") Then
+                    strConditions = IIf(strConditions = "", " and (T.SiteID in ( " + SelectedSiteIds + ")  Or ISNULL(T.OFFSite,0)=1) ", strConditions + " and (T.SiteID in ( " + SelectedSiteIds + ")  Or ISNULL(T.OFFSite,0)=1) ")
+                Else
+                    strConditions = IIf(strConditions = "", " and T.SiteID in ( " + SelectedSiteIds + ")", strConditions + " and T.SiteID in ( " + SelectedSiteIds + ")")
+                End If
+            End If
 
-			'If (DDL_Site.SelectedValue <> "0") Then
-			'    strConditions = IIf(strConditions = "", " and T.SiteID = " + DDL_Site.SelectedValue, strConditions + " and T.SiteID = " + DDL_Site.SelectedValue)
-			'End If
+            'If (DDL_Site.SelectedValue <> "0") Then
+            '    strConditions = IIf(strConditions = "", " and T.SiteID = " + DDL_Site.SelectedValue, strConditions + " and T.SiteID = " + DDL_Site.SelectedValue)
+            'End If
 
-			If (DDL_Fuel.SelectedValue <> "0") Then
+            If (DDL_Fuel.SelectedValue <> "0") Then
 				strConditions = IIf(strConditions = "", " and T.fuelTypeId = " + DDL_Fuel.SelectedValue, strConditions + " and T.fuelTypeId = " + DDL_Fuel.SelectedValue)
 			End If
 			'If (DDL_Fuel.SelectedValue <> "0") Then
@@ -438,8 +444,12 @@ Public Class TransactionReportByLocation
 				strConditions = IIf(strConditions = "", " and ISNULL(T.HubId,0) = " + DDL_HubName.SelectedValue, strConditions + " and ISNULL(T.HubId,0) = " + DDL_HubName.SelectedValue)
 			End If
 
-			'get data from server
-			dSTran = OBJMaster.GetTransactionRptDetails(startDate.ToString(), endDate.ToString(), strConditions, "site")
+            If (ddl_TransactionType.SelectedValue <> "-1") Then
+                strConditions = IIf(strConditions = "", " and ISNULL(T.OFFSite,0) = " + ddl_TransactionType.SelectedValue, strConditions + " and ISNULL(T.OFFSite,0) = " + ddl_TransactionType.SelectedValue)
+            End If
+
+            'get data from server
+            dSTran = OBJMaster.GetTransactionRptDetails(startDate.ToString(), endDate.ToString(), strConditions, "site")
 			If (Not dSTran Is Nothing) Then
 
 				If (dSTran.Tables.Count < 3 Or dSTran.Tables(0).Rows.Count <= 0) Then
@@ -474,8 +484,8 @@ Public Class TransactionReportByLocation
 
 			Session("FromDate") = startDate.ToString("dd-MMM-yyyy hh:mm tt")
 			Session("ToDate") = endDate.ToString("dd-MMM-yyyy hh:mm tt")
-
-			Response.Redirect("~/Reports/TransactionReportByLocationReport")
+            Session("TransactionType") = ddl_TransactionType.SelectedItem.Text
+            Response.Redirect("~/Reports/TransactionReportByLocationReport")
 
 
 		Catch ex As Exception
@@ -803,4 +813,21 @@ Public Class TransactionReportByLocation
 		End Try
 	End Sub
 
+    Protected Sub ddl_TransactionType_SelectedIndexChanged(sender As Object, e As EventArgs)
+        Try
+            If ddl_TransactionType.SelectedValue = "0" Or ddl_TransactionType.SelectedValue = "-1" Then
+                divDeletedLink.Visible = True
+                divFluidSecureLink.Visible = True
+            Else
+                divDeletedLink.Visible = False
+                divFluidSecureLink.Visible = False
+            End If
+        Catch ex As Exception
+            log.Error("Error occurred in ddl_TransactionType_SelectedIndexChanged Exception is :" + ex.Message)
+            ErrorMessage.Visible = True
+            ErrorMessage.InnerText = "Error occurred while getting data, please try again later."
+        Finally
+            ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "loadMultiList();$('[id*=lstSites]').multiselect({includeSelectAllOption: true,allSelectedText: 'All FluidSecure Link',}).multiselect('selectAll', false).multiselect('updateButtonText');", True)
+        End Try
+    End Sub
 End Class
