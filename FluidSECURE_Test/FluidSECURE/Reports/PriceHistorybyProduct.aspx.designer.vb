@@ -68,13 +68,31 @@ Partial Public Class PriceHistorybyProduct
     Protected WithEvents txtHistoryDateTo As Global.System.Web.UI.WebControls.TextBox
     
     '''<summary>
-    '''DDL_Personnel control.
+    '''ddl_TankNo control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents DDL_Personnel As Global.System.Web.UI.WebControls.DropDownList
+    Protected WithEvents ddl_TankNo As Global.System.Web.UI.WebControls.DropDownList
+    
+    '''<summary>
+    '''DDL_Fuel control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents DDL_Fuel As Global.System.Web.UI.WebControls.DropDownList
+    
+    '''<summary>
+    '''ddl_CostingMethod control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents ddl_CostingMethod As Global.System.Web.UI.WebControls.DropDownList
     
     '''<summary>
     '''divCompany control.
@@ -102,15 +120,6 @@ Partial Public Class PriceHistorybyProduct
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents RDF_Customer As Global.System.Web.UI.WebControls.RequiredFieldValidator
-    
-    '''<summary>
-    '''DDL_Fuel control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents DDL_Fuel As Global.System.Web.UI.WebControls.DropDownList
     
     '''<summary>
     '''btnGenarateReport control.

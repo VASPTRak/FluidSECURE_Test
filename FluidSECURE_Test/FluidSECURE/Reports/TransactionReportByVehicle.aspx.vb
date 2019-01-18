@@ -396,16 +396,21 @@ Public Class TransactionReportByVehicle
                 strConditions = IIf(strConditions = "", " and T.PersonID = " + DDL_Personnel.SelectedValue, strConditions + " and T.PersonID = " + DDL_Personnel.SelectedValue)
             End If
 
-            Dim SelectedSiteIds As String = ""
-
-            If (ddl_TransactionType.SelectedValue <> "1") Then
-                For Each item As ListItem In lstSites.Items
-                    If item.Selected Then
-                        SelectedSiteIds = IIf(SelectedSiteIds = "", item.Value, SelectedSiteIds + "," + item.Value)
-                    End If
-                Next
-            End If
-            If (SelectedSiteIds <> "") Then
+			Dim SelectedSiteIds As String = ""
+			Dim flagForZeroSite = True
+			If (ddl_TransactionType.SelectedValue <> "1") Then
+				For Each item As ListItem In lstSites.Items
+					If item.Selected Then
+						SelectedSiteIds = IIf(SelectedSiteIds = "", item.Value, SelectedSiteIds + "," + item.Value)
+					Else
+						flagForZeroSite = False
+					End If
+				Next
+			End If
+			If flagForZeroSite Then
+				SelectedSiteIds = "0," + SelectedSiteIds
+			End If
+			If (SelectedSiteIds <> "") Then
                 If (ddl_TransactionType.SelectedValue = "-1") Then
                     strConditions = IIf(strConditions = "", " and (T.SiteID in ( " + SelectedSiteIds + ")  Or ISNULL(T.OFFSite,0)=1) ", strConditions + " and (T.SiteID in ( " + SelectedSiteIds + ")  Or ISNULL(T.OFFSite,0)=1) ")
                 Else
@@ -425,12 +430,14 @@ Public Class TransactionReportByVehicle
             '    strConditions = IIf(strConditions = "", " and T.fuelTypeId = " + DDL_Fuel.SelectedValue, strConditions + " and T.fuelTypeId = " + DDL_Fuel.SelectedValue)
             'End If
 
-            If (DDL_TransactionStatus.SelectedValue = "2") Then
-                strConditions = IIf(strConditions = "", " and ISNULL(T.TransactionStatus,0) = 2", strConditions + " and ISNULL(T.TransactionStatus,0) = 2")
-            ElseIf (DDL_TransactionStatus.SelectedValue = "0") Then
-                strConditions = (IIf(strConditions = "", " and ISNULL(T.TransactionStatus,0) = 0 and datediff(minute, T.[CreatedDate] ,getdate()) > 15 ", strConditions + " and ISNULL(T.TransactionStatus,0) = 0 and datediff(minute, T.[CreatedDate] ,getdate()) > 15"))
-            ElseIf (DDL_TransactionStatus.SelectedValue = "1") Then
-                strConditions = (IIf(strConditions = "", " and (ISNULL(T.TransactionStatus,0) = 1  And ISNULL(T.IsMissed,0)= 1) and datediff(minute, T.[CreatedDate] ,getdate()) > 15 ", strConditions + " and (ISNULL(T.TransactionStatus,0) = 1 And ISNULL(T.IsMissed,0)= 1)  and datediff(minute, T.[CreatedDate] ,getdate()) > 15"))
+            If (DDL_TransactionStatus.SelectedValue <> "3") Then
+                If (DDL_TransactionStatus.SelectedValue = "2") Then
+                    strConditions = IIf(strConditions = "", " and ISNULL(T.TransactionStatus,0) = 2", strConditions + " and ISNULL(T.TransactionStatus,0) = 2")
+                ElseIf (DDL_TransactionStatus.SelectedValue = "0") Then
+                    strConditions = (IIf(strConditions = "", " and ISNULL(T.TransactionStatus,0) = 0 and datediff(minute, T.[CreatedDate] ,getdate()) > 15 ", strConditions + " and ISNULL(T.TransactionStatus,0) = 0 and datediff(minute, T.[CreatedDate] ,getdate()) > 15"))
+                ElseIf (DDL_TransactionStatus.SelectedValue = "1") Then
+                    strConditions = (IIf(strConditions = "", " and (ISNULL(T.TransactionStatus,0) = 1  And ISNULL(T.IsMissed,0)= 1) and datediff(minute, T.[CreatedDate] ,getdate()) > 15 ", strConditions + " and (ISNULL(T.TransactionStatus,0) = 1 And ISNULL(T.IsMissed,0)= 1)  and datediff(minute, T.[CreatedDate] ,getdate()) > 15"))
+                End If
             End If
 
             'strConditions = IIf(strConditions = "", " and ISNULL(t.IsMissed,0) = " + DDL_Missed.SelectedValue, strConditions + " and ISNULL(t.IsMissed,0) = " + DDL_Missed.SelectedValue)
@@ -444,9 +451,9 @@ Public Class TransactionReportByVehicle
                 strConditions = IIf(strConditions = "", " and ISNULL(T.OFFSite,0) = " + ddl_TransactionType.SelectedValue, strConditions + " and ISNULL(T.OFFSite,0) = " + ddl_TransactionType.SelectedValue)
             End If
 
-            'get data from server
-            dSTran = OBJMaster.GetTransactionRptDetails(startDate.ToString(), endDate.ToString(), strConditions, "vehicle")
-            If (Not dSTran Is Nothing) Then
+			'get data from server
+			dSTran = OBJMaster.GetTransactionRptDetails(startDate.ToString(), endDate.ToString(), strConditions, "vehicle", chk_FATransaction.Checked)
+			If (Not dSTran Is Nothing) Then
 
                 If (dSTran.Tables.Count < 3 Or dSTran.Tables(0).Rows.Count <= 0) Then
                     If (ConfigurationManager.AppSettings("AllowActivityLogin").ToString().ToLower() = "yes") Then
@@ -471,17 +478,36 @@ Public Class TransactionReportByVehicle
                 Return
 
             End If
-            If (ConfigurationManager.AppSettings("AllowActivityLogin").ToString().ToLower() = "yes") Then
-                Dim writtenData As String = CreateData()
+			If (ConfigurationManager.AppSettings("AllowActivityLogin").ToString().ToLower() = "yes") Then
+				Dim writtenData As String = CreateData()
 
-                CSCommonHelper.WriteLog("Report Genereated", "Transaction Report by Vehicle", "", writtenData, Session("PersonName").ToString() & "(" & Session("PersonEmail").ToString() & ")", Session("IPAddress").ToString(), "success", "")
-            End If
-            Session("TransReportByVehicle") = dSTran
+				CSCommonHelper.WriteLog("Report Genereated", "Transaction Report by Vehicle", "", writtenData, Session("PersonName").ToString() & "(" & Session("PersonEmail").ToString() & ")", Session("IPAddress").ToString(), "success", "")
+			End If
 
-            Session("FromDate") = startDate.ToString("dd-MMM-yyyy hh:mm tt")
+			OBJMaster = New MasterBAL()
+			Dim dtCustInfo As DataTable = New DataTable()
+			dtCustInfo = OBJMaster.GetCustByConditions(" And CustomerId =" & Convert.ToInt32(DDL_Customer.SelectedValue), Convert.ToInt32(Session("PersonId").ToString()), Session("RoleId").ToString())
+
+			If dtCustInfo IsNot Nothing Then
+				If dtCustInfo.Rows.Count > 0 Then
+					If dtCustInfo.Rows(0)("FuelingType") = "False" Then
+						Session("FuelingTypeCurrent") = "Current  Miles"
+						Session("FuelingTypePrevious") = "Previous Miles"
+					ElseIf dtCustInfo.Rows(0)("FuelingType") = "True" Then
+						Session("FuelingTypeCurrent") = "Current  Kilometers"
+						Session("FuelingTypePrevious") = "Previous Kilometers"
+					Else
+						Session("FuelingTypeCurrent") = "Current  Miles/Kilometers"
+						Session("FuelingTypePrevious") = "Previous Miles/Kilometers"
+					End If
+				End If
+			End If
+
+			Session("TransReportByVehicle") = dSTran
+			Session("FromDate") = startDate.ToString("dd-MMM-yyyy hh:mm tt")
             Session("ToDate") = endDate.ToString("dd-MMM-yyyy hh:mm tt")
             Session("TransactionType") = ddl_TransactionType.SelectedItem.Text
-
+            Session("TransactionStatusText") = DDL_TransactionStatus.SelectedValue.ToString()
             Response.Redirect("~/Reports/TransactionReportByVehicleReport")
 
 
@@ -721,16 +747,18 @@ Public Class TransactionReportByVehicle
 	End Sub
 
 	Private Sub BindTransactionStatus()
-		Try
-			DDL_TransactionStatus.Items.Insert(0, New ListItem(ConfigurationManager.AppSettings("CompletedText").ToString(), "2"))
-			DDL_TransactionStatus.Items.Insert(1, New ListItem(ConfigurationManager.AppSettings("NotStartedText").ToString(), "0"))
-			DDL_TransactionStatus.Items.Insert(2, New ListItem(ConfigurationManager.AppSettings("MissedText").ToString(), "1"))
-		Catch ex As Exception
-			log.Error("Error occurred in BindTransactionStatus Exception is :" + ex.Message)
-			ErrorMessage.Visible = True
-			ErrorMessage.InnerText = "Error occurred while getting data, please try again later."
+        Try
+            DDL_TransactionStatus.Items.Insert(0, New ListItem(ConfigurationManager.AppSettings("AllTransactionText").ToString(), "3"))
+            DDL_TransactionStatus.Items.Insert(1, New ListItem(ConfigurationManager.AppSettings("CompletedText").ToString(), "2"))
+            DDL_TransactionStatus.Items.Insert(2, New ListItem(ConfigurationManager.AppSettings("NotStartedText").ToString(), "0"))
+            DDL_TransactionStatus.Items.Insert(3, New ListItem(ConfigurationManager.AppSettings("MissedText").ToString(), "1"))
 
-		End Try
+        Catch ex As Exception
+            log.Error("Error occurred in BindTransactionStatus Exception is :" + ex.Message)
+            ErrorMessage.Visible = True
+            ErrorMessage.InnerText = "Error occurred while getting data, please try again later."
+
+        End Try
 	End Sub
 
 	Protected Sub grd_Per_DataBound(sender As Object, e As EventArgs)

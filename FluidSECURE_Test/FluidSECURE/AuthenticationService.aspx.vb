@@ -11,7 +11,9 @@ Public Class AuthonticationService
 	Private Shared ReadOnly log As ILog = LogManager.GetLogger(GetType(AllTankCharts))
 
 	Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
-		If Not IsPostBack Then
+        If Not IsPostBack Then
+            GetToken()
+            ExportTransactions()
             'Dim a As MasterBAL = New MasterBAL()
             'Dim b As WebServiceBAL = New WebServiceBAL()
             'b.GetSSIDbySiteId("23")
@@ -64,7 +66,7 @@ Public Class AuthonticationService
             testForAuthorizationSequence()
         End If
 
-	End Sub
+    End Sub
 
 
 	Private Sub GetSites()
@@ -368,8 +370,98 @@ Public Class AuthonticationService
 		Return coefficient
 	End Function
 
-End Class
 
+    Private Sub GetToken()
+
+        Dim httpRequest As HttpWebRequest = DirectCast(WebRequest.Create("http://localhost:61129/token"), HttpWebRequest)
+        httpRequest.Method = "POST"
+        httpRequest.ContentType = "application/x-www-form-urlencoded"
+
+        Dim encoding As New UTF8Encoding()
+        Dim postData = "username=trakadmin@trak.com&password=Trak@123&grant_type=password"
+        'Byte[] data = encoding.GetBytes(postData);
+
+        Dim seri As New JavaScriptSerializer()
+        Dim tokenOBJ = New tokenclass()
+        tokenOBJ.username = "trakadmin@trak.com"
+        tokenOBJ.password = "Trak@123"
+        tokenOBJ.grant_type = "password"
+        'New FormUrlEncodedContent(form)
+        'Dim jStr As String = seri.Serialize("{""username"":""trakadmin@trak.com"",""password"":""Trak@123"",""grant_type"" : ""password""}")
+
+        Dim bytedata As Byte() = encoding.GetBytes(postData)
+
+        httpRequest.ContentLength = bytedata.Length
+        Dim requestStream As Stream = httpRequest.GetRequestStream()
+        requestStream.Write(bytedata, 0, bytedata.Length)
+        requestStream.Close()
+        Dim httpWebResponse As HttpWebResponse = DirectCast(httpRequest.GetResponse(), HttpWebResponse)
+        Dim responseStream As New StreamReader(httpWebResponse.GetResponseStream())
+        Dim strResponse As String = ""
+        Do
+            strResponse = responseStream.ReadLine()
+        Loop While responseStream.EndOfStream = False
+        lblTransactionResponce.Text = strResponse
+
+    End Sub
+
+    Private Sub ExportTransactions()
+
+        Dim httpRequest As HttpWebRequest = DirectCast(WebRequest.Create("http://localhost:61129/api/External/ExportTransactions"), HttpWebRequest)
+        httpRequest.Method = "POST"
+        httpRequest.ContentType = "application/x-www-form-urlencoded"
+        httpRequest.Headers.Add("Authorization", "bearer Dhxb7ZNy6-zur8RSqWRp74OHMnGuSGtrURo1dHyu3jWi4YjEQjjeb6IAD9PNe87AkG_tJ6-xhm8QOy7gaZdq4TL1_etNLNG5IQMe-qInScIjbaZ3GoQOdxiNzdfjiIM0N6PpKlA5-srftfCSeEMFg81OVJDaY_s-hfaNkRu1HOQM4P9TLJyimfeS5yBY5sSmqHHEMyEv7M5cl_C9pOYSqJlqGmjWzil7bBvob5hBk2I")
+
+        Dim encoding As New UTF8Encoding()
+        Dim postData = "TransactionFromDate=2018-01-01 13:25&TransactionToDate=2018-01-31 23:59&CompanyName=vaspsumedh"
+
+        Dim bytedata As Byte() = encoding.GetBytes(postData)
+
+        httpRequest.ContentLength = bytedata.Length
+        Dim requestStream As Stream = httpRequest.GetRequestStream()
+        requestStream.Write(bytedata, 0, bytedata.Length)
+        requestStream.Close()
+        Dim httpWebResponse As HttpWebResponse = DirectCast(httpRequest.GetResponse(), HttpWebResponse)
+        Dim responseStream As New StreamReader(httpWebResponse.GetResponseStream())
+        Dim strResponse As String = ""
+        Do
+            strResponse = responseStream.ReadLine()
+        Loop While responseStream.EndOfStream = False
+        lblTransactionResponce.Text = strResponse
+
+    End Sub
+
+End Class
+Public Class tokenclass
+    Public Property username() As String
+        Get
+            Return m_username
+        End Get
+        Set(value As String)
+            m_username = value
+        End Set
+    End Property
+    Private m_username As String
+    Public Property password() As String
+        Get
+            Return m_password
+        End Get
+        Set(value As String)
+            m_password = value
+        End Set
+    End Property
+    Private m_password As String
+    Public Property grant_type() As String
+        Get
+            Return m_grant_type
+        End Get
+        Set(value As String)
+            m_grant_type = value
+        End Set
+    End Property
+    Private m_grant_type As String
+
+End Class
 Public Class TransactionCompleteCheck1
 
 	Public TransactionCompleteCheck()

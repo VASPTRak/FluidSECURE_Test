@@ -262,7 +262,7 @@
                             <asp:CheckBox ID="CHK_ChangePWD" runat="server" OnCheckedChanged="CHK_ChangePWD_CheckedChanged" AutoPostBack="true" />
                         </div>
                     </div>
-                    <div class="row col-md-12 col-sm-12 col-xs-12" id="divMappCompanies" runat="server">
+                   <%-- <div class="row col-md-12 col-sm-12 col-xs-12" id="divMappCompanies" runat="server">
                         <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
                             <label>
                                 Mapp companies:</label>
@@ -270,7 +270,7 @@
                         <div class="form-group col-md-3 col-sm-3 col-xs-12">
                             <input type="button" id="BTN_MappCompanies" tabindex="17" onclick="OpenMappCompaniesBox();" value="Click to mapp companies" />
                         </div>
-                    </div>
+                    </div>--%>
                     <div class="row col-md-12 col-sm-12 col-xs-12">
                         <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
                             <label>
@@ -548,7 +548,7 @@
             <asp:HiddenField runat="server" ID="hdfDirtyFlag" Value="" />
 
             <!--Mapping companies model-->
-            <div class="modal fade" tabindex="-1" role="dialog" id="MappCompaniesModel">
+            <%--<div class="modal fade" tabindex="-1" role="dialog" id="MappCompaniesModel">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -566,7 +566,7 @@
                             <div class="row col-md-12 col-sm-12 text-center" style="overflow-x: auto; max-height: 400px;">
                                 <asp:UpdatePanel ID="UP_MappCompanies" runat="server">
                                     <ContentTemplate>
-                                        <asp:GridView ID="GV_Companies" CssClass="table table-bordered" runat="server" DataKeyNames="CustomerId" AutoGenerateColumns="False" EmptyDataText="Data Not found.">
+                                        <asp:GridView ID="GV_Companies" CssClass="table table-bordered" runat="server" DataKeyNames="CustomerId,CustomerName" AutoGenerateColumns="False" EmptyDataText="Data Not found.">
                                             <Columns>
                                                 <asp:TemplateField HeaderText="">
                                                     <HeaderTemplate>
@@ -593,7 +593,7 @@
                     <!-- /.modal-content -->
                 </div>
                 <!-- /.modal-dialog -->
-            </div>
+            </div>--%>
             <!-- /.modal -->
         </ContentTemplate>
     </asp:UpdatePanel>
@@ -815,19 +815,19 @@
             });
         }
 
-        function OpenMappCompaniesBox() {
-            $("#CompanyInput").val("");
-            SearchCompany();
-            enableDisableButtons(true);
-            $('#MappCompaniesModel').modal({
-                show: true,
-                backdrop: 'static',
-                keyboard: false
-            });
-        }
+        //function OpenMappCompaniesBox() {
+        //    $("#CompanyInput").val("");
+        //    SearchCompany();
+        //    enableDisableButtons(true);
+        //    $('#MappCompaniesModel').modal({
+        //        show: true,
+        //        backdrop: 'static',
+        //        keyboard: false
+        //    });
+        //}
 
 
-        function CloseMappCompaniesBox() {
+        <%--function CloseMappCompaniesBox() {
             $("#<%= hdfDirtyFlag.ClientID%>").val("1")
             $("#btnCloseMappCompanies").click();
             $('body').removeClass("modal-open");
@@ -882,7 +882,7 @@
                 }
 
             }
-        }
+        }--%>
 
     </script>
     <script language="javascript">

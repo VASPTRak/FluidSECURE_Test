@@ -1,0 +1,45 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 8px;
+        }
+
+        tr {
+        }
+
+        th, td {
+            width: 25%;
+            border: #000 1px solid;
+            color: #000;
+        }
+
+        p {
+            font-size: 18px;
+        }
+    </style>
+	
+</head>
+<body>
+    Hi <b>CustomerEmail</b>,<br /><br />
+	
+   Company Name : <b>CompanyName</b> <br />
+   Device Name : <b>DeviceName</b> <br /><br />
+
+	Device trigger the Reboot service from Sure MDM API due 30 % Battery.   
+
+    <br />
+	<br />
+
+    Thanks & Regards,<br />
+    FluidSecure
+
+</body>
+</html>

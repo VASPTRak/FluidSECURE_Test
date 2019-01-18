@@ -1,4 +1,5 @@
-﻿Imports System.Web.Optimization
+﻿Imports System.Web.Http
+Imports System.Web.Optimization
 
 Public Class Global_asax
     Inherits HttpApplication
@@ -9,13 +10,14 @@ Public Class Global_asax
             ' Fires when the application is started
             RouteConfig.RegisterRoutes(RouteTable.Routes)
             BundleConfig.RegisterBundles(BundleTable.Bundles)
+            WebApiConfig.Register(GlobalConfiguration.Configuration)
             RoleActions.AddUserRoles() 'Add roles in to database.
             If (ConfigurationManager.AppSettings("AllowActivityLogin").ToString().ToLower() = "yes") Then
                 CSCommonHelper.WriteLog("Application Start", "", "", "", "", "", "success", "")
             End If
-		Catch
-		End Try
-    End Sub
+        Catch
+        End Try
+	    End Sub
 
 
     Sub Session_End(sender As Object, e As EventArgs)
@@ -37,7 +39,7 @@ Public Class Global_asax
                 CSCommonHelper.WriteLog("Application Shutdown", "", "", "", "", "", "success", "")
             End If
 
-        Catch 
+        Catch
         End Try
 
     End Sub

@@ -47,7 +47,7 @@
                                         <asp:UpdatePanel ID="up_Main" runat="server">
                                             <ContentTemplate>
                                                 <asp:GridView ID="gvSpecializedFeature" CssClass="table table-bordered table-hover" runat="server" AutoGenerateColumns="False" EmptyDataText="0 records found"
-                                                    DataKeyNames="CustomerMenuLinkId,Name" OnRowDataBound="OnRowDataBound">
+                                                    DataKeyNames="CustomerMenuLinkId,MenuLinkKey,Name" OnRowDataBound="OnRowDataBound">
                                                     <Columns>
                                                         <asp:BoundField ItemStyle-Width="300px" DataField="Name" HeaderText="Specialized Feature" />
                                                         <asp:TemplateField>

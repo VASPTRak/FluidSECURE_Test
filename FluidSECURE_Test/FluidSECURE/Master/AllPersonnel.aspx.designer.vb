@@ -176,6 +176,15 @@ Partial Public Class AllPersonnel
     Protected WithEvents lblTotalNumberOfRecords As Global.System.Web.UI.WebControls.Label
     
     '''<summary>
+    '''btnPersonnelOptions control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnPersonnelOptions As Global.System.Web.UI.WebControls.Button
+    
+    '''<summary>
     '''btn_New control.
     '''</summary>
     '''<remarks>

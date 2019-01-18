@@ -1435,10 +1435,6 @@ D:\Rahul\Trak\FluidSECURE_Test\FluidSECURE\bin\Microsoft.ScriptManager.WebForms.
 D:\Rahul\Trak\FluidSECURE_Test\FluidSECURE\bin\Microsoft.Web.Infrastructure.dll
 D:\Rahul\Trak\FluidSECURE_Test\FluidSECURE\bin\MySql.Data.dll
 D:\Rahul\Trak\FluidSECURE_Test\FluidSECURE\bin\Newtonsoft.Json.dll
-D:\Rahul\Trak\FluidSECURE_Test\FluidSECURE\bin\NPOI.dll
-D:\Rahul\Trak\FluidSECURE_Test\FluidSECURE\bin\NPOI.OOXML.dll
-D:\Rahul\Trak\FluidSECURE_Test\FluidSECURE\bin\NPOI.OpenXml4Net.dll
-D:\Rahul\Trak\FluidSECURE_Test\FluidSECURE\bin\NPOI.OpenXmlFormats.dll
 D:\Rahul\Trak\FluidSECURE_Test\FluidSECURE\bin\Owin.dll
 D:\Rahul\Trak\FluidSECURE_Test\FluidSECURE\bin\System.Web.Optimization.dll
 D:\Rahul\Trak\FluidSECURE_Test\FluidSECURE\bin\System.Web.Providers.dll
@@ -1478,6 +1474,83 @@ D:\Rahul\Trak\FluidSECURE_Test\FluidSECURE\obj\Debug\FluidSECURE.vbproj.CopyComp
 D:\Rahul\Trak\FluidSECURE_Test\FluidSECURE\obj\Debug\Fuel Secure.dll
 D:\Rahul\Trak\FluidSECURE_Test\FluidSECURE\obj\Debug\WebForms_Basic.xml
 D:\Rahul\Trak\FluidSECURE_Test\FluidSECURE\obj\Debug\Fuel Secure.pdb
+\\192.168.90.5\vasp data\2018-19_JOB\TrakEngineering\Smart Phone\Working Folder\Programs\Source_20181210_Test\FluidSECURE_Test\FluidSECURE\bin\Antlr3.Runtime.dll
+\\192.168.90.5\vasp data\2018-19_JOB\TrakEngineering\Smart Phone\Working Folder\Programs\Source_20181210_Test\FluidSECURE_Test\FluidSECURE\bin\AspNet.ScriptManager.bootstrap.dll
+\\192.168.90.5\vasp data\2018-19_JOB\TrakEngineering\Smart Phone\Working Folder\Programs\Source_20181210_Test\FluidSECURE_Test\FluidSECURE\bin\AspNet.ScriptManager.jQuery.dll
+\\192.168.90.5\vasp data\2018-19_JOB\TrakEngineering\Smart Phone\Working Folder\Programs\Source_20181210_Test\FluidSECURE_Test\FluidSECURE\bin\EntityFramework.dll
+\\192.168.90.5\vasp data\2018-19_JOB\TrakEngineering\Smart Phone\Working Folder\Programs\Source_20181210_Test\FluidSECURE_Test\FluidSECURE\bin\EntityFramework.SqlServer.dll
+\\192.168.90.5\vasp data\2018-19_JOB\TrakEngineering\Smart Phone\Working Folder\Programs\Source_20181210_Test\FluidSECURE_Test\FluidSECURE\bin\ICSharpCode.SharpZipLib.dll
+\\192.168.90.5\vasp data\2018-19_JOB\TrakEngineering\Smart Phone\Working Folder\Programs\Source_20181210_Test\FluidSECURE_Test\FluidSECURE\bin\log4net.dll
+\\192.168.90.5\vasp data\2018-19_JOB\TrakEngineering\Smart Phone\Working Folder\Programs\Source_20181210_Test\FluidSECURE_Test\FluidSECURE\bin\MathNet.Numerics.dll
+\\192.168.90.5\vasp data\2018-19_JOB\TrakEngineering\Smart Phone\Working Folder\Programs\Source_20181210_Test\FluidSECURE_Test\FluidSECURE\bin\Microsoft.AspNet.FriendlyUrls.dll
+\\192.168.90.5\vasp data\2018-19_JOB\TrakEngineering\Smart Phone\Working Folder\Programs\Source_20181210_Test\FluidSECURE_Test\FluidSECURE\bin\Microsoft.AspNet.Identity.Core.dll
+\\192.168.90.5\vasp data\2018-19_JOB\TrakEngineering\Smart Phone\Working Folder\Programs\Source_20181210_Test\FluidSECURE_Test\FluidSECURE\bin\Microsoft.AspNet.Identity.EntityFramework.dll
+\\192.168.90.5\vasp data\2018-19_JOB\TrakEngineering\Smart Phone\Working Folder\Programs\Source_20181210_Test\FluidSECURE_Test\FluidSECURE\bin\Microsoft.AspNet.Identity.Owin.dll
+\\192.168.90.5\vasp data\2018-19_JOB\TrakEngineering\Smart Phone\Working Folder\Programs\Source_20181210_Test\FluidSECURE_Test\FluidSECURE\bin\Microsoft.AspNet.Web.Optimization.WebForms.dll
+\\192.168.90.5\vasp data\2018-19_JOB\TrakEngineering\Smart Phone\Working Folder\Programs\Source_20181210_Test\FluidSECURE_Test\FluidSECURE\bin\Microsoft.Owin.dll
+\\192.168.90.5\vasp data\2018-19_JOB\TrakEngineering\Smart Phone\Working Folder\Programs\Source_20181210_Test\FluidSECURE_Test\FluidSECURE\bin\Microsoft.Owin.Host.SystemWeb.dll
+\\192.168.90.5\vasp data\2018-19_JOB\TrakEngineering\Smart Phone\Working Folder\Programs\Source_20181210_Test\FluidSECURE_Test\FluidSECURE\bin\Microsoft.Owin.Security.Cookies.dll
+\\192.168.90.5\vasp data\2018-19_JOB\TrakEngineering\Smart Phone\Working Folder\Programs\Source_20181210_Test\FluidSECURE_Test\FluidSECURE\bin\Microsoft.Owin.Security.dll
+\\192.168.90.5\vasp data\2018-19_JOB\TrakEngineering\Smart Phone\Working Folder\Programs\Source_20181210_Test\FluidSECURE_Test\FluidSECURE\bin\Microsoft.Owin.Security.Facebook.dll
+\\192.168.90.5\vasp data\2018-19_JOB\TrakEngineering\Smart Phone\Working Folder\Programs\Source_20181210_Test\FluidSECURE_Test\FluidSECURE\bin\Microsoft.Owin.Security.Google.dll
+\\192.168.90.5\vasp data\2018-19_JOB\TrakEngineering\Smart Phone\Working Folder\Programs\Source_20181210_Test\FluidSECURE_Test\FluidSECURE\bin\Microsoft.Owin.Security.MicrosoftAccount.dll
+\\192.168.90.5\vasp data\2018-19_JOB\TrakEngineering\Smart Phone\Working Folder\Programs\Source_20181210_Test\FluidSECURE_Test\FluidSECURE\bin\Microsoft.Owin.Security.OAuth.dll
+\\192.168.90.5\vasp data\2018-19_JOB\TrakEngineering\Smart Phone\Working Folder\Programs\Source_20181210_Test\FluidSECURE_Test\FluidSECURE\bin\Microsoft.Owin.Security.Twitter.dll
+\\192.168.90.5\vasp data\2018-19_JOB\TrakEngineering\Smart Phone\Working Folder\Programs\Source_20181210_Test\FluidSECURE_Test\FluidSECURE\bin\Microsoft.ScriptManager.MSAjax.dll
+\\192.168.90.5\vasp data\2018-19_JOB\TrakEngineering\Smart Phone\Working Folder\Programs\Source_20181210_Test\FluidSECURE_Test\FluidSECURE\bin\Microsoft.ScriptManager.WebForms.dll
+\\192.168.90.5\vasp data\2018-19_JOB\TrakEngineering\Smart Phone\Working Folder\Programs\Source_20181210_Test\FluidSECURE_Test\FluidSECURE\bin\Microsoft.Web.Infrastructure.dll
+\\192.168.90.5\vasp data\2018-19_JOB\TrakEngineering\Smart Phone\Working Folder\Programs\Source_20181210_Test\FluidSECURE_Test\FluidSECURE\bin\MySql.Data.dll
+\\192.168.90.5\vasp data\2018-19_JOB\TrakEngineering\Smart Phone\Working Folder\Programs\Source_20181210_Test\FluidSECURE_Test\FluidSECURE\bin\Newtonsoft.Json.dll
+\\192.168.90.5\vasp data\2018-19_JOB\TrakEngineering\Smart Phone\Working Folder\Programs\Source_20181210_Test\FluidSECURE_Test\FluidSECURE\bin\NPOI.dll
+\\192.168.90.5\vasp data\2018-19_JOB\TrakEngineering\Smart Phone\Working Folder\Programs\Source_20181210_Test\FluidSECURE_Test\FluidSECURE\bin\NPOI.OOXML.dll
+\\192.168.90.5\vasp data\2018-19_JOB\TrakEngineering\Smart Phone\Working Folder\Programs\Source_20181210_Test\FluidSECURE_Test\FluidSECURE\bin\NPOI.OpenXml4Net.dll
+\\192.168.90.5\vasp data\2018-19_JOB\TrakEngineering\Smart Phone\Working Folder\Programs\Source_20181210_Test\FluidSECURE_Test\FluidSECURE\bin\NPOI.OpenXmlFormats.dll
+\\192.168.90.5\vasp data\2018-19_JOB\TrakEngineering\Smart Phone\Working Folder\Programs\Source_20181210_Test\FluidSECURE_Test\FluidSECURE\bin\Owin.dll
+\\192.168.90.5\vasp data\2018-19_JOB\TrakEngineering\Smart Phone\Working Folder\Programs\Source_20181210_Test\FluidSECURE_Test\FluidSECURE\bin\System.Web.Optimization.dll
+\\192.168.90.5\vasp data\2018-19_JOB\TrakEngineering\Smart Phone\Working Folder\Programs\Source_20181210_Test\FluidSECURE_Test\FluidSECURE\bin\System.Web.Providers.dll
+\\192.168.90.5\vasp data\2018-19_JOB\TrakEngineering\Smart Phone\Working Folder\Programs\Source_20181210_Test\FluidSECURE_Test\FluidSECURE\bin\WebGrease.dll
+\\192.168.90.5\vasp data\2018-19_JOB\TrakEngineering\Smart Phone\Working Folder\Programs\Source_20181210_Test\FluidSECURE_Test\FluidSECURE\bin\EntityFramework.xml
+\\192.168.90.5\vasp data\2018-19_JOB\TrakEngineering\Smart Phone\Working Folder\Programs\Source_20181210_Test\FluidSECURE_Test\FluidSECURE\bin\EntityFramework.SqlServer.xml
+\\192.168.90.5\vasp data\2018-19_JOB\TrakEngineering\Smart Phone\Working Folder\Programs\Source_20181210_Test\FluidSECURE_Test\FluidSECURE\bin\log4net.xml
+\\192.168.90.5\vasp data\2018-19_JOB\TrakEngineering\Smart Phone\Working Folder\Programs\Source_20181210_Test\FluidSECURE_Test\FluidSECURE\bin\MathNet.Numerics.xml
+\\192.168.90.5\vasp data\2018-19_JOB\TrakEngineering\Smart Phone\Working Folder\Programs\Source_20181210_Test\FluidSECURE_Test\FluidSECURE\bin\NPOI.xml
+\\192.168.90.5\vasp data\2018-19_JOB\TrakEngineering\Smart Phone\Working Folder\Programs\Source_20181210_Test\FluidSECURE_Test\FluidSECURE\bin\System.Web.Optimization.xml
+\\192.168.90.5\vasp data\2018-19_JOB\TrakEngineering\Smart Phone\Working Folder\Programs\Source_20181210_Test\FluidSECURE_Test\FluidSECURE\bin\Antlr3.Runtime.pdb
+\\192.168.90.5\vasp data\2018-19_JOB\TrakEngineering\Smart Phone\Working Folder\Programs\Source_20181210_Test\FluidSECURE_Test\FluidSECURE\bin\Newtonsoft.Json.xml
+\\192.168.90.5\vasp data\2018-19_JOB\TrakEngineering\Smart Phone\Working Folder\Programs\Source_20181210_Test\FluidSECURE_Test\FluidSECURE\bin\Microsoft.AspNet.FriendlyUrls.xml
+\\192.168.90.5\vasp data\2018-19_JOB\TrakEngineering\Smart Phone\Working Folder\Programs\Source_20181210_Test\FluidSECURE_Test\FluidSECURE\bin\Microsoft.AspNet.Identity.Core.xml
+\\192.168.90.5\vasp data\2018-19_JOB\TrakEngineering\Smart Phone\Working Folder\Programs\Source_20181210_Test\FluidSECURE_Test\FluidSECURE\bin\Microsoft.AspNet.Identity.Owin.xml
+\\192.168.90.5\vasp data\2018-19_JOB\TrakEngineering\Smart Phone\Working Folder\Programs\Source_20181210_Test\FluidSECURE_Test\FluidSECURE\bin\Microsoft.AspNet.Identity.EntityFramework.xml
+\\192.168.90.5\vasp data\2018-19_JOB\TrakEngineering\Smart Phone\Working Folder\Programs\Source_20181210_Test\FluidSECURE_Test\FluidSECURE\bin\System.Web.Providers.xml
+\\192.168.90.5\vasp data\2018-19_JOB\TrakEngineering\Smart Phone\Working Folder\Programs\Source_20181210_Test\FluidSECURE_Test\FluidSECURE\bin\Microsoft.Owin.xml
+\\192.168.90.5\vasp data\2018-19_JOB\TrakEngineering\Smart Phone\Working Folder\Programs\Source_20181210_Test\FluidSECURE_Test\FluidSECURE\bin\Microsoft.Owin.Host.SystemWeb.xml
+\\192.168.90.5\vasp data\2018-19_JOB\TrakEngineering\Smart Phone\Working Folder\Programs\Source_20181210_Test\FluidSECURE_Test\FluidSECURE\bin\Microsoft.Owin.Security.xml
+\\192.168.90.5\vasp data\2018-19_JOB\TrakEngineering\Smart Phone\Working Folder\Programs\Source_20181210_Test\FluidSECURE_Test\FluidSECURE\bin\Microsoft.Owin.Security.Facebook.xml
+\\192.168.90.5\vasp data\2018-19_JOB\TrakEngineering\Smart Phone\Working Folder\Programs\Source_20181210_Test\FluidSECURE_Test\FluidSECURE\bin\Microsoft.Owin.Security.Cookies.xml
+\\192.168.90.5\vasp data\2018-19_JOB\TrakEngineering\Smart Phone\Working Folder\Programs\Source_20181210_Test\FluidSECURE_Test\FluidSECURE\bin\Microsoft.Owin.Security.Google.xml
+\\192.168.90.5\vasp data\2018-19_JOB\TrakEngineering\Smart Phone\Working Folder\Programs\Source_20181210_Test\FluidSECURE_Test\FluidSECURE\bin\Microsoft.Owin.Security.Twitter.xml
+\\192.168.90.5\vasp data\2018-19_JOB\TrakEngineering\Smart Phone\Working Folder\Programs\Source_20181210_Test\FluidSECURE_Test\FluidSECURE\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
+\\192.168.90.5\vasp data\2018-19_JOB\TrakEngineering\Smart Phone\Working Folder\Programs\Source_20181210_Test\FluidSECURE_Test\FluidSECURE\bin\Microsoft.Owin.Security.OAuth.xml
+\\192.168.90.5\vasp data\2018-19_JOB\TrakEngineering\Smart Phone\Working Folder\Programs\Source_20181210_Test\FluidSECURE_Test\FluidSECURE\obj\Debug\FluidSECURE.vbproj.ResolveComReference.cache
+\\192.168.90.5\vasp data\2018-19_JOB\TrakEngineering\Smart Phone\Working Folder\Programs\Source_20181210_Test\FluidSECURE_Test\FluidSECURE\obj\Debug\Fuel_Secure.Resources.resources
+\\192.168.90.5\vasp data\2018-19_JOB\TrakEngineering\Smart Phone\Working Folder\Programs\Source_20181210_Test\FluidSECURE_Test\FluidSECURE\obj\Debug\Fuel_Secure.Resource.resources
+\\192.168.90.5\vasp data\2018-19_JOB\TrakEngineering\Smart Phone\Working Folder\Programs\Source_20181210_Test\FluidSECURE_Test\FluidSECURE\obj\Debug\Fuel_Secure.Resource.es-ES.resources
+\\192.168.90.5\vasp data\2018-19_JOB\TrakEngineering\Smart Phone\Working Folder\Programs\Source_20181210_Test\FluidSECURE_Test\FluidSECURE\obj\Debug\FluidSECURE.vbproj.GenerateResource.Cache
+\\192.168.90.5\vasp data\2018-19_JOB\TrakEngineering\Smart Phone\Working Folder\Programs\Source_20181210_Test\FluidSECURE_Test\FluidSECURE\obj\Debug\RdlCompile.cache
+\\192.168.90.5\vasp data\2018-19_JOB\TrakEngineering\Smart Phone\Working Folder\Programs\Source_20181210_Test\FluidSECURE_Test\FluidSECURE\obj\Debug\RdlCompile.compiled
+\\192.168.90.5\vasp data\2018-19_JOB\TrakEngineering\Smart Phone\Working Folder\Programs\Source_20181210_Test\FluidSECURE_Test\FluidSECURE\obj\Debug\es-ES\Fuel Secure.resources.dll
+\\192.168.90.5\vasp data\2018-19_JOB\TrakEngineering\Smart Phone\Working Folder\Programs\Source_20181210_Test\FluidSECURE_Test\FluidSECURE\obj\Debug\Fuel Secure.dll
+\\192.168.90.5\vasp data\2018-19_JOB\TrakEngineering\Smart Phone\Working Folder\Programs\Source_20181210_Test\FluidSECURE_Test\FluidSECURE\obj\Debug\WebForms_Basic.xml
+\\192.168.90.5\vasp data\2018-19_JOB\TrakEngineering\Smart Phone\Working Folder\Programs\Source_20181210_Test\FluidSECURE_Test\FluidSECURE\obj\Debug\Fuel Secure.pdb
+D:\Rahul\Trak\FluidSECURE_Test\FluidSECURE\bin\Microsoft.Owin.Cors.dll
+D:\Rahul\Trak\FluidSECURE_Test\FluidSECURE\bin\System.Net.Http.Formatting.dll
+D:\Rahul\Trak\FluidSECURE_Test\FluidSECURE\bin\System.Web.Cors.dll
+D:\Rahul\Trak\FluidSECURE_Test\FluidSECURE\bin\System.Web.Http.dll
+D:\Rahul\Trak\FluidSECURE_Test\FluidSECURE\bin\System.Web.Http.WebHost.dll
+D:\Rahul\Trak\FluidSECURE_Test\FluidSECURE\bin\Microsoft.Owin.Cors.xml
+D:\Rahul\Trak\FluidSECURE_Test\FluidSECURE\bin\System.Net.Http.Formatting.xml
+D:\Rahul\Trak\FluidSECURE_Test\FluidSECURE\bin\System.Web.Http.xml
+D:\Rahul\Trak\FluidSECURE_Test\FluidSECURE\bin\System.Web.Http.WebHost.xml
 D:\Rahul\Trak\FluidSECURE_Test\FluidSECURE\obj\Debug\FluidSECURE.vbprojAssemblyReference.cache
 D:\Soham_Work\FluidSECURE_Test\FluidSECURE\bin\Fuel Secure.dll.config
 D:\Soham_Work\FluidSECURE_Test\FluidSECURE\bin\Fuel Secure.dll
@@ -1497,6 +1570,7 @@ D:\Soham_Work\FluidSECURE_Test\FluidSECURE\bin\Microsoft.AspNet.Identity.Core.dl
 D:\Soham_Work\FluidSECURE_Test\FluidSECURE\bin\Microsoft.AspNet.Identity.EntityFramework.dll
 D:\Soham_Work\FluidSECURE_Test\FluidSECURE\bin\Microsoft.AspNet.Identity.Owin.dll
 D:\Soham_Work\FluidSECURE_Test\FluidSECURE\bin\Microsoft.AspNet.Web.Optimization.WebForms.dll
+D:\Soham_Work\FluidSECURE_Test\FluidSECURE\bin\Microsoft.Owin.Cors.dll
 D:\Soham_Work\FluidSECURE_Test\FluidSECURE\bin\Microsoft.Owin.dll
 D:\Soham_Work\FluidSECURE_Test\FluidSECURE\bin\Microsoft.Owin.Host.SystemWeb.dll
 D:\Soham_Work\FluidSECURE_Test\FluidSECURE\bin\Microsoft.Owin.Security.Cookies.dll
@@ -1511,11 +1585,11 @@ D:\Soham_Work\FluidSECURE_Test\FluidSECURE\bin\Microsoft.ScriptManager.WebForms.
 D:\Soham_Work\FluidSECURE_Test\FluidSECURE\bin\Microsoft.Web.Infrastructure.dll
 D:\Soham_Work\FluidSECURE_Test\FluidSECURE\bin\MySql.Data.dll
 D:\Soham_Work\FluidSECURE_Test\FluidSECURE\bin\Newtonsoft.Json.dll
-D:\Soham_Work\FluidSECURE_Test\FluidSECURE\bin\NPOI.dll
-D:\Soham_Work\FluidSECURE_Test\FluidSECURE\bin\NPOI.OOXML.dll
-D:\Soham_Work\FluidSECURE_Test\FluidSECURE\bin\NPOI.OpenXml4Net.dll
-D:\Soham_Work\FluidSECURE_Test\FluidSECURE\bin\NPOI.OpenXmlFormats.dll
 D:\Soham_Work\FluidSECURE_Test\FluidSECURE\bin\Owin.dll
+D:\Soham_Work\FluidSECURE_Test\FluidSECURE\bin\System.Net.Http.Formatting.dll
+D:\Soham_Work\FluidSECURE_Test\FluidSECURE\bin\System.Web.Cors.dll
+D:\Soham_Work\FluidSECURE_Test\FluidSECURE\bin\System.Web.Http.dll
+D:\Soham_Work\FluidSECURE_Test\FluidSECURE\bin\System.Web.Http.WebHost.dll
 D:\Soham_Work\FluidSECURE_Test\FluidSECURE\bin\System.Web.Optimization.dll
 D:\Soham_Work\FluidSECURE_Test\FluidSECURE\bin\System.Web.Providers.dll
 D:\Soham_Work\FluidSECURE_Test\FluidSECURE\bin\WebGrease.dll
@@ -1523,16 +1597,19 @@ D:\Soham_Work\FluidSECURE_Test\FluidSECURE\bin\EntityFramework.xml
 D:\Soham_Work\FluidSECURE_Test\FluidSECURE\bin\EntityFramework.SqlServer.xml
 D:\Soham_Work\FluidSECURE_Test\FluidSECURE\bin\log4net.xml
 D:\Soham_Work\FluidSECURE_Test\FluidSECURE\bin\MathNet.Numerics.xml
-D:\Soham_Work\FluidSECURE_Test\FluidSECURE\bin\NPOI.xml
+D:\Soham_Work\FluidSECURE_Test\FluidSECURE\bin\Microsoft.Owin.xml
+D:\Soham_Work\FluidSECURE_Test\FluidSECURE\bin\Microsoft.Owin.Cors.xml
+D:\Soham_Work\FluidSECURE_Test\FluidSECURE\bin\Newtonsoft.Json.xml
+D:\Soham_Work\FluidSECURE_Test\FluidSECURE\bin\System.Net.Http.Formatting.xml
+D:\Soham_Work\FluidSECURE_Test\FluidSECURE\bin\System.Web.Http.xml
+D:\Soham_Work\FluidSECURE_Test\FluidSECURE\bin\System.Web.Http.WebHost.xml
 D:\Soham_Work\FluidSECURE_Test\FluidSECURE\bin\System.Web.Optimization.xml
 D:\Soham_Work\FluidSECURE_Test\FluidSECURE\bin\Antlr3.Runtime.pdb
-D:\Soham_Work\FluidSECURE_Test\FluidSECURE\bin\Newtonsoft.Json.xml
 D:\Soham_Work\FluidSECURE_Test\FluidSECURE\bin\Microsoft.AspNet.FriendlyUrls.xml
 D:\Soham_Work\FluidSECURE_Test\FluidSECURE\bin\Microsoft.AspNet.Identity.Core.xml
 D:\Soham_Work\FluidSECURE_Test\FluidSECURE\bin\Microsoft.AspNet.Identity.Owin.xml
 D:\Soham_Work\FluidSECURE_Test\FluidSECURE\bin\Microsoft.AspNet.Identity.EntityFramework.xml
 D:\Soham_Work\FluidSECURE_Test\FluidSECURE\bin\System.Web.Providers.xml
-D:\Soham_Work\FluidSECURE_Test\FluidSECURE\bin\Microsoft.Owin.xml
 D:\Soham_Work\FluidSECURE_Test\FluidSECURE\bin\Microsoft.Owin.Host.SystemWeb.xml
 D:\Soham_Work\FluidSECURE_Test\FluidSECURE\bin\Microsoft.Owin.Security.xml
 D:\Soham_Work\FluidSECURE_Test\FluidSECURE\bin\Microsoft.Owin.Security.Facebook.xml
@@ -1541,6 +1618,7 @@ D:\Soham_Work\FluidSECURE_Test\FluidSECURE\bin\Microsoft.Owin.Security.Google.xm
 D:\Soham_Work\FluidSECURE_Test\FluidSECURE\bin\Microsoft.Owin.Security.Twitter.xml
 D:\Soham_Work\FluidSECURE_Test\FluidSECURE\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
 D:\Soham_Work\FluidSECURE_Test\FluidSECURE\bin\Microsoft.Owin.Security.OAuth.xml
+D:\Soham_Work\FluidSECURE_Test\FluidSECURE\obj\Debug\FluidSECURE.vbprojResolveAssemblyReference.cache
 D:\Soham_Work\FluidSECURE_Test\FluidSECURE\obj\Debug\Interop.MSDAOSP.dll
 D:\Soham_Work\FluidSECURE_Test\FluidSECURE\obj\Debug\Interop.MSDASC.dll
 D:\Soham_Work\FluidSECURE_Test\FluidSECURE\obj\Debug\FluidSECURE.vbproj.ResolveComReference.cache

@@ -5587,6 +5587,8 @@ Partial Public Class DS_Reports
         
         Private columnVehicleNumberName As Global.System.Data.DataColumn
         
+        Private columnTransactionStatusText As Global.System.Data.DataColumn
+        
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
         Public Sub New()
@@ -5743,6 +5745,14 @@ Partial Public Class DS_Reports
         End Property
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public ReadOnly Property TransactionStatusTextColumn() As Global.System.Data.DataColumn
+            Get
+                Return Me.columnTransactionStatusText
+            End Get
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0"),  _
          Global.System.ComponentModel.Browsable(false)>  _
         Public ReadOnly Property Count() As Integer
@@ -5779,9 +5789,25 @@ Partial Public Class DS_Reports
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Overloads Function AddEstimatedCarbonFootprintbyVehicleRow(ByVal FirstOdometer As String, ByVal LastOdometer As String, ByVal VehicleNumber As String, ByVal VehicleName As String, ByVal Year As String, ByVal Make As String, ByVal Model As String, ByVal StartDate As String, ByVal EndDate As String, ByVal TotalGallons As String, ByVal PersonName As String, ByVal DepartmentName As String, ByVal CO2Emitted As String, ByVal CompanyName As String, ByVal VehicleNumberName As String) As EstimatedCarbonFootprintbyVehicleRow
+        Public Overloads Function AddEstimatedCarbonFootprintbyVehicleRow( _
+                    ByVal FirstOdometer As String,  _
+                    ByVal LastOdometer As String,  _
+                    ByVal VehicleNumber As String,  _
+                    ByVal VehicleName As String,  _
+                    ByVal Year As String,  _
+                    ByVal Make As String,  _
+                    ByVal Model As String,  _
+                    ByVal StartDate As String,  _
+                    ByVal EndDate As String,  _
+                    ByVal TotalGallons As String,  _
+                    ByVal PersonName As String,  _
+                    ByVal DepartmentName As String,  _
+                    ByVal CO2Emitted As String,  _
+                    ByVal CompanyName As String,  _
+                    ByVal VehicleNumberName As String,  _
+                    ByVal TransactionStatusText As String) As EstimatedCarbonFootprintbyVehicleRow
             Dim rowEstimatedCarbonFootprintbyVehicleRow As EstimatedCarbonFootprintbyVehicleRow = CType(Me.NewRow,EstimatedCarbonFootprintbyVehicleRow)
-            Dim columnValuesArray() As Object = New Object() {FirstOdometer, LastOdometer, VehicleNumber, VehicleName, Year, Make, Model, StartDate, EndDate, TotalGallons, PersonName, DepartmentName, CO2Emitted, CompanyName, VehicleNumberName}
+            Dim columnValuesArray() As Object = New Object() {FirstOdometer, LastOdometer, VehicleNumber, VehicleName, Year, Make, Model, StartDate, EndDate, TotalGallons, PersonName, DepartmentName, CO2Emitted, CompanyName, VehicleNumberName, TransactionStatusText}
             rowEstimatedCarbonFootprintbyVehicleRow.ItemArray = columnValuesArray
             Me.Rows.Add(rowEstimatedCarbonFootprintbyVehicleRow)
             Return rowEstimatedCarbonFootprintbyVehicleRow
@@ -5819,6 +5845,7 @@ Partial Public Class DS_Reports
             Me.columnCO2Emitted = MyBase.Columns("CO2Emitted")
             Me.columnCompanyName = MyBase.Columns("CompanyName")
             Me.columnVehicleNumberName = MyBase.Columns("VehicleNumberName")
+            Me.columnTransactionStatusText = MyBase.Columns("TransactionStatusText")
         End Sub
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
@@ -5854,6 +5881,8 @@ Partial Public Class DS_Reports
             MyBase.Columns.Add(Me.columnCompanyName)
             Me.columnVehicleNumberName = New Global.System.Data.DataColumn("VehicleNumberName", GetType(String), Nothing, Global.System.Data.MappingType.Element)
             MyBase.Columns.Add(Me.columnVehicleNumberName)
+            Me.columnTransactionStatusText = New Global.System.Data.DataColumn("TransactionStatusText", GetType(String), Nothing, Global.System.Data.MappingType.Element)
+            MyBase.Columns.Add(Me.columnTransactionStatusText)
         End Sub
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
@@ -6011,6 +6040,10 @@ Partial Public Class DS_Reports
         
         Private columnCustomerName As Global.System.Data.DataColumn
         
+        Private columnTank As Global.System.Data.DataColumn
+        
+        Private columnCostingType As Global.System.Data.DataColumn
+        
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
         Public Sub New()
@@ -6127,6 +6160,22 @@ Partial Public Class DS_Reports
         End Property
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public ReadOnly Property TankColumn() As Global.System.Data.DataColumn
+            Get
+                Return Me.columnTank
+            End Get
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public ReadOnly Property CostingTypeColumn() As Global.System.Data.DataColumn
+            Get
+                Return Me.columnCostingType
+            End Get
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0"),  _
          Global.System.ComponentModel.Browsable(false)>  _
         Public ReadOnly Property Count() As Integer
@@ -6163,9 +6212,9 @@ Partial Public Class DS_Reports
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Overloads Function AddPriceHistorybyProductRow(ByVal PriRepostID As String, ByVal email As String, ByVal PersonName As String, ByVal FuelTypeID As String, ByVal ResetPrice As String, ByVal FromDate As String, ByVal ToDate As String, ByVal DateAdded As String, ByVal FuelType As String, ByVal CustomerName As String) As PriceHistorybyProductRow
+        Public Overloads Function AddPriceHistorybyProductRow(ByVal PriRepostID As String, ByVal email As String, ByVal PersonName As String, ByVal FuelTypeID As String, ByVal ResetPrice As String, ByVal FromDate As String, ByVal ToDate As String, ByVal DateAdded As String, ByVal FuelType As String, ByVal CustomerName As String, ByVal Tank As String, ByVal CostingType As String) As PriceHistorybyProductRow
             Dim rowPriceHistorybyProductRow As PriceHistorybyProductRow = CType(Me.NewRow,PriceHistorybyProductRow)
-            Dim columnValuesArray() As Object = New Object() {PriRepostID, email, PersonName, FuelTypeID, ResetPrice, FromDate, ToDate, DateAdded, FuelType, CustomerName}
+            Dim columnValuesArray() As Object = New Object() {PriRepostID, email, PersonName, FuelTypeID, ResetPrice, FromDate, ToDate, DateAdded, FuelType, CustomerName, Tank, CostingType}
             rowPriceHistorybyProductRow.ItemArray = columnValuesArray
             Me.Rows.Add(rowPriceHistorybyProductRow)
             Return rowPriceHistorybyProductRow
@@ -6198,6 +6247,8 @@ Partial Public Class DS_Reports
             Me.columnDateAdded = MyBase.Columns("DateAdded")
             Me.columnFuelType = MyBase.Columns("FuelType")
             Me.columnCustomerName = MyBase.Columns("CustomerName")
+            Me.columnTank = MyBase.Columns("Tank")
+            Me.columnCostingType = MyBase.Columns("CostingType")
         End Sub
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
@@ -6223,6 +6274,10 @@ Partial Public Class DS_Reports
             MyBase.Columns.Add(Me.columnFuelType)
             Me.columnCustomerName = New Global.System.Data.DataColumn("CustomerName", GetType(String), Nothing, Global.System.Data.MappingType.Element)
             MyBase.Columns.Add(Me.columnCustomerName)
+            Me.columnTank = New Global.System.Data.DataColumn("Tank", GetType(String), Nothing, Global.System.Data.MappingType.Element)
+            MyBase.Columns.Add(Me.columnTank)
+            Me.columnCostingType = New Global.System.Data.DataColumn("CostingType", GetType(String), Nothing, Global.System.Data.MappingType.Element)
+            MyBase.Columns.Add(Me.columnCostingType)
         End Sub
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
@@ -6443,6 +6498,8 @@ Partial Public Class DS_Reports
         Private columnVehicleNumberName As Global.System.Data.DataColumn
         
         Private columnOFFSite As Global.System.Data.DataColumn
+        
+        Private columnTransactionStatusText As Global.System.Data.DataColumn
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
@@ -6816,6 +6873,14 @@ Partial Public Class DS_Reports
         End Property
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public ReadOnly Property TransactionStatusTextColumn() As Global.System.Data.DataColumn
+            Get
+                Return Me.columnTransactionStatusText
+            End Get
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0"),  _
          Global.System.ComponentModel.Browsable(false)>  _
         Public ReadOnly Property Count() As Integer
@@ -6894,9 +6959,10 @@ Partial Public Class DS_Reports
                     ByVal TransactionCost As String,  _
                     ByVal Extension As String,  _
                     ByVal VehicleNumberName As String,  _
-                    ByVal OFFSite As String) As BillingReportByDeptDetailsRow
+                    ByVal OFFSite As String,  _
+                    ByVal TransactionStatusText As String) As BillingReportByDeptDetailsRow
             Dim rowBillingReportByDeptDetailsRow As BillingReportByDeptDetailsRow = CType(Me.NewRow,BillingReportByDeptDetailsRow)
-            Dim columnValuesArray() As Object = New Object() {CurrentOdometer, FuelQuantity, PhoneNumber, TransactionDateTime, VehicleNumber, VehicleName, PersonName, CompanyName, DepartmentName, FuelType, PreviousOdometer, WifiSSId, TransactionId, SiteNumber, TimeZone, PreviousFuelQuantity, MPGPerK, ExpectedMPGPerK, GuestVehicleNumber, EnteredDepartmentNumber, PersonPin, Other, Hours, DepartmentNumber, AccountNumber, Address, Address2, ExportCode, TransactionNumber, IsPreAuthTransaction, SiteAddress, Pulses, DeptNumberName, SurchargeType, VehicleSum, DeptSum, VehPercentage, DeptPercentage, TransactionCost, Extension, VehicleNumberName, OFFSite}
+            Dim columnValuesArray() As Object = New Object() {CurrentOdometer, FuelQuantity, PhoneNumber, TransactionDateTime, VehicleNumber, VehicleName, PersonName, CompanyName, DepartmentName, FuelType, PreviousOdometer, WifiSSId, TransactionId, SiteNumber, TimeZone, PreviousFuelQuantity, MPGPerK, ExpectedMPGPerK, GuestVehicleNumber, EnteredDepartmentNumber, PersonPin, Other, Hours, DepartmentNumber, AccountNumber, Address, Address2, ExportCode, TransactionNumber, IsPreAuthTransaction, SiteAddress, Pulses, DeptNumberName, SurchargeType, VehicleSum, DeptSum, VehPercentage, DeptPercentage, TransactionCost, Extension, VehicleNumberName, OFFSite, TransactionStatusText}
             rowBillingReportByDeptDetailsRow.ItemArray = columnValuesArray
             Me.Rows.Add(rowBillingReportByDeptDetailsRow)
             Return rowBillingReportByDeptDetailsRow
@@ -6961,6 +7027,7 @@ Partial Public Class DS_Reports
             Me.columnExtension = MyBase.Columns("Extension")
             Me.columnVehicleNumberName = MyBase.Columns("VehicleNumberName")
             Me.columnOFFSite = MyBase.Columns("OFFSite")
+            Me.columnTransactionStatusText = MyBase.Columns("TransactionStatusText")
         End Sub
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
@@ -7050,6 +7117,8 @@ Partial Public Class DS_Reports
             MyBase.Columns.Add(Me.columnVehicleNumberName)
             Me.columnOFFSite = New Global.System.Data.DataColumn("OFFSite", GetType(String), Nothing, Global.System.Data.MappingType.Element)
             MyBase.Columns.Add(Me.columnOFFSite)
+            Me.columnTransactionStatusText = New Global.System.Data.DataColumn("TransactionStatusText", GetType(String), Nothing, Global.System.Data.MappingType.Element)
+            MyBase.Columns.Add(Me.columnTransactionStatusText)
         End Sub
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
@@ -8733,6 +8802,8 @@ Partial Public Class DS_Reports
         
         Private columnCompanyName As Global.System.Data.DataColumn
         
+        Private columnTransactionStatusText As Global.System.Data.DataColumn
+        
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
         Public Sub New()
@@ -8841,6 +8912,14 @@ Partial Public Class DS_Reports
         End Property
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public ReadOnly Property TransactionStatusTextColumn() As Global.System.Data.DataColumn
+            Get
+                Return Me.columnTransactionStatusText
+            End Get
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0"),  _
          Global.System.ComponentModel.Browsable(false)>  _
         Public ReadOnly Property Count() As Integer
@@ -8877,9 +8956,9 @@ Partial Public Class DS_Reports
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Overloads Function AddVehicleByPerformanceDetailsRow(ByVal VehicleName As String, ByVal VehicleNumber As String, ByVal Extension As String, ByVal TotalCost As Decimal, ByVal FuelQuantity As Decimal, ByVal TotalMiles As Decimal, ByVal Hours As String, ByVal MPGPerK As Decimal, ByVal CompanyName As String) As VehicleByPerformanceDetailsRow
+        Public Overloads Function AddVehicleByPerformanceDetailsRow(ByVal VehicleName As String, ByVal VehicleNumber As String, ByVal Extension As String, ByVal TotalCost As Decimal, ByVal FuelQuantity As Decimal, ByVal TotalMiles As Decimal, ByVal Hours As String, ByVal MPGPerK As Decimal, ByVal CompanyName As String, ByVal TransactionStatusText As String) As VehicleByPerformanceDetailsRow
             Dim rowVehicleByPerformanceDetailsRow As VehicleByPerformanceDetailsRow = CType(Me.NewRow,VehicleByPerformanceDetailsRow)
-            Dim columnValuesArray() As Object = New Object() {VehicleName, VehicleNumber, Extension, TotalCost, FuelQuantity, TotalMiles, Hours, MPGPerK, CompanyName}
+            Dim columnValuesArray() As Object = New Object() {VehicleName, VehicleNumber, Extension, TotalCost, FuelQuantity, TotalMiles, Hours, MPGPerK, CompanyName, TransactionStatusText}
             rowVehicleByPerformanceDetailsRow.ItemArray = columnValuesArray
             Me.Rows.Add(rowVehicleByPerformanceDetailsRow)
             Return rowVehicleByPerformanceDetailsRow
@@ -8911,6 +8990,7 @@ Partial Public Class DS_Reports
             Me.columnHours = MyBase.Columns("Hours")
             Me.columnMPGPerK = MyBase.Columns("MPGPerK")
             Me.columnCompanyName = MyBase.Columns("CompanyName")
+            Me.columnTransactionStatusText = MyBase.Columns("TransactionStatusText")
         End Sub
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
@@ -8934,6 +9014,8 @@ Partial Public Class DS_Reports
             MyBase.Columns.Add(Me.columnMPGPerK)
             Me.columnCompanyName = New Global.System.Data.DataColumn("CompanyName", GetType(String), Nothing, Global.System.Data.MappingType.Element)
             MyBase.Columns.Add(Me.columnCompanyName)
+            Me.columnTransactionStatusText = New Global.System.Data.DataColumn("TransactionStatusText", GetType(String), Nothing, Global.System.Data.MappingType.Element)
+            MyBase.Columns.Add(Me.columnTransactionStatusText)
         End Sub
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
@@ -16808,6 +16890,22 @@ Partial Public Class DS_Reports
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Property TransactionStatusText() As String
+            Get
+                Try 
+                    Return CType(Me(Me.tableEstimatedCarbonFootprintbyVehicle.TransactionStatusTextColumn),String)
+                Catch e As Global.System.InvalidCastException
+                    Throw New Global.System.Data.StrongTypingException("The value for column 'TransactionStatusText' in table 'EstimatedCarbonFootprintby"& _ 
+                            "Vehicle' is DBNull.", e)
+                End Try
+            End Get
+            Set
+                Me(Me.tableEstimatedCarbonFootprintbyVehicle.TransactionStatusTextColumn) = value
+            End Set
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
         Public Function IsFirstOdometerNull() As Boolean
             Return Me.IsNull(Me.tableEstimatedCarbonFootprintbyVehicle.FirstOdometerColumn)
         End Function
@@ -16985,6 +17083,18 @@ Partial Public Class DS_Reports
         Public Sub SetVehicleNumberNameNull()
             Me(Me.tableEstimatedCarbonFootprintbyVehicle.VehicleNumberNameColumn) = Global.System.Convert.DBNull
         End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Function IsTransactionStatusTextNull() As Boolean
+            Return Me.IsNull(Me.tableEstimatedCarbonFootprintbyVehicle.TransactionStatusTextColumn)
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Sub SetTransactionStatusTextNull()
+            Me(Me.tableEstimatedCarbonFootprintbyVehicle.TransactionStatusTextColumn) = Global.System.Convert.DBNull
+        End Sub
     End Class
     
     '''<summary>
@@ -17154,6 +17264,36 @@ Partial Public Class DS_Reports
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Property Tank() As String
+            Get
+                Try 
+                    Return CType(Me(Me.tablePriceHistorybyProduct.TankColumn),String)
+                Catch e As Global.System.InvalidCastException
+                    Throw New Global.System.Data.StrongTypingException("The value for column 'Tank' in table 'PriceHistorybyProduct' is DBNull.", e)
+                End Try
+            End Get
+            Set
+                Me(Me.tablePriceHistorybyProduct.TankColumn) = value
+            End Set
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Property CostingType() As String
+            Get
+                Try 
+                    Return CType(Me(Me.tablePriceHistorybyProduct.CostingTypeColumn),String)
+                Catch e As Global.System.InvalidCastException
+                    Throw New Global.System.Data.StrongTypingException("The value for column 'CostingType' in table 'PriceHistorybyProduct' is DBNull.", e)
+                End Try
+            End Get
+            Set
+                Me(Me.tablePriceHistorybyProduct.CostingTypeColumn) = value
+            End Set
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
         Public Function IsPriRepostIDNull() As Boolean
             Return Me.IsNull(Me.tablePriceHistorybyProduct.PriRepostIDColumn)
         End Function
@@ -17270,6 +17410,30 @@ Partial Public Class DS_Reports
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
         Public Sub SetCustomerNameNull()
             Me(Me.tablePriceHistorybyProduct.CustomerNameColumn) = Global.System.Convert.DBNull
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Function IsTankNull() As Boolean
+            Return Me.IsNull(Me.tablePriceHistorybyProduct.TankColumn)
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Sub SetTankNull()
+            Me(Me.tablePriceHistorybyProduct.TankColumn) = Global.System.Convert.DBNull
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Function IsCostingTypeNull() As Boolean
+            Return Me.IsNull(Me.tablePriceHistorybyProduct.CostingTypeColumn)
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Sub SetCostingTypeNull()
+            Me(Me.tablePriceHistorybyProduct.CostingTypeColumn) = Global.System.Convert.DBNull
         End Sub
     End Class
     
@@ -17951,6 +18115,22 @@ Partial Public Class DS_Reports
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Property TransactionStatusText() As String
+            Get
+                Try 
+                    Return CType(Me(Me.tableBillingReportByDeptDetails.TransactionStatusTextColumn),String)
+                Catch e As Global.System.InvalidCastException
+                    Throw New Global.System.Data.StrongTypingException("The value for column 'TransactionStatusText' in table 'BillingReportByDeptDetails"& _ 
+                            "' is DBNull.", e)
+                End Try
+            End Get
+            Set
+                Me(Me.tableBillingReportByDeptDetails.TransactionStatusTextColumn) = value
+            End Set
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
         Public Function IsCurrentOdometerNull() As Boolean
             Return Me.IsNull(Me.tableBillingReportByDeptDetails.CurrentOdometerColumn)
         End Function
@@ -18451,6 +18631,18 @@ Partial Public Class DS_Reports
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
         Public Sub SetOFFSiteNull()
             Me(Me.tableBillingReportByDeptDetails.OFFSiteColumn) = Global.System.Convert.DBNull
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Function IsTransactionStatusTextNull() As Boolean
+            Return Me.IsNull(Me.tableBillingReportByDeptDetails.TransactionStatusTextColumn)
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Sub SetTransactionStatusTextNull()
+            Me(Me.tableBillingReportByDeptDetails.TransactionStatusTextColumn) = Global.System.Convert.DBNull
         End Sub
     End Class
     
@@ -19896,6 +20088,22 @@ Partial Public Class DS_Reports
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Property TransactionStatusText() As String
+            Get
+                Try 
+                    Return CType(Me(Me.tableVehicleByPerformanceDetails.TransactionStatusTextColumn),String)
+                Catch e As Global.System.InvalidCastException
+                    Throw New Global.System.Data.StrongTypingException("The value for column 'TransactionStatusText' in table 'VehicleByPerformanceDetail"& _ 
+                            "s' is DBNull.", e)
+                End Try
+            End Get
+            Set
+                Me(Me.tableVehicleByPerformanceDetails.TransactionStatusTextColumn) = value
+            End Set
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
         Public Function IsVehicleNameNull() As Boolean
             Return Me.IsNull(Me.tableVehicleByPerformanceDetails.VehicleNameColumn)
         End Function
@@ -20000,6 +20208,18 @@ Partial Public Class DS_Reports
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
         Public Sub SetCompanyNameNull()
             Me(Me.tableVehicleByPerformanceDetails.CompanyNameColumn) = Global.System.Convert.DBNull
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Function IsTransactionStatusTextNull() As Boolean
+            Return Me.IsNull(Me.tableVehicleByPerformanceDetails.TransactionStatusTextColumn)
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Sub SetTransactionStatusTextNull()
+            Me(Me.tableVehicleByPerformanceDetails.TransactionStatusTextColumn) = Global.System.Convert.DBNull
         End Sub
     End Class
     

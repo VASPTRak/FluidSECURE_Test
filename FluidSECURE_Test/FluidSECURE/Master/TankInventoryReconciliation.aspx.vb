@@ -203,6 +203,18 @@ Public Class TankInventoryReconciliation
                 End If
             End If
 
+            Dim dtTankSize As DataTable = New DataTable()
+            dtTankSize = OBJMaster.GetTankSizeByConditions(" and T.TankNumber = '" & ddl_TankNo.SelectedValue.ToString() & "' and C.CustomerId = " & DDL_Customer.SelectedValue.ToString())
+
+            If dtTankSize IsNot Nothing Then
+                If dtTankSize.Rows.Count > 0 Then
+                    If (Convert.ToDecimal(dtTankSize.Rows(0)("GallonLevel")) <> 0.0) And (Convert.ToDecimal(dtTankSize.Rows(0)("GallonLevel") < Convert.ToDecimal(txtStartLevelQuan.Text))) Then
+                        ErrorMessage.Visible = True
+                        ErrorMessage.Text = "Tank Level quantity greater than Tank size."
+                        Return
+                    End If
+                End If
+            End If
 
             Dim result = OBJMaster.SaveUpdateTankInventory(TankInventoryId, ddl_TankNo.SelectedValue.ToString(), "Level", InventoryDateTime, Convert.ToDecimal(txtStartLevelQuan.Text), "s", Convert.ToInt32(DDL_Customer.SelectedValue), Convert.ToInt32(Session("PersonId").ToString()), DateTime.Now, "", DateTime.Now, 0.0, 0, "", "Manual")
 
@@ -971,6 +983,7 @@ Public Class TankInventoryReconciliation
             '    End If
             'End If
 
+
         Catch ex As Exception
             log.Error("Error occurred in DDL_Customer_SelectedIndexChanged Exception is :" + ex.Message)
             ErrorMessage.Visible = True
@@ -1007,6 +1020,19 @@ Public Class TankInventoryReconciliation
             Dim TankInventoryId As Integer = 0
             If hdnTankInventory.Value <> "" Then
                 TankInventoryId = Convert.ToInt32(hdnTankInventory.Value)
+            End If
+
+            Dim dtTankSize As DataTable = New DataTable()
+            dtTankSize = OBJMaster.GetTankSizeByConditions(" and T.TankNumber = '" & ddl_TankNo.SelectedValue.ToString() & "' and C.CustomerId = " & DDL_Customer.SelectedValue.ToString())
+
+            If dtTankSize IsNot Nothing Then
+                If dtTankSize.Rows.Count > 0 Then
+                    If (Convert.ToDecimal(dtTankSize.Rows(0)("GallonLevel")) <> 0.0) And (Convert.ToDecimal(dtTankSize.Rows(0)("GallonLevel") < Convert.ToDecimal(txtDELILevelQuan.Text))) Then
+                        ErrorMessage.Visible = True
+                        ErrorMessage.Text = "RECEIPT/DELIVERY quantity greater than Tank size."
+                        Return
+                    End If
+                End If
             End If
 
             Dim result = OBJMaster.SaveUpdateTankInventory(TankInventoryId, ddl_TankNo.SelectedValue.ToString(), "RD", InventoryDateTime, Convert.ToDecimal(txtDELILevelQuan.Text), "se", Convert.ToInt32(DDL_Customer.SelectedValue), Convert.ToInt32(Session("PersonId").ToString()), DateTime.Now, "", DateTime.Now, 0.0, 0, "", "Manual", Convert.ToDecimal(Session("CostingMethodForDelivery").ToString()))
@@ -1104,4 +1130,5 @@ Public Class TankInventoryReconciliation
             ErrorMessage.Text = "Tank Inventory Reconciliation RECEIPT/DELIVERY Addition failed, please try again"
         End Try
     End Sub
+
 End Class

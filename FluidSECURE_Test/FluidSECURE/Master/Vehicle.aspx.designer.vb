@@ -176,6 +176,24 @@ Partial Public Class Vehicle
     Protected WithEvents HDF_TotalVehicle As Global.System.Web.UI.WebControls.HiddenField
     
     '''<summary>
+    '''txtLastFueler control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtLastFueler As Global.System.Web.UI.WebControls.TextBox
+    
+    '''<summary>
+    '''txtDescription control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtDescription As Global.System.Web.UI.WebControls.TextBox
+    
+    '''<summary>
     '''txtCurrentOdometer control.
     '''</summary>
     '''<remarks>
@@ -192,24 +210,6 @@ Partial Public Class Vehicle
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents CV_CurrOdo As Global.System.Web.UI.WebControls.CompareValidator
-    
-    '''<summary>
-    '''txtDescription control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents txtDescription As Global.System.Web.UI.WebControls.TextBox
-    
-    '''<summary>
-    '''txtPrevOdometer control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents txtPrevOdometer As Global.System.Web.UI.WebControls.TextBox
     
     '''<summary>
     '''DDL_Dept control.
@@ -230,13 +230,13 @@ Partial Public Class Vehicle
     Protected WithEvents RFD_Dept As Global.System.Web.UI.WebControls.RequiredFieldValidator
     
     '''<summary>
-    '''txtLastFueler control.
+    '''txtPrevOdometer control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents txtLastFueler As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents txtPrevOdometer As Global.System.Web.UI.WebControls.TextBox
     
     '''<summary>
     '''txtAccId control.
@@ -354,6 +354,15 @@ Partial Public Class Vehicle
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents hideTotalMiles As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+    
+    '''<summary>
+    '''lblFuelType control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblFuelType As Global.System.Web.UI.WebControls.Label
     
     '''<summary>
     '''txtOdoLimit control.

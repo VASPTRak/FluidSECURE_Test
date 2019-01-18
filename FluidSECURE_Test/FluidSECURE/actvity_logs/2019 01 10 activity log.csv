@@ -1,0 +1,129 @@
+Date,Screen,Action(Added/Modified/Deleted),User Name,Before,After,IP Address,Request Status,Failure Message
+2019/01/10 01:59:16 PM,,Application Start,,,,,success,
+2019/01/10 02:03:59 PM,,Application Start,,,,,success,
+2019/01/10 02:04:52 PM,login,logged in,trakadmin@trak.com,,,::1,fail,Invalid credentials.
+2019/01/10 02:04:55 PM,login,logged in,trakadmin@trak.com,,,::1,fail,Invalid credentials. Person have 3 more attempt(s) before account gets locked out.
+2019/01/10 02:08:35 PM,login,logged in,trakadmin@trak.com,,,::1,fail,Invalid credentials.
+2019/01/10 02:08:35 PM,login,logged in,trakadmin@trak.com,,,::1,fail,Invalid credentials. Person have 3 more attempt(s) before account gets locked out.
+2019/01/10 02:08:52 PM,login,logged in,trakadmin@trak.com,,,::1,fail,Invalid credentials.
+2019/01/10 02:08:59 PM,login,logged in,trakadmin@trak.com,,,::1,fail,Invalid credentials. Person have 2 more attempt(s) before account gets locked out.
+2019/01/10 02:09:08 PM,login,logged in,trakadmin@trak.com,,,::1,fail,Invalid credentials.
+2019/01/10 02:09:08 PM,login,logged in,trakadmin@trak.com,,,::1,fail,Invalid credentials. Person have 1 more attempt(s) before account gets locked out.
+2019/01/10 02:09:13 PM,login,logged in,trakadmin@trak.com,,,::1,fail,Invalid credentials.
+2019/01/10 02:09:13 PM,login,logged in,trakadmin@trak.com,,,::1,fail,Invalid credentials. Person have 3 more attempt(s) before account gets locked out.
+2019/01/10 02:09:24 PM,login,logged in,trakadmin@trak.com,,,::1,fail,Invalid credentials.
+2019/01/10 02:09:24 PM,login,logged in,trakadmin@trak.com,,,::1,fail,Invalid credentials. Person have 2 more attempt(s) before account gets locked out.
+2019/01/10 02:09:28 PM,login,logged in,trakadmin@trak.com,,,::1,fail,Invalid credentials.
+2019/01/10 02:09:28 PM,login,logged in,trakadmin@trak.com,,,::1,fail,Invalid credentials. Person have 1 more attempt(s) before account gets locked out.
+2019/01/10 02:09:33 PM,login,logged in,trakadmin@trak.com,,,::1,fail,Invalid credentials.
+2019/01/10 02:09:33 PM,login,logged in,trakadmin@trak.com,,,::1,fail,Invalid credentials. Person have 3 more attempt(s) before account gets locked out.
+2019/01/10 02:10:15 PM,login,logged in,trakadmin@trak.com,,,::1,fail,Invalid credentials.
+2019/01/10 02:10:16 PM,login,logged in,trakadmin@trak.com,,,::1,fail,Invalid credentials. Person have 2 more attempt(s) before account gets locked out.
+2019/01/10 02:10:55 PM,login,logged in,trakadmin@trak.com,,,::1,fail,Invalid credentials.
+2019/01/10 02:10:59 PM,login,logged in,trakadmin@trak.com,,,::1,fail,Invalid credentials. Person have 1 more attempt(s) before account gets locked out.
+2019/01/10 02:11:37 PM,login,logged in,trakadmin@trak.com,,,::1,fail,Invalid credentials.
+2019/01/10 02:11:39 PM,login,logged in,trakadmin@trak.com,,,::1,fail,Invalid credentials. Person have 3 more attempt(s) before account gets locked out.
+2019/01/10 02:11:44 PM,login,logged in,Trak Admin(trakadmin@trak.com),,,::1,success,
+2019/01/10 02:11:47 PM,Page Request,Page Request,,,userAgent = Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML  like Gecko) Chrome/71.0.3578.98 Safari/537.36 ; Referrer = http://localhost:61129/Account/Login.aspx ; Method = GET,::1,sucsess,
+2019/01/10 02:11:52 PM,login,log Off,Trak Admin(trakadmin@trak.com),,,::1,success,
+2019/01/10 02:11:57 PM,login,logged in,Trak Admin(trakadmin@trak.com),,,::1,success,
+2019/01/10 02:11:57 PM,Page Request,Page Request,,,userAgent = Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML  like Gecko) Chrome/71.0.3578.98 Safari/537.36 ; Referrer = http://localhost:61129/Account/login ; Method = GET,::1,sucsess,
+2019/01/10 02:12:01 PM,login,log Off,Trak Admin(trakadmin@trak.com),,,::1,success,
+2019/01/10 02:12:13 PM,login,logged in,trakadmin@trak.com,,,::1,fail,Invalid credentials.
+2019/01/10 02:12:15 PM,login,logged in,trakadmin@trak.com,,,::1,fail,Invalid credentials. Person have 3 more attempt(s) before account gets locked out.
+2019/01/10 02:12:40 PM,login,logged in,trakadmin@trak.com,,,::1,fail,Invalid credentials.
+2019/01/10 02:12:40 PM,login,logged in,trakadmin@trak.com,,,::1,fail,Invalid credentials. Person have 2 more attempt(s) before account gets locked out.
+2019/01/10 02:12:49 PM,login,logged in,trakadmin@trak.com,,,::1,fail,Invalid credentials.
+2019/01/10 02:12:49 PM,login,logged in,trakadmin@trak.com,,,::1,fail,Invalid credentials. Person have 2 more attempt(s) before account gets locked out.
+2019/01/10 02:13:13 PM,login,logged in,trakadmin@trak.com,,,::1,fail,Invalid credentials.
+2019/01/10 02:13:14 PM,login,logged in,trakadmin@trak.com,,,::1,fail,Invalid credentials. Person have 2 more attempt(s) before account gets locked out.
+2019/01/10 02:14:37 PM,login,logged in,trakadmin@trak.com,,,::1,fail,Invalid credentials.
+2019/01/10 02:14:39 PM,login,logged in,trakadmin@trak.com,,,::1,fail,Invalid credentials. Person have 2 more attempt(s) before account gets locked out.
+2019/01/10 02:15:05 PM,login,logged in,Trak Admin(trakadmin@trak.com),,,::1,success,
+2019/01/10 02:15:07 PM,Page Request,Page Request,,,userAgent = Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML  like Gecko) Chrome/71.0.3578.98 Safari/537.36 ; Referrer = http://localhost:61129/Account/login ; Method = GET,::1,sucsess,
+2019/01/10 02:15:18 PM,login,logged in,Trak Admin(trakadmin@trak.com),,,::1,success,
+2019/01/10 02:15:19 PM,Page Request,Page Request,,,userAgent = Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML  like Gecko) Chrome/71.0.3578.98 Safari/537.36 ; Referrer = http://localhost:61129/Account/login ; Method = GET,::1,sucsess,
+2019/01/10 02:15:25 PM,login,log Off,Trak Admin(trakadmin@trak.com),,,::1,success,
+2019/01/10 02:15:31 PM,login,logged in,trakadmin@trak.com,,,::1,fail,Invalid credentials.
+2019/01/10 02:15:39 PM,login,logged in,trakadmin@trak.com,,,::1,fail,Invalid credentials. Person have 3 more attempt(s) before account gets locked out.
+2019/01/10 02:16:02 PM,login,logged in,trakadmin@trak.com,,,::1,fail,Invalid credentials.
+2019/01/10 02:16:04 PM,login,logged in,trakadmin@trak.com,,,::1,fail,Invalid credentials. Person have 2 more attempt(s) before account gets locked out.
+2019/01/10 02:16:32 PM,login,logged in,trakadmin@trak.com,,,::1,fail,Invalid credentials.
+2019/01/10 03:17:20 PM,,Application Start,,,,,success,
+2019/01/10 03:18:19 PM,login,logged in,trakadmin@trak.com,,,::1,fail,Invalid credentials.
+2019/01/10 03:18:19 PM,login,logged in,trakadmin@trak.com,,,::1,fail,Invalid credentials. Person have 2 more attempt(s) before account gets locked out.
+2019/01/10 03:18:22 PM,login,logged in,trakadmin@trak.com,,,::1,fail,Invalid credentials.
+2019/01/10 03:18:22 PM,login,logged in,trakadmin@trak.com,,,::1,fail,Invalid credentials. Person have 1 more attempt(s) before account gets locked out.
+2019/01/10 03:18:32 PM,login,logged in,Trak Admin(trakadmin@trak.com),,,::1,success,
+2019/01/10 03:19:59 PM,login,logged in,Trak Admin(trakadmin@trak.com),,,::1,success,
+2019/01/10 03:20:00 PM,Page Request,Page Request,,,userAgent = Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML  like Gecko) Chrome/71.0.3578.98 Safari/537.36 ; Referrer = http://localhost:61129/Account/Login.aspx ; Method = GET,::1,sucsess,
+2019/01/10 03:20:09 PM,login,log Off,Trak Admin(trakadmin@trak.com),,,::1,success,
+2019/01/10 03:20:12 PM,login,logged in,trakadmin@trak.com,,,::1,fail,Invalid credentials.
+2019/01/10 03:20:12 PM,login,logged in,trakadmin@trak.com,,,::1,fail,Invalid credentials. Person have 2 more attempt(s) before account gets locked out.
+2019/01/10 03:20:15 PM,login,logged in,trakadmin@trak.com,,,::1,fail,Invalid credentials.
+2019/01/10 03:20:15 PM,login,logged in,trakadmin@trak.com,,,::1,fail,Invalid credentials. Person have 1 more attempt(s) before account gets locked out.
+2019/01/10 03:20:22 PM,login,logged in,Trak Admin(trakadmin@trak.com),,,::1,success,
+2019/01/10 03:20:22 PM,Page Request,Page Request,,,userAgent = Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML  like Gecko) Chrome/71.0.3578.98 Safari/537.36 ; Referrer = http://localhost:61129/Account/login ; Method = GET,::1,sucsess,
+2019/01/10 03:20:29 PM,login,log Off,Trak Admin(trakadmin@trak.com),,,::1,success,
+2019/01/10 03:22:50 PM,login,logged in,trakadmin@trak.com,,,::1,fail,Invalid credentials.
+2019/01/10 03:22:50 PM,login,logged in,trakadmin@trak.com,,,::1,fail,Invalid credentials. Person have 2 more attempt(s) before account gets locked out.
+2019/01/10 03:22:54 PM,login,logged in,trakadmin@trak.com,,,::1,fail,Invalid credentials.
+2019/01/10 03:22:54 PM,login,logged in,trakadmin@trak.com,,,::1,fail,Invalid credentials. Person have 1 more attempt(s) before account gets locked out.
+2019/01/10 03:27:06 PM,login,logged in,Trak Admin(trakadmin@trak.com),,,::1,success,
+2019/01/10 03:27:28 PM,login,logged in,Trak Admin(trakadmin@trak.com),,,::1,success,
+2019/01/10 03:27:29 PM,Page Request,Page Request,,,userAgent = Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML  like Gecko) Chrome/71.0.3578.98 Safari/537.36 ; Referrer = http://localhost:61129/Account/login ; Method = GET,::1,sucsess,
+2019/01/10 03:27:36 PM,login,log Off,Trak Admin(trakadmin@trak.com),,,::1,success,
+2019/01/10 03:27:40 PM,login,logged in,trakadmin@trak.com,,,::1,fail,Invalid credentials.
+2019/01/10 03:27:40 PM,login,logged in,trakadmin@trak.com,,,::1,fail,Invalid credentials. Person have 2 more attempt(s) before account gets locked out.
+2019/01/10 03:27:44 PM,login,logged in,trakadmin@trak.com,,,::1,fail,Invalid credentials.
+2019/01/10 03:27:45 PM,login,logged in,trakadmin@trak.com,,,::1,fail,Invalid credentials. Person have 1 more attempt(s) before account gets locked out.
+2019/01/10 03:31:19 PM,,Application Start,,,,,success,
+2019/01/10 03:31:49 PM,login,logged in,trakadmin@trak.com,,,::1,fail,Invalid credentials.
+2019/01/10 03:31:49 PM,login,logged in,trakadmin@trak.com,,,::1,fail,Invalid credentials. Person have 2 more attempt(s) before account gets locked out.
+2019/01/10 03:31:54 PM,login,logged in,trakadmin@trak.com,,,::1,fail,Invalid credentials.
+2019/01/10 03:31:54 PM,login,logged in,trakadmin@trak.com,,,::1,fail,Invalid credentials. Person have 1 more attempt(s) before account gets locked out.
+2019/01/10 03:32:21 PM,login,logged in,trakadmin@trak.com,,,::1,fail,Your account has been locked out for 15 minutes due to multiple failed login attempts.
+2019/01/10 03:37:57 PM,login,logged in,Trak Admin(trakadmin@trak.com),,,::1,success,
+2019/01/10 03:37:59 PM,Page Request,Page Request,,,userAgent = Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML  like Gecko) Chrome/71.0.3578.98 Safari/537.36 ; Referrer = http://localhost:61129/Account/Login.aspx ; Method = GET,::1,sucsess,
+2019/01/10 03:40:26 PM,login,log Off,Trak Admin(trakadmin@trak.com),,,::1,success,
+2019/01/10 03:40:31 PM,login,logged in,trakadmin@trak.com,,,::1,fail,Invalid credentials.
+2019/01/10 03:40:31 PM,login,logged in,trakadmin@trak.com,,,::1,fail,Invalid credentials. Person have 2 more attempt(s) before account gets locked out.
+2019/01/10 03:40:33 PM,login,logged in,trakadmin@trak.com,,,::1,fail,Invalid credentials.
+2019/01/10 03:40:34 PM,login,logged in,trakadmin@trak.com,,,::1,fail,Invalid credentials. Person have 1 more attempt(s) before account gets locked out.
+2019/01/10 03:40:40 PM,login,logged in,trakadmin@trak.com,,,::1,fail,Your account has been locked out for 15 minutes due to multiple failed login attempts.
+2019/01/10 04:29:42 PM,,Application Start,,,,,success,
+2019/01/10 04:31:11 PM,Web Service Request,Web Service Request,,,userAgent = Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML  like Gecko) Chrome/71.0.3578.98 Safari/537.36 ; Referrer =  ; Method = GET,::1,sucsess,
+2019/01/10 04:31:13 PM,Web Service Request,Web Service Request,,,userAgent = Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML  like Gecko) Chrome/71.0.3578.98 Safari/537.36 ; Referrer =  ; Method = GET,::1,sucsess,
+2019/01/10 04:31:53 PM,Web Service Request,Web Service Request,,,userAgent = Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML  like Gecko) Chrome/71.0.3578.98 Safari/537.36 ; Referrer =  ; Method = GET,::1,sucsess,
+2019/01/10 04:31:55 PM,Web Service Request,Web Service Request,,,userAgent = Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML  like Gecko) Chrome/71.0.3578.98 Safari/537.36 ; Referrer =  ; Method = GET,::1,sucsess,
+2019/01/10 05:12:12 PM,,Application Start,,,,,success,
+2019/01/10 05:13:18 PM,,Application Start,,,,,success,
+2019/01/10 05:16:53 PM,Web Service Request,Web Service Request,,,userAgent = Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML  like Gecko) Chrome/71.0.3578.98 Safari/537.36 ; Referrer =  ; Method = GET,::1,sucsess,
+2019/01/10 05:16:55 PM,Web Service Request,Web Service Request,,,userAgent = Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML  like Gecko) Chrome/71.0.3578.98 Safari/537.36 ; Referrer =  ; Method = GET,::1,sucsess,
+2019/01/10 05:20:19 PM,,Application Start,,,,,success,
+2019/01/10 05:24:12 PM,,Application Start,,,,,success,
+2019/01/10 05:28:09 PM,,Application Start,,,,,success,
+2019/01/10 05:30:33 PM,Web Service Request,Web Service Request,,,userAgent = Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML  like Gecko) Chrome/71.0.3578.98 Safari/537.36 ; Referrer =  ; Method = GET,::1,sucsess,
+2019/01/10 05:31:48 PM,Web Service Request,Web Service Request,,,userAgent = Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML  like Gecko) Chrome/71.0.3578.98 Safari/537.36 ; Referrer =  ; Method = GET,::1,sucsess,
+2019/01/10 05:34:26 PM,Web Service Request,Web Service Request,,,userAgent = Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML  like Gecko) Chrome/71.0.3578.98 Safari/537.36 ; Referrer =  ; Method = GET,::1,sucsess,
+2019/01/10 05:36:26 PM,Web Service Request,Web Service Request,,,userAgent = Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML  like Gecko) Chrome/71.0.3578.98 Safari/537.36 ; Referrer =  ; Method = GET,::1,sucsess,
+2019/01/10 05:38:56 PM,,Application Start,,,,,success,
+2019/01/10 05:54:03 PM,,Application Start,,,,,success,
+2019/01/10 05:54:29 PM,Web Service Request,Web Service Request,,,userAgent = Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML  like Gecko) Chrome/71.0.3578.98 Safari/537.36 ; Referrer =  ; Method = GET,::1,sucsess,
+2019/01/10 05:54:49 PM,Web Service Request,Web Service Request,,,userAgent = Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML  like Gecko) Chrome/71.0.3578.98 Safari/537.36 ; Referrer =  ; Method = GET,::1,sucsess,
+2019/01/10 06:02:09 PM,Web Service Request,Web Service Request,,,userAgent = Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML  like Gecko) Chrome/71.0.3578.98 Safari/537.36 ; Referrer =  ; Method = GET,::1,sucsess,
+2019/01/10 06:02:16 PM,Web Service Request,Web Service Request,,,userAgent = Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML  like Gecko) Chrome/71.0.3578.98 Safari/537.36 ; Referrer =  ; Method = GET,::1,sucsess,
+2019/01/10 06:04:55 PM,,Application Start,,,,,success,
+2019/01/10 06:06:18 PM,Web Service Request,Web Service Request,,,userAgent = Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML  like Gecko) Chrome/71.0.3578.98 Safari/537.36 ; Referrer =  ; Method = GET,::1,sucsess,
+2019/01/10 06:11:04 PM,,Application Start,,,,,success,
+2019/01/10 06:20:23 PM,,Application Start,,,,,success,
+2019/01/10 06:20:51 PM,Web Service Request,Web Service Request,,,userAgent = Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML  like Gecko) Chrome/71.0.3578.98 Safari/537.36 ; Referrer =  ; Method = GET,::1,sucsess,
+2019/01/10 06:22:03 PM,Web Service Request,Web Service Request,,,userAgent = Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML  like Gecko) Chrome/71.0.3578.98 Safari/537.36 ; Referrer =  ; Method = GET,::1,sucsess,
+2019/01/10 06:22:06 PM,Web Service Request,Web Service Request,,,userAgent = Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML  like Gecko) Chrome/71.0.3578.98 Safari/537.36 ; Referrer =  ; Method = GET,::1,sucsess,
+2019/01/10 06:42:36 PM,,Application Start,,,,,success,
+2019/01/10 06:56:21 PM,Web Service Request,Web Service Request,,,userAgent = Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML  like Gecko) Chrome/71.0.3578.98 Safari/537.36 ; Referrer =  ; Method = GET,::1,sucsess,
+2019/01/10 06:56:31 PM,login,logged in,Trak Admin(trakadmin@trak.com),,,::1,success,
+2019/01/10 06:56:33 PM,Page Request,Page Request,,,userAgent = Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML  like Gecko) Chrome/71.0.3578.98 Safari/537.36 ; Referrer = http://localhost:61129/Account/login.aspx ; Method = GET,::1,sucsess,
+2019/01/10 06:56:49 PM,Page Request,Page Request,,,userAgent = Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML  like Gecko) Chrome/71.0.3578.98 Safari/537.36 ; Referrer = http://localhost:61129/home ; Method = GET,::1,sucsess,
+2019/01/10 06:58:14 PM,Page Request,Page Request,,,userAgent = Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML  like Gecko) Chrome/71.0.3578.98 Safari/537.36 ; Referrer = http://localhost:61129/Master/AllVehicles.aspx ; Method = GET,::1,sucsess,
+2019/01/10 06:59:19 PM,Page Request,Page Request,,,userAgent = Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML  like Gecko) Chrome/71.0.3578.98 Safari/537.36 ; Referrer =  ; Method = GET,::1,sucsess,

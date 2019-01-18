@@ -238,13 +238,13 @@ Public Class ExternalHandler
 
             companyAddress = drFinal("billing_address_1").ToString() & IIf(drFinal("billing_address_2").ToString() = "", "", " , " & drFinal("billing_address_2").ToString())
 
-            'save company
-            result = OBJMaster.SaveUpdateCustomer(0, drFinal("billing_company").ToString(), ContactName, drFinal("billing_phone").ToString(), companyAddress, "", 0,
-                                                  False, False, False, False, False, "Other", 1, 0, "", "", "", "", "", "")
+			'save company
+			result = OBJMaster.SaveUpdateCustomer(0, drFinal("billing_company").ToString(), ContactName, drFinal("billing_phone").ToString(), companyAddress, "", 0,
+												  False, False, False, False, False, "Other", 1, 0, "", "", "", "", "", "", 1)
 
 
 
-            If (result <> 0) Then
+			If (result <> 0) Then
                 steps = "Company created  for user_id:" & drFinal("user_id").ToString() & " . Company Name : " & drFinal("billing_company").ToString() & " . Email : " & drFinal("billing_email").ToString()
                 RegistrationFailedLog.Error(String.Format("New Company successfully created for the new User(email:{0},CompanyName:{1},Name:{2}, Adress:{3}, userid:{4})", drFinal("billing_email").ToString(), drFinal("billing_company").ToString(), ContactName, companyAddress, drFinal("user_id").ToString()))
                 strLogs = strLogs & "<br>-- " & String.Format("New Company successfully created for the new User(email:{0},CompanyName:{1},Name:{2}, Adress:{3}, userid:{4})", drFinal("billing_email").ToString(), drFinal("billing_company").ToString(), ContactName, companyAddress, drFinal("user_id").ToString())

@@ -347,15 +347,6 @@ Partial Public Class Personnel
     Protected WithEvents CHK_ChangePWD As Global.System.Web.UI.WebControls.CheckBox
     
     '''<summary>
-    '''divMappCompanies control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents divMappCompanies As Global.System.Web.UI.HtmlControls.HtmlGenericControl
-    
-    '''<summary>
     '''txtPinNumber control.
     '''</summary>
     '''<remarks>
@@ -903,42 +894,6 @@ Partial Public Class Personnel
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents hdfDirtyFlag As Global.System.Web.UI.WebControls.HiddenField
-    
-    '''<summary>
-    '''lblMappCompanies control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents lblMappCompanies As Global.System.Web.UI.WebControls.Label
-    
-    '''<summary>
-    '''UP_MappCompanies control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents UP_MappCompanies As Global.System.Web.UI.UpdatePanel
-    
-    '''<summary>
-    '''GV_Companies control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents GV_Companies As Global.System.Web.UI.WebControls.GridView
-    
-    '''<summary>
-    '''btnCancelMappCompanies control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents btnCancelMappCompanies As Global.System.Web.UI.WebControls.Button
     
     '''<summary>
     '''PWDHide control.

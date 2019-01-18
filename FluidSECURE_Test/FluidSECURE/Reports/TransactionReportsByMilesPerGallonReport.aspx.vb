@@ -33,9 +33,11 @@ Public Class TransactionReportsByMilesPerGallonReport
                     Dim ToDate As ReportParameter = New ReportParameter("ToDate", Session("ToDate").ToString())
                     Dim MPGParam As ReportParameter = New ReportParameter("MPGParam", Session("MPGParam").ToString())
                     Dim TransactionType As ReportParameter = New ReportParameter("TransactionType", Session("TransactionType").ToString())
-
-                    RPT_TransReportByMilesPerGallonReport.LocalReport.SetParameters(New ReportParameter() {FromDate, ToDate, MPGParam, TransactionType})
-                    Dim rds As ReportDataSource = New ReportDataSource()
+					Dim TransactionStatusText As ReportParameter = New ReportParameter("TransactionStatusText", Session("TransactionStatusText").ToString())
+					Dim FuelingTypeCurrent As ReportParameter = New ReportParameter("FuelingTypeCurrent", Session("FuelingTypeCurrent").ToString())
+					Dim FuelingTypePrevious As ReportParameter = New ReportParameter("FuelingTypePrevious", Session("FuelingTypePrevious").ToString())
+					RPT_TransReportByMilesPerGallonReport.LocalReport.SetParameters(New ReportParameter() {FromDate, ToDate, MPGParam, TransactionType, TransactionStatusText, FuelingTypeCurrent, FuelingTypePrevious})
+					Dim rds As ReportDataSource = New ReportDataSource()
                     rds.Name = "TransactionReportByMPGPerK"
                     rds.Value = dSTran.Tables(0)
                     rep.DataSources.Add(rds)

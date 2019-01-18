@@ -408,22 +408,24 @@ Public Class VehiclePerformance
 				strConditions = IIf(strConditions = "", " and T.fuelTypeId = " + DDL_Fuel.SelectedValue, strConditions + " and T.fuelTypeId = " + DDL_Fuel.SelectedValue)
 			End If
 
-			'If (DDL_Fuel.SelectedValue <> "0") Then
-			'    strConditions = IIf(strConditions = "", " and T.fuelTypeId = " + DDL_Fuel.SelectedValue, strConditions + " and T.fuelTypeId = " + DDL_Fuel.SelectedValue)
-			'End If
+            'If (DDL_Fuel.SelectedValue <> "0") Then
+            '    strConditions = IIf(strConditions = "", " and T.fuelTypeId = " + DDL_Fuel.SelectedValue, strConditions + " and T.fuelTypeId = " + DDL_Fuel.SelectedValue)
+            'End If
+            If (DDL_TransactionStatus.SelectedValue <> "3") Then
+                If (DDL_TransactionStatus.SelectedValue = "2") Then
+                    strConditions = IIf(strConditions = "", " and ISNULL(T.TransactionStatus,0) = 2", strConditions + " and ISNULL(T.TransactionStatus,0) = 2")
+                ElseIf (DDL_TransactionStatus.SelectedValue = "0") Then
+                    strConditions = (IIf(strConditions = "", " and ISNULL(T.TransactionStatus,0) = 0 and datediff(minute, T.[CreatedDate] ,getdate()) > 15 ", strConditions + " and ISNULL(T.TransactionStatus,0) = 0 and datediff(minute, T.[CreatedDate] ,getdate()) > 15"))
+                ElseIf (DDL_TransactionStatus.SelectedValue = "1") Then
+                    strConditions = (IIf(strConditions = "", " and (ISNULL(T.TransactionStatus,0) = 1  And ISNULL(T.IsMissed,0)= 1) and datediff(minute, T.[CreatedDate] ,getdate()) > 15 ", strConditions + " and (ISNULL(T.TransactionStatus,0) = 1 And ISNULL(T.IsMissed,0)= 1)  and datediff(minute, T.[CreatedDate] ,getdate()) > 15"))
+                End If
+            End If
 
-			If (DDL_TransactionStatus.SelectedValue = "2") Then
-				strConditions = IIf(strConditions = "", " and ISNULL(T.TransactionStatus,0) = 2", strConditions + " and ISNULL(T.TransactionStatus,0) = 2")
-			ElseIf (DDL_TransactionStatus.SelectedValue = "0") Then
-				strConditions = (IIf(strConditions = "", " and ISNULL(T.TransactionStatus,0) = 0 and datediff(minute, T.[CreatedDate] ,getdate()) > 15 ", strConditions + " and ISNULL(T.TransactionStatus,0) = 0 and datediff(minute, T.[CreatedDate] ,getdate()) > 15"))
-			ElseIf (DDL_TransactionStatus.SelectedValue = "1") Then
-				strConditions = (IIf(strConditions = "", " and (ISNULL(T.TransactionStatus,0) = 1  And ISNULL(T.IsMissed,0)= 1) and datediff(minute, T.[CreatedDate] ,getdate()) > 15 ", strConditions + " and (ISNULL(T.TransactionStatus,0) = 1 And ISNULL(T.IsMissed,0)= 1)  and datediff(minute, T.[CreatedDate] ,getdate()) > 15"))
-			End If
 
-			'strConditions = IIf(strConditions = "", " and ISNULL(t.IsMissed,0) = " + DDL_Missed.SelectedValue, strConditions + " and ISNULL(t.IsMissed,0) = " + DDL_Missed.SelectedValue)
+            'strConditions = IIf(strConditions = "", " and ISNULL(t.IsMissed,0) = " + DDL_Missed.SelectedValue, strConditions + " and ISNULL(t.IsMissed,0) = " + DDL_Missed.SelectedValue)
 
-			'strConditions += "  and ISNULL(IsFluidSecureHub,0)=0 "
-			If (DDL_HubName.SelectedValue <> "0") Then
+            'strConditions += "  and ISNULL(IsFluidSecureHub,0)=0 "
+            If (DDL_HubName.SelectedValue <> "0") Then
 				strConditions = IIf(strConditions = "", " and ISNULL(T.HubId,0) = " + DDL_HubName.SelectedValue, strConditions + " and ISNULL(T.HubId,0)= " + DDL_HubName.SelectedValue)
 			End If
 
@@ -463,8 +465,9 @@ Public Class VehiclePerformance
 
 			Session("FromDate") = startDate.ToString("dd-MMM-yyyy hh:mm tt")
 			Session("ToDate") = endDate.ToString("dd-MMM-yyyy hh:mm tt")
-			Session("FuelType") = DDL_Fuel.SelectedItem.ToString()
-			Response.Redirect("~/Reports/VehiclePerformanceReport")
+            Session("FuelType") = DDL_Fuel.SelectedItem.ToString()
+            Session("TransactionStatusText") = DDL_TransactionStatus.SelectedValue.ToString()
+            Response.Redirect("~/Reports/VehiclePerformanceReport")
 
 
 		Catch ex As Exception
@@ -529,15 +532,17 @@ Public Class VehiclePerformance
 	End Function
 
 	Private Sub BindTransactionStatus()
-		Try
-			DDL_TransactionStatus.Items.Insert(0, New ListItem(ConfigurationManager.AppSettings("CompletedText").ToString(), "2"))
-			DDL_TransactionStatus.Items.Insert(1, New ListItem(ConfigurationManager.AppSettings("NotStartedText").ToString(), "0"))
-			DDL_TransactionStatus.Items.Insert(2, New ListItem(ConfigurationManager.AppSettings("MissedText").ToString(), "1"))
-		Catch ex As Exception
-			log.Error("Error occurred in BindTransactionStatus Exception is :" + ex.Message)
-			ErrorMessage.Visible = True
-			ErrorMessage.InnerText = "Error occurred while getting data, please try again later."
-		End Try
+        Try
+            DDL_TransactionStatus.Items.Insert(0, New ListItem(ConfigurationManager.AppSettings("AllTransactionText").ToString(), "3"))
+            DDL_TransactionStatus.Items.Insert(1, New ListItem(ConfigurationManager.AppSettings("CompletedText").ToString(), "2"))
+            DDL_TransactionStatus.Items.Insert(2, New ListItem(ConfigurationManager.AppSettings("NotStartedText").ToString(), "0"))
+            DDL_TransactionStatus.Items.Insert(3, New ListItem(ConfigurationManager.AppSettings("MissedText").ToString(), "1"))
+
+        Catch ex As Exception
+            log.Error("Error occurred in BindTransactionStatus Exception is :" + ex.Message)
+            ErrorMessage.Visible = True
+            ErrorMessage.InnerText = "Error occurred while getting data, please try again later."
+        End Try
 	End Sub
 
 	Protected Sub chk_IsDeletedLinkAllow_CheckedChanged(sender As Object, e As EventArgs)

@@ -3,12 +3,17 @@ Imports Microsoft.AspNet.Identity
 Imports Microsoft.AspNet.Identity.EntityFramework
 Imports Microsoft.AspNet.Identity.Owin
 Imports Microsoft.Owin
+Imports Microsoft.Owin.Security.OAuth
+Imports Microsoft.Owin.Host.SystemWeb
+Imports Microsoft.Owin.Cors
 Imports Microsoft.Owin.Security.Cookies
 Imports Microsoft.Owin.Security.DataProtection
 Imports Microsoft.Owin.Security.Google
 Imports Owin
+Imports System.Web.Http
 
 Partial Public Class Startup
+    Public Shared oAuth As OAuthAuthorizationServerOptions
 
     ' For more information on configuring authentication, please visit http://go.microsoft.com/fwlink/?LinkId=301883
     Public Sub ConfigureAuth(app As IAppBuilder)
@@ -52,5 +57,26 @@ Partial Public Class Startup
         'app.UseGoogleAuthentication(New GoogleOAuth2AuthenticationOptions() With {
         '   .ClientId = "",
         '   .ClientSecret = ""})
+
+
+        app.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll)
+
+        Dim myProvider = New AuthorizationServerProvider()
+
+
+        oAuth = New OAuthAuthorizationServerOptions With {
+            .AllowInsecureHttp = True,
+            .TokenEndpointPath = New PathString("/token"),
+            .AccessTokenExpireTimeSpan = TimeSpan.FromMinutes(60),
+            .Provider = myProvider,
+            .RefreshTokenProvider = New RefreshTokenProvider()
+        }
+
+        app.UseOAuthAuthorizationServer(oAuth)
+        app.UseOAuthBearerAuthentication(New OAuthBearerAuthenticationOptions())
+
+        Dim config As HttpConfiguration = New HttpConfiguration()
+        WebApiConfig.Register(config)
+
     End Sub
 End Class

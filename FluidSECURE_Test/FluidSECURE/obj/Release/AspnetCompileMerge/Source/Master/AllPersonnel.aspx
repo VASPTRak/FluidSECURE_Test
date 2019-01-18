@@ -151,6 +151,7 @@
                             <b><asp:Label runat="server" ID="lblTotalNumberOfRecords"></asp:Label></b>
                         </div>
                         <div class="row col-md-6 col-sm-6 col-xs-12 text-right">
+							<asp:Button ID="btnPersonnelOptions" CssClass="btn btn-warning" runat="server" Text="Personnel Options" OnClick="btnPersonnelOptions_Click" />
                             <asp:Button ID="btn_New" CssClass="btn btn-primary" runat="server" Text="Add New Personnel" OnClick="btn_New_Click" />
                         </div>
                     </div>

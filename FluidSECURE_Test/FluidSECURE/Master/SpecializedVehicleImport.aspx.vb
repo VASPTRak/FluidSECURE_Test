@@ -222,7 +222,8 @@ Public Class SpecializedVehicleImport
             End If
 
         Catch ex As Exception
-            message.InnerText = message.InnerText + " , Error occurred, Please try after some time."
+            message.InnerText = "Error occurred, Please try after some time."
+            message.Visible = True
             log.Error("Exception occurred on btnUpload_Click. Exception is : " & ex.Message)
         Finally
             ddlCustomer.Focus()
@@ -302,8 +303,8 @@ Public Class SpecializedVehicleImport
 
                         If CheckVehicleNumberExist = True Then
                             IsUpdate = True
-                        ElseIf (dr("VehicleNumber").ToString().Length > 10) Then
-                            strLog = strLog & Environment.NewLine & currentDateTime & "--" & "Vehicle Card (" & dr("VehicleNumber") & ") is must be less than equal to 10 characters. Check Row  " & rowIndex
+                        ElseIf (dr("VehicleNumber").ToString().Length > 20) Then
+                            strLog = strLog & Environment.NewLine & currentDateTime & "--" & "Vehicle Card (" & dr("VehicleNumber") & ") is must be less than equal to 20 characters. Check Row  " & rowIndex
                             isDirty = True
                         End If
                     Else

@@ -674,7 +674,7 @@ Public Class ExportTransactions
 			End If
 
 			'get data from server
-			dSTran = OBJMaster.ExportTransactions(startDate.ToString(), endDate.ToString(), strConditions, flag, Convert.ToInt32(ddl_DecimalQTY.SelectedValue.ToString()), DecimalType)
+			dSTran = OBJMaster.ExportTransactions(startDate.ToString(), endDate.ToString(), strConditions, flag, chk_FATransaction.Checked, Convert.ToInt32(ddl_DecimalQTY.SelectedValue.ToString()), DecimalType)
 
 		Catch ex As Exception
 			log.Error("Error occurred in GetDefaultFormtTransactions Exception is :" + ex.Message)
@@ -1147,8 +1147,9 @@ Public Class ExportTransactions
                     DDL_CustomizedExportTemplate.SelectedValue = dtExportFields.Rows(0)("CustomizedExportTemplate")
                     txtFileName.Text = dtExportFields.Rows(0)("Nametothefile")
                     ddl_DecimalQTY.SelectedValue = dtExportFields.Rows(0)("AddDecimal")
-                    ddl_DecimalType.SelectedValue = dtExportFields.Rows(0)("DecimalType")
-                End If
+					ddl_DecimalType.SelectedValue = dtExportFields.Rows(0)("DecimalType")
+					chk_FATransaction.Checked = dtExportFields.Rows(0)("IncludeFA")
+				End If
                 DDL_ExportOption_SelectedIndexChanged(Nothing, Nothing)
                 ddl_DecimalQTY_SelectedIndexChanged(Nothing, Nothing)
             End If
@@ -1163,10 +1164,10 @@ Public Class ExportTransactions
         Try
             OBJMaster = New MasterBAL()
             Dim dtExportFields As DataTable = New DataTable()
-            OBJMaster.SavePersonWiseExportTransactionFields(Convert.ToInt32(Session("PersonId")), DDL_DateType.SelectedValue.ToString(), DDL_TransactionStatus.SelectedValue.ToString(),
-                                                            DDL_ExportOption.SelectedValue.ToString(), DDL_CustomizedExportTemplate.SelectedValue.ToString(), ddl_DecimalQTY.SelectedValue.ToString(),
-                                                            DDL_Customer.SelectedValue.ToString(), DDL_Separator.SelectedValue.ToString(), txtFileName.Text, ddl_DecimalType.SelectedValue.ToString())
-        Catch ex As Exception
+			OBJMaster.SavePersonWiseExportTransactionFields(Convert.ToInt32(Session("PersonId")), DDL_DateType.SelectedValue.ToString(), DDL_TransactionStatus.SelectedValue.ToString(),
+															DDL_ExportOption.SelectedValue.ToString(), DDL_CustomizedExportTemplate.SelectedValue.ToString(), ddl_DecimalQTY.SelectedValue.ToString(),
+															DDL_Customer.SelectedValue.ToString(), DDL_Separator.SelectedValue.ToString(), txtFileName.Text, ddl_DecimalType.SelectedValue.ToString(), chk_FATransaction.Checked)
+		Catch ex As Exception
             log.Error("Error occurred in SaveTransactionExportFields Exception is :" + ex.Message)
             ErrorMessage.Visible = True
             ErrorMessage.InnerText = "Error occurred while export, please try again later."

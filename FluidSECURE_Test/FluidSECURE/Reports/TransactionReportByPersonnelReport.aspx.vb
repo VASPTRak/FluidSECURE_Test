@@ -32,9 +32,12 @@ Public Class TransactionReportByPersonnelReport
                 Dim FromDate As ReportParameter = New ReportParameter("FromDate", Session("FromDate").ToString())
                 Dim ToDate As ReportParameter = New ReportParameter("ToDate", Session("ToDate").ToString())
                     Dim TransactionType As ReportParameter = New ReportParameter("TransactionType", Session("TransactionType").ToString())
-                    RPT_TransactionReportByPersonnel.LocalReport.SetParameters(New ReportParameter() {FromDate, ToDate, TransactionType})
+					Dim TransactionStatusText As ReportParameter = New ReportParameter("TransactionStatusText", Session("TransactionStatusText").ToString())
+					Dim FuelingTypeCurrent As ReportParameter = New ReportParameter("FuelingTypeCurrent", Session("FuelingTypeCurrent").ToString())
+					Dim FuelingTypePrevious As ReportParameter = New ReportParameter("FuelingTypePrevious", Session("FuelingTypePrevious").ToString())
+					RPT_TransactionReportByPersonnel.LocalReport.SetParameters(New ReportParameter() {FromDate, ToDate, TransactionType, TransactionStatusText, FuelingTypeCurrent, FuelingTypePrevious})
 
-                    Dim rds As ReportDataSource = New ReportDataSource()
+					Dim rds As ReportDataSource = New ReportDataSource()
                 rds.Name = "TransactionReportsByConditions"
                 rds.Value = dSTran.Tables(0)
                 rep.DataSources.Add(rds)

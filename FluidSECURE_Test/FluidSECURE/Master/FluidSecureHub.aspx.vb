@@ -82,11 +82,13 @@ Public Class FluidSecureHub
                         UFLSLabel.Visible = False
                         UFLSCheckbox.Visible = False
                         UFLSHide.Visible = True
-                        WifiChannelToUse.Visible = False
-                    Else
+						WifiChannelToUse.Visible = False
+						divViewHistory.visible = False
+					Else
                         UFLSHide.Visible = False
-                        WifiChannelToUse.Visible = True
-                    End If
+						WifiChannelToUse.Visible = True
+						divViewHistory.visible = True
+					End If
 
                     txtPersonName.Focus()
 
@@ -350,9 +352,16 @@ Public Class FluidSecureHub
                 chk_HubForFA.Checked = dtPersonnel.Rows(0)("EnbDisHubForFA").ToString()
                 txtContactName.Text = dtPersonnel.Rows(0)("ContactName").ToString()
                 txtContactEmail.Text = dtPersonnel.Rows(0)("ContactEmail").ToString()
-                DDL_WifiChannelToUse.SelectedValue = dtPersonnel.Rows(0)("WifiChannelToUse").ToString()
+				DDL_WifiChannelToUse.SelectedValue = dtPersonnel.Rows(0)("WifiChannelToUse").ToString()
+				HDF_HubIMEICurrentName.Value = dtPersonnel.Rows(0)("IMEI_UDID").ToString()
+				HDF_HubIMEINameHistory.Value = dtPersonnel.Rows(0)("HubIMEIHistory").ToString()
+				txtDeviceNumber.Text = dtPersonnel.Rows(0)("DevicePhone").ToString()
+				HDF_HubCurrentDeviceNumber.Value = dtPersonnel.Rows(0)("DevicePhone").ToString()
+				HDF_HubDeviceNumberHistory.Value = dtPersonnel.Rows(0)("DevicePhoneHistory").ToString()
+				chkEnablePrinter.Checked = dtPersonnel.Rows(0)("EnablePrinter").ToString()
 
-                Dim strConditions As String = ""
+				BindHistory(PersonId)
+				Dim strConditions As String = ""
                 If (Not Session("FHubConditions") Is Nothing) Then
                     strConditions = Session("FHubConditions")
                 Else
@@ -762,84 +771,84 @@ Public Class FluidSecureHub
         End Try
     End Sub
 
-    Public Sub SaveOtherMapping(PersonId As Integer, UniqueUserId As String)
-        Try
-            afterVehicles = ""
-            afterFSlinks = ""
+	Public Sub SaveOtherMapping(PersonId As Integer, UniqueUserId As String, HubIMEIHistory As String, DeviceNumberHistory As String)
+		Try
+			afterVehicles = ""
+			afterFSlinks = ""
 
-            HDF_PersonnelId.Value = PersonId
-            HDF_UniqueUserId.Value = UniqueUserId
+			HDF_PersonnelId.Value = PersonId
+			HDF_UniqueUserId.Value = UniqueUserId
 
-            OBJMaster = New MasterBAL()
-            OBJMaster.InsertUpdateHubExtraInformation(PersonId, txtContactName.Text, txtContactEmail.Text, DDL_WifiChannelToUse.SelectedValue, Session("PersonId"), chk_HubForFA.Checked)
-
-
-            Dim dtVehicle As DataTable = New DataTable("dtPersonAndVehicle")
-
-            dtVehicle.Columns.Add("PersonId", System.Type.[GetType]("System.Int32"))
-            dtVehicle.Columns.Add("VehicleId", System.Type.[GetType]("System.Int32"))
-            dtVehicle.Columns.Add("CreatedDate", System.Type.[GetType]("System.DateTime"))
-            dtVehicle.Columns.Add("CreatedBy", System.Type.[GetType]("System.Int32"))
+			OBJMaster = New MasterBAL()
+			OBJMaster.InsertUpdateHubExtraInformation(PersonId, txtContactName.Text, txtContactEmail.Text, DDL_WifiChannelToUse.SelectedValue, Session("PersonId"), chk_HubForFA.Checked, HubIMEIHistory, txtDeviceNumber.Text, DeviceNumberHistory, chkEnablePrinter.Checked)
 
 
-            For Each item As GridViewRow In gv_Vehicles.Rows
+			Dim dtVehicle As DataTable = New DataTable("dtPersonAndVehicle")
 
-                Dim CHK_Vehicle As CheckBox = TryCast(item.FindControl("CHK_Vehicle"), CheckBox)
-                If (CHK_Vehicle.Checked = True Or gv_Vehicles.DataKeys(item.RowIndex).Values("VehicleNumber").ToString().ToLower().Contains("guest") = True) Then
-                    Dim dr As DataRow = dtVehicle.NewRow()
-                    dr("PersonId") = PersonId
-                    dr("VehicleId") = gv_Vehicles.DataKeys(item.RowIndex).Values("VehicleId").ToString()
-                    dr("CreatedDate") = DateTime.Now
-                    dr("CreatedBy") = Convert.ToInt32(Session("PersonId"))
-                    dtVehicle.Rows.Add(dr)
-
-                    If (ConfigurationManager.AppSettings("AllowActivityLogin").ToString().ToLower() = "yes") Then
-                        afterVehicles = IIf(afterVehicles = "", gv_Vehicles.DataKeys(item.RowIndex).Values("VehicleNumber"), afterVehicles & ";" & gv_Vehicles.DataKeys(item.RowIndex).Values("VehicleNumber"))
-                    End If
-
-                End If
-            Next
+			dtVehicle.Columns.Add("PersonId", System.Type.[GetType]("System.Int32"))
+			dtVehicle.Columns.Add("VehicleId", System.Type.[GetType]("System.Int32"))
+			dtVehicle.Columns.Add("CreatedDate", System.Type.[GetType]("System.DateTime"))
+			dtVehicle.Columns.Add("CreatedBy", System.Type.[GetType]("System.Int32"))
 
 
-            OBJMaster.InsertPersonVehicleMapping(dtVehicle, PersonId)
+			For Each item As GridViewRow In gv_Vehicles.Rows
 
-            'insert site person mapping
-            Dim dtPersonSite As DataTable = New DataTable()
-            dtPersonSite.Columns.Add("PersonId", System.Type.[GetType]("System.Int32"))
-            dtPersonSite.Columns.Add("SiteID", System.Type.[GetType]("System.Int32"))
-            dtPersonSite.Columns.Add("CreatedDate", System.Type.[GetType]("System.DateTime"))
-            dtPersonSite.Columns.Add("CreatedBy", System.Type.[GetType]("System.Int32"))
+				Dim CHK_Vehicle As CheckBox = TryCast(item.FindControl("CHK_Vehicle"), CheckBox)
+				If (CHK_Vehicle.Checked = True Or gv_Vehicles.DataKeys(item.RowIndex).Values("VehicleNumber").ToString().ToLower().Contains("guest") = True) Then
+					Dim dr As DataRow = dtVehicle.NewRow()
+					dr("PersonId") = PersonId
+					dr("VehicleId") = gv_Vehicles.DataKeys(item.RowIndex).Values("VehicleId").ToString()
+					dr("CreatedDate") = DateTime.Now
+					dr("CreatedBy") = Convert.ToInt32(Session("PersonId"))
+					dtVehicle.Rows.Add(dr)
+
+					If (ConfigurationManager.AppSettings("AllowActivityLogin").ToString().ToLower() = "yes") Then
+						afterVehicles = IIf(afterVehicles = "", gv_Vehicles.DataKeys(item.RowIndex).Values("VehicleNumber"), afterVehicles & ";" & gv_Vehicles.DataKeys(item.RowIndex).Values("VehicleNumber"))
+					End If
+
+				End If
+			Next
 
 
-            For Each item As GridViewRow In gv_Sites.Rows
+			OBJMaster.InsertPersonVehicleMapping(dtVehicle, PersonId)
 
-                Dim CHK_PersonSite As CheckBox = TryCast(item.FindControl("CHK_PersonSite"), CheckBox)
-                If (CHK_PersonSite.Checked = True) Then
-                    Dim dr As DataRow = dtPersonSite.NewRow()
-                    dr("PersonId") = PersonId
-                    dr("SiteID") = gv_Sites.DataKeys(item.RowIndex).Values("SiteID").ToString()
-                    dr("CreatedDate") = DateTime.Now
-                    dr("CreatedBy") = Convert.ToInt32(Session("PersonId"))
-                    dtPersonSite.Rows.Add(dr)
+			'insert site person mapping
+			Dim dtPersonSite As DataTable = New DataTable()
+			dtPersonSite.Columns.Add("PersonId", System.Type.[GetType]("System.Int32"))
+			dtPersonSite.Columns.Add("SiteID", System.Type.[GetType]("System.Int32"))
+			dtPersonSite.Columns.Add("CreatedDate", System.Type.[GetType]("System.DateTime"))
+			dtPersonSite.Columns.Add("CreatedBy", System.Type.[GetType]("System.Int32"))
 
-                    If (ConfigurationManager.AppSettings("AllowActivityLogin").ToString().ToLower() = "yes") Then
-                        afterFSlinks = IIf(afterFSlinks = "", gv_Sites.DataKeys(item.RowIndex).Values("WifiSSId").ToString(), afterFSlinks & ";" & gv_Sites.DataKeys(item.RowIndex).Values("WifiSSId").ToString())
-                    End If
 
-                    'OBJMaster.UpdateAndGetPrinterNameAndBCardReader(Convert.ToInt32(gv_Sites.DataKeys(item.RowIndex).Values("SiteID").ToString()), txtPrinterName.Text, txtBCardReader.Text, 0)
-                    'Else
-                    'OBJMaster.UpdateAndGetPrinterNameAndBCardReader(Convert.ToInt32(gv_Sites.DataKeys(item.RowIndex).Values("SiteID").ToString()), "", "", 0)
-                End If
-            Next
+			For Each item As GridViewRow In gv_Sites.Rows
 
-            OBJMaster.InsertPersonSiteMapping(dtPersonSite, PersonId)
+				Dim CHK_PersonSite As CheckBox = TryCast(item.FindControl("CHK_PersonSite"), CheckBox)
+				If (CHK_PersonSite.Checked = True) Then
+					Dim dr As DataRow = dtPersonSite.NewRow()
+					dr("PersonId") = PersonId
+					dr("SiteID") = gv_Sites.DataKeys(item.RowIndex).Values("SiteID").ToString()
+					dr("CreatedDate") = DateTime.Now
+					dr("CreatedBy") = Convert.ToInt32(Session("PersonId"))
+					dtPersonSite.Rows.Add(dr)
 
-        Catch ex As Exception
-            log.Error(String.Format("Error Occurred while mapping. Error is {0}.", ex.Message))
-        End Try
-    End Sub
+					If (ConfigurationManager.AppSettings("AllowActivityLogin").ToString().ToLower() = "yes") Then
+						afterFSlinks = IIf(afterFSlinks = "", gv_Sites.DataKeys(item.RowIndex).Values("WifiSSId").ToString(), afterFSlinks & ";" & gv_Sites.DataKeys(item.RowIndex).Values("WifiSSId").ToString())
+					End If
 
-    Private Function CreateData(PersonId As Integer, IsBefore As Boolean) As String
+					'OBJMaster.UpdateAndGetPrinterNameAndBCardReader(Convert.ToInt32(gv_Sites.DataKeys(item.RowIndex).Values("SiteID").ToString()), txtPrinterName.Text, txtBCardReader.Text, 0)
+					'Else
+					'OBJMaster.UpdateAndGetPrinterNameAndBCardReader(Convert.ToInt32(gv_Sites.DataKeys(item.RowIndex).Values("SiteID").ToString()), "", "", 0)
+				End If
+			Next
+
+			OBJMaster.InsertPersonSiteMapping(dtPersonSite, PersonId)
+
+		Catch ex As Exception
+			log.Error(String.Format("Error Occurred while mapping. Error is {0}.", ex.Message))
+		End Try
+	End Sub
+
+	Private Function CreateData(PersonId As Integer, IsBefore As Boolean) As String
         Try
             Dim vehicles As String = ""
             Dim links As String = ""
@@ -1056,7 +1065,16 @@ Public Class FluidSecureHub
                 Return
             End If
 
-            If (txtPrinterName.Text = "" And txtPrinterMACAddress.Text <> "") Then
+			If chkEnablePrinter.Checked Then
+				If txtPrinterMACAddress.Text = "" Then
+					ErrorMessage.Visible = True
+					ErrorMessage.InnerText = "Please enter MAC Address to enable Printer."
+					txtPrinterMACAddress.Focus()
+					Return
+				End If
+			End If
+
+			If (txtPrinterName.Text = "" And txtPrinterMACAddress.Text <> "") Then
                 ErrorMessage.Visible = True
                 ErrorMessage.InnerText = "Please enter printer name."
                 txtPrinterName.Focus()
@@ -1094,8 +1112,25 @@ Public Class FluidSecureHub
             End If
 
 
+			Dim HubIMEIHistory As String = ""
+			If txtIMEINumber.Text = HDF_HubIMEICurrentName.Value Then
+				HubIMEIHistory = HDF_HubIMEINameHistory.Value
+			ElseIf HDF_HubIMEICurrentName.Value = "" Then
+				HubIMEIHistory = ""
+			Else
+				HubIMEIHistory = HDF_HubIMEINameHistory.value + "," + HDF_HubIMEICurrentName.Value
+			End If
 
-            If (PersonId <> 0) Then
+			Dim HubDeviceNumberHistory As String = ""
+			If txtDeviceNumber.Text = HDF_HubCurrentDeviceNumber.Value Then
+				HubDeviceNumberHistory = HDF_HubDeviceNumberHistory.Value
+			ElseIf HDF_HubCurrentDeviceNumber.Value = "" Then
+				HubDeviceNumberHistory = ""
+			Else
+				HubDeviceNumberHistory = HDF_HubDeviceNumberHistory.Value + "," + HDF_HubCurrentDeviceNumber.Value
+			End If
+
+			If (PersonId <> 0) Then
                 steps = "10"
                 User = manager.FindById(UniqueUserId)
 
@@ -1174,9 +1209,9 @@ Public Class FluidSecureHub
                     HDF_PersonnelId.Value = PersonId
                     HDF_UniqueUserId.Value = UniqueUserId
 
-                    SaveOtherMapping(PersonId, User.Id)
+					SaveOtherMapping(PersonId, user.Id, HubIMEIHistory, HubDeviceNumberHistory)
 
-                    steps = "31"
+					steps = "31"
 
                 End If
 
@@ -1203,11 +1238,12 @@ Public Class FluidSecureHub
                 End If
                 steps = "32"
 
-                ' Update in IMEI Person mapping
-                OBJMaster = New MasterBAL()
-                OBJMaster.IMEI_UDIDPersonMappingInsertUpdate(IMEIPersonMappingId, Convert.ToInt32(HDF_PersonnelId.Value), txtIMEINumber.Text, chkIsApproved.Checked, Session("PersonId").ToString(), "Hub")
+				' Update in IMEI Person mapping
+				OBJMaster = New MasterBAL()
 
-            Else
+				OBJMaster.IMEI_UDIDPersonMappingInsertUpdate(IMEIPersonMappingId, Convert.ToInt32(HDF_PersonnelId.Value), txtIMEINumber.Text, chkIsApproved.Checked, Session("PersonId").ToString(), "Hub")
+
+			Else
                 Dim ApprOn As DateTime
                 Dim ApprBy As Integer
                 AuthorizedEmailSend = True
@@ -1307,9 +1343,9 @@ Public Class FluidSecureHub
 
 
 
-                    SaveOtherMapping(PersonId, User.Id)
+					SaveOtherMapping(PersonId, user.Id, HubIMEIHistory, HubDeviceNumberHistory)
 
-                    steps = "49"
+					steps = "49"
 
                 End If
                 steps = "50"
@@ -1336,8 +1372,9 @@ Public Class FluidSecureHub
 
             End If
             steps = "51"
-            BindSitesDataToCheckboxList(PersonId)
-            txtPersonName.Focus()
+			BindSitesDataToCheckboxList(PersonId)
+			BindPersonnelDetails(PersonId, HDF_UniqueUserId.Value)
+			txtPersonName.Focus()
         Catch ex As Exception
 
             If (ConfigurationManager.AppSettings("AllowActivityLogin").ToString().ToLower() = "yes") Then
@@ -1357,5 +1394,100 @@ Public Class FluidSecureHub
 
     End Sub
 
+	Protected Sub btn_ViewHistory_Click(sender As Object, e As EventArgs)
+		Try
+			ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "OpenFSHistoryBox();", True)
+		Catch ex As Exception
+			log.Error("Error occurred in btn_DisableAllVehOdo_Click Exception is :" + ex.Message)
+			ErrorMessage.Visible = True
+			ErrorMessage.InnerText = "Error occurred while getting data, please try again later."
+		End Try
+	End Sub
+	Private Sub BindHistory(PersonId)
+		Try
 
+			Dim dtFSHistory As DataTable = New DataTable()
+			OBJMaster = New MasterBAL()
+			dtFSHistory = OBJMaster.GetHubIMEIHistory(PersonId)
+			Dim dv As DataView = dtFSHistory.DefaultView()
+			dv.RowFilter = "Name <> ''"
+			gv_HistoryView.DataSource = dv
+			gv_HistoryView.DataBind()
+
+			Dim dtDeviceNumberHistory As DataTable = New DataTable()
+			OBJMaster = New MasterBAL()
+			dtDeviceNumberHistory = OBJMaster.GetHubDeviceHistory(PersonId)
+			Dim dvH As DataView = dtDeviceNumberHistory.DefaultView()
+			dvH.RowFilter = "Name <> ''"
+			gv_DeviceNumber.DataSource = dvH
+			gv_DeviceNumber.DataBind()
+
+		Catch ex As Exception
+
+			log.Error("Error occurred in BindHistory Exception is :" + ex.Message)
+			ErrorMessage.Visible = True
+			ErrorMessage.InnerText = "Error occurred while getting Hub IMEI, please try again later."
+
+		End Try
+	End Sub
+	Protected Sub btnCancelFSHistory_Click(sender As Object, e As EventArgs)
+		Try
+			ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "CloseFSHistoryBox();", True)
+		Catch ex As Exception
+			log.Error("Error occurred in btn_DisableAllVehOdo_Click Exception is :" + ex.Message)
+			ErrorMessage.Visible = True
+			ErrorMessage.InnerText = "Error occurred while getting data, please try again later."
+		End Try
+	End Sub
+	Protected Sub btnFSHistoryOk_Click(sender As Object, e As EventArgs)
+		For i As Integer = 0 To gv_HistoryView.Rows.Count - 1
+
+			Dim rb As RadioButton = DirectCast(gv_HistoryView.Rows(i).Cells(0).FindControl("rbHubIMEI"), RadioButton)
+			If rb IsNot Nothing Then
+				If rb.Checked = True Then
+
+					Dim Name = gv_HistoryView.DataKeys(i).Value.ToString()
+					txtIMEINumber.Text = Name
+				End If
+
+
+			End If
+		Next
+	End Sub
+
+	Protected Sub btn_ViewDeviceHistory_Click(sender As Object, e As EventArgs)
+		Try
+			ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "OpenDeviceNumberHistoryBox();", True)
+		Catch ex As Exception
+			log.Error("Error occurred in btn_ViewDeviceHistory_Click Exception is :" + ex.Message)
+			ErrorMessage.Visible = True
+			ErrorMessage.InnerText = "Error occurred while getting data, please try again later."
+		End Try
+	End Sub
+
+	Protected Sub btnDeviceNumberHistoryOk_Click(sender As Object, e As EventArgs)
+		For i As Integer = 0 To gv_DeviceNumber.Rows.Count - 1
+
+			Dim rb As RadioButton = DirectCast(gv_DeviceNumber.Rows(i).Cells(0).FindControl("rbHubDeviceNumber"), RadioButton)
+			If rb IsNot Nothing Then
+				If rb.Checked = True Then
+
+					Dim Name = gv_DeviceNumber.DataKeys(i).Value.ToString()
+					txtDeviceNumber.Text = Name
+				End If
+
+
+			End If
+		Next
+	End Sub
+
+	Protected Sub btnCancelDeviceNumber_Click(sender As Object, e As EventArgs)
+		Try
+			ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "CloseDeviceNumberHistoryBox();", True)
+		Catch ex As Exception
+			log.Error("Error occurred in btnCancelDeviceNumber_Click Exception is :" + ex.Message)
+			ErrorMessage.Visible = True
+			ErrorMessage.InnerText = "Error occurred while getting data, please try again later."
+		End Try
+	End Sub
 End Class

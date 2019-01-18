@@ -68,14 +68,14 @@
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title text-center">Select Hoses where this vehicle is authorized to receive fuel</h5>
+                            <h5 class="modal-title text-center">Select LINKS\Hoses where this Vehicle is authorized to receive Fluid</h5>
                         </div>
                         <div class="modal-body">
                             <div class="row col-md-12 col-sm-12">
                                 <asp:Label ID="lblSiteMessage" runat="server" Text=""></asp:Label>
                             </div>
                             <div class="row margin10">
-                                <input type="text" id="siteInput" class="form-control" onkeyup="SearchSite()" placeholder="Search for FluidSecure Link">
+                                <input type="text" id="siteInput" class="form-control" onkeyup="SearchSite()" placeholder="Search for LINK Names">
                             </div>
                             <div class="row col-md-12 col-sm-12 text-center" style="overflow-x: auto; max-height: 400px;">
                                 <asp:UpdatePanel ID="UP_Sites" runat="server">
@@ -90,7 +90,7 @@
                                                         <asp:CheckBox ID="CHK_PersonSite" runat="server" onclick="javascript:SelectboxSite(this);" />
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                                <asp:BoundField DataField="WifiSSId" HeaderText="FluidSecure Links" ReadOnly="True" HeaderStyle-HorizontalAlign="Left" ItemStyle-HorizontalAlign="Left" />
+                                                <asp:BoundField DataField="WifiSSId" HeaderText="LINK Names" ReadOnly="True" HeaderStyle-HorizontalAlign="Left" ItemStyle-HorizontalAlign="Left" />
                                             </Columns>
                                         </asp:GridView>
 
@@ -174,7 +174,7 @@
                         <label class="text-danger font-required">[required]</label>:</label>
                         </div>
                         <div class="form-group col-md-3 col-sm-3 col-xs-12">
-                            <asp:TextBox ID="txtVehicleNumber" CssClass="form-control input-sm" TabIndex="1" runat="server" MaxLength="10" Width="200"></asp:TextBox>
+                            <asp:TextBox ID="txtVehicleNumber" CssClass="form-control input-sm" TabIndex="1" runat="server" MaxLength="20" Width="200"></asp:TextBox>
                             <asp:RequiredFieldValidator ID="RFD_VehicleNumber" runat="server" ControlToValidate="txtVehicleNumber" Display="Dynamic" ErrorMessage="Please enter vehicle number." ForeColor="Red" SetFocusOnError="True" ValidationGroup="VehicleValidation"></asp:RequiredFieldValidator>
                         </div>
                         <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
@@ -195,13 +195,11 @@
                             <asp:HiddenField ID="hdfVehicleId" runat="server"></asp:HiddenField>
                             <asp:HiddenField ID="HDF_TotalVehicle" runat="server" />
                         </div>
-                        <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
-                            <label>
-                                Current Odometer:</label>
+						<div class="form-group col-md-3 col-sm-3 textright col-xs-12">
+                            <label>Last Personnel:</label>
                         </div>
                         <div class="form-group col-md-3 col-sm-3 col-xs-12">
-                            <asp:TextBox ID="txtCurrentOdometer" runat="server" CssClass="form-control input-sm" MaxLength="7" Width="70" TabIndex="15" onkeypress="return onlyNumbers(event);"></asp:TextBox>
-                            <asp:CompareValidator ID="CV_CurrOdo" runat="server" Display="Dynamic" ErrorMessage="Please enter current odometer in integer format." ForeColor="Red" Operator="DataTypeCheck" SetFocusOnError="True" Type="Integer" ValidationGroup="VehicleValidation" ControlToValidate="txtCurrentOdometer"></asp:CompareValidator>
+                            <asp:TextBox ID="txtLastFueler" runat="server" CssClass="form-control input-sm" MaxLength="30" TabIndex="15" ReadOnly="True" data-toggle="tooltip" title="not editable from this screen!"></asp:TextBox>
                         </div>
                     </div>
                     <div class="row col-md-12 col-sm-12 col-xs-12">
@@ -211,12 +209,15 @@
                         <div class="form-group col-md-3 col-sm-3 col-xs-12">
                             <asp:TextBox ID="txtDescription" runat="server" CssClass="form-control input-sm" MaxLength="50" TabIndex="3" Rows="2" TextMode="MultiLine"></asp:TextBox>
                         </div>
-                        <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
-                            <label>Previous Odometer:</label>
+						                        <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
+                            <label>
+                                Current Odometer:</label>
                         </div>
-                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
-                            <asp:TextBox ID="txtPrevOdometer" runat="server" CssClass="form-control input-sm" MaxLength="7" Width="70" TabIndex="16" onkeypress="return onlyNumbers(event);" ReadOnly="True" data-toggle="tooltip" title="not editable from this screen!"></asp:TextBox>
+						<div class="form-group col-md-3 col-sm-3 col-xs-12">
+                            <asp:TextBox ID="txtCurrentOdometer" runat="server" CssClass="form-control input-sm" MaxLength="7" Width="70" TabIndex="16" onkeypress="return onlyNumbers(event);"></asp:TextBox>
+                            <asp:CompareValidator ID="CV_CurrOdo" runat="server" Display="Dynamic" ErrorMessage="Please enter current odometer in integer format." ForeColor="Red" Operator="DataTypeCheck" SetFocusOnError="True" Type="Integer" ValidationGroup="VehicleValidation" ControlToValidate="txtCurrentOdometer"></asp:CompareValidator>
                         </div>
+						
                     </div>
                     <div class="row col-md-12 col-sm-12 col-xs-12">
                         <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
@@ -229,10 +230,10 @@
                             <asp:RequiredFieldValidator ID="RFD_Dept" runat="server" ControlToValidate="DDL_Dept" Display="Dynamic" ErrorMessage="Please select department." ForeColor="Red" InitialValue="0" SetFocusOnError="True" ValidationGroup="VehicleValidation"></asp:RequiredFieldValidator>
                         </div>
                         <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
-                            <label>Last Fueler:</label>
+                            <label>Previous Odometer:</label>
                         </div>
                         <div class="form-group col-md-3 col-sm-3 col-xs-12">
-                            <asp:TextBox ID="txtLastFueler" runat="server" CssClass="form-control input-sm" MaxLength="30" TabIndex="17" ReadOnly="True" data-toggle="tooltip" title="not editable from this screen!"></asp:TextBox>
+                            <asp:TextBox ID="txtPrevOdometer" runat="server" CssClass="form-control input-sm" MaxLength="7" Width="70" TabIndex="17" onkeypress="return onlyNumbers(event);" ReadOnly="True" data-toggle="tooltip" title="not editable from this screen!"></asp:TextBox>
                         </div>
                     </div>
                     <div class="row col-md-12 col-sm-12 col-xs-12">
@@ -306,8 +307,8 @@
                             <div class="form-group col-md-1 col-sm-1 col-xs-12" style="padding: 0">
                                 <asp:CheckBox ID="CHK_CheckOdometerReasonable" runat="server" TabIndex="20" OnCheckedChanged="CHK_CheckOdometerReasonable_CheckedChanged" AutoPostBack="true" />
                             </div>
-                            <div class="form-group col-md-11 col-sm-11 col-xs-12">
-                                <asp:RadioButtonList ID="RBL_UnitType" runat="server" RepeatDirection="Horizontal" CssClass="UnitType Mileage" TabIndex="20">
+                            <div class="form-group col-md-11 col-sm-11 col-xs-12" >
+                                <asp:RadioButtonList ID="RBL_UnitType" runat="server" RepeatDirection="Horizontal" CssClass="UnitType Mileage" TabIndex="20" Visible="false">
                                     <asp:ListItem Text="Mileage" Value="1" Selected="True" />
                                     <asp:ListItem Text="Kilometers" Value="2" />
                                 </asp:RadioButtonList>
@@ -326,11 +327,11 @@
                         </div>
                         <div id="hideTotalMiles" runat="server">
                             <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
-                                <label>
-                                    Total Miles allowed between Fueling:</label>
+                                <asp:label runat="server" ID="lblFuelType" Text="Total Miles/Kilometers allowed between Fueling">
+                                    </asp:label>:
                             </div>
                             <div class="form-group col-md-3 col-sm-3 col-xs-12">
-                                <asp:TextBox ID="txtOdoLimit" runat="server" CssClass="form-control input-sm" MaxLength="6" Width="70" TabIndex="20" onkeypress="return onlyNumbers(event);" data-toggle="tooltip" title='"Total Miles allowed between Fueling" represents the maximum amount of miles the vehicle is allowed to travel between fueling. Example: if a vehicle current miles is 1000 and the total miles between fueling is set to 300, the only mileage that will be accepted is between 1000 – 1300. NOTE: If choosing this option, the check odometer/hours reasonability must be checked.'></asp:TextBox>
+                                <asp:TextBox ID="txtOdoLimit" runat="server" CssClass="form-control input-sm" MaxLength="6" Width="70" TabIndex="20" onkeypress="return onlyNumbers(event);" data-toggle="tooltip" title='Total Miles/Kilometers allowed between Fueling” represents the maximum number of Miles/Kilometers the vehicle is allowed to travel between fueling. Example if a vehicle’s current odometer is 1000 and the Total   between Fueling is set to 300, the only odometer that will be accepted is between 1000 to 1300. Note: if choosing this option, the Check Odometer/Hours Reasonability must be checked'></asp:TextBox>
                             </div>
                         </div>
                     </div>
@@ -349,7 +350,7 @@
                             </div>
                             <div class="form-group col-md-3 col-sm-3 col-xs-12">
                                 <asp:TextBox ID="txtHoursLimit" runat="server" CssClass="form-control input-sm" MaxLength="6" Width="70" TabIndex="20"
-                                    onkeypress="return onlyNumbers(event);" data-toggle="tooltip" title='"Total Hours allowed between Fueling" represents the maximum hours the vehicle is allowed to run between fueling. Example: if a vehicle current hours is 10 and the total hours between fueling is set to 50, the only hours that will be accepted is between 10 – 60. NOTE: If choosing this option, the check odometer/hours reasonability must be checked.'></asp:TextBox>
+                                    onkeypress="return onlyNumbers(event);" data-toggle="tooltip" title='“Total Hours allowed between Fueling” represents the maximum number of hours the vehicle is allowed run between fueling. Example if a vehicle’s current hours is 10 and the Total Hours between Fueling is set to 50, the only Hours that will be accepted is between 10 to 60. Note: if choosing this option, the Check Odometer/Hours Reasonability must be checked.'></asp:TextBox>
                             </div>
                         </div>
                     </div>
@@ -402,11 +403,11 @@
                         </div>
                         <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
                             <label>
-                                Fuel Limit Per Day:</label>
+                                Fluid Limit per Day:</label>
                         </div>
                         <div class="form-group col-md-3 col-sm-3 col-xs-12">
                             <asp:TextBox ID="txtFuelLimitPerDay" runat="server" CssClass="form-control input-sm" MaxLength="4" Width="50" data-toggle="tooltip" title="0 means unlimited !" Text="0" TabIndex="23" onkeypress="return onlyNumbers(event);"></asp:TextBox>
-                            <asp:CompareValidator ID="CV_FuelLimitPerDay" runat="server" Display="Dynamic" ErrorMessage="Please enter fuel limit per day in integer format." ForeColor="Red" Operator="DataTypeCheck" SetFocusOnError="True" Type="Integer" ValidationGroup="VehicleValidation" ControlToValidate="txtFuelLimitPerDay"></asp:CompareValidator>
+                            <asp:CompareValidator ID="CV_FuelLimitPerDay" runat="server" Display="Dynamic" ErrorMessage="Please enter Fluid Limit per Day in integer format." ForeColor="Red" Operator="DataTypeCheck" SetFocusOnError="True" Type="Integer" ValidationGroup="VehicleValidation" ControlToValidate="txtFuelLimitPerDay"></asp:CompareValidator>
                         </div>
                     </div>
                     <div class="row col-md-12 col-sm-12 col-xs-12">
@@ -448,10 +449,10 @@
                     <div class="row col-md-12 col-sm-12 col-xs-12">
                         <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
                             <label>
-                                Authorized FluidSecure Links:</label>
+                                Authorized LINKS:</label>
                         </div>
                         <div class="form-group col-md-3 col-sm-3 col-xs-12">
-                            <input type="button" id="BTN_PersonSite" tabindex="13" onclick="OpenPersonSiteBox();" value="Add FluidSecure Hoses/Sites" />
+                            <input type="button" id="BTN_PersonSite" tabindex="13" onclick="OpenPersonSiteBox();" value="Add LINKS/Hoses" />
                         </div>
                         <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
                             <label>Comments:</label>

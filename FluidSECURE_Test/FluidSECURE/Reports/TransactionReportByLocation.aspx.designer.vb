@@ -212,6 +212,15 @@ Partial Public Class TransactionReportByLocation
     Protected WithEvents chk_IsDeletedLinkAllow As Global.System.Web.UI.WebControls.CheckBox
     
     '''<summary>
+    '''chk_FATransaction control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents chk_FATransaction As Global.System.Web.UI.WebControls.CheckBox
+    
+    '''<summary>
     '''divFluidSecureLink control.
     '''</summary>
     '''<remarks>

@@ -31,10 +31,10 @@ Public Class VehiclePerformanceReport
                 Dim FromDate As ReportParameter = New ReportParameter("FromDate", Session("FromDate").ToString())
                 Dim ToDate As ReportParameter = New ReportParameter("ToDate", Session("ToDate").ToString())
                 Dim Fuel As ReportParameter = New ReportParameter("Fuel", Session("FuelType").ToString())
+                    Dim TransactionStatusText As ReportParameter = New ReportParameter("TransactionStatusText", Session("TransactionStatusText").ToString())
+                    RPT_VehiclePerformanceDetails.LocalReport.SetParameters(New ReportParameter() {FromDate, ToDate, Fuel, TransactionStatusText})
 
-                RPT_VehiclePerformanceDetails.LocalReport.SetParameters(New ReportParameter() {FromDate, ToDate, Fuel})
-
-                Dim rds As ReportDataSource = New ReportDataSource()
+                    Dim rds As ReportDataSource = New ReportDataSource()
                 rds.Name = "VehicleByPerformanceDetails"
                 rds.Value = dSTran.Tables(0)
                 rep.DataSources.Add(rds)

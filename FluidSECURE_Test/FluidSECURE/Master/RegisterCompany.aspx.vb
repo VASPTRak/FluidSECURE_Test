@@ -91,10 +91,10 @@ Public Class RegisterCompany
             Dim identityResult As IdentityResult
             Dim user = New ApplicationUser()
 
-            'save company
-            result = OBJMaster.SaveUpdateCustomer(CustId, txtCustName.Text, txtContactName.Text, txtContactNumber.Text, "", "", 0, False, False, False, False, False,
-                                                  "Other", 1, 0, txtStreetAddress.Text, txtCity.Text, txtState.Text, txtZip.Text, txtCountry.Text, txtAdminUsername.Text)
-            If result > 0 Then
+			'save company
+			result = OBJMaster.SaveUpdateCustomer(CustId, txtCustName.Text, txtContactName.Text, txtContactNumber.Text, "", "", 0, False, False, False, False, False,
+												  "Other", 1, 0, txtStreetAddress.Text, txtCity.Text, txtState.Text, txtZip.Text, txtCountry.Text, txtAdminUsername.Text, 1)
+			If result > 0 Then
                 HDF_Custd.Value = result
 
                 'add user name and password to aspnetusers table with IsMainCustomerAdmin flag true

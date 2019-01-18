@@ -76,10 +76,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/26/2018 17:54:34</publishTime>
     </File>
     <File Include="bin/App_global.asax.compiled">
-      <publishTime>12/07/2018 17:27:12</publishTime>
+      <publishTime>01/18/2019 17:29:19</publishTime>
     </File>
     <File Include="bin/App_global.asax.dll">
-      <publishTime>12/07/2018 17:27:12</publishTime>
+      <publishTime>01/18/2019 17:29:19</publishTime>
     </File>
     <File Include="bin/AspNet.ScriptManager.bootstrap.dll">
       <publishTime>09/26/2018 17:54:35</publishTime>
@@ -103,7 +103,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/26/2018 17:54:41</publishTime>
     </File>
     <File Include="bin/es-ES/Fuel Secure.resources.dll">
-      <publishTime>12/07/2018 17:27:00</publishTime>
+      <publishTime>01/18/2019 17:29:09</publishTime>
     </File>
     <File Include="bin/es/Microsoft.SqlServer.Types.resources.dll">
       <publishTime>09/26/2018 05:15:51</publishTime>
@@ -112,10 +112,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/26/2018 05:15:51</publishTime>
     </File>
     <File Include="bin/Fuel Secure.dll">
-      <publishTime>12/07/2018 17:26:59</publishTime>
+      <publishTime>01/18/2019 17:29:09</publishTime>
     </File>
     <File Include="bin/Fuel Secure.pdb">
-      <publishTime>11/20/2018 19:16:21</publishTime>
+      <publishTime>12/17/2018 17:53:25</publishTime>
     </File>
     <File Include="bin/ICSharpCode.SharpZipLib.dll">
       <publishTime>09/26/2018 17:55:44</publishTime>
@@ -150,8 +150,11 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="bin/Microsoft.AspNet.Web.Optimization.WebForms.dll">
       <publishTime>09/26/2018 17:55:06</publishTime>
     </File>
+    <File Include="bin/Microsoft.Owin.Cors.dll">
+      <publishTime>04/05/2017 11:53:36</publishTime>
+    </File>
     <File Include="bin/Microsoft.Owin.dll">
-      <publishTime>09/26/2018 17:55:07</publishTime>
+      <publishTime>04/05/2017 11:53:36</publishTime>
     </File>
     <File Include="bin/Microsoft.Owin.Host.SystemWeb.dll">
       <publishTime>09/26/2018 17:55:08</publishTime>
@@ -208,7 +211,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/26/2018 17:55:30</publishTime>
     </File>
     <File Include="bin/Newtonsoft.Json.dll">
-      <publishTime>09/26/2018 17:55:33</publishTime>
+      <publishTime>08/03/2014 20:33:56</publishTime>
     </File>
     <File Include="bin/NPOI.dll">
       <publishTime>09/26/2018 17:55:39</publishTime>
@@ -282,6 +285,18 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="bin/ru/Microsoft.SqlServer.Types.resources.dll">
       <publishTime>09/26/2018 05:16:02</publishTime>
     </File>
+    <File Include="bin/System.Net.Http.Formatting.dll">
+      <publishTime>11/28/2018 13:00:36</publishTime>
+    </File>
+    <File Include="bin/System.Web.Cors.dll">
+      <publishTime>10/01/2013 20:54:22</publishTime>
+    </File>
+    <File Include="bin/System.Web.Http.dll">
+      <publishTime>11/28/2018 13:01:00</publishTime>
+    </File>
+    <File Include="bin/System.Web.Http.WebHost.dll">
+      <publishTime>11/28/2018 13:02:56</publishTime>
+    </File>
     <File Include="bin/System.Web.Optimization.dll">
       <publishTime>09/26/2018 17:55:06</publishTime>
     </File>
@@ -289,7 +304,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/26/2018 17:55:00</publishTime>
     </File>
     <File Include="bin/WebForms_Basic.xml">
-      <publishTime>12/07/2018 17:26:59</publishTime>
+      <publishTime>01/18/2019 17:29:09</publishTime>
     </File>
     <File Include="bin/WebGrease.dll">
       <publishTime>09/26/2018 17:55:46</publishTime>
@@ -460,10 +475,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/14/2018 08:19:38</publishTime>
     </File>
     <File Include="Content/Templates/VehicleImportTemplate.csv">
-      <publishTime>11/14/2018 08:19:32</publishTime>
+      <publishTime>12/11/2018 14:42:26</publishTime>
     </File>
     <File Include="Content/Templates/VehicleImportTemplate.txt">
-      <publishTime>11/14/2018 08:19:07</publishTime>
+      <publishTime>12/11/2018 14:42:13</publishTime>
     </File>
     <File Include="Default.aspx">
       <publishTime>09/26/2018 17:46:12</publishTime>
@@ -562,13 +577,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/26/2018 17:46:24</publishTime>
     </File>
     <File Include="Master/AllPersonnel.aspx">
-      <publishTime>09/26/2018 17:46:25</publishTime>
+      <publishTime>01/07/2019 20:06:41</publishTime>
     </File>
     <File Include="Master/AllShipments.aspx">
       <publishTime>09/26/2018 17:46:26</publishTime>
     </File>
     <File Include="Master/AllSpecializedFeature.aspx">
-      <publishTime>10/25/2018 08:41:16</publishTime>
+      <publishTime>12/10/2018 19:14:17</publishTime>
     </File>
     <File Include="Master/AllTankCharts.aspx">
       <publishTime>09/26/2018 17:46:26</publishTime>
@@ -582,26 +597,29 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Master/AllTanks.aspx">
       <publishTime>10/30/2018 05:47:36</publishTime>
     </File>
+    <File Include="Master/AllTLDFirmwareUpgrade.aspx">
+      <publishTime>12/19/2018 18:00:01</publishTime>
+    </File>
     <File Include="Master/AllTotalizerMeterReconciliation.aspx">
       <publishTime>09/26/2018 17:46:28</publishTime>
     </File>
     <File Include="Master/AllTransactions.aspx">
-      <publishTime>10/30/2018 03:44:33</publishTime>
+      <publishTime>01/09/2019 18:28:54</publishTime>
     </File>
     <File Include="Master/AllUploadedFirmware.aspx">
       <publishTime>05/23/2017 18:01:25</publishTime>
     </File>
     <File Include="Master/AllVehicles.aspx">
-      <publishTime>11/28/2018 16:34:16</publishTime>
+      <publishTime>01/17/2019 15:05:15</publishTime>
     </File>
     <File Include="Master/AutoTranasctionExportSettings.aspx">
       <publishTime>12/27/2017 18:42:06</publishTime>
     </File>
     <File Include="Master/AutoTransactionExportSettings.aspx">
-      <publishTime>09/26/2018 17:46:30</publishTime>
+      <publishTime>01/17/2019 18:40:38</publishTime>
     </File>
     <File Include="Master/Company.aspx">
-      <publishTime>12/05/2018 15:44:25</publishTime>
+      <publishTime>01/17/2019 15:03:57</publishTime>
     </File>
     <File Include="Master/CustomizedExport.aspx">
       <publishTime>09/26/2018 17:46:32</publishTime>
@@ -622,13 +640,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/26/2018 17:46:35</publishTime>
     </File>
     <File Include="Master/ExportTransactions.aspx">
-      <publishTime>09/26/2018 17:46:36</publishTime>
+      <publishTime>01/17/2019 18:40:38</publishTime>
     </File>
     <File Include="Master/FirmwareUpgrades.aspx">
       <publishTime>10/04/2018 05:00:55</publishTime>
     </File>
     <File Include="Master/FluidSecureHub.aspx">
-      <publishTime>11/22/2018 12:20:10</publishTime>
+      <publishTime>01/09/2019 15:28:17</publishTime>
     </File>
     <File Include="Master/FSNPFirmwareUpgrades.aspx">
       <publishTime>10/04/2018 05:01:03</publishTime>
@@ -655,10 +673,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/17/2018 12:44:12</publishTime>
     </File>
     <File Include="Master/Personnel.aspx">
-      <publishTime>10/31/2018 03:25:47</publishTime>
+      <publishTime>12/13/2018 12:25:25</publishTime>
     </File>
     <File Include="Master/PersonnelImport.aspx">
       <publishTime>09/26/2018 17:46:46</publishTime>
+    </File>
+    <File Include="Master/PersonnelOptionsScreen.aspx">
+      <publishTime>01/05/2019 15:55:14</publishTime>
     </File>
     <File Include="Master/RegisterCompany.aspx">
       <publishTime>10/31/2018 10:12:55</publishTime>
@@ -676,7 +697,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>10/16/2018 19:58:13</publishTime>
     </File>
     <File Include="Master/SpecializedFeature.aspx">
-      <publishTime>10/24/2018 09:46:35</publishTime>
+      <publishTime>12/10/2018 18:28:23</publishTime>
     </File>
     <File Include="Master/SpecializedInActiveVehicleImport.aspx">
       <publishTime>11/27/2018 17:34:05</publishTime>
@@ -691,7 +712,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/16/2018 07:44:01</publishTime>
     </File>
     <File Include="Master/Tank.aspx">
-      <publishTime>11/29/2018 12:45:37</publishTime>
+      <publishTime>01/05/2019 11:21:39</publishTime>
     </File>
     <File Include="Master/TankChart.aspx">
       <publishTime>09/26/2018 17:46:54</publishTime>
@@ -700,25 +721,31 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/27/2018 15:58:23</publishTime>
     </File>
     <File Include="Master/TankInventoryReconciliation.aspx">
-      <publishTime>10/08/2018 21:59:14</publishTime>
+      <publishTime>12/19/2018 16:31:05</publishTime>
+    </File>
+    <File Include="Master/TLDFirmwareUpgrades.aspx">
+      <publishTime>12/19/2018 20:08:15</publishTime>
     </File>
     <File Include="Master/TotalizerMeterReconciliation.aspx">
       <publishTime>09/26/2018 17:46:59</publishTime>
     </File>
     <File Include="Master/Transaction.aspx">
-      <publishTime>11/22/2018 18:10:50</publishTime>
+      <publishTime>01/17/2019 15:15:46</publishTime>
+    </File>
+    <File Include="Master/TransactionAutomatedPending.aspx">
+      <publishTime>01/09/2019 19:00:21</publishTime>
     </File>
     <File Include="Master/TransactionImport.aspx">
       <publishTime>12/04/2018 18:37:31</publishTime>
     </File>
     <File Include="Master/UpdateTransactionCost.aspx">
-      <publishTime>09/26/2018 17:47:02</publishTime>
+      <publishTime>01/15/2019 17:59:19</publishTime>
     </File>
     <File Include="Master/UploadFirmware.aspx">
       <publishTime>05/23/2017 10:04:22</publishTime>
     </File>
     <File Include="Master/Vehicle.aspx">
-      <publishTime>11/15/2018 06:47:33</publishTime>
+      <publishTime>01/17/2019 18:52:02</publishTime>
     </File>
     <File Include="Master/VehicleImport.aspx">
       <publishTime>09/26/2018 17:47:05</publishTime>
@@ -733,10 +760,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/26/2018 17:47:08</publishTime>
     </File>
     <File Include="packages.config">
-      <publishTime>09/26/2018 17:53:09</publishTime>
+      <publishTime>12/11/2018 10:37:41</publishTime>
     </File>
     <File Include="PrecompiledApp.config">
-      <publishTime>12/07/2018 17:27:03</publishTime>
+      <publishTime>01/18/2019 17:29:12</publishTime>
+    </File>
+    <File Include="RebootEmailText.txt">
+      <publishTime>01/16/2019 16:15:02</publishTime>
     </File>
     <File Include="RegistrationEmail.txt">
       <publishTime>09/26/2018 17:53:10</publishTime>
@@ -748,28 +778,28 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/26/2018 17:53:10</publishTime>
     </File>
     <File Include="Reports/BillingReportByDeptDetails.aspx">
-      <publishTime>11/29/2018 15:36:56</publishTime>
+      <publishTime>01/17/2019 18:40:38</publishTime>
     </File>
     <File Include="Reports/BillingReportByDeptDetails.rdlc">
-      <publishTime>11/30/2018 20:17:05</publishTime>
+      <publishTime>01/18/2019 17:23:08</publishTime>
     </File>
     <File Include="Reports/BillingReportByDeptDetailsReport.aspx">
       <publishTime>09/26/2018 17:53:11</publishTime>
     </File>
     <File Include="Reports/BillingReportByDeptSummary.aspx">
-      <publishTime>11/30/2018 15:49:00</publishTime>
+      <publishTime>01/17/2019 18:40:38</publishTime>
     </File>
     <File Include="Reports/BillingReportByDeptSummary.rdlc">
-      <publishTime>11/30/2018 19:32:43</publishTime>
+      <publishTime>12/10/2018 14:55:38</publishTime>
     </File>
     <File Include="Reports/BillingReportByDeptSummaryReport.aspx">
       <publishTime>09/26/2018 17:53:12</publishTime>
     </File>
     <File Include="Reports/BillingReportByVehicleSummary.aspx">
-      <publishTime>11/30/2018 15:51:13</publishTime>
+      <publishTime>01/17/2019 18:40:38</publishTime>
     </File>
     <File Include="Reports/BillingReportByVehicleSummary.rdlc">
-      <publishTime>11/30/2018 19:31:23</publishTime>
+      <publishTime>01/18/2019 17:20:45</publishTime>
     </File>
     <File Include="Reports/BillingReportByVehicleSummaryReport.aspx">
       <publishTime>09/26/2018 17:53:13</publishTime>
@@ -805,16 +835,16 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/26/2018 17:53:17</publishTime>
     </File>
     <File Include="Reports/DS_Reports.xsc">
-      <publishTime>12/07/2018 16:10:31</publishTime>
+      <publishTime>01/15/2019 18:11:16</publishTime>
     </File>
     <File Include="Reports/DS_Reports.xss">
-      <publishTime>12/07/2018 16:10:31</publishTime>
+      <publishTime>01/15/2019 18:11:16</publishTime>
     </File>
     <File Include="Reports/EstimatedCarbonFootprintbyVehicle.aspx">
       <publishTime>09/26/2018 17:53:19</publishTime>
     </File>
     <File Include="Reports/EstimatedCarbonFootprintbyVehicle.rdlc">
-      <publishTime>09/26/2018 17:53:20</publishTime>
+      <publishTime>12/10/2018 16:06:34</publishTime>
     </File>
     <File Include="Reports/EstimatedCarbonFootprintbyVehicleReport.aspx">
       <publishTime>09/26/2018 17:53:20</publishTime>
@@ -871,7 +901,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/26/2018 17:53:28</publishTime>
     </File>
     <File Include="Reports/PriceHistorybyProduct.aspx">
-      <publishTime>09/26/2018 17:53:29</publishTime>
+      <publishTime>01/15/2019 18:09:11</publishTime>
     </File>
     <File Include="Reports/PriceHistorybyProductReport.aspx">
       <publishTime>09/26/2018 17:53:31</publishTime>
@@ -922,58 +952,58 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/26/2018 17:53:47</publishTime>
     </File>
     <File Include="Reports/TransactionReportByDepartment.aspx">
-      <publishTime>11/30/2018 15:54:43</publishTime>
+      <publishTime>01/17/2019 18:40:38</publishTime>
     </File>
     <File Include="Reports/TransactionReportByDept.rdlc">
-      <publishTime>12/03/2018 14:18:22</publishTime>
+      <publishTime>01/18/2019 17:20:23</publishTime>
     </File>
     <File Include="Reports/TransactionReportByDeptReport.aspx">
       <publishTime>09/26/2018 17:53:49</publishTime>
     </File>
     <File Include="Reports/TransactionReportByLocation.aspx">
-      <publishTime>11/30/2018 16:19:46</publishTime>
+      <publishTime>01/17/2019 18:40:37</publishTime>
     </File>
     <File Include="Reports/TransactionReportByLocationReport.aspx">
       <publishTime>09/26/2018 17:53:52</publishTime>
     </File>
     <File Include="Reports/TransactionReportByPersonnel.aspx">
-      <publishTime>11/30/2018 16:22:35</publishTime>
+      <publishTime>01/17/2019 18:40:37</publishTime>
     </File>
     <File Include="Reports/TransactionReportByPersonnel.rdlc">
-      <publishTime>11/30/2018 20:30:08</publishTime>
+      <publishTime>01/18/2019 17:18:27</publishTime>
     </File>
     <File Include="Reports/TransactionReportByPersonnelReport.aspx">
       <publishTime>09/26/2018 17:53:55</publishTime>
     </File>
     <File Include="Reports/TransactionReportBySite.aspx">
-      <publishTime>11/30/2018 16:25:27</publishTime>
+      <publishTime>01/17/2019 18:40:37</publishTime>
     </File>
     <File Include="Reports/TransactionReportBySiteReport.aspx">
       <publishTime>09/26/2018 17:53:59</publishTime>
     </File>
     <File Include="Reports/TransactionReportByVehicle.aspx">
-      <publishTime>11/30/2018 16:27:29</publishTime>
+      <publishTime>01/17/2019 18:40:37</publishTime>
     </File>
     <File Include="Reports/TransactionReportByVehicle.rdlc">
-      <publishTime>11/30/2018 20:27:26</publishTime>
+      <publishTime>01/18/2019 16:27:53</publishTime>
     </File>
     <File Include="Reports/TransactionReportByVehicleReport.aspx">
       <publishTime>09/26/2018 17:54:03</publishTime>
     </File>
     <File Include="Reports/TransactionReportsByDateTime.aspx">
-      <publishTime>11/30/2018 16:29:50</publishTime>
+      <publishTime>01/17/2019 18:40:37</publishTime>
     </File>
     <File Include="Reports/TransactionReportsByDateTimeReport.aspx">
       <publishTime>09/26/2018 17:54:06</publishTime>
     </File>
     <File Include="Reports/TransactionReportsByMilesPerGallon.aspx">
-      <publishTime>11/30/2018 16:31:31</publishTime>
+      <publishTime>01/17/2019 18:40:37</publishTime>
     </File>
     <File Include="Reports/TransactionReportsByMilesPerGallonReport.aspx">
       <publishTime>09/26/2018 17:54:09</publishTime>
     </File>
     <File Include="Reports/TransReportByMPGPerK.rdlc">
-      <publishTime>11/30/2018 20:24:35</publishTime>
+      <publishTime>01/18/2019 17:15:51</publishTime>
     </File>
     <File Include="Reports/VehiclePerformance.aspx">
       <publishTime>09/26/2018 17:54:11</publishTime>
@@ -1114,10 +1144,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/26/2018 17:54:26</publishTime>
     </File>
     <File Include="Site.Master">
-      <publishTime>12/04/2018 18:41:11</publishTime>
+      <publishTime>01/15/2019 20:20:59</publishTime>
     </File>
     <File Include="Site.Mobile.Master">
-      <publishTime>12/04/2018 18:41:11</publishTime>
+      <publishTime>01/15/2019 20:20:19</publishTime>
     </File>
     <File Include="SiteRedirect.html">
       <publishTime>09/26/2018 17:54:28</publishTime>
@@ -1147,7 +1177,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/26/2018 17:54:31</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>12/07/2018 17:27:01</publishTime>
+      <publishTime>01/16/2019 17:13:31</publishTime>
     </File>
     <File Include="WebForm1.aspx">
       <publishTime>09/26/2018 17:54:32</publishTime>

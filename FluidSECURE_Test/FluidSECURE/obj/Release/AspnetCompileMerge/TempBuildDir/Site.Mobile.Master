@@ -151,6 +151,7 @@
                                     <li><a href="/Master/AllTransactions.aspx">On Site Fueling Transactions</a></li>
                                     <li><a href="/Master/AllOFFSiteTransactions.aspx">OFF Site Fueling Transactions</a></li>
                                     <li><a href="/Master/AllDeletedTransactions.aspx">Deleted Transactions</a></li>
+									<li><a href="/Master/TransactionAutomatedPending.aspx">Automated Pendings</a></li>
                                 </ul>
                             </li>
                             <li class="dropdown" id="ReportMenu" runat="server">
@@ -264,6 +265,7 @@
                                     <li id="UploadedFirmware" runat="server"><a href="/Master/AllFirmwareUpgrade.aspx">Firmware Upgrades</a></li>
                                     <li id="UploadedFSVMFirmware" runat="server"><a href="/Master/AllFSVMFirmwareUpgrades.aspx">FSVM Firmware Upgrades</a></li>
                                     <li id="UploadedFSNPFirmware" runat="server"><a href="/Master/AllFSNPFirmwareUpgrades.aspx">FSNP Firmware Upgrades</a></li>
+                                    <li id="UploadedTLDFirmware" runat="server"><a href="/Master/AllTLDFirmwareUpgrade.aspx">TLD Firmware Upgrades</a></li>
                                     <li id="CompanyHostingReport" runat="server"><a href="/Reports/CompanyHostingDateReport.aspx">Company Hosting Date Report</a></li>
                                     <li id="CustomerDetailsByStateCountryReport" runat="server"><a href="/Reports/CustomerDetailsByStateCountry.aspx">Customer Report By State and Country</a></li>
                                     <li id="ShipmentReport" runat="server"><a href="/Reports/ShipmentDetailReport.aspx">Shipment Report</a></li>

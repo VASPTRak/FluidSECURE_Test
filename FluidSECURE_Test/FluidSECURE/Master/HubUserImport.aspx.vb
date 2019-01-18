@@ -318,6 +318,13 @@ Public Class HubUserImport
                     End If
                 End If
 
+				Dim personName As String = (dr("LastName") & " " & dr("FirstName") & " " & dr("MI")).ToString().Trim()
+
+                If (personName.Length > 30) Then
+                    strLog = strLog & Environment.NewLine & currentDateTime & "--" & "Person name (" & personName & ") is must be less than equal to 30 characters. Check Row  " & rowIndex & " & column 4,5,6 in uploaded file."
+                    isDirty = True
+                End If
+				
                 If (dr("ExportCode").ToString().Length > 25) Then
                     strLog = strLog & Environment.NewLine & currentDateTime & "--" & " Export Code (" & dr("ExportCode") & ") is must be less than equal to 25 characters. Check Row  " & rowIndex & " & column 7 in uploaded file."
                     isDirty = True

@@ -86,12 +86,12 @@
                                     </ItemTemplate>
                                     <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" />
                                 </asp:TemplateField>
-                                <asp:TemplateField HeaderText="Delete">
+                                <%--<asp:TemplateField HeaderText="Delete">
                                     <ItemTemplate>
                                         <a style="color: #428BCA" href="javascript:CheckConCustomerMenuLink(<%# DataBinder.Eval(Container.DataItem, "CustomerMenuLinkId")%>)">Delete</a>
                                     </ItemTemplate>
                                     <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" />
-                                </asp:TemplateField>
+                                </asp:TemplateField>--%>
                                 <asp:TemplateField SortExpression="Name" ItemStyle-HorizontalAlign="Left" HeaderText="Specialized Feature">
                                     <ItemTemplate>
                                         <asp:Label ID="lblName" Text='<%# DataBinder.Eval(Container.DataItem, "Name")%>' runat="server" />

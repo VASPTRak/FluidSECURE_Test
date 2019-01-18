@@ -11,6 +11,7 @@ Public Class Company
 
     Dim OBJMaster As MasterBAL
     Shared beforeData As String
+    Shared afterCompanies As String
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         Try
@@ -29,6 +30,12 @@ Public Class Company
 
             Else
                 If Not IsPostBack Then
+                    If Session("RoleName") = "SuperAdmin" Or Session("RoleName") = "GroupAdmin" Then
+                        divMappCompanies.Visible = True
+                    Else
+                        divMappCompanies.Visible = False
+                    End If
+
                     If (Not Request.QueryString("CustId") = Nothing And Not Request.QueryString("CustId") = "") Then
                         HDF_Custd.Value = Request.QueryString("CustId")
                         trPassword.Visible = False
@@ -50,6 +57,11 @@ Public Class Company
                         If Session("RoleName") <> "SuperAdmin" And Session("RoleName") <> "GroupAdmin" Then
                             txtCustName.Enabled = False
                         End If
+
+
+                        BindCompanies(Convert.ToInt32(Session("PersonId").ToString()), Session("RoleId").ToString(), Request.QueryString("CustId").ToString())
+                        BindCompaniesDataToCheckboxList(Request.QueryString("CustId").ToString())
+
                     Else
                         If Session("RoleName") <> "SuperAdmin" And Session("RoleName") <> "GroupAdmin" Then
                             ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "NotValidUser();", True)
@@ -68,7 +80,12 @@ Public Class Company
                         txtEndingHostingDate.Text = DateTime.Now.AddYears(1).ToString("MM/dd/yyyy")
                         divDates.Visible = False
                         Session("CostingMethod") = "0"
+                        divMappCompanies.Visible = False
+                        BindCompanies(Convert.ToInt32(Session("PersonId").ToString()), Session("RoleId").ToString(), 0)
+
                     End If
+
+
                     If Session("RoleName") = "SuperAdmin" Then
                         DivHideActive.Visible = False
                         DivShowActive.Visible = True
@@ -87,6 +104,7 @@ Public Class Company
                 If Session("RoleName") <> "SuperAdmin" Then
                     divDates.Visible = False
                 End If
+
             End If
 
 
@@ -179,9 +197,10 @@ Public Class Company
 
                 DDL_Costing.SelectedValue = dtCust.Rows(0)("CostingMethod").ToString()
                 hdfCostingMethodValue.Value = dtCust.Rows(0)("CostingMethod").ToString()
-                Session("CostingMethod") = dtCust.Rows(0)("CostingMethod").ToString()
-                lblStartDate.Text = Convert.ToDateTime(dtCust.Rows(0)("StartDate").ToString()).ToString("MM/dd/yyyy")
-                txtBeginningHostingDate.Text = Convert.ToDateTime(dtCust.Rows(0)("BeginningHostingDate").ToString()).ToString("MM/dd/yyyy")
+				Session("CostingMethod") = dtCust.Rows(0)("CostingMethod").ToString()
+				rbl_FuelingType.SelectedValue = dtCust.Rows(0)("FuelingType").ToString()
+				lblStartDate.Text = Convert.ToDateTime(dtCust.Rows(0)("StartDate").ToString()).ToString("MM/dd/yyyy")
+				txtBeginningHostingDate.Text = Convert.ToDateTime(dtCust.Rows(0)("BeginningHostingDate").ToString()).ToString("MM/dd/yyyy")
                 txtEndingHostingDate.Text = Convert.ToDateTime(dtCust.Rows(0)("EndingHostingDate").ToString()).ToString("MM/dd/yyyy")
                 OBJMaster = New MasterBAL()
 
@@ -431,22 +450,22 @@ Public Class Company
 
                 If (Not existingUser.Rows(0)("CustomerId").ToString() = CustId And existingUser.Rows(0)("Roles").ToString() <> "SuperAdmin" And isValid = False) Then
                     ErrorMessage.Visible = True
-                    ErrorMessage.InnerText = "Contact email is not from same company, please try another contact email."
-                    ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "loadFunction();LoadDateTimeControl();", True)
+					ErrorMessage.InnerText = “Cannot add Company: Contact email already exists”
+					ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "loadFunction();LoadDateTimeControl();", True)
                     Return
                 End If
 
                 'return if entered existing Contact Email is not customerAdmin
                 If Not existingUser.Rows(0)("Roles").ToString() = "CustomerAdmin" And Not existingUser.Rows(0)("Roles").ToString() = "SuperAdmin" And Not existingUser.Rows(0)("Roles").ToString() = "GroupAdmin" Then
                     ErrorMessage.Visible = True
-                    ErrorMessage.InnerText = "Contact email is not customer admin, please try another contact email."
-                    ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "loadFunction();LoadDateTimeControl();", True)
+					ErrorMessage.InnerText = “Cannot add Company: Contact email is not customer admin.”
+					ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "loadFunction();LoadDateTimeControl();", True)
                     Return
                 End If
             ElseIf (HDF_UniqueUserId.Value <> "") Then
                 ErrorMessage.Visible = True
-                ErrorMessage.InnerText = "Contact email is not found in system, please try another contact email."
-                ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "loadFunction();LoadDateTimeControl();", True)
+				ErrorMessage.InnerText = “Cannot add Company:Contact email is not found in system”
+				ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "loadFunction();LoadDateTimeControl();", True)
                 Return
             End If
 
@@ -515,18 +534,18 @@ Public Class Company
                 Return
             End If
 
-            'save company
-            result = OBJMaster.SaveUpdateCustomer(CustId, txtCustName.Text, txtContactName.Text, txtContactNumber.Text, "", txtExportCode.Text, Convert.ToInt32(Session("PersonId")), CHK_RequireLogin.Checked, False,
-                                                  chk_RequireDepartment.Checked, chk_RequirePersonnelPIN.Checked, chk_RequireOther.Checked, otherLabel, chkIsActive.Checked, chk_VehicleNumberRequire.Checked,
-                                                  txtStreetAddress.Text, txtCity.Text, txtState.Text, txtZip.Text, txtCountry.Text, txtAdminUsername.Text,
-                                                  Convert.ToInt32(DDL_Costing.SelectedValue), BeginningHostingDate, EndingHostingDate)
+			'save company
+			result = OBJMaster.SaveUpdateCustomer(CustId, txtCustName.Text, txtContactName.Text, txtContactNumber.Text, "", txtExportCode.Text, Convert.ToInt32(Session("PersonId")), CHK_RequireLogin.Checked, False,
+												  chk_RequireDepartment.Checked, chk_RequirePersonnelPIN.Checked, chk_RequireOther.Checked, otherLabel, chkIsActive.Checked, chk_VehicleNumberRequire.Checked,
+												  txtStreetAddress.Text, txtCity.Text, txtState.Text, txtZip.Text, txtCountry.Text, txtAdminUsername.Text, rbl_FuelingType.SelectedValue,
+												  Convert.ToInt32(DDL_Costing.SelectedValue), BeginningHostingDate, EndingHostingDate)
 
-            ''Save Personal Vehicle Mapping
-            'If chkAssignPerToVeh.Checked And result > 0 Then
-            '    OBJMaster.SavePersonnalVehicleMappingAgainstCustomer(CustId, Convert.ToInt32(Session("PersonId")))
-            'End If
+			''Save Personal Vehicle Mapping
+			'If chkAssignPerToVeh.Checked And result > 0 Then
+			'    OBJMaster.SavePersonnalVehicleMappingAgainstCustomer(CustId, Convert.ToInt32(Session("PersonId")))
+			'End If
 
-            If result > 0 Then
+			If result > 0 Then
                 Session("CostingMethod") = DDL_Costing.SelectedValue.ToString()
                 HDF_Custd.Value = result
 
@@ -539,8 +558,71 @@ Public Class Company
                     End If
                 End If
 
+
+
+                ''insert company Group admin person mapping
+                'Dim dtCompanies As DataTable = New DataTable()
+                'dtCompanies.Columns.Add("CompanyId", System.Type.[GetType]("System.Int32"))
+                'dtCompanies.Columns.Add("PersonId", System.Type.[GetType]("System.Int32"))
+                'dtCompanies.Columns.Add("MappedOn", System.Type.[GetType]("System.DateTime"))
+                'dtCompanies.Columns.Add("MappedBy", System.Type.[GetType]("System.Int32"))
+                'dtCompanies.Columns.Add("ParentCompanyId", System.Type.[GetType]("System.Int32"))
+
+                'Dim dtperson As DataTable = New DataTable()
+                'dtperson = OBJMaster.GetPersonalDetails(" where ANU.CustomerId = " & HDF_Custd.Value & " and ANU.RoleId = '00cee925-1cad-4650-9dc3-d1fdf74d1f5c'")
+
+                'If dtperson.Rows.Count > 0 Then
+                '    For i = 0 To dtperson.Rows.Count - 1
+                '        For Each item As GridViewRow In GV_Companies.Rows
+                '            Dim CHK_MappCompanies As CheckBox = TryCast(item.FindControl("CHK_MappCompanies"), CheckBox)
+                '            If (CHK_MappCompanies.Checked = True) Then
+                '                Dim dr As DataRow = dtCompanies.NewRow()
+                '                dr("CompanyId") = GV_Companies.DataKeys(item.RowIndex).Values("CustomerId").ToString()
+                '                dr("PersonId") = dtperson.Rows(i)("PersonId")
+                '                dr("MappedOn") = DateTime.Now
+                '                dr("MappedBy") = Convert.ToInt32(Session("PersonId"))
+                '                dr("ParentCompanyId") = HDF_Custd.Value
+                '                dtCompanies.Rows.Add(dr)
+                '                If (ConfigurationManager.AppSettings("AllowActivityLogin").ToString().ToLower() = "yes") Then
+                '                    Dim ValueToStore = "Company - " & GV_Companies.DataKeys(item.RowIndex).Values("CustomerName").ToString() & ", PersonId - " & dtperson.Rows(i)("PersonId")
+                '                    afterCompanies = IIf(afterCompanies = "", ValueToStore, afterCompanies & ";" & ValueToStore)
+                '                End If
+                '            End If
+                '        Next
+                '    Next
+
+                'End If
+                Dim companies As String = ""
+                Dim removeCompanies As String = ""
+                For Each item As GridViewRow In GV_Companies.Rows
+                    Dim CHK_MappCompanies As CheckBox = TryCast(item.FindControl("CHK_MappCompanies"), CheckBox)
+                    If (CHK_MappCompanies.Checked = True) Then
+                        companies = IIf(companies = "", GV_Companies.DataKeys(item.RowIndex).Values("CustomerId").ToString(), companies & "," & GV_Companies.DataKeys(item.RowIndex).Values("CustomerId").ToString())
+                    Else
+                        removeCompanies = IIf(removeCompanies = "", GV_Companies.DataKeys(item.RowIndex).Values("CustomerId").ToString(), removeCompanies & "," & GV_Companies.DataKeys(item.RowIndex).Values("CustomerId").ToString())
+
+                    End If
+                Next
+
+
+
+
                 If CustId = 0 Then
+
+                    Try
+
+                        Dim dtPerson As DataTable = New DataTable()
+                        dtPerson = OBJMaster.GetPersonnelByPersonIdAndId(Session("PersonId"), Session("UniqueId"))
+
+
+                        OBJMaster.InsertParentChildCompanyMapping(dtPerson.Rows(0)("CustomerId"), HDF_Custd.Value, Convert.ToInt32(Session("PersonId")), "")
+
+                    Catch ex As Exception
+                        log.Info("Error occured in InsertParentChildCompanyMapping. exception is " & ex.Message)
+                    End Try
+
                     'add user name and password to aspnetusers table with IsMainCustomerAdmin flag true
+
                     If HDF_UniqueUserId.Value = "" Then
 
                         user = New ApplicationUser() With {
@@ -556,7 +638,7 @@ Public Class Company
                         .ApprovedBy = Convert.ToInt32(Session("PersonId")),
                         .ApprovedOn = DateTime.Now,
                         .CustomerId = Convert.ToInt32(result),
-                       .IsMainCustomerAdmin = True,'now not using this field to maintain Main Customer Admin, added contact email directly to customer table.
+                       .IsMainCustomerAdmin = True, 'now not using this field to maintain Main Customer Admin, added contact email directly to customer table.
                        .SoftUpdate = "N",
                         .SendTransactionEmail = False,
                         .RequestFrom = "W",
@@ -634,7 +716,7 @@ Public Class Company
                                         Else
 
                                             If (resultOfPassword.Errors.ToList().First().ToLower().Contains("password")) Then
-                                                errorStrForPasswordReset = "Password MUST be minimum 6 characters long and contain one (1) of the following: Upper Case letter (A-Z), lower case letter (a-z), special character (!@#$%^&*), number (0-9)"
+                                                errorStrForPasswordReset = "Password MUST be minimum 6 characters Long And contain one (1) Of the following: Upper Case letter (A-Z), lower case letter (a-z), special character (!@#$%^&*), number (0-9)"
                                             Else
                                                 errorStrForPasswordReset = resultOfPassword.Errors.ToList().First().ToString()
                                             End If
@@ -650,6 +732,9 @@ Public Class Company
                     End If
 
                 Else
+
+                    OBJMaster.InsertParentChildCompanyMapping(HDF_Custd.Value, companies, Convert.ToInt32(Session("PersonId")), removeCompanies)
+
                     If HDF_UniqueUserId.Value = "" Then
                         user = New ApplicationUser() With {
                   .UserName = txtAdminUsername.Text,
@@ -664,7 +749,7 @@ Public Class Company
                    .ApprovedBy = Convert.ToInt32(Session("PersonId")),
                    .ApprovedOn = DateTime.Now,
                    .CustomerId = Convert.ToInt32(result),
-                  .IsMainCustomerAdmin = True,'now not using this field to maintain Main Customer Admin, added contact email directly to customer table.
+                  .IsMainCustomerAdmin = True, 'now not using this field to maintain Main Customer Admin, added contact email directly to customer table.
                   .SoftUpdate = "N",
                   .SendTransactionEmail = False,
                   .RequestFrom = "W",
@@ -692,7 +777,7 @@ Public Class Company
          .IsVehicleNumberRequire = False,
          .HubAddress = "",
            .IsLogging = 0,
-           .IsSpecialImport = 0
+                        .IsSpecialImport = 0
               }
                         identityResult = New IdentityResult()
                         identityResult = manager.Create(user, txtAdminPassword.Text)
@@ -1030,6 +1115,7 @@ Public Class Company
                         "Contact Phone Number = " & txtContactNumber.Text & " ; " &
                         "Contact Email = " & txtAdminUsername.Text & " ; " &
                         "Costing Method = " & DDL_Costing.SelectedItem.ToString().Replace(",", " ") & " ; " &
+                        "Companies bind to Group Admin = " & afterCompanies & " ; " &
                         "Start Date = " & lblStartDate.Text & " ; " &
                         "Beginning Hosting Date = " & BeginningHostingDate & " ; " &
                         "Ending Hosting Date = " & EndingHostingDate & " ; " &
@@ -1155,4 +1241,75 @@ Public Class Company
             ErrorMessage.InnerText = "Error occurred while getting data, please try again later."
         End Try
     End Sub
+
+    Protected Sub btnCancelMappCompanies_Click(sender As Object, e As EventArgs)
+        Try
+
+        Catch ex As Exception
+            log.Error("Error occurred in btnCancelMappCompanies_Click Exception is :" + ex.Message)
+            ErrorMessage.Visible = True
+            ErrorMessage.InnerText = "Error occurred while getting data, please try again later."
+        Finally
+            ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "loadFunction();", True)
+        End Try
+    End Sub
+
+    Private Sub BindCompanies(PersonId As Integer, Roleid As String, CustomerID As Integer)
+        Try
+            Dim dtCompanies As DataTable = New DataTable()
+            OBJMaster = New MasterBAL()
+            dtCompanies = OBJMaster.GetCustomerDetailsByPersonID(PersonId, Roleid, 0)
+
+
+            Dim dtr() As DataRow = dtCompanies.Select("CustomerId = " & CustomerID)
+            For Each dtrow As DataRow In dtr
+                dtrow.Delete()
+            Next
+            dtCompanies.AcceptChanges()
+
+            GV_Companies.DataSource = dtCompanies
+            GV_Companies.DataBind()
+
+        Catch ex As Exception
+
+            log.Error("Error occurred in BindCompanies Exception is :" + ex.Message)
+            ErrorMessage.Visible = True
+            ErrorMessage.InnerText = "Error occurred while getting companies, please try again later."
+
+        End Try
+    End Sub
+
+    Private Sub BindCompaniesDataToCheckboxList(PersonId As Integer)
+        Try
+            'beforeFSlinks = ""
+            OBJMaster = New MasterBAL()
+            Dim dtChildCompanyMapping As DataTable = New DataTable()
+
+            dtChildCompanyMapping = OBJMaster.GetParentChildCompanyMapping(PersonId)
+            If dtChildCompanyMapping IsNot Nothing Then
+                For Each dr As DataRow In dtChildCompanyMapping.Rows
+
+                    For Each rows As GridViewRow In GV_Companies.Rows
+                        If (dr("ChildCompanyId") = GV_Companies.DataKeys(rows.RowIndex).Values("CustomerId").ToString()) Then
+                            TryCast(rows.FindControl("CHK_MappCompanies"), CheckBox).Checked = True
+
+                            'Dim CustomerName = GV_Companies.DataKeys(rows.RowIndex).Values("CustomerName").ToString()
+                            'If (ConfigurationManager.AppSettings("AllowActivityLogin").ToString().ToLower() = "yes") Then
+                            '    beforeCompanies = IIf(beforeCompanies = "", CustomerName, beforeCompanies & ";" & CustomerName)
+                            'End If
+                        End If
+                    Next
+                Next
+            End If
+
+        Catch ex As Exception
+
+            log.Error("Error occurred in BindCompaniesDataToCheckboxList Exception is :" + ex.Message)
+            ErrorMessage.Visible = True
+            ErrorMessage.InnerText = "Error occurred while getting BindCompaniesDataToCheckboxList, please try again later."
+
+        End Try
+
+    End Sub
+
 End Class

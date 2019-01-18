@@ -242,8 +242,8 @@ Public Class VehicleImport
                     If CheckVehicleNumberExist = True Then
                         strLog = strLog & Environment.NewLine & currentDateTime & "--" & dr("VehicleNumber") & " is already exist. Check Row  " & rowIndex & " & column 1 in uploaded file."
                         isDirty = True
-                    ElseIf (dr("VehicleNumber").ToString().Length > 10) Then
-                        strLog = strLog & Environment.NewLine & currentDateTime & "--" & "Vehicle Number (" & dr("VehicleNumber") & ") is must be less than equal to 10 characters. Check Row  " & rowIndex & " & column 1 in uploaded file."
+                    ElseIf (dr("VehicleNumber").ToString().Length > 20) Then
+                        strLog = strLog & Environment.NewLine & currentDateTime & "--" & "Vehicle Number (" & dr("VehicleNumber") & ") is must be less than equal to 20 characters. Check Row  " & rowIndex & " & column 1 in uploaded file."
                         isDirty = True
                     End If
                 Else

@@ -95,6 +95,132 @@ Partial Public Class FluidSecureHub
     Protected WithEvents btnCancelSite As Global.System.Web.UI.WebControls.Button
     
     '''<summary>
+    '''LBL_HubIMEIHistory control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents LBL_HubIMEIHistory As Global.System.Web.UI.WebControls.Label
+    
+    '''<summary>
+    '''UP_HubIMEIHistory control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents UP_HubIMEIHistory As Global.System.Web.UI.UpdatePanel
+    
+    '''<summary>
+    '''gv_HistoryView control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents gv_HistoryView As Global.System.Web.UI.WebControls.GridView
+    
+    '''<summary>
+    '''btnFSHistoryOk control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnFSHistoryOk As Global.System.Web.UI.WebControls.Button
+    
+    '''<summary>
+    '''btnCancelFSHistoryBox control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnCancelFSHistoryBox As Global.System.Web.UI.WebControls.Button
+    
+    '''<summary>
+    '''LBL_DeviceNumberHistory control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents LBL_DeviceNumberHistory As Global.System.Web.UI.WebControls.Label
+    
+    '''<summary>
+    '''UpdatePanel1 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents UpdatePanel1 As Global.System.Web.UI.UpdatePanel
+    
+    '''<summary>
+    '''gv_DeviceNumber control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents gv_DeviceNumber As Global.System.Web.UI.WebControls.GridView
+    
+    '''<summary>
+    '''btnDeviceNumberHistoryOk control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnDeviceNumberHistoryOk As Global.System.Web.UI.WebControls.Button
+    
+    '''<summary>
+    '''btnCancelDeviceNumber control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnCancelDeviceNumber As Global.System.Web.UI.WebControls.Button
+    
+    '''<summary>
+    '''HDF_HubIMEICurrentName control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents HDF_HubIMEICurrentName As Global.System.Web.UI.WebControls.HiddenField
+    
+    '''<summary>
+    '''HDF_HubIMEINameHistory control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents HDF_HubIMEINameHistory As Global.System.Web.UI.WebControls.HiddenField
+    
+    '''<summary>
+    '''HDF_HubCurrentDeviceNumber control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents HDF_HubCurrentDeviceNumber As Global.System.Web.UI.WebControls.HiddenField
+    
+    '''<summary>
+    '''HDF_HubDeviceNumberHistory control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents HDF_HubDeviceNumberHistory As Global.System.Web.UI.WebControls.HiddenField
+    
+    '''<summary>
     '''lblHeader control.
     '''</summary>
     '''<remarks>
@@ -212,6 +338,51 @@ Partial Public Class FluidSecureHub
     Protected WithEvents txtIMEINumber As Global.System.Web.UI.WebControls.TextBox
     
     '''<summary>
+    '''txtDeviceNumber control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtDeviceNumber As Global.System.Web.UI.WebControls.TextBox
+    
+    '''<summary>
+    '''lblDeviceError control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblDeviceError As Global.System.Web.UI.WebControls.Label
+    
+    '''<summary>
+    '''divViewHistory control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents divViewHistory As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+    
+    '''<summary>
+    '''btn_ViewHistory control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btn_ViewHistory As Global.System.Web.UI.WebControls.Button
+    
+    '''<summary>
+    '''btn_ViewDeviceHistory control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btn_ViewDeviceHistory As Global.System.Web.UI.WebControls.Button
+    
+    '''<summary>
     '''UFLSHide control.
     '''</summary>
     '''<remarks>
@@ -248,13 +419,13 @@ Partial Public Class FluidSecureHub
     Protected WithEvents chkSoftUpdate As Global.System.Web.UI.WebControls.CheckBox
     
     '''<summary>
-    '''chkIsApproved control.
+    '''chk_GateHub control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents chkIsApproved As Global.System.Web.UI.WebControls.CheckBox
+    Protected WithEvents chk_GateHub As Global.System.Web.UI.WebControls.CheckBox
     
     '''<summary>
     '''DDL_Department control.
@@ -275,13 +446,13 @@ Partial Public Class FluidSecureHub
     Protected WithEvents RFD_Department As Global.System.Web.UI.WebControls.RequiredFieldValidator
     
     '''<summary>
-    '''chk_GateHub control.
+    '''chkIsApproved control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents chk_GateHub As Global.System.Web.UI.WebControls.CheckBox
+    Protected WithEvents chkIsApproved As Global.System.Web.UI.WebControls.CheckBox
     
     '''<summary>
     '''txtExportCode control.
@@ -507,7 +678,7 @@ Partial Public Class FluidSecureHub
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents DDL_WifiChannelToUse As Global.System.Web.UI.WebControls.DropDownList
-
+    
     '''<summary>
     '''chk_HubForFA control.
     '''</summary>
@@ -516,7 +687,16 @@ Partial Public Class FluidSecureHub
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents chk_HubForFA As Global.System.Web.UI.WebControls.CheckBox
-
+    
+    '''<summary>
+    '''chkEnablePrinter control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents chkEnablePrinter As Global.System.Web.UI.WebControls.CheckBox
+    
     '''<summary>
     '''btnSave control.
     '''</summary>

@@ -293,6 +293,15 @@ Partial Public Class Site_Mobile
     Protected WithEvents UploadedFSNPFirmware As Global.System.Web.UI.HtmlControls.HtmlGenericControl
     
     '''<summary>
+    '''UploadedTLDFirmware control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents UploadedTLDFirmware As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+    
+    '''<summary>
     '''CompanyHostingReport control.
     '''</summary>
     '''<remarks>

@@ -77,6 +77,15 @@ Partial Public Class UpdateTransactionCost
     Protected WithEvents regexpPrice As Global.System.Web.UI.WebControls.RegularExpressionValidator
     
     '''<summary>
+    '''ddl_TankNo control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents ddl_TankNo As Global.System.Web.UI.WebControls.DropDownList
+    
+    '''<summary>
     '''txtStartDate control.
     '''</summary>
     '''<remarks>

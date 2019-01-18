@@ -174,7 +174,8 @@ Public Class SpecializedInActiveVehicleImport
             End If
 
         Catch ex As Exception
-            message.InnerText = message.InnerText + " , Error occurred, Please try after some time."
+            message.InnerText = "Error occurred, Please try after some time."
+            message.Visible = True
             log.Error("Exception occurred on btnUpload_Click. Exception is : " & ex.Message)
         Finally
             ddlCustomer.Focus()

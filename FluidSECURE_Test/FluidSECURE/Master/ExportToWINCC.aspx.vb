@@ -129,9 +129,9 @@ Public Class ExportToWINCC
 
             strConditions += " order by t.TransactionDateTime"
 
-            'get data from server
-            dSTran = OBJMaster.ExportTransactions(startDate.ToString(), endDate.ToString(), strConditions, 2)
-            If (Not dSTran Is Nothing) Then
+			'get data from server
+			dSTran = OBJMaster.ExportTransactions(startDate.ToString(), endDate.ToString(), strConditions, 2, 1)
+			If (Not dSTran Is Nothing) Then
 
                 If (dSTran.Tables.Count < 1 Or dSTran.Tables(0).Rows.Count <= 0) Then
 

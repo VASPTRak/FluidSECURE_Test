@@ -137,13 +137,18 @@ Public Class CustomerWiseTransactionDetails
             End If
 
             Dim SelectedSiteIds As String = ""
-
-            For Each item As ListItem In lstSites.Items
-                If item.Selected Then
-                    SelectedSiteIds = IIf(SelectedSiteIds = "", item.Value, SelectedSiteIds + "," + item.Value)
-                End If
-            Next
-            If (SelectedSiteIds <> "") Then
+			Dim flagForZeroSite = True
+			For Each item As ListItem In lstSites.Items
+				If item.Selected Then
+					SelectedSiteIds = IIf(SelectedSiteIds = "", item.Value, SelectedSiteIds + "," + item.Value)
+				Else
+					flagForZeroSite = False
+				End If
+			Next
+			If flagForZeroSite Then
+				SelectedSiteIds = "0," + SelectedSiteIds
+			End If
+			If (SelectedSiteIds <> "") Then
                 strConditions = IIf(strConditions = "", " and T.SiteID in ( " + SelectedSiteIds + ")", strConditions + " and T.SiteID in ( " + SelectedSiteIds + ")")
             End If
 

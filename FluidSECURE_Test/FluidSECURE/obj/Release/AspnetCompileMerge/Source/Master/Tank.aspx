@@ -173,8 +173,13 @@
 
                     </div>
                     <div class="row col-md-12 col-sm-12 text-center col-xs-12">
-                        <div class="form-group col-md-3 col-sm-3 textright col-xs-12"></div>
-                        <div class="form-group col-md-3 col-sm-3 col-xs-12"></div>
+                        <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
+                             <label>
+                                Current TLD Firmware Version:</label>
+                        </div>
+                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                             <asp:TextBox ID="txt_FirmwareVer" runat="server" CssClass="form-control input-sm" TabIndex="27" MaxLength="30" Enabled="false"></asp:TextBox>
+                        </div>
                         <div id="divCompany" runat="server" class="form-group col-md-3 col-sm-3 textright col-xs-12">
                             <label>
                                 Company:

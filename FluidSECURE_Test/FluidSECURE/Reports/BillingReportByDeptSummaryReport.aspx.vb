@@ -3,7 +3,7 @@ Imports log4net.Config
 Imports Microsoft.Reporting.WebForms
 
 Public Class BillingReportByDeptSummaryReport
-    Inherits System.Web.UI.Page
+	Inherits System.Web.UI.Page
 
 	Private Shared ReadOnly log As ILog = LogManager.GetLogger(GetType(BillingReportByDeptDetailsReport))
 
@@ -21,41 +21,44 @@ Public Class BillingReportByDeptSummaryReport
 			Else
 				If (Not IsPostBack) Then
 
-                Dim dSTran As DataSet = Session("BillingReportByDeptSummary")
+					Dim dSTran As DataSet = Session("BillingReportByDeptSummary")
 
-                RPT_BillingReportByDeptSummary.Visible = True
+					RPT_BillingReportByDeptSummary.Visible = True
 
-                RPT_BillingReportByDeptSummary.Reset()
-                RPT_BillingReportByDeptSummary.ProcessingMode = ProcessingMode.Local
-                Dim rep As LocalReport = RPT_BillingReportByDeptSummary.LocalReport
-                rep.Refresh()
-                Dim BillingReportByDeptDetailsPath As String = ConfigurationManager.AppSettings("BillingReportByDeptSummaryPath")
-                rep.ReportPath = Server.MapPath(BillingReportByDeptDetailsPath)
+					RPT_BillingReportByDeptSummary.Reset()
+					RPT_BillingReportByDeptSummary.ProcessingMode = ProcessingMode.Local
+					Dim rep As LocalReport = RPT_BillingReportByDeptSummary.LocalReport
+					rep.Refresh()
+					Dim BillingReportByDeptDetailsPath As String = ConfigurationManager.AppSettings("BillingReportByDeptSummaryPath")
+					rep.ReportPath = Server.MapPath(BillingReportByDeptDetailsPath)
 
-                Dim FromDate As ReportParameter = New ReportParameter("FromDate", Session("FromDate").ToString())
-                Dim ToDate As ReportParameter = New ReportParameter("ToDate", Session("ToDate").ToString())
-                    Dim TransactionType As ReportParameter = New ReportParameter("TransactionType", Session("TransactionType").ToString())
-                    RPT_BillingReportByDeptSummary.LocalReport.SetParameters(New ReportParameter() {FromDate, ToDate, TransactionType})
+					Dim FromDate As ReportParameter = New ReportParameter("FromDate", Session("FromDate").ToString())
+					Dim ToDate As ReportParameter = New ReportParameter("ToDate", Session("ToDate").ToString())
+					Dim TransactionType As ReportParameter = New ReportParameter("TransactionType", Session("TransactionType").ToString())
+					Dim TransactionStatusText As ReportParameter = New ReportParameter("TransactionStatusText", Session("TransactionStatusText").ToString())
+					Dim FuelingTypeCurrent As ReportParameter = New ReportParameter("FuelingTypeCurrent", Session("FuelingTypeCurrent").ToString())
+					Dim FuelingTypePrevious As ReportParameter = New ReportParameter("FuelingTypePrevious", Session("FuelingTypePrevious").ToString())
+					RPT_BillingReportByDeptSummary.LocalReport.SetParameters(New ReportParameter() {FromDate, ToDate, TransactionType, TransactionStatusText, FuelingTypeCurrent, FuelingTypePrevious})
 
-                    Dim rds As ReportDataSource = New ReportDataSource()
-                rds.Name = "BillingReportByDeptDetails"
-                rds.Value = dSTran.Tables(0)
-                rep.DataSources.Add(rds)
+					Dim rds As ReportDataSource = New ReportDataSource()
+					rds.Name = "BillingReportByDeptDetails"
+					rds.Value = dSTran.Tables(0)
+					rep.DataSources.Add(rds)
 
-                Dim rdsGrandProductTotal As ReportDataSource = New ReportDataSource()
-                rdsGrandProductTotal.Name = "BillingDepartmentSummary"
-                rdsGrandProductTotal.Value = dSTran.Tables(1)
-                rep.DataSources.Add(rdsGrandProductTotal)
+					Dim rdsGrandProductTotal As ReportDataSource = New ReportDataSource()
+					rdsGrandProductTotal.Name = "BillingDepartmentSummary"
+					rdsGrandProductTotal.Value = dSTran.Tables(1)
+					rep.DataSources.Add(rdsGrandProductTotal)
 
-                Dim rdsGrandProductTotalEnd As ReportDataSource = New ReportDataSource()
-                rdsGrandProductTotalEnd.Name = "BillingGrandProductTotalEnd"
-                rdsGrandProductTotalEnd.Value = dSTran.Tables(2)
-                rep.DataSources.Add(rdsGrandProductTotalEnd)
+					Dim rdsGrandProductTotalEnd As ReportDataSource = New ReportDataSource()
+					rdsGrandProductTotalEnd.Name = "BillingGrandProductTotalEnd"
+					rdsGrandProductTotalEnd.Value = dSTran.Tables(2)
+					rep.DataSources.Add(rdsGrandProductTotalEnd)
 
-                Me.RPT_BillingReportByDeptSummary.LocalReport.DataSources.Add(rds)
+					Me.RPT_BillingReportByDeptSummary.LocalReport.DataSources.Add(rds)
 
-            End If
-        End If
+				End If
+			End If
 
 
 		Catch ex As Exception
@@ -65,8 +68,8 @@ Public Class BillingReportByDeptSummaryReport
 		End Try
 	End Sub
 
-    Protected Sub btnBack_Click(sender As Object, e As EventArgs)
-        Response.Redirect("~/Reports/BillingReportByDeptSummary")
-    End Sub
+	Protected Sub btnBack_Click(sender As Object, e As EventArgs)
+		Response.Redirect("~/Reports/BillingReportByDeptSummary")
+	End Sub
 
 End Class

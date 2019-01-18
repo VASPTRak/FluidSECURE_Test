@@ -252,6 +252,7 @@ Public Class SpecializedFeature
             Dim strSite As String = ""
             For Each SpecializedFeatureRows As GridViewRow In gvSpecializedFeature.Rows
                 Dim CustomerMenuLinkId As String = gvSpecializedFeature.DataKeys(SpecializedFeatureRows.RowIndex).Values("CustomerMenuLinkId").ToString()
+                Dim MenuLinkKey As String = gvSpecializedFeature.DataKeys(SpecializedFeatureRows.RowIndex).Values("MenuLinkKey").ToString()
                 Dim Name As String = gvSpecializedFeature.DataKeys(SpecializedFeatureRows.RowIndex).Values("Name").ToString()
                 Dim gvCustomers As GridView = TryCast(SpecializedFeatureRows.FindControl("gvCustomers"), GridView)
                 If gvCustomers IsNot Nothing Then
@@ -265,7 +266,7 @@ Public Class SpecializedFeature
                             If ChkLinks.Checked Then
                                 Dim dr As DataRow = dtCustomerMenuLinkMapping.NewRow()
                                 dr("CustomerId") = CustomerId
-                                dr("CustomerMenuLinkId") = CustomerMenuLinkId
+                                dr("CustomerMenuLinkId") = MenuLinkKey
                                 dtCustomerMenuLinkMapping.Rows.Add(dr)
                                 afterLinks = IIf(beforeLinks = "", " Name = " + Name + " CustomerName = " + CustomerName, beforeLinks & ";" & " Name = " + Name + " CustomerName= " + CustomerName)
                             End If

@@ -64,6 +64,7 @@ Public Class UpdateTransactionCost
 							lblProductName.InnerText = Session("FuelType")
 							txtStartTime.Text = DateTime.Now.ToString("hh:mm tt")
 							txtEndTime.Text = DateTime.Now.ToString("hh:mm tt")
+							BindTanks(dtFuel.Rows(0)("CompanyId").ToString())
 							ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "LoadDateTimeControl();", True)
 
 						Else
@@ -71,7 +72,8 @@ Public Class UpdateTransactionCost
 							ErrorMessage.Text = "Data Not found. Please try again after some time."
 						End If
 
-
+					Else
+						Response.Redirect("AllFuels.aspx")
 					End If
 					txt_Price.Attributes.Add("OnKeyPress", "return KeyPressProduct(event);")
 				End If
@@ -149,8 +151,8 @@ Public Class UpdateTransactionCost
                 Dim StartDateTime As String = Convert.ToDateTime(txtStartDate.Text & " " & Request.Form(txtStartTime.UniqueID)).ToString("yyyy-MM-dd HH:mm:ss")
                 Dim EndDateTime As String = Convert.ToDateTime(txtEndDate.Text & " " & Request.Form(txtEndTime.UniqueID)).ToString("yyyy-MM-dd HH:mm:ss")
                 OBJMaster = New MasterBAL()
-                count = OBJMaster.PostPriceInTransaction(Convert.ToInt32(Session("PersonId").ToString), Convert.ToInt32(HDF_FuelTypeId.Value), Convert.ToDecimal(txt_Price.Text), StartDateTime, EndDateTime, "", Convert.ToInt32(Session("FuelCustomerId").ToString), 1)
-                If (count > 0) Then
+				count = OBJMaster.PostPriceInTransaction(Convert.ToInt32(Session("PersonId").ToString), Convert.ToInt32(HDF_FuelTypeId.Value), Convert.ToDecimal(txt_Price.Text), StartDateTime, EndDateTime, "", Convert.ToInt32(Session("FuelCustomerId").ToString), 1, ddl_TankNo.SelectedValue)
+				If (count > 0) Then
                     If (ConfigurationManager.AppSettings("AllowActivityLogin").ToString().ToLower() = "yes") Then
                         Dim writtenData As String = CreateData(Convert.ToInt32(HDF_FuelTypeId.Value))
                         CSCommonHelper.WriteLog("Added", "Transaction Cost", "", writtenData, Session("PersonName").ToString() & "(" & Session("PersonEmail").ToString() & ")", Session("IPAddress").ToString(), "success", "")
@@ -247,13 +249,14 @@ Public Class UpdateTransactionCost
 
             Dim data As String = ""
 
-            data = "ProductId = " & ProductId & " ; " &
-                    "Product Name = " & lblProductName.InnerText.Replace(",", " ") & " ; " &
-                    "Reset price = " & txt_Price.Text.Replace(",", " ") & " ; " &
-                    "Start date = " & txtStartDate.Text.Replace(",", " ") & " ; " &
-                    "End Date = " & txtEndDate.Text.Replace(",", " ") & " ; "
+			data = "ProductId = " & ProductId & " ; " &
+					"Product Name = " & lblProductName.InnerText.Replace(",", " ") & " ; " &
+					"Tank = " & ddl_TankNo.SelectedItem.Text.Replace(",", " ") & " ; " &
+					"Reset price = " & txt_Price.Text.Replace(",", " ") & " ; " &
+					"Start date = " & txtStartDate.Text.Replace(",", " ") & " ; " &
+					"End Date = " & txtEndDate.Text.Replace(",", " ") & " ; "
 
-            Return data
+			Return data
         Catch ex As Exception
             log.Error(String.Format("Error Occurred while CreateData. Error is {0}.", ex.Message))
             Return ""
@@ -261,4 +264,23 @@ Public Class UpdateTransactionCost
 
     End Function
 
+	Private Sub BindTanks(CustomerId As Integer)
+		Try
+
+			OBJMaster = New MasterBAL()
+			Dim dtTanks As DataTable = New DataTable()
+			dtTanks = OBJMaster.GetTankbyConditions(" And T.CustomerId =" & CustomerId, Session("PersonId").ToString(), Session("RoleId").ToString())
+
+			ViewState("dtTanks") = dtTanks
+			ddl_TankNo.DataSource = dtTanks
+			ddl_TankNo.DataTextField = "TankNumberNameForView"
+			ddl_TankNo.DataValueField = "TankId"
+			ddl_TankNo.DataBind()
+			ddl_TankNo.Items.Insert(0, New ListItem("All Tanks", "0"))
+		Catch ex As Exception
+			log.Error("Error occurred in BindTanks Exception is :" + ex.Message)
+			ErrorMessage.Visible = True
+			ErrorMessage.Text = "Error occurred while getting data, please try again later."
+		End Try
+	End Sub
 End Class

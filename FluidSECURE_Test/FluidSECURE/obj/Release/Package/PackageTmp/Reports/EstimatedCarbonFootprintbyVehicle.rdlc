@@ -668,7 +668,6 @@
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
-                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
                 <TablixCell>
@@ -1910,10 +1909,10 @@
         </Style>
       </Image>
     </ReportItems>
-    <Height>6.88542in</Height>
+    <Height>6.66542in</Height>
     <Style />
   </Body>
-  <Width>11.58208in</Width>
+  <Width>11.48784in</Width>
   <Page>
     <PageHeader>
       <Height>1.80208in</Height>
@@ -2107,7 +2106,7 @@
       </Style>
     </PageHeader>
     <PageHeight>8.27in</PageHeight>
-    <PageWidth>11.69in</PageWidth>
+    <PageWidth>12in</PageWidth>
     <Style />
   </Page>
   <AutoRefresh>0</AutoRefresh>
@@ -2187,10 +2186,14 @@
           <DataField>VehicleNumberName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="TransactionStatusText">
+          <DataField>TransactionStatusText</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
       </Fields>
       <rd:DataSetInfo>
         <rd:DataSetName>DS_Reports</rd:DataSetName>
-        <rd:SchemaPath>D:\Soham_Work\FluidSECURE\FluidSECURE\Reports\DS_Reports.xsd</rd:SchemaPath>
+        <rd:SchemaPath>D:\Soham_Work\FluidSECURE_Test\FluidSECURE\Reports\DS_Reports.xsd</rd:SchemaPath>
         <rd:TableName>EstimatedCarbonFootprintbyVehicle</rd:TableName>
         <rd:TableAdapterFillMethod />
         <rd:TableAdapterGetDataMethod />
@@ -2206,6 +2209,12 @@
       <Prompt>ReportParameter1</Prompt>
     </ReportParameter>
     <ReportParameter Name="ToDate">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>ReportParameter1</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="TransactionStatusText">
       <DataType>String</DataType>
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>

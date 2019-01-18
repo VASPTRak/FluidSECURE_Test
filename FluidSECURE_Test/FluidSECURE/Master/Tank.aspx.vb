@@ -30,13 +30,15 @@ Public Class Tank
 						divConstantA.Visible = True
 						divConstantB.Visible = True
 						divConstantC.Visible = True
-						divConstantD.Visible = True
-					Else
+                        divConstantD.Visible = True
+                        txt_FirmwareVer.Enabled = True
+                    Else
 						divConstantA.Visible = False
 						divConstantB.Visible = False
 						divConstantC.Visible = False
-						divConstantD.Visible = False
-					End If
+                        divConstantD.Visible = False
+                        txt_FirmwareVer.Enabled = False
+                    End If
 
 					GetCustomers(Convert.ToInt32(Session("PersonId")), Session("RoleId").ToString())
 					If (Not Request.QueryString("TankId") = Nothing And Not Request.QueryString("TankId") = "") Then
@@ -163,8 +165,9 @@ Public Class Tank
 				txtConstantC.Text = dtTank.Rows(0)("ConstantC").ToString()
 				txtConstantD.Text = dtTank.Rows(0)("ConstantD").ToString()
 
+                txt_FirmwareVer.Text = dtTank.Rows(0)("CurrentTLDFirmwareVersion").ToString()
 
-				Dim strConditions As String = ""
+                Dim strConditions As String = ""
 				If (Not Session("TankConditions") Is Nothing And Not Session("TankConditions") = "") Then
 					strConditions = Session("TankConditions")
 				Else
@@ -414,22 +417,23 @@ Public Class Tank
 	Private Function CreateAfterData() As String
 		Try
 
-			Dim data As String = "Tank Number = " & txtTankNo.Text.Replace(",", " ") & " ; " &
-									"Tank Name = " & txtTankName.Text.Replace(",", " ") & " ; " &
-									"PRODUCT = " & ddlFuelType.SelectedItem.Text.Replace(",", " ") & " ; " &
-									"ADDRESS = " & txtAddress.Text.Replace(",", " ") & " ; " &
-									"Company = " & DDL_Customer.SelectedItem.Text.Replace(",", " ") & " ; " &
-									"Export Code = " & txtExportCode.Text.Replace(",", " ") & " ; " &
-									"REFILL_NOT = " & txtRefillNotice.Text.Replace(",", " ") & " ; " &
-									"PROBEMacAddress = " & txtPROBEMacAddress.Text.Replace(",", " ") & " ; " &
-									"TANK_CHART = " & ddlTankChart.SelectedItem.Text.Replace(",", " ") & " ; " &
-									"Constant A = " & IIf(txtConstantA.Text = "", "0.0001298", txtConstantA.Text).ToString().Replace(",", " ") & " ; " &
-									"Constant B = " & IIf(txtConstantB.Text = "", "0.90696,", txtConstantB.Text).ToString().Replace(",", " ") & " ; " &
-									"Constant C = " & IIf(txtConstantC.Text = "", "-0.0777989,", txtConstantC.Text).ToString().Replace(",", " ") & " ; " &
-									"Constant D = " & IIf(txtConstantD.Text = "", "-4.458", txtConstantD.Text).ToString().Replace(",", " ") & " ; "
-			'"Probe Ratio = " & txtProbeRatio.Text.Replace(",", " ") & " ; " &
+            Dim data As String = "Tank Number = " & txtTankNo.Text.Replace(",", " ") & " ; " &
+                                    "Tank Name = " & txtTankName.Text.Replace(",", " ") & " ; " &
+                                    "PRODUCT = " & ddlFuelType.SelectedItem.Text.Replace(",", " ") & " ; " &
+                                    "ADDRESS = " & txtAddress.Text.Replace(",", " ") & " ; " &
+                                    "Company = " & DDL_Customer.SelectedItem.Text.Replace(",", " ") & " ; " &
+                                    "Export Code = " & txtExportCode.Text.Replace(",", " ") & " ; " &
+                                    "REFILL_NOT = " & txtRefillNotice.Text.Replace(",", " ") & " ; " &
+                                    "PROBEMacAddress = " & txtPROBEMacAddress.Text.Replace(",", " ") & " ; " &
+                                    "TANK_CHART = " & ddlTankChart.SelectedItem.Text.Replace(",", " ") & " ; " &
+                                    "TLD Firmware Vesion = " & txt_FirmwareVer.Text.Replace(",", " ") & " ; " &
+                                    "Constant A = " & IIf(txtConstantA.Text = "", "0.0001298", txtConstantA.Text).ToString().Replace(",", " ") & " ; " &
+                                    "Constant B = " & IIf(txtConstantB.Text = "", "0.90696,", txtConstantB.Text).ToString().Replace(",", " ") & " ; " &
+                                    "Constant C = " & IIf(txtConstantC.Text = "", "-0.0777989,", txtConstantC.Text).ToString().Replace(",", " ") & " ; " &
+                                    "Constant D = " & IIf(txtConstantD.Text = "", "-4.458", txtConstantD.Text).ToString().Replace(",", " ") & " ; "
+            '"Probe Ratio = " & txtProbeRatio.Text.Replace(",", " ") & " ; " &
 
-			Return data
+            Return data
 		Catch ex As Exception
 			log.Error(String.Format("Error Occurred while CreateAfterData. Error is {0}.", ex.Message))
 			Return ""
@@ -440,24 +444,25 @@ Public Class Tank
 	Private Function CreateBeforeData(dtTank As DataTable) As String
 		Try
 
-			Dim data As String = "TankId = " & dtTank.Rows(0)("TankId").ToString() & " ; " &
-								  "Tank Number = " & dtTank.Rows(0)("TankNumber").ToString().Replace(",", " ") & " ; " &
-								  "Tank Name = " & dtTank.Rows(0)("TankName").ToString().Replace(",", " ") & " ; " &
-								  "PRODUCT = " & dtTank.Rows(0)("FuelType").ToString().Replace(",", " ") & " ; " &
-								  "ADDRESS = " & dtTank.Rows(0)("TankAddress").ToString().Replace(",", " ") & " ; " &
-								  "REFILL_NOT = " & dtTank.Rows(0)("RefillNotice").ToString().Replace(",", " ") & " ; " &
-								  "Company = " & dtTank.Rows(0)("CustomerName").ToString().Replace(",", " ") & " ; " &
-								  "Export Code = " & dtTank.Rows(0)("ExportCode").ToString().Replace(",", " & ") & " ; " &
-								  "PROBEMacAddress = " & dtTank.Rows(0)("PROBEMacAddress").ToString().Replace(",", " ") & " ; " &
-								  "Tank Monitor = " & IIf(Chk_TankMonitor.Checked = True, "Yes", "No") & " ; " &
-								  "Tank Monitor Number = " & txtTankMonitorNo.Text.Replace(",", " ") & " ; " &
-								  "TANK_CHART = " & dtTank.Rows(0)("TankChartName").ToString().Replace(",", " ") & " ; " &
-								  "Constant A = " & dtTank.Rows(0)("ConstantA").ToString().Replace(",", " ") & " ; " &
-								  "Constant B = " & dtTank.Rows(0)("ConstantB").ToString().Replace(",", " ") & " ; " &
-								  "Constant C = " & dtTank.Rows(0)("ConstantC").ToString().Replace(",", " ") & " ; " &
-								  "Constant D = " & dtTank.Rows(0)("ConstantD").ToString().Replace(",", " ") & " ; "
+            Dim data As String = "TankId = " & dtTank.Rows(0)("TankId").ToString() & " ; " &
+                                  "Tank Number = " & dtTank.Rows(0)("TankNumber").ToString().Replace(",", " ") & " ; " &
+                                  "Tank Name = " & dtTank.Rows(0)("TankName").ToString().Replace(",", " ") & " ; " &
+                                  "PRODUCT = " & dtTank.Rows(0)("FuelType").ToString().Replace(",", " ") & " ; " &
+                                  "ADDRESS = " & dtTank.Rows(0)("TankAddress").ToString().Replace(",", " ") & " ; " &
+                                  "REFILL_NOT = " & dtTank.Rows(0)("RefillNotice").ToString().Replace(",", " ") & " ; " &
+                                  "Company = " & dtTank.Rows(0)("CustomerName").ToString().Replace(",", " ") & " ; " &
+                                  "Export Code = " & dtTank.Rows(0)("ExportCode").ToString().Replace(",", " & ") & " ; " &
+                                  "PROBEMacAddress = " & dtTank.Rows(0)("PROBEMacAddress").ToString().Replace(",", " ") & " ; " &
+                                  "Tank Monitor = " & IIf(Chk_TankMonitor.Checked = True, "Yes", "No") & " ; " &
+                                  "Tank Monitor Number = " & txtTankMonitorNo.Text.Replace(",", " ") & " ; " &
+                                  "TANK_CHART = " & dtTank.Rows(0)("TankChartName").ToString().Replace(",", " ") & " ; " &
+                                  "TLD Firmware Vesion = " & txt_FirmwareVer.Text.Replace(",", " ") & " ; " &
+                                  "Constant A = " & dtTank.Rows(0)("ConstantA").ToString().Replace(",", " ") & " ; " &
+                                  "Constant B = " & dtTank.Rows(0)("ConstantB").ToString().Replace(",", " ") & " ; " &
+                                  "Constant C = " & dtTank.Rows(0)("ConstantC").ToString().Replace(",", " ") & " ; " &
+                                  "Constant D = " & dtTank.Rows(0)("ConstantD").ToString().Replace(",", " ") & " ; "
 
-			Return data
+            Return data
 		Catch ex As Exception
 			log.Error(String.Format("Error Occurred while CreateBeforeData. Error is {0}.", ex.Message))
 			Return ""
@@ -621,19 +626,19 @@ Public Class Tank
 			End If
 
 
-			'Dim ProbeRatio As Decimal = 1.0
-			'If txtProbeRatio.Text <> "" Then
-			'    ProbeRatio = Convert.ToDecimal(txtProbeRatio.Text)
-			'End If
+            'Dim ProbeRatio As Decimal = 1.0
+            'If txtProbeRatio.Text <> "" Then
+            '    ProbeRatio = Convert.ToDecimal(txtProbeRatio.Text)
+            'End If
 
-			result = OBJMaster.SaveUpdateTank(TankId, txtTankName.Text, txtTankNo.Text, txtAddress.Text, DDL_Customer.SelectedValue, txtExportCode.Text, Convert.ToInt32(ddlFuelType.SelectedValue),
-											  IIf(txtRefillNotice.Text <> "", txtRefillNotice.Text, "-1"), txtPROBEMacAddress.Text, Convert.ToInt32(ddlTankChart.SelectedValue),
-											  Convert.ToInt32(Session("PersonId")), Chk_TankMonitor.Checked, TankMonitorNo, IIf(txtConstantA.Text = "", "0.0001298", txtConstantA.Text),
-											   IIf(txtConstantB.Text = "", "0.90696,", txtConstantB.Text), IIf(txtConstantC.Text = "", "-0.0777989,", txtConstantC.Text),
-											  IIf(txtConstantD.Text = "", "-4.458", txtConstantD.Text))
+            result = OBJMaster.SaveUpdateTank(TankId, txtTankName.Text, txtTankNo.Text, txtAddress.Text, DDL_Customer.SelectedValue, txtExportCode.Text, Convert.ToInt32(ddlFuelType.SelectedValue),
+                                              IIf(txtRefillNotice.Text <> "", txtRefillNotice.Text, "-1"), txtPROBEMacAddress.Text, Convert.ToInt32(ddlTankChart.SelectedValue),
+                                              Convert.ToInt32(Session("PersonId")), Chk_TankMonitor.Checked, TankMonitorNo, IIf(txtConstantA.Text = "", "0.0001298", txtConstantA.Text),
+                                               IIf(txtConstantB.Text = "", "0.90696,", txtConstantB.Text), IIf(txtConstantC.Text = "", "-0.0777989,", txtConstantC.Text),
+                                              IIf(txtConstantD.Text = "", "-4.458", txtConstantD.Text), txt_FirmwareVer.Text)
 
 
-			If result > 0 Then
+            If result > 0 Then
 
 				If (TankId > 0) Then
 					message.Visible = True

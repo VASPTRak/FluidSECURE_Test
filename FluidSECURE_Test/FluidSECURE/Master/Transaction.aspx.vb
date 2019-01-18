@@ -898,137 +898,137 @@ Public Class Transaction
 
             End If
 
-            If (hdf_PersonId.Value = Nothing Or hdf_UniqueId.Value = "") Then
-                ErrorMessage.Visible = True
-                ErrorMessage.InnerText = "Please select person."
-                Return
-                'lblPerson.InnerText = "Please select person."
-                'flag = True
-                'Else
-                '        lblPerson.InnerText = ""
-            End If
+			'If (hdf_PersonId.Value = Nothing Or hdf_UniqueId.Value = "") Then
+			'    ErrorMessage.Visible = True
+			'    ErrorMessage.InnerText = "Please select person."
+			'    Return
+			'    'lblPerson.InnerText = "Please select person."
+			'    'flag = True
+			'    'Else
+			'    '        lblPerson.InnerText = ""
+			'End If
 
-            'If Not chkOFFSite.Checked Then
-            '    Dim flag As Boolean = False
+			'If Not chkOFFSite.Checked Then
+			'    Dim flag As Boolean = False
 
-            '    If (hdf_PersonId.Value = Nothing Or hdf_UniqueId.Value = "") Then
-            '        'ErrorMessage.Visible = True
-            '        'ErrorMessage.InnerText = "Please select person."
-            '        lblPerson.InnerText = "Please select person."
-            '        flag = True
-            '    Else
-            '        lblPerson.InnerText = ""
-            '    End If
+			'    If (hdf_PersonId.Value = Nothing Or hdf_UniqueId.Value = "") Then
+			'        'ErrorMessage.Visible = True
+			'        'ErrorMessage.InnerText = "Please select person."
+			'        lblPerson.InnerText = "Please select person."
+			'        flag = True
+			'    Else
+			'        lblPerson.InnerText = ""
+			'    End If
 
-            '    If txtCurrentOdometer.Text = "" Then
-            '        lblcurrODO.InnerText = "Please enter current odometer."
-            '        flag = True
-            '    Else
-            '        Dim CurrentOdo As Integer
-            '        If Not Integer.TryParse(txtCurrentOdometer.Text, CurrentOdo) Then
-            '            lblcurrODO.InnerText = "Please enter current odometer in integer format."
-            '            flag = True
-            '        Else
-            '            lblcurrODO.InnerText = ""
-            '        End If
-            '    End If
+			'    If txtCurrentOdometer.Text = "" Then
+			'        lblcurrODO.InnerText = "Please enter current odometer."
+			'        flag = True
+			'    Else
+			'        Dim CurrentOdo As Integer
+			'        If Not Integer.TryParse(txtCurrentOdometer.Text, CurrentOdo) Then
+			'            lblcurrODO.InnerText = "Please enter current odometer in integer format."
+			'            flag = True
+			'        Else
+			'            lblcurrODO.InnerText = ""
+			'        End If
+			'    End If
 
-            '    If (Not Request.QueryString("TransactionId") = Nothing And Not Request.QueryString("TransactionId") = "") Then
-            '        If txtPreviousOdometer.Text = "" Then
-            '            lblprevODO.InnerText = "Please enter previous odometer."
-            '            flag = True
-            '        Else
-            '            Dim PrevOdo As Integer
-            '            If Not Integer.TryParse(txtPreviousOdometer.Text, PrevOdo) Then
-            '                lblprevODO.InnerText = "Please enter previous odometer in integer format."
-            '                flag = True
-            '            Else
-            '                lblprevODO.InnerText = ""
-            '            End If
-            '        End If
-            '    End If
-
-
-            '    If DDL_Site.SelectedValue = "0" Then
-            '        lblSite.InnerText = "Please select FluidSecure Link."
-            '        flag = True
-            '    Else
-            '        lblSite.InnerText = ""
-            '    End If
-
-            '    If txtFuelQuantity.Text = "" Then
-            '        lblFQnty.InnerText = "Please enter Fuel Quantity."
-            '        flag = True
-            '    Else
-            '        Dim FuelQuantity As Decimal
-            '        If Not Decimal.TryParse(txtFuelQuantity.Text, FuelQuantity) Then
-            '            lblFQnty.InnerText = "Please enter Quantity in decimal format."
-            '            flag = True
-            '        Else
-            '            lblFQnty.InnerText = ""
-            '        End If
-            '    End If
-
-            '    If DDL_Fuel.SelectedValue = "0" Then
-            '        lblFuel.InnerText = "Please select Fuel."
-            '        flag = True
-            '    Else
-            '        lblFuel.InnerText = ""
-            '    End If
-
-            '    If DDL_TransactionStatus.SelectedValue = "-1" Then
-            '        lbltranStatus.InnerText = "Please select Transaction Status."
-            '        flag = True
-            '    Else
-            '        lbltranStatus.InnerText = ""
-            '    End If
-
-            '    If flag Then
-            '        Return
-            '    End If
-
-            'Else
-            '    Dim flag As Boolean = False
-
-            '    If Not txtCurrentOdometer.Text = "" Then
-            '        Dim CurrentOdo As Integer
-            '        If Not Integer.TryParse(txtCurrentOdometer.Text, CurrentOdo) Then
-            '            lblcurrODO.InnerText = "Please enter current odometer in integer format."
-            '            flag = True
-            '        Else
-            '            lblcurrODO.InnerText = ""
-            '        End If
-            '    End If
+			'    If (Not Request.QueryString("TransactionId") = Nothing And Not Request.QueryString("TransactionId") = "") Then
+			'        If txtPreviousOdometer.Text = "" Then
+			'            lblprevODO.InnerText = "Please enter previous odometer."
+			'            flag = True
+			'        Else
+			'            Dim PrevOdo As Integer
+			'            If Not Integer.TryParse(txtPreviousOdometer.Text, PrevOdo) Then
+			'                lblprevODO.InnerText = "Please enter previous odometer in integer format."
+			'                flag = True
+			'            Else
+			'                lblprevODO.InnerText = ""
+			'            End If
+			'        End If
+			'    End If
 
 
-            '    If (Not Request.QueryString("TransactionId") = Nothing And Not Request.QueryString("TransactionId") = "") Then
-            '        If Not txtPreviousOdometer.Text = "" Then
-            '            Dim PrevOdo As Integer
-            '            If Not Integer.TryParse(txtPreviousOdometer.Text, PrevOdo) Then
-            '                lblprevODO.InnerText = "Please enter previous odometer in integer format."
-            '                flag = True
-            '            Else
-            '                lblprevODO.InnerText = ""
-            '            End If
-            '        End If
-            '    End If
+			'    If DDL_Site.SelectedValue = "0" Then
+			'        lblSite.InnerText = "Please select FluidSecure Link."
+			'        flag = True
+			'    Else
+			'        lblSite.InnerText = ""
+			'    End If
 
-            '    If Not txtFuelQuantity.Text = "" Then
-            '        Dim FuelQuantity As Decimal
-            '        If Not Decimal.TryParse(txtFuelQuantity.Text, FuelQuantity) Then
-            '            lblFQnty.InnerText = "Please enter Quantity in decimal format."
-            '            flag = True
-            '        Else
-            '            lblFQnty.InnerText = ""
-            '        End If
-            '    End If
+			'    If txtFuelQuantity.Text = "" Then
+			'        lblFQnty.InnerText = "Please enter Fuel Quantity."
+			'        flag = True
+			'    Else
+			'        Dim FuelQuantity As Decimal
+			'        If Not Decimal.TryParse(txtFuelQuantity.Text, FuelQuantity) Then
+			'            lblFQnty.InnerText = "Please enter Quantity in decimal format."
+			'            flag = True
+			'        Else
+			'            lblFQnty.InnerText = ""
+			'        End If
+			'    End If
 
-            '    If flag Then
-            '        Return
-            '    End If
-            'End If
+			'    If DDL_Fuel.SelectedValue = "0" Then
+			'        lblFuel.InnerText = "Please select Fuel."
+			'        flag = True
+			'    Else
+			'        lblFuel.InnerText = ""
+			'    End If
 
-            Dim CurrentOdometer As Integer = 0
+			'    If DDL_TransactionStatus.SelectedValue = "-1" Then
+			'        lbltranStatus.InnerText = "Please select Transaction Status."
+			'        flag = True
+			'    Else
+			'        lbltranStatus.InnerText = ""
+			'    End If
+
+			'    If flag Then
+			'        Return
+			'    End If
+
+			'Else
+			'    Dim flag As Boolean = False
+
+			'    If Not txtCurrentOdometer.Text = "" Then
+			'        Dim CurrentOdo As Integer
+			'        If Not Integer.TryParse(txtCurrentOdometer.Text, CurrentOdo) Then
+			'            lblcurrODO.InnerText = "Please enter current odometer in integer format."
+			'            flag = True
+			'        Else
+			'            lblcurrODO.InnerText = ""
+			'        End If
+			'    End If
+
+
+			'    If (Not Request.QueryString("TransactionId") = Nothing And Not Request.QueryString("TransactionId") = "") Then
+			'        If Not txtPreviousOdometer.Text = "" Then
+			'            Dim PrevOdo As Integer
+			'            If Not Integer.TryParse(txtPreviousOdometer.Text, PrevOdo) Then
+			'                lblprevODO.InnerText = "Please enter previous odometer in integer format."
+			'                flag = True
+			'            Else
+			'                lblprevODO.InnerText = ""
+			'            End If
+			'        End If
+			'    End If
+
+			'    If Not txtFuelQuantity.Text = "" Then
+			'        Dim FuelQuantity As Decimal
+			'        If Not Decimal.TryParse(txtFuelQuantity.Text, FuelQuantity) Then
+			'            lblFQnty.InnerText = "Please enter Quantity in decimal format."
+			'            flag = True
+			'        Else
+			'            lblFQnty.InnerText = ""
+			'        End If
+			'    End If
+
+			'    If flag Then
+			'        Return
+			'    End If
+			'End If
+
+			Dim CurrentOdometer As Integer = 0
             Dim PreviousOdometer As Integer = 0
             Dim PreviousHours As Integer = 0
             Dim Site As Integer = 0
@@ -1128,7 +1128,20 @@ Public Class Transaction
                 vehicleNumber = HDF_VehicleNumber.Value
             End If
 
-            Dim HubId As Integer = Convert.ToInt32(HDF_HubId.Value)
+            Dim HubId As Integer = 0
+
+            Dim dtHub As DataTable = New DataTable()
+            dtHub = OBJMaster.GetPersonSiteMappingBySiteId(Convert.ToInt32(DDL_Site.SelectedValue), DDL_Customer.SelectedValue)
+            If Not dtHub Is Nothing Then
+                If dtHub.Rows.Count > 0 Then
+                    HubId = dtHub.Rows(0)("PersonId")
+                Else
+                    HubId = Convert.ToInt32(HDF_HubId.Value)
+                End If
+            Else
+                HubId = Convert.ToInt32(HDF_HubId.Value)
+            End If
+
 
             result = OBJMaster.InsertUpdateTransaction(HDF_VehicleId.Value, Site, PersonId, CurrentOdometer, FQunty, Fuel, 0, Nothing,
                                                      transactionDatetime, TransactionId, Convert.ToInt32(Session("PersonId")), "W", PreviousOdometer, "", "", "", vehicleNumber, txtDeptNo.Text,

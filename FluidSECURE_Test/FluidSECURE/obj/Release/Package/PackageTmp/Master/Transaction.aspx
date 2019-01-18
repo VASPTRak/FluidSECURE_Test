@@ -101,7 +101,7 @@
                                     Person PIN:</label>
                             </div>
                             <div class="form-group col-md-3 col-sm-3 col-xs-12">
-                                <asp:TextBox ID="txtPinNumber" runat="server" CssClass="form-control input-sm" MaxLength="10" Width="95" TabIndex="13" OnTextChanged="txtPinNumber_TextChanged" AutoPostBack="true"></asp:TextBox>
+                                <asp:TextBox ID="txtPinNumber" runat="server" CssClass="form-control input-sm" MaxLength="10" Width="95" TabIndex="13" OnTextChanged="txtPinNumber_TextChanged" AutoPostBack="true" Enabled="false"></asp:TextBox>
                             </div>
                         </div>
                     </div>
@@ -123,8 +123,7 @@
                         </div>
                         <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
                             <label>
-                                Selected Person
-                                <label class="text-danger font-required">[required]</label>:
+                                Selected Person:
                             </label>
                         </div>
                         <div class="form-group col-md-3 col-sm-3 col-xs-12">
@@ -259,7 +258,7 @@
                                     Guest Vehicle Number:</label>
                             </div>
                             <div class="form-group col-md-3 col-sm-3 col-xs-12">
-                                <asp:TextBox ID="txtGuestVehicleNumber" CssClass="form-control input-sm" TabIndex="19" runat="server" MaxLength="10" Width="110"></asp:TextBox>
+                                <asp:TextBox ID="txtGuestVehicleNumber" CssClass="form-control input-sm" TabIndex="19" runat="server" MaxLength="20"></asp:TextBox>
                             </div>
                         </div>
                     </div>

@@ -437,6 +437,24 @@ Partial Public Class Company
     Protected WithEvents hdfType As Global.System.Web.UI.WebControls.HiddenField
     
     '''<summary>
+    '''divMappCompanies control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents divMappCompanies As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+    
+    '''<summary>
+    '''rbl_FuelingType control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents rbl_FuelingType As Global.System.Web.UI.WebControls.RadioButtonList
+    
+    '''<summary>
     '''divDates control.
     '''</summary>
     '''<remarks>
@@ -633,4 +651,40 @@ Partial Public Class Company
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents lblWarningMessage As Global.System.Web.UI.WebControls.Label
+    
+    '''<summary>
+    '''lblMappCompanies control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblMappCompanies As Global.System.Web.UI.WebControls.Label
+    
+    '''<summary>
+    '''UP_MappCompanies control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents UP_MappCompanies As Global.System.Web.UI.UpdatePanel
+    
+    '''<summary>
+    '''GV_Companies control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents GV_Companies As Global.System.Web.UI.WebControls.GridView
+    
+    '''<summary>
+    '''btnCancelMappCompanies control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnCancelMappCompanies As Global.System.Web.UI.WebControls.Button
 End Class

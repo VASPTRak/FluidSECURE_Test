@@ -1,0 +1,16 @@
+Date,Screen,Action(Added/Modified/Deleted),User Name,Before,After,IP Address,Request Status,Failure Message
+2018/12/20 07:13:23 PM,,Application Start,,,,,success,
+2018/12/20 07:34:56 PM,,Application Start,,,,,success,
+2018/12/20 07:35:43 PM,login,logged in,trakadmin@trak.com,,,::1,fail,Invalid Email Id.
+2018/12/20 07:35:44 PM,login,logged in,trakadmin@trak.com,,,::1,fail,Invalid Email Id.
+2018/12/20 07:36:06 PM,login,logged in,vaspadmin@vasp.com,,,::1,fail,Invalid credentials. Please try again.
+2018/12/20 07:36:15 PM,login,logged in,vaspadmin@vasp.com,,,::1,fail,Invalid credentials. Please try again.
+2018/12/20 07:36:47 PM,login,logged in,VASP ADMIN(vaspadmin@vasp.com),,,::1,success,
+2018/12/20 07:36:50 PM,Page Request,Page Request,,,userAgent = Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML  like Gecko) Chrome/71.0.3578.98 Safari/537.36 ; Referrer = http://localhost:61129/Account/Login.aspx ; Method = GET,::1,sucsess,
+2018/12/20 07:37:24 PM,Page Request,Page Request,,,userAgent = Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML  like Gecko) Chrome/71.0.3578.98 Safari/537.36 ; Referrer = http://localhost:61129/home ; Method = GET,::1,sucsess,
+2018/12/20 07:37:35 PM,Page Request,Page Request,,,userAgent = Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML  like Gecko) Chrome/71.0.3578.98 Safari/537.36 ; Referrer = http://localhost:61129/Master/AllPersonnel.aspx ; Method = GET,::1,sucsess,
+2018/12/20 07:42:18 PM,Page Request,Page Request,,,userAgent = Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML  like Gecko) Chrome/71.0.3578.98 Safari/537.36 ; Referrer = http://localhost:61129/Master/AllPersonnel.aspx ; Method = GET,::1,sucsess,
+2018/12/20 07:43:10 PM,Page Request,Page Request,,,userAgent = Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML  like Gecko) Chrome/71.0.3578.98 Safari/537.36 ; Referrer =  ; Method = GET,::1,sucsess,
+2018/12/20 07:43:13 PM,Page Request,Page Request,,,userAgent = Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML  like Gecko) Chrome/71.0.3578.98 Safari/537.36 ; Referrer = http://localhost:61129/Master/Personnel?PersonId=115030&UniqueUserId=174af06f-944f-453f-a4a5-c7d4467bc4c1 ; Method = GET,::1,sucsess,
+2018/12/20 07:43:20 PM,Page Request,Page Request,,,userAgent = Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML  like Gecko) Chrome/71.0.3578.98 Safari/537.36 ; Referrer = http://localhost:61129/Master/AllPersonnel?Filter=Filter ; Method = GET,::1,sucsess,
+2018/12/20 07:43:43 PM,Personnel Hub,Import,VASP ADMIN(vaspadmin@vasp.com),File Name = Sussex Pers.csv ; Company =  Sussex County (NJ) ; Vehicles Allowed to Fuel = Default ; guest ; Authorized Fueling Times =No Limitations ; 12AM to 3AM ; 3 AM to 6AM ; 6AM to 9AM ; 9AM to 12Noon ; 12Noon to 3PM  ; 3PM to 6PM ; 6PM to 9PM ; 9PM to 12PM,,::1,success,

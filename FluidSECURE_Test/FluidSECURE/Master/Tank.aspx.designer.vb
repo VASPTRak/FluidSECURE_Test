@@ -329,6 +329,15 @@ Partial Public Class Tank
     Protected WithEvents CVConstantD As Global.System.Web.UI.WebControls.CompareValidator
     
     '''<summary>
+    '''txt_FirmwareVer control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txt_FirmwareVer As Global.System.Web.UI.WebControls.TextBox
+    
+    '''<summary>
     '''divCompany control.
     '''</summary>
     '''<remarks>

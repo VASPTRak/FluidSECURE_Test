@@ -864,4 +864,8 @@ Public Class AllPersonnel
             log.Error("Error occurred in checkActiveInActive Exception is :" + ex.Message)
         End Try
     End Sub
+
+	Protected Sub btnPersonnelOptions_Click(sender As Object, e As EventArgs)
+		Response.Redirect("~/Master/PersonnelOptionsScreen.aspx")
+	End Sub
 End Class

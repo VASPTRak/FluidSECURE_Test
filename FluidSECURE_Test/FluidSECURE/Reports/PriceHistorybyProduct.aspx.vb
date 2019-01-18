@@ -85,65 +85,59 @@ Public Class PriceHistorybyProduct
         End Try
     End Sub
 
-    Private Sub BindFuelTypes(CompanyId As Integer)
-        Try
+	Private Sub BindFuelTypes(CompanyId As Integer)
+		Try
 
-            Dim dtFuelTpes As DataTable = New DataTable()
-            OBJMaster = New MasterBAL()
-            dtFuelTpes = OBJMaster.GetFuelDetails(CompanyId)
+			Dim dtFuelTpes As DataTable = New DataTable()
+			OBJMaster = New MasterBAL()
+			dtFuelTpes = OBJMaster.GetFuelDetails(CompanyId)
 
-            DDL_Fuel.DataSource = dtFuelTpes
-            DDL_Fuel.DataValueField = "FuelTypeId"
-            DDL_Fuel.DataTextField = "FuelType"
-            DDL_Fuel.DataBind()
+			DDL_Fuel.DataSource = dtFuelTpes
+			DDL_Fuel.DataValueField = "FuelTypeId"
+			DDL_Fuel.DataTextField = "FuelType"
+			DDL_Fuel.DataBind()
 
-            DDL_Fuel.Items.Insert(0, New ListItem("Select All Products", "0"))
+			DDL_Fuel.Items.Insert(0, New ListItem("Select All Products", "0"))
 
-        Catch ex As Exception
+		Catch ex As Exception
 
-            ErrorMessage.Visible = True
-            ErrorMessage.InnerText = "Error occurred  while getting fuel types, please try again later."
+			ErrorMessage.Visible = True
+			ErrorMessage.InnerText = "Error occurred  while getting fuel types, please try again later."
 
-            log.Error("Error occurred in BindFuelTypes Exception is :" + ex.Message)
+			log.Error("Error occurred in BindFuelTypes Exception is :" + ex.Message)
 
-        End Try
-    End Sub
+		End Try
+	End Sub
 
-    Private Sub BindAllPersonnels()
-        Try
-            Dim dtPersonnel As DataTable = New DataTable()
-            OBJMaster = New MasterBAL()
+	Private Sub BindTanks(CustomerId As Integer)
+		Try
+			OBJMaster = New MasterBAL()
+			Dim dtTanks As DataTable = New DataTable()
+			dtTanks = OBJMaster.GetTankbyConditions(" And T.CustomerId =" & CustomerId, Session("PersonId").ToString(), Session("RoleId").ToString())
 
-            If (DDL_Customer.SelectedValue <> "0") Then
-                dtPersonnel = OBJMaster.GetPersonnelByNameAndNumberAndEmail(" and ISNULL(ANU.IsFluidSecureHub,0)=0  and ANU.CustomerId = " & DDL_Customer.SelectedValue, Convert.ToInt32(Session("PersonId").ToString()), Session("RoleId").ToString())
-                DDL_Personnel.DataSource = dtPersonnel
-                DDL_Personnel.DataValueField = "PersonId"
-                DDL_Personnel.DataTextField = "Person"
-                DDL_Personnel.DataBind()
-            End If
+			ViewState("dtTanks") = dtTanks
+			ddl_TankNo.DataSource = dtTanks
+			ddl_TankNo.DataTextField = "TankNumberNameForView"
+			ddl_TankNo.DataValueField = "TankId"
+			ddl_TankNo.DataBind()
+			ddl_TankNo.Items.Insert(0, New ListItem("All Tanks", "0"))
+		Catch ex As Exception
+			log.Error("Error occurred in BindTanks Exception is :" + ex.Message)
+			ErrorMessage.Visible = True
+			ErrorMessage.InnerText = "Error occurred while getting data, please try again later."
+		End Try
+	End Sub
 
-            DDL_Personnel.Items.Insert(0, New ListItem("Select All Personnel", "0"))
-
-        Catch ex As Exception
-
-            log.Error("Error occurred in BindAllPersonnels Exception is :" + ex.Message)
-            ErrorMessage.Visible = True
-            ErrorMessage.InnerText = "Error occurred while getting Personnels, please try again later."
-
-        End Try
-    End Sub
-
-    Protected Sub DDL_Customer_SelectedIndexChanged(sender As Object, e As EventArgs) Handles DDL_Customer.SelectedIndexChanged
-        Try
-
-            BindAllPersonnels()
-            BindFuelTypes(Convert.ToInt32(DDL_Customer.SelectedValue))
-        Catch ex As Exception
-            log.Error("Error occurred in DDL_Customer_SelectedIndexChanged Exception is :" + ex.Message)
-            ErrorMessage.Visible = True
-            ErrorMessage.InnerText = "Error occurred while getting data, please try again later."
-        Finally
-            ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "LoadDateTimeControl();loadMultiList();$('[id*=lstSites]').multiselect('selectAll', false).multiselect('updateButtonText');", True)
+	Protected Sub DDL_Customer_SelectedIndexChanged(sender As Object, e As EventArgs) Handles DDL_Customer.SelectedIndexChanged
+		Try
+			BindFuelTypes(Convert.ToInt32(DDL_Customer.SelectedValue))
+			BindTanks(Convert.ToInt32(DDL_Customer.SelectedValue))
+		Catch ex As Exception
+			log.Error("Error occurred in DDL_Customer_SelectedIndexChanged Exception is :" + ex.Message)
+			ErrorMessage.Visible = True
+			ErrorMessage.InnerText = "Error occurred while getting data, please try again later."
+		Finally
+			ScriptManager.RegisterStartupScript(Me, Me.GetType(), "MSG", "LoadDateTimeControl();loadMultiList();$('[id*=lstSites]').multiselect('selectAll', false).multiselect('updateButtonText');", True)
         End Try
     End Sub
 
@@ -187,16 +181,20 @@ Public Class PriceHistorybyProduct
                 strConditions = IIf(strConditions = "", " and ph.CompanyId = " + DDL_Customer.SelectedValue, strConditions + " and ph.CompanyId = " + DDL_Customer.SelectedValue)
             End If
 
-            If (DDL_Personnel.SelectedValue <> "0") Then
-                strConditions = IIf(strConditions = "", " and ph.Personid = " + DDL_Personnel.SelectedValue, strConditions + " and ph.Personid = " + DDL_Personnel.SelectedValue)
-            End If
+			If (ddl_TankNo.SelectedValue <> "0") Then
+				strConditions = IIf(strConditions = "", " and ph.TankId = " + ddl_TankNo.SelectedValue, strConditions + " and ph.TankId = " + ddl_TankNo.SelectedValue)
+			End If
 
-            If (DDL_Fuel.SelectedValue <> "0") Then
-                strConditions = IIf(strConditions = "", " and ph.FuelTypeID = " + DDL_Fuel.SelectedValue, strConditions + " and ph.FuelTypeID = " + DDL_Fuel.SelectedValue)
-            End If
+			If (DDL_Fuel.SelectedValue <> "0") Then
+				strConditions = IIf(strConditions = "", " and ph.FuelTypeID = " + DDL_Fuel.SelectedValue, strConditions + " and ph.FuelTypeID = " + DDL_Fuel.SelectedValue)
+			End If
 
-            'get data from server
-            dSPriceHistory = OBJMaster.GetPriceCostHistory(startDate.ToString(), endDate.ToString(), strConditions)
+			If (ddl_CostingMethod.SelectedValue <> "0") Then
+				strConditions = IIf(strConditions = "", " and ph.CostingType = '" + ddl_CostingMethod.SelectedValue + "'", strConditions + " and ph.CostingType = '" + ddl_CostingMethod.SelectedValue + "'")
+			End If
+
+			'get data from server
+			dSPriceHistory = OBJMaster.GetPriceCostHistory(startDate.ToString(), endDate.ToString(), strConditions)
             If (Not dSPriceHistory Is Nothing) Then
 
                 If (dSPriceHistory.Tables(0).Rows.Count <= 0) Then
@@ -250,13 +248,13 @@ Public Class PriceHistorybyProduct
     Private Function CreateData() As String
         Try
 
-            Dim data As String = "Price Added Date From = " & txtHistoryDateFrom.Text.Replace(",", "") & " ; " &
-                                 "Price Added Date To = " & txtHistoryDateTo.Text.Replace(",", "") & " ; " &
-                                 "Company = " & DDL_Customer.SelectedItem.Text.Replace(",", " ") & " ; " &
-                                 "Personnel = " & DDL_Personnel.SelectedItem.Text.Replace(",", " ") & " ; " &
-                                 "Product = " & DDL_Fuel.SelectedItem.Text.Replace(",", " ") & " ; "
+			Dim data As String = "Price Added Date From = " & txtHistoryDateFrom.Text.Replace(",", "") & " ; " &
+								 "Price Added Date To = " & txtHistoryDateTo.Text.Replace(",", "") & " ; " &
+								 "Company = " & DDL_Customer.SelectedItem.Text.Replace(",", " ") & " ; " &
+								 "Tank = " & ddl_TankNo.SelectedItem.Text.Replace(",", " ") & " ; " &
+								 "Product = " & DDL_Fuel.SelectedItem.Text.Replace(",", " ") & " ; "
 
-            Return data
+			Return data
         Catch ex As Exception
             log.Error(String.Format("Error Occurred while CreateData. Error is {0}.", ex.Message))
             Return ""

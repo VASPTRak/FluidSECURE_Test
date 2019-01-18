@@ -413,15 +413,17 @@ Public Class EstimatedCarbonFootprintbyVehicle
 				strConditions = IIf(strConditions = "", " and T.fuelTypeId = " + DDL_Fuel.SelectedValue, strConditions + " and T.fuelTypeId = " + DDL_Fuel.SelectedValue)
 			End If
 
-			If (DDL_TransactionStatus.SelectedValue = "2") Then
-				strConditions = IIf(strConditions = "", " and ISNULL(T.TransactionStatus,0) = 2", strConditions + " and ISNULL(T.TransactionStatus,0) = 2")
-			ElseIf (DDL_TransactionStatus.SelectedValue = "0") Then
-				strConditions = (IIf(strConditions = "", " and ISNULL(T.TransactionStatus,0) = 0 and datediff(minute, T.[CreatedDate] ,getdate()) > 15 ", strConditions + " and ISNULL(T.TransactionStatus,0) = 0 and datediff(minute, T.[CreatedDate] ,getdate()) > 15"))
-			ElseIf (DDL_TransactionStatus.SelectedValue = "1") Then
-				strConditions = (IIf(strConditions = "", " and (ISNULL(T.TransactionStatus,0) = 1  And ISNULL(T.IsMissed,0)= 1) and datediff(minute, T.[CreatedDate] ,getdate()) > 15 ", strConditions + " and (ISNULL(T.TransactionStatus,0) = 1 And ISNULL(T.IsMissed,0)= 1)  and datediff(minute, T.[CreatedDate] ,getdate()) > 15"))
-			End If
+            If (DDL_TransactionStatus.SelectedValue <> "3") Then
+                If (DDL_TransactionStatus.SelectedValue = "2") Then
+                    strConditions = IIf(strConditions = "", " and ISNULL(T.TransactionStatus,0) = 2", strConditions + " and ISNULL(T.TransactionStatus,0) = 2")
+                ElseIf (DDL_TransactionStatus.SelectedValue = "0") Then
+                    strConditions = (IIf(strConditions = "", " and ISNULL(T.TransactionStatus,0) = 0 and datediff(minute, T.[CreatedDate] ,getdate()) > 15 ", strConditions + " and ISNULL(T.TransactionStatus,0) = 0 and datediff(minute, T.[CreatedDate] ,getdate()) > 15"))
+                ElseIf (DDL_TransactionStatus.SelectedValue = "1") Then
+                    strConditions = (IIf(strConditions = "", " and (ISNULL(T.TransactionStatus,0) = 1  And ISNULL(T.IsMissed,0)= 1) and datediff(minute, T.[CreatedDate] ,getdate()) > 15 ", strConditions + " and (ISNULL(T.TransactionStatus,0) = 1 And ISNULL(T.IsMissed,0)= 1)  and datediff(minute, T.[CreatedDate] ,getdate()) > 15"))
+                End If
+            End If
 
-			If (DDL_HubName.SelectedValue <> "0") Then
+            If (DDL_HubName.SelectedValue <> "0") Then
 				strConditions = IIf(strConditions = "", " and ISNULL(T.HubId,0) = " + DDL_HubName.SelectedValue, strConditions + " and ISNULL(T.HubId,0) = " + DDL_HubName.SelectedValue)
 			End If
 
@@ -466,8 +468,8 @@ Public Class EstimatedCarbonFootprintbyVehicle
 
 			Session("FromDate") = startDate.ToString("dd-MMM-yyyy hh:mm tt")
 			Session("ToDate") = endDate.ToString("dd-MMM-yyyy hh:mm tt")
-
-			Response.Redirect("~/Reports/EstimatedCarbonFootprintbyVehicleReport")
+            Session("TransactionStatusText") = DDL_TransactionStatus.SelectedValue.ToString()
+            Response.Redirect("~/Reports/EstimatedCarbonFootprintbyVehicleReport")
 
 
 		Catch ex As Exception
@@ -728,12 +730,13 @@ Public Class EstimatedCarbonFootprintbyVehicle
 
 	Private Sub BindTransactionStatus()
 		Try
+            DDL_TransactionStatus.Items.Insert(0, New ListItem(ConfigurationManager.AppSettings("AllTransactionText").ToString(), "3"))
+            DDL_TransactionStatus.Items.Insert(1, New ListItem(ConfigurationManager.AppSettings("CompletedText").ToString(), "2"))
+            DDL_TransactionStatus.Items.Insert(2, New ListItem(ConfigurationManager.AppSettings("NotStartedText").ToString(), "0"))
+            DDL_TransactionStatus.Items.Insert(3, New ListItem(ConfigurationManager.AppSettings("MissedText").ToString(), "1"))
 
-			DDL_TransactionStatus.Items.Insert(0, New ListItem(ConfigurationManager.AppSettings("CompletedText").ToString(), "2"))
-			DDL_TransactionStatus.Items.Insert(1, New ListItem(ConfigurationManager.AppSettings("NotStartedText").ToString(), "0"))
-			DDL_TransactionStatus.Items.Insert(2, New ListItem(ConfigurationManager.AppSettings("MissedText").ToString(), "1"))
 
-		Catch ex As Exception
+        Catch ex As Exception
 			log.Error("Error occurred in BindTransactionStatus Exception is :" + ex.Message)
 			ErrorMessage.Visible = True
 			ErrorMessage.InnerText = "Error occurred while getting data, please try again later."

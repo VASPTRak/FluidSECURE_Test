@@ -142,6 +142,7 @@
                 ProductsMenu.Visible = False
                 FluidSecureMenu.Visible = False
                 UploadedFirmware.Visible = False
+                UploadedTLDFirmware.Visible = False
                 UploadedFSVMFirmware.Visible = False
                 UploadedFSNPFirmware.Visible = False
                 FluidSecureHubMenu.Visible = False
@@ -159,6 +160,7 @@
             If (Session("RoleName") = "SuperAdmin") Then
                 ShipmentMenu.Visible = True
                 UploadedFirmware.Visible = True
+                UploadedTLDFirmware.Visible = True
                 UploadedFSVMFirmware.Visible = True
                 UploadedFSNPFirmware.Visible = True
                 OtherMenu.Visible = True
@@ -198,6 +200,7 @@
                 If (Session("RoleName") = "Support") Then 'If (Session("RoleName") = "CustomerAdmin" Or Session("RoleName") = "Support") Then
                     ShipmentMenu.Visible = True
                     UploadedFirmware.Visible = False
+                    UploadedTLDFirmware.Visible = False
                     UploadedFSVMFirmware.Visible = False
                     UploadedFSNPFirmware.Visible = False
                     OtherMenu.Visible = True
@@ -205,6 +208,7 @@
                     ShipmentMenu.Visible = False
                 End If
                 UploadedFirmware.Visible = False
+                UploadedTLDFirmware.Visible = False
                 UploadedFSVMFirmware.Visible = False
                 UploadedFSNPFirmware.Visible = False
                 DayLightSavingId.Visible = False
@@ -225,100 +229,106 @@
                             OBJMaster = New MasterBAL()
 
                             Dim dtuspGetCustMenuMapingById As DataTable = New DataTable()
-                            dtuspGetCustMenuMapingById = OBJMaster.GetCustMenuMapingById(" and CustomerMenuLinkId = 1", dtPersonnel.Rows(0)("CustomerId").ToString())
+                            dtuspGetCustMenuMapingById = OBJMaster.GetCustMenuMapingById("", dtPersonnel.Rows(0)("CustomerId").ToString())
                             If dtuspGetCustMenuMapingById IsNot Nothing And dtuspGetCustMenuMapingById.Rows.Count > 0 Then
-                                SpecializedExport.Visible = True
-                                If Session("CompanyNameHeader").ToString() IsNot Nothing Then
-                                    Session("SpecializedExport") = "SpecializedExport"
-                                    If (Session("RoleName") = "CustomerAdmin") Then
-                                        SpecializedExport.InnerHtml = "<a href=/Master/SpecializedExport.aspx>Specialized Export : " & Session("CompanyNameHeader").ToString() & "</a>"
+
+                                Dim dr As DataRow() = dtuspGetCustMenuMapingById.Select("CustomerMenuLinkId = 1")
+                                If dr.Count > 0 Then
+                                    SpecializedExport.Visible = True
+                                    If Session("CompanyNameHeader").ToString() IsNot Nothing Then
+                                        Session("SpecializedExport") = "SpecializedExport"
+                                        If (Session("RoleName") = "CustomerAdmin") Then
+                                            SpecializedExport.InnerHtml = "<a href=/Master/SpecializedExport.aspx>Specialized Export : " & Session("CompanyNameHeader").ToString() & "</a>"
+                                        Else
+                                            SpecializedExport.InnerHtml = "<a href=/Master/SpecializedExport.aspx>Specialized Export: Hawaii Telecom" & "</a>"
+                                        End If
                                     Else
-                                        SpecializedExport.InnerHtml = "<a href=/Master/SpecializedExport.aspx>Specialized Export: Hawaii Telecom" & "</a>"
+                                        SpecializedExport.Visible = False
                                     End If
                                 Else
                                     SpecializedExport.Visible = False
                                 End If
-                            Else
-                                SpecializedExport.Visible = False
-                            End If
 
-                            Dim dtTotalFuelUsageByHubPerVehicle As DataTable = New DataTable()
-                            dtTotalFuelUsageByHubPerVehicle = OBJMaster.GetCustMenuMapingById(" and CustomerMenuLinkId = 2 ", dtPersonnel.Rows(0)("CustomerId").ToString())
-                            If dtTotalFuelUsageByHubPerVehicle IsNot Nothing And dtTotalFuelUsageByHubPerVehicle.Rows.Count > 0 Then
-                                Session("TotalFuelUsageByHubPerVehicle") = "TotalFuelUsageByHubPerVehicle"
-                                TotalFuelUsageByHubPerVehicle.Visible = True
-                            Else
-                                TotalFuelUsageByHubPerVehicle.Visible = False
-                            End If
+                                dr = dtuspGetCustMenuMapingById.Select("CustomerMenuLinkId = 2")
+                                If dr.Count > 0 Then
+                                    Session("TotalFuelUsageByHubPerVehicle") = "TotalFuelUsageByHubPerVehicle"
+                                    TotalFuelUsageByHubPerVehicle.Visible = True
+                                Else
+                                    TotalFuelUsageByHubPerVehicle.Visible = False
+                                End If
 
-                            dtuspGetCustMenuMapingById = OBJMaster.GetCustMenuMapingById(" and CustomerMenuLinkId = 3", dtPersonnel.Rows(0)("CustomerId").ToString())
-                            If dtuspGetCustMenuMapingById IsNot Nothing And dtuspGetCustMenuMapingById.Rows.Count > 0 Then
-                                SpecializedPersonnelImport.Visible = True
-                                If Session("CompanyNameHeader").ToString() IsNot Nothing Then
-                                    Session("SpecializedPersonnelImport") = "SpecializedPersonnelImport"
-                                    If (Session("RoleName") = "CustomerAdmin") Then
-                                        SpecializedPersonnelImport.InnerHtml = "<a href=/Master/SpecializedPersonnelImport.aspx>Specialized Personnel Import: " & Session("CompanyNameHeader").ToString() & "</a>"
+                                dr = dtuspGetCustMenuMapingById.Select("CustomerMenuLinkId = 3")
+                                If dr.Count > 0 Then
+                                    SpecializedPersonnelImport.Visible = True
+                                    If Session("CompanyNameHeader").ToString() IsNot Nothing Then
+                                        Session("SpecializedPersonnelImport") = "SpecializedPersonnelImport"
+                                        If (Session("RoleName") = "CustomerAdmin") Then
+                                            SpecializedPersonnelImport.InnerHtml = "<a href=/Master/SpecializedPersonnelImport.aspx>Specialized Personnel Import: " & Session("CompanyNameHeader").ToString() & "</a>"
+                                        Else
+                                            SpecializedPersonnelImport.InnerHtml = "<a href=/Master/SpecializedPersonnelImport.aspx>Specialized Personnel Import: Hawaii Telecom" & "</a>"
+                                        End If
                                     Else
-                                        SpecializedPersonnelImport.InnerHtml = "<a href=/Master/SpecializedPersonnelImport.aspx>Specialized Personnel Import: Hawaii Telecom" & "</a>"
+                                        SpecializedPersonnelImport.Visible = False
                                     End If
                                 Else
                                     SpecializedPersonnelImport.Visible = False
                                 End If
-                            Else
-                                SpecializedPersonnelImport.Visible = False
-                            End If
-
-                            dtuspGetCustMenuMapingById = OBJMaster.GetCustMenuMapingById(" and CustomerMenuLinkId = 4", dtPersonnel.Rows(0)("CustomerId").ToString())
-                            If dtuspGetCustMenuMapingById IsNot Nothing And dtuspGetCustMenuMapingById.Rows.Count > 0 Then
-                                SpecializedVehicleImport.Visible = True
-                                If Session("CompanyNameHeader").ToString() IsNot Nothing Then
-                                    Session("SpecializedVehicleImport") = "SpecializedVehicleImport"
-                                    If (Session("RoleName") = "CustomerAdmin") Then
-                                        SpecializedVehicleImport.InnerHtml = "<a href=/Master/SpecializedVehicleImport.aspx>Specialized Vehicle Import: " & Session("CompanyNameHeader").ToString() & "</a>"
+                                dr = dtuspGetCustMenuMapingById.Select("CustomerMenuLinkId = 4")
+                                If dr.Count > 0 Then
+                                    SpecializedVehicleImport.Visible = True
+                                    If Session("CompanyNameHeader").ToString() IsNot Nothing Then
+                                        Session("SpecializedVehicleImport") = "SpecializedVehicleImport"
+                                        If (Session("RoleName") = "CustomerAdmin") Then
+                                            SpecializedVehicleImport.InnerHtml = "<a href=/Master/SpecializedVehicleImport.aspx>Specialized Vehicle Import: " & Session("CompanyNameHeader").ToString() & "</a>"
+                                        Else
+                                            SpecializedVehicleImport.InnerHtml = "<a href=/Master/SpecializedVehicleImport.aspx>Specialized Vehicle Import: Hawaii Telecom" & "</a>"
+                                        End If
                                     Else
-                                        SpecializedVehicleImport.InnerHtml = "<a href=/Master/SpecializedVehicleImport.aspx>Specialized Vehicle Import: Hawaii Telecom" & "</a>"
+                                        SpecializedVehicleImport.Visible = False
                                     End If
                                 Else
                                     SpecializedVehicleImport.Visible = False
                                 End If
-                            Else
-                                SpecializedVehicleImport.Visible = False
-                            End If
-
-                            dtuspGetCustMenuMapingById = OBJMaster.GetCustMenuMapingById(" and CustomerMenuLinkId = 5", dtPersonnel.Rows(0)("CustomerId").ToString())
-                            If dtuspGetCustMenuMapingById IsNot Nothing And dtuspGetCustMenuMapingById.Rows.Count > 0 Then
-                                SpecializedVehicleInactiveImport.Visible = True
-                                If Session("CompanyNameHeader").ToString() IsNot Nothing Then
-                                    Session("SpecializedVehicleInactiveImport") = "SpecializedVehicleInactiveImport"
-                                    If (Session("RoleName") = "CustomerAdmin") Then
-                                        SpecializedVehicleInactiveImport.InnerHtml = "<a href=/Master/SpecializedVehicleInactiveImport.aspx>Specialized Vehicle Inactive Import: " & Session("CompanyNameHeader").ToString() & "</a>"
+                                dr = dtuspGetCustMenuMapingById.Select("CustomerMenuLinkId = 5")
+                                If dr.Count > 0 Then
+                                    SpecializedVehicleInactiveImport.Visible = True
+                                    If Session("CompanyNameHeader").ToString() IsNot Nothing Then
+                                        Session("SpecializedVehicleInactiveImport") = "SpecializedVehicleInactiveImport"
+                                        If (Session("RoleName") = "CustomerAdmin") Then
+                                            SpecializedVehicleInactiveImport.InnerHtml = "<a href=/Master/SpecializedInActiveVehicleImport.aspx>Specialized Vehicle Inactive Import: " & Session("CompanyNameHeader").ToString() & "</a>"
+                                        Else
+                                            SpecializedVehicleInactiveImport.InnerHtml = "<a href=/Master/SpecializedInActiveVehicleImport.aspx>Specialized Vehicle Inactive Import: Hawaii Telecom" & "</a>"
+                                        End If
                                     Else
-                                        SpecializedVehicleInactiveImport.InnerHtml = "<a href=/Master/SpecializedVehicleInactiveImport.aspx>Specialized Vehicle Inactive Import: Hawaii Telecom" & "</a>"
+                                        SpecializedVehicleInactiveImport.Visible = False
                                     End If
                                 Else
                                     SpecializedVehicleInactiveImport.Visible = False
                                 End If
-                            Else
-                                SpecializedVehicleInactiveImport.Visible = False
-                            End If
-
-                            dtuspGetCustMenuMapingById = OBJMaster.GetCustMenuMapingById(" and CustomerMenuLinkId = 6", dtPersonnel.Rows(0)("CustomerId").ToString())
-                            If dtuspGetCustMenuMapingById IsNot Nothing And dtuspGetCustMenuMapingById.Rows.Count > 0 Then
-                                SpecializedTransactionImport.Visible = True
-                                If Session("CompanyNameHeader").ToString() IsNot Nothing Then
-                                    Session("SpecializedTransactionImport") = "SpecializedTransactionImport"
-                                    If (Session("RoleName") = "CustomerAdmin") Then
-                                        SpecializedTransactionImport.InnerHtml = "<a href=/Master/SpecializedTransactionImport.aspx>Specialized Transaction Import: " & Session("CompanyNameHeader").ToString() & "</a>"
+                                dr = dtuspGetCustMenuMapingById.Select("CustomerMenuLinkId = 6")
+                                If dr.Count > 0 Then
+                                    SpecializedTransactionImport.Visible = True
+                                    If Session("CompanyNameHeader").ToString() IsNot Nothing Then
+                                        Session("SpecializedTransactionImport") = "SpecializedTransactionImport"
+                                        If (Session("RoleName") = "CustomerAdmin") Then
+                                            SpecializedTransactionImport.InnerHtml = "<a href=/Master/SpecializedTransactionImport.aspx>Specialized Transaction Import: " & Session("CompanyNameHeader").ToString() & "</a>"
+                                        Else
+                                            SpecializedTransactionImport.InnerHtml = "<a href=/Master/SpecializedTransactionImport.aspx>Specialized Transaction Import: Hawaii Telecom" & "</a>"
+                                        End If
                                     Else
-                                        SpecializedTransactionImport.InnerHtml = "<a href=/Master/SpecializedTransactionImport.aspx>Specialized Transaction Import: Hawaii Telecom" & "</a>"
+                                        SpecializedTransactionImport.Visible = False
                                     End If
                                 Else
                                     SpecializedTransactionImport.Visible = False
                                 End If
                             Else
+                                SpecializedExport.Visible = False
+                                TotalFuelUsageByHubPerVehicle.Visible = False
+                                SpecializedPersonnelImport.Visible = False
+                                SpecializedVehicleImport.Visible = False
+                                SpecializedVehicleInactiveImport.Visible = False
                                 SpecializedTransactionImport.Visible = False
                             End If
-
                         Else
                             SpecializedExport.Visible = False
                             TotalFuelUsageByHubPerVehicle.Visible = False

@@ -2,9 +2,7 @@
 Imports System.IO
 Imports log4net.Config
 Imports log4net
-Imports ClosedXML.Excel
 Imports Microsoft.AspNet.Identity.Owin
-Imports Microsoft.AspNet.Identity
 Public Class SpecializedTransactionImport
     Inherits System.Web.UI.Page
     Private Shared ReadOnly log As ILog = LogManager.GetLogger(GetType(SpecializedTransactionImport))
@@ -184,11 +182,15 @@ Public Class SpecializedTransactionImport
                 dr("TransactionDateTime") = transactionDatetime
             Next
 
-            Dim dataView As New DataView(dtData)
-            dataView.Sort = " TransactionDateTime ASC"
-            dtData = dataView.ToTable()
+            'Dim dataView As New DataView(dtData)
+            'dataView.Sort = " TransactionDateTime ASC"
+            'dtData = dataView.ToTable()
+
+            log.Debug("Got dtData. rows : " & dtData.Rows.Count)
 
             Dim returnCnts As String = ValidateAndInsertData(dtData)
+
+            log.Debug("Completed insertion dtData.")
 
             message.Visible = True
             message.InnerText = returnCnts.Split(";")(0) & " Transactions imported successfully "
@@ -200,7 +202,8 @@ Public Class SpecializedTransactionImport
             End If
 
         Catch ex As Exception
-            message.InnerText = message.InnerText + " , Error occurred, Please try after some time."
+            message.InnerText = "Error occurred, Please try after some time."
+            message.Visible = True
             log.Error("Exception occurred on btnUpload_Click. Exception is : " & ex.Message)
         Finally
             ddlCustomer.Focus()
@@ -210,7 +213,7 @@ Public Class SpecializedTransactionImport
 
     Public Function ImportExcelUsingOLEDB(ExcelFilePath As String)
         Dim Sname As String = ""
-        Dim connStr As String = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + ExcelFilePath + ";Extended Properties='Excel 8.0;HDR=NO;IMEX=1;TypeGuessRows=0;Importmixedtypes=text';"
+        Dim connStr As String = "Provider = Microsoft.ACE.OLEDB.12.0;Data Source=" & ExcelFilePath & ";Extended Properties='Excel 12.0;HDR=NO;IMEX=1;TypeGuessRows=0;Importmixedtypes=text'" '"Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + ExcelFilePath + ";Extended Properties='Excel 8.0;HDR=NO;IMEX=1;TypeGuessRows=0;Importmixedtypes=text';"
         Dim MyConnection As OleDbConnection = New OleDbConnection(connStr)
         Dim MyCommand As OleDbDataAdapter = Nothing
 
@@ -270,10 +273,15 @@ Public Class SpecializedTransactionImport
 
             Dim rowIndex As Integer = 0
             Dim isDirty As Boolean = False
-
+            Dim vehicleNumber As String = ""
             For Each dr As DataRow In dtImportData.Rows
+
+                OBJMaster = New MasterBAL()
+
                 isDirty = False
                 rowIndex = dr("RowIndex")
+
+                log.Debug("ValidateAndInsertData RowIndex : " & rowIndex)
 
                 If dr("VehicleId") <> "" Then
                     dtVehicle = New DataTable()
@@ -284,6 +292,7 @@ Public Class SpecializedTransactionImport
                             isDirty = True
                         Else
                             dr("VehicleId") = dtVehicle.Rows(0)("VehicleId").ToString()
+                            vehicleNumber = dtVehicle.Rows(0)("VehicleNumber").ToString()
                         End If
                     Else
                         strLog = strLog & Environment.NewLine & currentDateTime & "--" & "Customer Vehicle ID (" & dr("VehicleId") & ") is not found. Check Row  " & rowIndex
@@ -293,6 +302,8 @@ Public Class SpecializedTransactionImport
                     strLog = strLog & Environment.NewLine & currentDateTime & "--" & "Customer Vehicle ID field is required. Check Row  " & rowIndex
                     isDirty = True
                 End If
+
+                log.Debug("ValidateAndInsertData VehicleId RowIndex : " & rowIndex)
 
                 Dim fileDepartmentName As String = dr("DepartmentName")
                 Dim DepartmentName As String = ""
@@ -321,7 +332,7 @@ Public Class SpecializedTransactionImport
                         Dim result As Integer = OBJMaster.SaveUpdateDept(0, DepartmentName, "", "", "", "", ddlCustomer.SelectedValue, "", Convert.ToInt32(Session("PersonId")), 0, 0, 0, 0, 0, True)
                         If (result > 0) Then
                             dtDept = OBJMaster.GetDeptbyConditions(" and Dept.CustomerId = " & ddlCustomer.SelectedValue, Session("PersonId").ToString(), Session("RoleId").ToString())
-                            dr("DepartmentName") = dtDept.Rows(0)("NUMBER")
+                            'dr("DepartmentName") = dtDept.Rows(0)("NUMBER")
                         Else
                             strLog = strLog & Environment.NewLine & strErrorDept & Environment.NewLine & currentDateTime & "--" & " Error occurred while creating Vehicle department. Check Row  " & rowIndex
                             isDirty = True
@@ -332,6 +343,8 @@ Public Class SpecializedTransactionImport
                     strLog = strLog & Environment.NewLine & strErrorDept & Environment.NewLine & currentDateTime & "--" & "Vehicle department name is required. Check Row  " & rowIndex
                     isDirty = True
                 End If
+
+                log.Debug("ValidateAndInsertData DepartmentName RowIndex : " & rowIndex)
 
                 If (dr("PinNumber") <> "") Then
                     If (dr("PinNumber").ToString().Length > 20) Then
@@ -377,15 +390,19 @@ Public Class SpecializedTransactionImport
                 End If
 
 
+                log.Debug("ValidateAndInsertData Product RowIndex : " & rowIndex)
 
                 If (isDirty = False) Then
-                    Dim result As Integer = InsertRecord(dr, True)
+                    Dim result As Integer = InsertRecord(dr, True, vehicleNumber)
                     If (result > 0) Then
                         cnt = cnt + 1
                     End If
                 Else
                     ErrorCnt = ErrorCnt + 1
                 End If
+
+                log.Debug("ValidateAndInsertData insert complete RowIndex : " & rowIndex)
+
 
             Next
 
@@ -400,16 +417,16 @@ Public Class SpecializedTransactionImport
         End Try
     End Function
 
-    Private Function InsertRecord(dr As DataRow, FlagForInsertUpdate As Boolean) As Integer
+    Private Function InsertRecord(dr As DataRow, FlagForInsertUpdate As Boolean, VehicleNumber As String) As Integer
         Dim resultInt As Integer = 0
         Dim currentDateTime As String = ""
         Try
+            log.Debug("InsertRecord RowIndex : " & dr("RowIndex").ToString())
+
+            OBJMaster = New MasterBAL()
 
             ' Transaction date time
-
-            Dim user = New ApplicationUser()
-            Dim manager = Context.GetOwinContext().GetUserManager(Of ApplicationUserManager)()
-
+            
             Try
                 currentDateTime = Convert.ToDateTime(HDF_CurrentDate.Value).ToString("MM/dd/yyyy hh:mm:ss tt")
 
@@ -418,7 +435,6 @@ Public Class SpecializedTransactionImport
                 currentDateTime = DateTime.Now.ToString()
 
             End Try
-
             Dim dsTransactionValuesData As DataSet
             Dim DepartmentName As String = ""
             Dim FuelTypeName As String = ""
@@ -426,7 +442,7 @@ Public Class SpecializedTransactionImport
             Dim PersonName As String = ""
             Dim CompanyName As String = ""
             Dim VehicleName As String = ""
-            Dim VehicleNumber As String = ""
+            'Dim VehicleNumber As String = ""
             Dim PersonId As Integer = 0
 
             Dim dtPerson As DataTable = New DataTable()
@@ -437,15 +453,12 @@ Public Class SpecializedTransactionImport
                 End If
             End If
 
-            Dim dtVehicle As DataTable = New DataTable()
-            dtVehicle = OBJMaster.GetVehiclebyId(dr("VehicleId"))
-            If (dtVehicle IsNot Nothing) Then
-                If dtVehicle.Rows.Count > 0 Then
-                    VehicleNumber = dtVehicle.Rows(0)("VehicleNumber")
-                End If
-            End If
+            Dim transactionDatetime As DateTime = dr("TransactionDate") & " " & dr("TransactionTime")
 
-            dsTransactionValuesData = OBJMaster.GetTransactionColumnsValueForSave(dr("DepartmentName"), Convert.ToInt32(dr("Product")), PersonId, Convert.ToInt32(dr("VehicleId")))
+
+
+
+			dsTransactionValuesData = OBJMaster.GetTransactionColumnsValueForSave("", Convert.ToInt32(dr("Product")), PersonId, Convert.ToInt32(dr("VehicleId")))
 
             If dsTransactionValuesData IsNot Nothing Then
                 If dsTransactionValuesData.Tables.Count > 0 Then
@@ -470,18 +483,24 @@ Public Class SpecializedTransactionImport
                 End If
             End If
 
-            Dim transactionDatetime As DateTime = dr("TransactionDate") & " " & dr("TransactionTime")
+            log.Debug("InsertRecord  dsTransactionValuesData RowIndex : " & dr("RowIndex").ToString())
 
-            resultInt = OBJMaster.InsertUpdateTransaction(Convert.ToInt32(dr("VehicleId")), 0, PersonId, IIf(dr("Odometer").ToString() = "", "0", dr("Odometer").ToString()), dr("FuelQuantity"), dr("Product"), 0, Nothing,
-                                                     transactionDatetime, 0, Convert.ToInt32(Session("PersonId")), "W", 0, "", "", "", VehicleNumber, dr("DepartmentName"),
-                                                     dr("PinNumber"), "", -1, False, False, 2, 0, -1,
-                                                     VehicleName, DepartmentName, FuelTypeName, Email, PersonName, CompanyName, True, Convert.ToInt32(ddlCustomer.SelectedValue), -1, 0, 0, 1, False)
 
-            If dr("TransactionCost") <> "" Then
+			resultInt = OBJMaster.InsertUpdateTransaction(Convert.ToInt32(dr("VehicleId")), 0, PersonId, IIf(dr("Odometer").ToString() = "", "0", dr("Odometer").ToString()), dr("FuelQuantity"), dr("Product"), 0, Nothing,
+													 transactionDatetime, 0, Convert.ToInt32(Session("PersonId")), "W", 0, "", "", "", VehicleNumber, dr("DepartmentName"),
+													 dr("PinNumber"), "", -1, False, False, 2, 0, -1,
+													 VehicleName, DepartmentName, FuelTypeName, Email, PersonName, CompanyName, True, Convert.ToInt32(ddlCustomer.SelectedValue), -1, 0, True, True, False)
+
+			If dr("TransactionCost") <> "" And resultInt > 0 Then
                 OBJMaster.UpdateTransactionCost(resultInt, dr("TransactionCost"))
             End If
 
+            log.Debug("InsertRecord  inserted RowIndex : " & dr("RowIndex").ToString())
+
             '"CostPerGallon"
+            If (resultInt = -1) Then
+                Return 1
+            End If
 
             Return resultInt
 

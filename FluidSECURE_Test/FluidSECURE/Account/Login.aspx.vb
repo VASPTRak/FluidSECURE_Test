@@ -148,11 +148,38 @@ Partial Public Class Login
 						End If
 
 					ElseIf IsNothing(validCredentials) Then
-						message = "Invalid credentials. Please try again."
-						FailureText.Text = message
-						ErrorMessage.Visible = True
-						If (ConfigurationManager.AppSettings("AllowActivityLogin").ToString().ToLower() = "yes") Then
-							CSCommonHelper.WriteLog("logged in", "login", "", "", Email.Text, Session("IPAddress").ToString(), "fail", String.Format("Invalid credentials. Please try again."))
+						'message = "Invalid credentials. Please try again."
+						'FailureText.Text = message
+						'ErrorMessage.Visible = True
+						'If (ConfigurationManager.AppSettings("AllowActivityLogin").ToString().ToLower() = "yes") Then
+						'	CSCommonHelper.WriteLog("logged in", "login", "", "", Email.Text, Session("IPAddress").ToString(), "fail", String.Format("Invalid credentials. Please try again."))
+						'End If
+						Context.GetOwinContext().GetUserManager(Of ApplicationUserManager).AccessFailed(User.Id)
+						If Context.GetOwinContext().GetUserManager(Of ApplicationUserManager).IsLockedOut(User.Id) And Context.GetOwinContext().GetUserManager(Of ApplicationUserManager).GetAccessFailedCount(User.Id) Then
+							message = String.Format("Your account has been locked out for {0} minutes due to multiple failed login attempts.", DefaultAccountLockoutTimeSpan)
+							If (ConfigurationManager.AppSettings("AllowActivityLogin").ToString().ToLower() = "yes") Then
+								CSCommonHelper.WriteLog("logged in", "login", "", "", Email.Text, Session("IPAddress").ToString(), "fail", String.Format("Your account has been locked out for {0} minutes due to multiple failed login attempts.", DefaultAccountLockoutTimeSpan))
+							End If
+							FailureText.Text = message
+							ErrorMessage.Visible = True
+						Else
+							Dim accessFailedCount As Integer = Context.GetOwinContext().GetUserManager(Of ApplicationUserManager).GetAccessFailedCount(User.Id)
+							Dim attemptsLeft As Integer = MaxFailedAccessAttemptsBeforeLockout - accessFailedCount
+							If accessFailedCount = 0 Then
+								message = String.Format("Your account has been locked out for {0} minutes due to multiple failed login attempts.", DefaultAccountLockoutTimeSpan)
+								Context.GetOwinContext().GetUserManager(Of ApplicationUserManager).SetLockoutEnabled(User.Id, True)
+							Else
+								If (ConfigurationManager.AppSettings("AllowActivityLogin").ToString().ToLower() = "yes") Then
+									CSCommonHelper.WriteLog("logged in", "login", "", "", Email.Text, Session("IPAddress").ToString(), "fail", "Invalid credentials.")
+								End If
+								message = String.Format("Invalid credentials. You have {0} more attempt(s) before your account gets locked out.", attemptsLeft)
+								If (ConfigurationManager.AppSettings("AllowActivityLogin").ToString().ToLower() = "yes") Then
+									CSCommonHelper.WriteLog("logged in", "login", "", "", Email.Text, Session("IPAddress").ToString(), "fail", String.Format("Invalid credentials. Person have {0} more attempt(s) before account gets locked out.", attemptsLeft))
+								End If
+							End If
+
+							FailureText.Text = message
+							ErrorMessage.Visible = True
 						End If
 					Else
 						Dim result = signinManager.PasswordSignIn(Email.Text, Password.Text, RememberMe.Checked, shouldLockout:=True)

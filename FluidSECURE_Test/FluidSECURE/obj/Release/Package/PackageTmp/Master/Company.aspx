@@ -249,6 +249,25 @@
                             <asp:HiddenField ID="hdfType" runat="server" Value="0" />
                         </div>
                     </div>
+                    <div class="row col-md-12 col-sm-12 col-xs-12" id="divMappCompanies" runat="server">
+                        <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
+							<label>
+                                Select distance units:</label>
+                        </div>
+						<div class="form-group col-md-3 col-sm-3 textright col-xs-12">
+							<asp:RadioButtonList runat="server" ID="rbl_FuelingType" RepeatDirection="Horizontal">
+								<asp:ListItem Selected="true" Text="Miles" value="False"></asp:ListItem>
+								<asp:ListItem Text="Kilometers" value="True"></asp:ListItem>
+							</asp:RadioButtonList>
+                        </div>
+                        <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
+                            <label>
+                                Assign Managed Companies:</label>
+                        </div>
+                        <div class="form-group col-md-3 col-sm-3 col-xs-12">
+                            <input type="button" id="BTN_MappCompanies" tabindex="17" onclick="OpenMappCompaniesBox();" value="Click to Assign Managed Companies" />
+                        </div>
+                    </div>
                     <div runat="server" id="divDates">
                         <div class="row col-md-12 col-sm-12 col-xs-12" runat="server">
                             <div class="form-group col-md-3 col-sm-3 textright col-xs-12">
@@ -290,7 +309,7 @@
                         </div>
                     </div>--%>
                     <div class="row col-md-12 col-sm-12 col-xs-12" id="trLabel" runat="server">
-                        <p class="green" style="text-align: center">You can reset  Contact Email password from Personnel screen. </p>
+                        <p class="green" style="text-align: center">You can reset  Contact Email and password from Personnel screen. </p>
                     </div>
                     <div class="row col-md-12 col-sm-12 text-center col-xs-12">
                         <asp:Button ID="btnSave" CssClass="btn btn-primary" runat="server" OnClick="btnSave_Click" Text="Save" Width="100px"
@@ -465,6 +484,74 @@
             }
 
         }
+
+        function OpenMappCompaniesBox() {
+            $("#CompanyInput").val("");
+            SearchCompany();
+           
+            $('#MappCompaniesModel').modal({
+                show: true,
+                backdrop: 'static',
+                keyboard: false
+            });
+        }
+
+
+        function CloseMappCompaniesBox() {
+            $("#btnCloseMappCompanies").click();
+            $('body').removeClass("modal-open");
+            //$('#BTN_PersonSite').focus();
+            
+        }
+
+        function SelectAllCheckboxesSpecificForCompanies(spanChk) {
+
+            var IsChecked = spanChk.checked;
+            var Chk = spanChk;
+            Parent = document.getElementById('<%= GV_Companies.ClientID %>');
+            var items = Parent.getElementsByTagName('input');
+            for (i = 0; i < items.length; i++) {
+                if (items[i].id != Chk && items[i].type == "checkbox") {
+                    if (items[i].checked != IsChecked) {
+                        items[i].click();
+                    }
+                }
+            }
+        }
+
+        function SelectboxMappCompanies(spanChk) {
+
+            var IsChecked = spanChk.checked;
+            if (IsChecked == false) {
+                Parent = document.getElementById('<%= GV_Companies.ClientID%>');
+                var checkBoxSelector = "#<%=GV_Companies.ClientID%> input[id*='chkAllCompanies']";
+
+                $(checkBoxSelector).attr('checked', false);
+            }
+        }
+
+
+
+        function SearchCompany() {
+            var input, filter, table, tr, td, i;
+            input = document.getElementById("CompanyInput");
+            filter = input.value.toLowerCase();
+            table = document.getElementById('<%= GV_Companies.ClientID %>');
+            if (table != null) {
+                tr = table.getElementsByTagName("tr");
+                for (i = 0; i < tr.length; i++) {
+                    td = tr[i].getElementsByTagName("td")[1];
+                    if (td) {
+                        if (td.innerText.toLowerCase().indexOf(filter) > -1) {
+                            tr[i].style.display = "";
+                        } else {
+                            tr[i].style.display = "none";
+                        }
+                    }
+                }
+
+            }
+        }
     </script>
     <style>
         .ui-tooltip {
@@ -515,6 +602,55 @@
                         <div class="modal-footer nextButton">
                             <input type="button" id="btnWarningMessageOk" class="btn btn-success" onclick="ClosePopUpWarningMessage();" value="Close" />
                             <input type="button" id="btnCloseWarningMessage" class="btn btn-success" data-dismiss="modal" style="display: none;" value="Close" />
+                        </div>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
+            <!-- /.modal -->
+
+                       <!--Mapping companies model-->
+            <div class="modal fade" tabindex="-1" role="dialog" id="MappCompaniesModel">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title text-center">Click Box to Select companies to mapp with Group Admin at:</h5>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row margin10">
+                                <input type="text" id="CompanyInput" class="form-control" onkeyup="SearchCompany()" placeholder="Search for Company Name">
+                            </div>
+
+                            <div class="row col-md-12 col-sm-12">
+                                <asp:Label ID="lblMappCompanies" runat="server" Text=""></asp:Label>
+                            </div>
+
+                            <div class="row col-md-12 col-sm-12 text-center" style="overflow-x: auto; max-height: 400px;">
+                                <asp:UpdatePanel ID="UP_MappCompanies" runat="server">
+                                    <ContentTemplate>
+                                        <asp:GridView ID="GV_Companies" CssClass="table table-bordered" runat="server" DataKeyNames="CustomerId,CustomerName" AutoGenerateColumns="False" EmptyDataText="Data Not found.">
+                                            <Columns>
+                                                <asp:TemplateField HeaderText="">
+                                                    <HeaderTemplate>
+                                                        <asp:CheckBox ID="chkAllCompanies" onclick="javascript:SelectAllCheckboxesSpecificForCompanies(this);" runat="server" />
+                                                    </HeaderTemplate>
+                                                    <ItemTemplate>
+                                                        <asp:CheckBox ID="CHK_MappCompanies" runat="server" onclick="javascript:SelectboxMappCompanies(this);" />
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+                                                <asp:BoundField DataField="CustomerName" HeaderText="Company" ReadOnly="True" HeaderStyle-HorizontalAlign="Left" ItemStyle-HorizontalAlign="Left" />
+                                            </Columns>
+                                        </asp:GridView>
+
+                                    </ContentTemplate>
+                                </asp:UpdatePanel>
+                            </div>
+                        </div>
+                        <div class="modal-footer nextButton">
+                            <input type="button" id="btnMappCompaniesOk" class="btn btn-success" onclick="CloseMappCompaniesBox()" value="Ok" />
+                            <input type="button" id="btnCloseMappCompanies" class="btn btn-success" data-dismiss="modal" style="display: none;" value="Close" />
+                            <asp:Button ID="btnCancelMappCompanies" runat="server" CssClass="btn btn-default" Text="Cancel" OnClientClick="CloseMappCompaniesBox()" OnClick="btnCancelMappCompanies_Click" />
                         </div>
                     </div>
                     <!-- /.modal-content -->

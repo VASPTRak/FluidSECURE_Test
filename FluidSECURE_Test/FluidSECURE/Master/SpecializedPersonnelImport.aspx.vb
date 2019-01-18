@@ -220,7 +220,8 @@ Public Class SpecializedPersonnelImport
             End If
 
         Catch ex As Exception
-            message.InnerText = message.InnerText + " , Error occurred, Please try after some time."
+            message.InnerText = "Error occurred, Please try after some time."
+            message.Visible = True
             log.Error("Exception occurred on btnUpload_Click. Exception is : " & ex.Message)
         Finally
             ddlCustomer.Focus()
@@ -346,6 +347,13 @@ Public Class SpecializedPersonnelImport
                     End If
                 Else
                     strLog = strLog & Environment.NewLine & strErrorDept & Environment.NewLine & currentDateTime & "--" & "Vehicle department name is required. Check Row  " & rowIndex
+                    isDirty = True
+                End If
+
+                Dim personName As String = (dr("LastName") & " " & dr("FirstName")).ToString().Trim()
+
+                If (personName.Length > 30) Then
+                    strLog = strLog & Environment.NewLine & currentDateTime & "--" & "Person name (" & personName & ") is must be less than equal to 30 characters. Check Row  " & rowIndex
                     isDirty = True
                 End If
 

@@ -23,6 +23,8 @@ Public Class Personnel
     Shared afterFSlinks As String
     Shared beforefuelTimings As String
     Shared afterfuelTimings As String
+    Shared beforeCompanies As String
+    Shared afterCompanies As String
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         Try
@@ -50,7 +52,7 @@ Public Class Personnel
                 If (Not IsPostBack) Then
                     Session("ActiveInActive") = Nothing
                     BindCustomer(Convert.ToInt32(Session("PersonId").ToString()), Session("RoleId").ToString())
-                    If Session("RoleName") = "SuperAdmin" Then
+                    If Session("RoleName") = "SuperAdmin" Or Session("RoleName") = "GroupAdmin" Then
                         BindCompanies(Convert.ToInt32(Session("PersonId").ToString()), Session("RoleId").ToString())
                     End If
                     BindTiming()
@@ -110,11 +112,11 @@ Public Class Personnel
                         divIMEIAdjustment.Visible = True
                         DDL_Customer_SelectedIndexChanged(Nothing, Nothing)
 
-                        If (DDL_AccessLevels.SelectedValue = "00cee925-1cad-4650-9dc3-d1fdf74d1f5c") Then
-                            divMappCompanies.Visible = True
-                        Else
-                            divMappCompanies.Visible = False
-                        End If
+                        'If (DDL_AccessLevels.SelectedValue = "00cee925-1cad-4650-9dc3-d1fdf74d1f5c") Then
+                        '    divMappCompanies.Visible = True
+                        'Else
+                        '    divMappCompanies.Visible = False
+                        'End If
 
 
                     End If
@@ -353,10 +355,10 @@ Public Class Personnel
                     DDL_Customer.Enabled = False
                 End If
 
-                If Session("RoleName") = "SuperAdmin" Then
+                If Session("RoleName") = "SuperAdmin" Or Session("RoleName") = "GroupAdmin" Then
                     BindCompanies(Convert.ToInt32(Session("PersonId").ToString()), Session("RoleId").ToString())
                 End If
-                BindCompaniesDataToCheckboxList(PersonId)
+                'BindCompaniesDataToCheckboxList(PersonId)
                 'BindVehicles(Convert.ToInt32(dtPersonnel.Rows(0)("CustomerId").ToString()))
                 'BindVehiclesDataToCheckboxList(PersonId)
 
@@ -378,22 +380,22 @@ Public Class Personnel
                     DDL_AccessLevels.Visible = False
                     AccessLevels.Visible = False
                     AccessLevelsShow.Visible = True
-                ElseIf (roleName = "GroupAdmin" And Session("RoleName") = "GroupAdmin") Then
-                    DDL_AccessLevels.Visible = False
-                    AccessLevels.Visible = False
-                    AccessLevelsShow.Visible = True
-                    HDF_GroupAdmin.Value = dtPersonnel.Rows(0)("RoleId").ToString()
+                    'ElseIf (roleName = "GroupAdmin" And Session("RoleName") = "GroupAdmin") Then
+                    '    DDL_AccessLevels.Visible = False
+                    '    AccessLevels.Visible = False
+                    '    AccessLevelsShow.Visible = True
+                    '    HDF_GroupAdmin.Value = dtPersonnel.Rows(0)("RoleId").ToString()
                 Else
                     DDL_AccessLevels.Visible = True
                     AccessLevels.Visible = True
                     AccessLevelsShow.Visible = False
                 End If
 
-                If (DDL_AccessLevels.SelectedValue = "00cee925-1cad-4650-9dc3-d1fdf74d1f5c") Then
-                    divMappCompanies.Visible = True
-                Else
-                    divMappCompanies.Visible = False
-                End If
+                'If (DDL_AccessLevels.SelectedValue = "00cee925-1cad-4650-9dc3-d1fdf74d1f5c") Then
+                '    divMappCompanies.Visible = True
+                'Else
+                '    divMappCompanies.Visible = False
+                'End If
 
                 txtExportCode.Text = dtPersonnel.Rows(0)("ExportCode").ToString()
                 chkIsApproved.Checked = dtPersonnel.Rows(0)("IsApproved").ToString()
@@ -741,7 +743,7 @@ Public Class Personnel
             End If
 
             BindCompanies(Convert.ToInt32(Session("PersonId").ToString()), Session("RoleId").ToString())
-            BindCompaniesDataToCheckboxList(personid)
+            'BindCompaniesDataToCheckboxList(personid)
             txtEmail.Attributes("value") = txtEmail.Text
             txtUserPassword.Attributes("value") = txtUserPassword.Text
             txtConfirmPassword.Attributes("value") = txtConfirmPassword.Text
@@ -1269,30 +1271,31 @@ Public Class Personnel
             OBJMaster.InsertPersonTimings(dtTimings, PersonId)
 
             'insert site person mapping
-            Dim dtCompanies As DataTable = New DataTable()
-            dtCompanies.Columns.Add("CompanyId", System.Type.[GetType]("System.Int32"))
-            dtCompanies.Columns.Add("PersonId", System.Type.[GetType]("System.Int32"))
-            dtCompanies.Columns.Add("MappedOn", System.Type.[GetType]("System.DateTime"))
-            dtCompanies.Columns.Add("MappedBy", System.Type.[GetType]("System.Int32"))
+            'Dim dtCompanies As DataTable = New DataTable()
+            'dtCompanies.Columns.Add("CompanyId", System.Type.[GetType]("System.Int32"))
+            'dtCompanies.Columns.Add("PersonId", System.Type.[GetType]("System.Int32"))
+            'dtCompanies.Columns.Add("MappedOn", System.Type.[GetType]("System.DateTime"))
+            'dtCompanies.Columns.Add("MappedBy", System.Type.[GetType]("System.Int32"))
+            'dtCompanies.Columns.Add("ParentCompanyId", System.Type.[GetType]("System.Int32"))
 
+            'For Each item As GridViewRow In GV_Companies.Rows
 
-            For Each item As GridViewRow In GV_Companies.Rows
+            '    Dim CHK_MappCompanies As CheckBox = TryCast(item.FindControl("CHK_MappCompanies"), CheckBox)
+            '    If (CHK_MappCompanies.Checked = True) Then
+            '        Dim dr As DataRow = dtCompanies.NewRow()
+            '        dr("CompanyId") = GV_Companies.DataKeys(item.RowIndex).Values("CustomerId").ToString()
+            '        dr("PersonId") = PersonId
+            '        dr("MappedOn") = DateTime.Now
+            '        dr("MappedBy") = Convert.ToInt32(Session("PersonId"))
+            '        dr("ParentCompanyId") = DDL_Customer.SelectedValue
+            '        dtCompanies.Rows.Add(dr)
+            '        If (ConfigurationManager.AppSettings("AllowActivityLogin").ToString().ToLower() = "yes") Then
+            '            afterCompanies = IIf(afterCompanies = "", GV_Companies.DataKeys(item.RowIndex).Values("CustomerName").ToString(), afterCompanies & ";" & GV_Companies.DataKeys(item.RowIndex).Values("CustomerName").ToString())
+            '        End If
+            '    End If
+            'Next
 
-                Dim CHK_MappCompanies As CheckBox = TryCast(item.FindControl("CHK_MappCompanies"), CheckBox)
-                If (CHK_MappCompanies.Checked = True) Then
-                    Dim dr As DataRow = dtCompanies.NewRow()
-                    dr("CompanyId") = GV_Companies.DataKeys(item.RowIndex).Values("CustomerId").ToString()
-                    dr("PersonId") = PersonId
-                    dr("MappedOn") = DateTime.Now
-                    dr("MappedBy") = Convert.ToInt32(Session("PersonId"))
-                    dtCompanies.Rows.Add(dr)
-                    'If (ConfigurationManager.AppSettings("AllowActivityLogin").ToString().ToLower() = "yes") Then
-                    '	afterFSlinks = IIf(afterFSlinks = "", gv_Sites.DataKeys(item.RowIndex).Values("WifiSSId").ToString(), afterFSlinks & ";" & gv_Sites.DataKeys(item.RowIndex).Values("WifiSSId").ToString())
-                    'End If
-                End If
-            Next
-
-            OBJMaster.InsertGroupAdminCompanyMapping(dtCompanies, PersonId)
+            'OBJMaster.InsertGroupAdminCompanyMapping(dtCompanies, PersonId)
 
         Catch ex As Exception
             log.Error(String.Format("Error Occurred while mapping. Error is {0}.", ex.Message))
@@ -1353,6 +1356,7 @@ Public Class Personnel
                                     "Fluid Limit Per Day = " & txtFuelLimitPerDay.Text & " ; " &
                                     "Authorized Fueling Times = " & afterfuelTimings & " ; " &
                                     "Authorized Fueling links = " & afterFSlinks & " ; " &
+                                    "Company maps to Person = " & afterCompanies & " ; " &
                                     "Update FluidSecure Link Software on next Fueling? = " & chkSoftUpdate.Checked & " ; " &
                                     "Active = " & chkIsApproved.Checked & " ; " &
                                     "Send Transaction Email = " & CHK_SendTransactionEmail.Checked & " ; " &
@@ -1388,6 +1392,7 @@ Public Class Personnel
                                     "Fluid Limit Per Transaction = " & dtPersonnel.Rows(0)("FuelLimitPerTxn").ToString() & " ; " &
                                     "Fluid Limit Per Day = " & dtPersonnel.Rows(0)("FuelLimitPerDay").ToString() & " ; " &
                                     "Authorized Fueling Times = " & beforefuelTimings & " ; " &
+                                    "Authorized Fueling links = " & beforeFSlinks & " ; " &
                                     "Authorized Fueling links = " & beforeFSlinks & " ; " &
                                     "Update FluidSecure Link Software on next Fueling? = " & dtPersonnel.Rows(0)("SoftUpdate").ToString() & " ; " &
                                     "Active = " & dtPersonnel.Rows(0)("IsApproved").ToString() & " ; " &
@@ -1644,17 +1649,39 @@ Public Class Personnel
 
                 Dim roleName As String = RoleActions.GetRolesById(DDL_AccessLevels.SelectedValue).Name
 
+
                 If (Session("RoleName") = "SuperAdmin") Then
+                    user.RoleId = DDL_AccessLevels.SelectedValue
+                    user.IsApproved = chkIsApproved.Checked
+                ElseIf (Session("RoleName") = "GroupAdmin" And roleName <> "SuperAdmin") Then
                     user.RoleId = DDL_AccessLevels.SelectedValue
                     user.IsApproved = chkIsApproved.Checked
                 ElseIf (roleName = "SuperAdmin" Or roleName = "GroupAdmin") Then
                     ErrorMessage.Visible = True
                     ErrorMessage.InnerText = "Invalid role selected"
                     Return
-               ElseIf (roleName <> "SuperAdmin" And roleName <> "GroupAdmin") Then
+                ElseIf (roleName <> "SuperAdmin" And roleName <> "GroupAdmin") Then
                     user.RoleId = DDL_AccessLevels.SelectedValue
                     user.IsApproved = chkIsApproved.Checked
                 End If
+
+
+
+                ' If (Session("RoleName") = "SuperAdmin") Then
+                '     user.RoleId = DDL_AccessLevels.SelectedValue
+                '     user.IsApproved = chkIsApproved.Checked
+                ' ElseIf (roleName = "SuperAdmin" And Session("RoleName") = "GroupAdmin") Then
+                '     ErrorMessage.Visible = True
+                '     ErrorMessage.InnerText = "Invalid role selected"
+                '     Return
+                ' ElseIf (roleName = "SuperAdmin" Or roleName = "GroupAdmin") Then
+                '     ErrorMessage.Visible = True
+                '     ErrorMessage.InnerText = "Invalid role selected"
+                '     Return
+                'ElseIf (roleName <> "SuperAdmin" And roleName <> "GroupAdmin") Then
+                '     user.RoleId = DDL_AccessLevels.SelectedValue
+                '     user.IsApproved = chkIsApproved.Checked
+                ' End If
 
                 If (HDF_GroupAdmin.Value = "00cee925-1cad-4650-9dc3-d1fdf74d1f5c" And Session("RoleName") = "GroupAdmin") Then
                     user.RoleId = HDF_GroupAdmin.Value
@@ -2333,7 +2360,7 @@ Public Class Personnel
                 End If
             End If
 
-            If (DDL_AccessLevels.SelectedValue = "00cee925-1cad-4650-9dc3-d1fdf74d1f5c" And Session("RoleName") <> "SuperAdmin") Then
+            If (DDL_AccessLevels.SelectedValue = "00cee925-1cad-4650-9dc3-d1fdf74d1f5c" And Session("RoleName") <> "SuperAdmin" And Session("RoleName") <> "GroupAdmin") Then
                 ErrorMessage.Visible = True
                 ErrorMessage.InnerText = "You have selected invalid role."
                 DDL_AccessLevels.Focus()
@@ -2341,7 +2368,7 @@ Public Class Personnel
             End If
 
             If (chkIsApproved.Checked = True) Then
-                If (DDL_AccessLevels.SelectedValue = "00cee925-1cad-4650-9dc3-d1fdf74d1f5c" And Session("RoleName") <> "SuperAdmin") Then
+                If (DDL_AccessLevels.SelectedValue = "00cee925-1cad-4650-9dc3-d1fdf74d1f5c" And Session("RoleName") <> "SuperAdmin" And Session("RoleName") <> "GroupAdmin") Then
                     ErrorMessage.Visible = True
                     ErrorMessage.InnerText = "You can not active/inactive this user."
                     chkIsApproved.Checked = False
@@ -2589,11 +2616,13 @@ Public Class Personnel
 
     Protected Sub DDL_AccessLevels_SelectedIndexChanged(sender As Object, e As EventArgs)
         hdfDirtyFlag.Value = 1
-        If (DDL_AccessLevels.SelectedValue = "00cee925-1cad-4650-9dc3-d1fdf74d1f5c") Then
-            divMappCompanies.Visible = True
-        Else
-            divMappCompanies.Visible = False
-        End If
+        'If (DDL_AccessLevels.SelectedValue = "00cee925-1cad-4650-9dc3-d1fdf74d1f5c") Then
+        '    divMappCompanies.Visible = True
+        '    BindCompanies(Convert.ToInt32(Session("PersonId").ToString()), Session("RoleId").ToString())
+        '    BindCompaniesDataToCheckboxList(HDF_PersonnelId.Value)
+        'Else
+        '    divMappCompanies.Visible = False
+        'End If
     End Sub
 
     Protected Sub btnCancelMappCompanies_Click(sender As Object, e As EventArgs)
@@ -2603,7 +2632,7 @@ Public Class Personnel
             Else
                 Dim personid As Integer = Convert.ToInt32(HDF_PersonnelId.Value.ToString())
                 BindCompanies(Convert.ToInt32(Session("PersonId").ToString()), Session("RoleId").ToString())
-                BindCompaniesDataToCheckboxList(personid)
+                'BindCompaniesDataToCheckboxList(personid)
             End If
 
         Catch ex As Exception
@@ -2621,19 +2650,19 @@ Public Class Personnel
 
             Dim dtCompanies As DataTable = New DataTable()
             OBJMaster = New MasterBAL()
-            If Session("RoleName") = "SuperAdmin" Then
+            If Session("RoleName") = "SuperAdmin" Or Session("RoleName") = "GroupAdmin" Then
                 dtCompanies = OBJMaster.GetCustomerDetailsByPersonID(PersonId, Roleid, 0)
 
+                'Dim dtCompaniesDuplicate As DataTable = New DataTable()
+                'dtCompaniesDuplicate = dtCompanies
+                'Dim dtr() As DataRow = dtCompaniesDuplicate.Select("CustomerId = " & DDL_Customer.SelectedValue.ToString())
+                'For Each dtrow As DataRow In dtr
+                '    dtrow.Delete()
+                'Next
+                'dtCompaniesDuplicate.AcceptChanges()
 
-                Dim dtr() As DataRow = dtCompanies.Select("CustomerId = " & DDL_Customer.SelectedValue.ToString())
-                For Each dtrow As DataRow In dtr
-                    dtrow.Delete()
-                Next
-                dtCompanies.AcceptChanges()
-
-
-                GV_Companies.DataSource = dtCompanies
-                GV_Companies.DataBind()
+                'GV_Companies.DataSource = dtCompaniesDuplicate
+                'GV_Companies.DataBind()
             End If
 
             If dtCompanies.Rows.Count = 0 Then
@@ -2651,38 +2680,37 @@ Public Class Personnel
         End Try
     End Sub
 
-    Private Sub BindCompaniesDataToCheckboxList(PersonId As Integer)
-        Try
-            'beforeFSlinks = ""
-            OBJMaster = New MasterBAL()
-            Dim dtCompanyGroupAdminMapping As DataTable = New DataTable()
 
-            dtCompanyGroupAdminMapping = OBJMaster.GetGroupAdminCompanyMapping(PersonId)
-            If dtCompanyGroupAdminMapping IsNot Nothing Then
-                For Each dr As DataRow In dtCompanyGroupAdminMapping.Rows
+    'Private Sub BindCompaniesDataToCheckboxList(PersonId As Integer)
+    '    Try
+    '        'beforeFSlinks = ""
+    '        OBJMaster = New MasterBAL()
+    '        Dim dtCompanyGroupAdminMapping As DataTable = New DataTable()
 
-                    For Each rows As GridViewRow In GV_Companies.Rows
-                        If (dr("CompanyId") = GV_Companies.DataKeys(rows.RowIndex).Values("CustomerId").ToString()) Then
-                            TryCast(rows.FindControl("CHK_MappCompanies"), CheckBox).Checked = True
-                        End If
-                    Next
+    '        dtCompanyGroupAdminMapping = OBJMaster.GetGroupAdminCompanyMapping(PersonId)
+    '        If dtCompanyGroupAdminMapping IsNot Nothing Then
+    '            For Each dr As DataRow In dtCompanyGroupAdminMapping.Rows
 
-                    'If (ConfigurationManager.AppSettings("AllowActivityLogin").ToString().ToLower() = "yes") Then
-                    '	beforeFSlinks = IIf(beforeFSlinks = "", dr("WifiSSID"), beforeFSlinks & ";" & dr("WifiSSID"))
-                    'End If
+    '                For Each rows As GridViewRow In GV_Companies.Rows
+    '                    If (dr("CompanyId") = GV_Companies.DataKeys(rows.RowIndex).Values("CustomerId").ToString()) Then
+    '                        TryCast(rows.FindControl("CHK_MappCompanies"), CheckBox).Checked = True
+    '                        Dim CustomerName = GV_Companies.DataKeys(rows.RowIndex).Values("CustomerName").ToString()
+    '                        If (ConfigurationManager.AppSettings("AllowActivityLogin").ToString().ToLower() = "yes") Then
+    '                            beforeCompanies = IIf(beforeCompanies = "", CustomerName, beforeCompanies & ";" & CustomerName)
+    '                        End If
+    '                    End If
+    '                Next
+    '            Next
+    '        End If
 
+    '    Catch ex As Exception
 
-                Next
-            End If
+    '        log.Error("Error occurred in BindCompaniesDataToCheckboxList Exception is :" + ex.Message)
+    '        ErrorMessage.Visible = True
+    '        ErrorMessage.InnerText = "Error occurred while getting CompaniesDataToCheckboxList, please try again later."
 
-        Catch ex As Exception
+    '    End Try
 
-            log.Error("Error occurred in BindCompaniesDataToCheckboxList Exception is :" + ex.Message)
-            ErrorMessage.Visible = True
-            ErrorMessage.InnerText = "Error occurred while getting CompaniesDataToCheckboxList, please try again later."
-
-        End Try
-
-    End Sub
+    'End Sub
 
 End Class
